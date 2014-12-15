@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Ingresos_Diarios" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha" class="java.util.Date"/>
+	<parameter name="plantilla_balance" class="java.lang.Long"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from (select c.codigo_imputacion_completo, c.nombre,
+case when tipo.nombre = 'CON AFECTACION' then sum(importe) else 0 end as con_afectacion,
+case when tipo.nombre = 'SIN AFECTACION' then sum(importe) else 0 end as sin_afectacion
+from cuenta c
+join movimiento_caja_ingreso m on c.id_cuenta = m.id_cuenta
+join rela_cuenta_tipo_balance r on r.id_cuenta = c.id_cuenta
+join rela_cuenta_tipo_cuenta rela on c.id_cuenta = rela.id_cuenta
+join tipo_cuenta tipo on rela.id_tipo_cuenta = tipo.id_tipo_cuenta
+where fecha = $P{fecha} and r.id_tipo_balance = $P{plantilla_balance}
+group by c.codigo_imputacion_completo, c.nombre, tipo.nombre) as resultado
+where con_afectacion != 0 or sin_afectacion != 0;]]>
+	</queryString>
+	<field name="codigo_imputacion_completo" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="con_afectacion" class="java.math.BigDecimal"/>
+	<field name="sin_afectacion" class="java.math.BigDecimal"/>
+	<variable name="V_TOTAL_CON_AFECTACION" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{con_afectacion}]]></variableExpression>
+	</variable>
+	<variable name="V_TOTAL_SIN_AFECTACION" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{sin_afectacion}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="32"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="802" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="38">
+			<textField isBlankWhenNull="true">
+				<reportElement x="166" y="15" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="25" y="15" width="141" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PLANILLA DE CAJA DEL DIA:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="685" y="1" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="652" y="1" width="33" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="694" y="17" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="652" y="17" width="42" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Página:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="137" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="0" width="307" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="0" width="182" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Con Afectación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="626" y="0" width="176" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Sin Afectación]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="137" height="20"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{codigo_imputacion_completo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="137" y="0" width="307" height="20"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="444" y="0" width="182" height="20"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{con_afectacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="626" y="0" width="176" height="20"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{sin_afectacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="444" y="0" width="182" height="20"/>
+				<box topPadding="0">
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{V_TOTAL_CON_AFECTACION}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="626" y="0" width="176" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{V_TOTAL_SIN_AFECTACION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

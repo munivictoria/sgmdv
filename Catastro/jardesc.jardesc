@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="/opt/jboss-6.0.0.Final/server/default/deploy/logicaVipians.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Catastro/jardesc.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent"/>
+        <file path="/Framework/src/jndi.properties"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.dinamicos"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroPropiedadLocal.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.exception"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util.enumerations"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessCodigosCatastralesBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.exception"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroPropiedadBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroGeograficoBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessCodigosCatastralesLocal.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.ejb"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.rfr"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.referencia"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.business.ejb"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.system.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroParcelarioBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util.anotations"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.system.ejb"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessZonificacionBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.transients"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroParcelarioLocal.java"/>
+        <file path="/Framework/src/META-INF/persistence.xml"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent.reference"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.business.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessZonificacionLocal.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroGeograficoLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.enums"/>
+    </selectedElements>
+</jardesc>

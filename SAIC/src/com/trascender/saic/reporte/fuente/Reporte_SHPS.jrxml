@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_SHPS" pageWidth="585" pageHeight="350" columnWidth="585" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.4641000000000386"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="139"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 4">
+		<field name="F_DESCRIPCION" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Table Dataset 3">
+		<field name="F_MODIFICADOR1" class="java.lang.String"/>
+		<field name="F_MONTO_MODIFICADOR1" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="PAR_PERIODO" class="java.lang.String"/>
+	<parameter name="PAR_CUIM" class="java.lang.String"/>
+	<parameter name="PAR_PERSONA" class="java.lang.String"/>
+	<parameter name="PAR_DOCUMENTO" class="java.lang.String"/>
+	<parameter name="PAR_CALLE" class="java.lang.String"/>
+	<parameter name="PAR_LOCALIDAD" class="java.lang.String"/>
+	<parameter name="PAR_PROVINCIA" class="java.lang.String"/>
+	<parameter name="PAR_DOMICILIO_COMERCIAL" class="java.lang.String"/>
+	<parameter name="PAR_NRO_INSCRIPCION" class="java.lang.String"/>
+	<parameter name="PAR_CODIGOBARRA_LIQUIDACION" class="java.lang.String"/>
+	<parameter name="PAR_TOTAL" class="java.lang.Double"/>
+	<parameter name="PAR_FECHA" class="java.util.Date"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_NRO_CUENTA" class="java.lang.String"/>
+	<parameter name="PAR_DETALLES_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_MODIFICADOR_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_USUARIO" class="java.lang.String"/>
+	<group name="Grupo_Detalles">
+		<groupExpression><![CDATA[$P{PAR_DETALLES_DS}]]></groupExpression>
+	</group>
+	<group name="Grupo_Modificadores">
+		<groupExpression><![CDATA[$P{PAR_MODIFICADOR_DS}]]></groupExpression>
+	</group>
+	<group name="Grupo_Vencimiento">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<pageHeader>
+		<band height="350">
+			<rectangle radius="10">
+				<reportElement x="411" y="203" width="170" height="97"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="27" y="3" width="554" height="230"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="414" y="268" width="66" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="69" y="247" width="213" height="36"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128B" drawText="false" checksumRequired="false" barWidth="0" barHeight="5">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="491" y="238" width="90" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="480" y="268" width="98" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="30" y="7" width="192" height="110"/>
+			</rectangle>
+			<textField>
+				<reportElement x="35" y="31" width="171" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PERSONA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="22" width="100" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="48" width="100" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio postal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="35" y="57" width="171" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CALLE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="30" y="17" width="192" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="69" y="7" width="96" height="11"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Datos del Contribuyente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="74" width="100" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio comercial]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="35" y="83" width="171" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DOMICILIO_COMERCIAL}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="30" y="123" width="305" height="105"/>
+			</rectangle>
+			<line>
+				<reportElement x="30" y="133" width="305" height="1"/>
+			</line>
+			<rectangle radius="10">
+				<reportElement x="225" y="8" width="110" height="110"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="338" y="7" width="240" height="221"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="225" y="7" width="110" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inscripción Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="225" y="22" width="110" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_CUENTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="225" y="41" width="110" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="227" y="57" width="108" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CUIM}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="230" y="73" width="100" height="3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="225" y="79" width="109" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período/Año]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="222" y="93" width="112" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PERIODO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="338" y="18" width="240" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="156" y="124" width="50" height="9"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Actividad/es]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" style="table" x="45" y="136" width="283" height="90"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 4">
+						<dataSourceExpression><![CDATA[$P{PAR_DETALLES_DS}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="260">
+						<jr:detailCell style="table_TD" height="11" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="259" height="11"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_DESCRIPCION}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="0">
+						<jr:detailCell style="table_TD" height="11" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="0">
+						<jr:detailCell style="table_TD" height="11" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="0">
+						<jr:detailCell style="table_TD" height="11" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="414" y="238" width="77" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vencimiento:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 3" style="table 3" x="349" y="22" width="219" height="204"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 3">
+						<dataSourceExpression><![CDATA[$P{PAR_MODIFICADOR_DS}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="150">
+						<jr:detailCell style="table 3_TD" height="12" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="150" height="12"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Arial" size="9" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60">
+						<jr:detailCell style="table 3_TD" height="12" rowSpan="1">
+							<textField pattern="$ ###0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="60" height="12"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="411" y="8" width="107" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Liquidación administrativa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="276" y="233" width="84" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_USUARIO} + "  -"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="349" y="233" width="62" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="283" width="213" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

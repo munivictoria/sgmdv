@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_TAsa_General_Inmobiliaria" pageWidth="595" pageHeight="843" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15">
+	<property name="ireport.zoom" value="1.4641000000000095"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="216"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF"/>
+	<style name="table 2"/>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1">
+		<parameter name="PAR_TEXTO_PAGOFACIL" class="java.lang.String"/>
+		<parameter name="PAR_CODIGOBARRA_LIQUIDACION_PF_1" class="java.lang.String"/>
+		<parameter name="PAR_FECHA" class="java.util.Date"/>
+		<parameter name="PAR_MONTO" class="java.lang.Double"/>
+		<field name="F_CODIGOBARRA_VENCIMIENTO" class="java.lang.String"/>
+		<field name="F_FECHA_VENCIMIENTO" class="java.util.Date"/>
+		<field name="F_MONTO_VENCIMIENTO" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table Dataset 2">
+		<field name="F_MODIFICADOR1" class="java.lang.String"/>
+		<field name="F_MONTO_MODIFICADOR1" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table Dataset 3">
+		<parameter name="PAR_TEXTO_PAGOFACIL" class="java.lang.String"/>
+		<parameter name="PAR_CODIGOBARRA_LIQUIDACION_PF_2" class="java.lang.String"/>
+		<parameter name="PAR_FECHA" class="java.util.Date"/>
+		<parameter name="PAR_MONTO" class="java.lang.Double"/>
+		<field name="F_CODIGOBARRA_VENCIMIENTO" class="java.lang.String"/>
+		<field name="F_FECHA_VENCIMIENTO" class="java.util.Date"/>
+		<field name="F_MONTO_VENCIMIENTO" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table Dataset 4">
+		<field name="F_MODIFICADOR1" class="java.lang.String"/>
+		<field name="F_MONTO_MODIFICADOR1" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table Dataset 6">
+		<field name="F_MODIFICADOR1" class="java.lang.String"/>
+		<field name="F_MONTO_MODIFICADOR1" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table Dataset 5">
+		<parameter name="PAR_TEXTO_PAGOFACIL" class="java.lang.String"/>
+		<parameter name="PAR_CODIGOBARRA_LIQUIDACION_PF_3" class="java.lang.String"/>
+		<parameter name="PAR_FECHA" class="java.util.Date"/>
+		<parameter name="PAR_MONTO" class="java.lang.Double"/>
+		<field name="F_CODIGOBARRA_VENCIMIENTO" class="java.lang.String"/>
+		<field name="F_FECHA_VENCIMIENTO" class="java.util.Date"/>
+		<field name="F_MONTO_VENCIMIENTO" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="PAR_AVALUO_TERRENO" class="java.lang.Double"/>
+	<parameter name="PAR_NRO_PLANO_MENS" class="java.lang.String"/>
+	<parameter name="PAR_COD_POSTAL" class="java.lang.String"/>
+	<parameter name="PAR_CUIM" class="java.lang.String"/>
+	<parameter name="PAR_DOM_PARCELARIO" class="java.lang.String"/>
+	<parameter name="PAR_PERSONA" class="java.lang.String"/>
+	<parameter name="PAR_PARCELA" class="java.lang.String"/>
+	<parameter name="PAR_MANZANA" class="java.lang.String"/>
+	<parameter name="PAR_AVALUO_MEJORAS" class="java.lang.Double"/>
+	<parameter name="PAR_SUP_TERRENO" class="java.lang.Double"/>
+	<parameter name="PAR_METROS_FRENTE" class="java.lang.String"/>
+	<parameter name="PAR_PROVINCIA" class="java.lang.String"/>
+	<parameter name="PAR_USO_DRM" class="java.lang.String"/>
+	<parameter name="PAR_SUP_MEJORAS" class="java.lang.Double"/>
+	<parameter name="PAR_ZONA" class="java.lang.String"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_NRO_PART_PROV" class="java.lang.String"/>
+	<parameter name="PAR_CALLE" class="java.lang.String"/>
+	<parameter name="PAR_RADIO_CENTRICO" class="java.lang.String"/>
+	<parameter name="PAR_LOCALIDAD" class="java.lang.String"/>
+	<parameter name="PAR_BALDIO" class="java.lang.String"/>
+	<parameter name="PAR_DNI" class="java.lang.String"/>
+	<parameter name="PAR_TOTAL_1" class="java.lang.Double"/>
+	<parameter name="PAR_CODIGOBARRA_LIQUIDACION_1" class="java.lang.String"/>
+	<parameter name="PAR_TIPO_PAGO_1" class="java.lang.String"/>
+	<parameter name="PAR_TOTAL_2" class="java.lang.Double"/>
+	<parameter name="PAR_CODIGOBARRA_LIQUIDACION_2" class="java.lang.String"/>
+	<parameter name="PAR_TIPO_PAGO_2" class="java.lang.String"/>
+	<parameter name="PAR_TOTAL_3" class="java.lang.Double"/>
+	<parameter name="PAR_CODIGOBARRA_LIQUIDACION_3" class="java.lang.String"/>
+	<parameter name="PAR_TIPO_PAGO_3" class="java.lang.String"/>
+	<parameter name="PAR_DETALLES_DS_1" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_VENCIMIENTOS_DS_1" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_DETALLES_DS_2" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_VENCIMIENTOS_DS_2" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_DETALLES_DS_3" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_VENCIMIENTOS_DS_3" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<field name="F_SUBREPORTE" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="F_DATASOURCE" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="F_MAPA_PARAMETROS" class="java.util.Map"/>
+	<pageHeader>
+		<band height="685">
+			<rectangle>
+				<reportElement x="68" y="47" width="260" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="328" y="3" width="227" height="64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="3" width="68" height="64"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="4" y="5" width="61" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="68" y="47" width="260" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Monospaced" size="7" isBold="false"/>
+				</textElement>
+			</staticText>
+			<rectangle>
+				<reportElement x="69" y="3" width="259" height="44"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="69" y="3" width="258" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Monospaced" size="18" isBold="true"/>
+				</textElement>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="67" width="280" height="15" backcolor="#D4D4D4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="281" y="67" width="274" height="15" backcolor="#D4D4D4"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="68" width="278" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL CONTRIBUYENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="282" y="68" width="272" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS CATASTRALES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="82" width="280" height="51"/>
+			</rectangle>
+			<textField>
+				<reportElement x="366" y="94" width="186" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DOM_PARCELARIO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="134" y="82" width="1" height="53"/>
+			</line>
+			<staticText>
+				<reportElement x="137" y="84" width="42" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="281" y="82" width="274" height="51"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="284" y="92" width="72" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domicilio Parcelario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="102" width="64" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Part. Prov.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="102" width="72" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Nº Plano Mens.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="102" width="50" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Uso D.R.M.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="112" width="60" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Metros Frente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="82" width="33" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parcela:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="112" width="43" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Manzana:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="122" width="34" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Baldío:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="122" width="60" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Radio Céntrico:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="133" width="554" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="134" width="30" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zona:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="134" width="64" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Sup. Terreno:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="181" y="134" width="65" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Sup. Mejoras:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="134" width="70" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Avalúo Terreno:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="134" width="70" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Avalúo Mejoras:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="27" y="84" width="107" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CUIM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="95" width="131" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PERSONA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="137" y="95" width="143" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CALLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="107" width="143" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_COD_POSTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="118" width="50" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_LOCALIDAD}+","]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="118" width="93" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PROVINCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="102" width="34" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_PART_PROV}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="102" width="18" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_PLANO_MENS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="529" y="102" width="23" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_USO_DRM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="112" width="56" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MANZANA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="82" width="141" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="112" width="106" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_METROS_FRENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="122" width="67" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_BALDIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="122" width="106" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_RADIO_CENTRICO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="134" width="33" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ZONA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="134" width="48" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUP_TERRENO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="246" y="134" width="50" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUP_MEJORAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="135" width="54" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_AVALUO_TERRENO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="497" y="134" width="55" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_AVALUO_MEJORAS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="328" y="3" width="227" height="64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Monospaced" size="14" isBold="true"/>
+				</textElement>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="106" width="131" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DNI}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="182" width="554" height="105"/>
+			</rectangle>
+			<line>
+				<reportElement x="130" y="182" width="1" height="105"/>
+			</line>
+			<textField pattern="$ #,##0.000" isBlankWhenNull="true">
+				<reportElement x="478" y="273" width="50" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="135" y="273" width="25" height="13">
+					<printWhenExpression><![CDATA[$P{PAR_TOTAL_1} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="153" width="554" height="29" backcolor="#D4D4D4"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="2" y="154" width="283" height="26" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TIPO_PAGO_1}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement mode="Opaque" x="332" y="165" width="202" height="15"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_1}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="1" y="287" width="533" height="31"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1">
+						<dataSourceExpression><![CDATA[$P{PAR_VENCIMIENTOS_DS_1}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="370">
+						<jr:tableFooter height="16" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="74" height="16"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{PAR_TEXTO_PAGOFACIL}]]></textFieldExpression>
+							</textField>
+							<componentElement>
+								<reportElement x="74" y="1" width="177" height="14"/>
+								<jr:barbecue type="Code128C" drawText="true" checksumRequired="false">
+									<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_PF_1}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:tableFooter>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<componentElement>
+								<reportElement x="68" y="4" width="183" height="10"/>
+								<jr:barbecue type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+									<jr:codeExpression><![CDATA[$F{F_CODIGOBARRA_VENCIMIENTO}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="90" height="15"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_FECHA_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="94">
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="65" height="15"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField pattern="$ #,##0.000" isBlankWhenNull="true">
+				<reportElement x="478" y="449" width="50" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL_2}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="130" y="358" width="1" height="105"/>
+			</line>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="135" y="183" width="395" height="89"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 2">
+						<dataSourceExpression><![CDATA[$P{PAR_DETALLES_DS_1}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="300">
+						<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="300" height="13"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="95">
+						<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="95" height="13"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle>
+				<reportElement x="1" y="329" width="554" height="29" backcolor="#D4D4D4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="135" y="450" width="25" height="13">
+					<printWhenExpression><![CDATA[$P{PAR_TOTAL_2} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="2" y="329" width="283" height="27" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TIPO_PAGO_2}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="358" width="554" height="105"/>
+			</rectangle>
+			<componentElement>
+				<reportElement mode="Opaque" x="332" y="341" width="202" height="15"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_2}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="1" y="463" width="533" height="31"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 3">
+						<dataSourceExpression><![CDATA[$P{PAR_VENCIMIENTOS_DS_2}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="370">
+						<jr:tableFooter height="16" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="74" height="16"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{PAR_TEXTO_PAGOFACIL}]]></textFieldExpression>
+							</textField>
+							<componentElement>
+								<reportElement x="74" y="1" width="177" height="14"/>
+								<jr:barbecue type="Code128C" drawText="true" checksumRequired="false">
+									<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_PF_2}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:tableFooter>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<componentElement>
+								<reportElement x="68" y="4" width="183" height="10"/>
+								<jr:barbecue type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+									<jr:codeExpression><![CDATA[$F{F_CODIGOBARRA_VENCIMIENTO}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="90" height="15"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_FECHA_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="93">
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="65" height="15"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle>
+				<reportElement x="1" y="506" width="554" height="29" backcolor="#D4D4D4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="135" y="626" width="25" height="13">
+					<printWhenExpression><![CDATA[$P{PAR_TOTAL_3} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="130" y="535" width="1" height="105"/>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="535" width="554" height="105"/>
+			</rectangle>
+			<textField pattern="$ #,##0.000" isBlankWhenNull="true">
+				<reportElement x="478" y="626" width="50" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL_3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="2" y="506" width="283" height="27" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TIPO_PAGO_3}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement mode="Opaque" x="332" y="518" width="202" height="15"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_3}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="135" y="359" width="395" height="89"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 4">
+						<dataSourceExpression><![CDATA[$P{PAR_DETALLES_DS_2}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="300">
+						<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="300" height="13"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="95">
+						<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="95" height="13"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement x="284" y="154" width="269" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="286" y="329" width="269" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="285" y="506" width="269" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_3}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="1" y="640" width="533" height="31"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 5">
+						<dataSourceExpression><![CDATA[$P{PAR_VENCIMIENTOS_DS_3}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="370">
+						<jr:tableFooter height="16" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="74" height="16"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{PAR_TEXTO_PAGOFACIL}]]></textFieldExpression>
+							</textField>
+							<componentElement>
+								<reportElement x="74" y="1" width="177" height="14"/>
+								<jr:barbecue type="Code128C" drawText="true" checksumRequired="false">
+									<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_PF_3}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:tableFooter>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<componentElement>
+								<reportElement x="68" y="4" width="183" height="10"/>
+								<jr:barbecue type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+									<jr:codeExpression><![CDATA[$F{F_CODIGOBARRA_VENCIMIENTO}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="90" height="15"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_FECHA_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="93">
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="65" height="15"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="135" y="536" width="395" height="89"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 6">
+						<dataSourceExpression><![CDATA[$P{PAR_DETALLES_DS_3}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="300">
+						<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="300" height="13"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="95">
+						<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="95" height="13"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="3" y="84" width="24" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="329" y="3" width="226" height="64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TASA GENERAL INMOBILIARIA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="69" y="3" width="259" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="47" width="258" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="92" width="197" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DOM_PARCELARIO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="87" splitType="Stretch">
+			<frame>
+				<reportElement x="1" y="8" width="555" height="78"/>
+				<rectangle>
+					<reportElement x="288" y="19" width="267" height="55"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="0" y="19" width="288" height="55"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="0" y="4" width="290" height="15"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="288" y="4" width="267" height="15"/>
+				</rectangle>
+				<staticText>
+					<reportElement mode="Opaque" x="289" y="5" width="265" height="13" backcolor="#D4D4D4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[OBSERVACIONES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="5" width="286" height="13" backcolor="#D4D4D4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ESTADO DE CUENTA TRIBUTARIO]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

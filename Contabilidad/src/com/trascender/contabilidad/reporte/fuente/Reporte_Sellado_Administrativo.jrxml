@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Sellado_Administrativo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.4641000000000057"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="675"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_SELLADO_NUM" class="java.lang.Integer"/>
+	<parameter name="PAR_CONCEPTO" class="java.lang.String"/>
+	<parameter name="PAR_SEÑOR" class="java.lang.String"/>
+	<parameter name="PAR_USUARIO" class="java.lang.String"/>
+	<parameter name="PAR_FECHA_EMISION" class="java.util.Date"/>
+	<parameter name="PAR_FECHA_VENCIMIENTO" class="java.util.Date"/>
+	<parameter name="PAR_TOTAL" class="java.lang.Double"/>
+	<parameter name="PAR_OBS" class="java.lang.String"/>
+	<parameter name="PAR_NUM_CODIGO_BARRAS" class="java.lang.String"/>
+	<parameter name="PAR_FIRMA" class="java.lang.String"/>
+	<pageHeader>
+		<band height="802" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="388"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="68" y="0" width="291" height="45"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="0" width="291" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="68" y="45" width="291" height="20"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="69" y="45" width="290" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="359" y="0" width="196" height="65"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="69" height="65"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="359" y="0" width="196" height="65"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SELLADO ADMINISTRATIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="85" width="85" height="20" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Sellado Número:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="134" width="58" height="18" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Al Señor/a:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="154" width="554" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Ha satisfecho en Tesorería Municipal con arreglo a las Ordenanzas vigentes la cantidad de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="65" width="45" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Usuario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="85" width="95" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha de Emisión:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="86" y="85" width="132" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SELLADO_NUM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="113" width="55" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Concepto:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="59" y="113" width="495" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CONCEPTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="134" width="495" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SEÑOR}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="4" y="174" width="110" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="209" y="188" width="92" height="20" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Monto Total = ]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement mode="Opaque" x="285" y="188" width="269" height="20" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="208" width="554" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="209" width="80" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Observaciones:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="81" y="209" width="474" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_OBS}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="201" y="311" width="158" height="24"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="3of9" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{PAR_NUM_CODIGO_BARRAS}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<rectangle>
+				<reportElement x="0" y="349" width="555" height="21"/>
+			</rectangle>
+			<line>
+				<reportElement x="353" y="349" width="1" height="21"/>
+			</line>
+			<staticText>
+				<reportElement x="353" y="350" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Firma de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="371" width="553" height="16" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Válido sólo con ticket o sello de caja.]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="423" y="85" width="132" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_EMISION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="503" y="52" width="48" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ORIGINAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="410" width="555" height="388"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="328" y="495" width="95" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha de Emisión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="209" y="596" width="92" height="20" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Monto Total = ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="542" width="495" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SEÑOR}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement mode="Opaque" x="285" y="596" width="270" height="20" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="4" y="582" width="110" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="616" width="554" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="86" y="617" width="469" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_OBS}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="68" y="410" width="291" height="45"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="378" y="475" width="45" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Usuario:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="423" y="495" width="132" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_EMISION}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="68" y="455" width="291" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="542" width="58" height="18" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Al Señor/a:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="521" width="495" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CONCEPTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="521" width="55" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Concepto:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="410" width="69" height="65"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="495" width="85" height="20" backcolor="#D4D4D4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Sellado Número:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="781" width="553" height="16" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Válido sólo con ticket o sello de caja.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="359" y="410" width="196" height="65"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="410" width="291" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="562" width="554" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Ha satisfecho en Tesorería Municipal con arreglo a las Ordenanzas vigentes la cantidad de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="462" width="56" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DUPLICADO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="759" width="555" height="21"/>
+			</rectangle>
+			<textField>
+				<reportElement x="89" y="495" width="132" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SELLADO_NUM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="760" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Firma de:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="353" y="759" width="1" height="21"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="69" y="455" width="290" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="359" y="410" width="196" height="65"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SELLADO ADMINISTRATIVO]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="201" y="719" width="154" height="24"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="3of9" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{PAR_NUM_CODIGO_BARRAS}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement x="1" y="617" width="85" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Observaciones:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="403" y="350" width="152" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FIRMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="759" width="152" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FIRMA}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+				<reportElement x="3" y="412" width="64" height="61"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="3" y="2" width="64" height="61"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="423" y="65" width="132" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_USUARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="475" width="132" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_USUARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="740" width="154" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NUM_CODIGO_BARRAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="333" width="154" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NUM_CODIGO_BARRAS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

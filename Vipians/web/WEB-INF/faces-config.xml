@@ -1,0 +1,2576 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE faces-config PUBLIC
+"-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+"http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<!-- Copyright 2005 Sun Microsystems, Inc. All rights reserved. SUN PROPRIETARY/CONFIDENTIAL. 
+	Use is subject to license terms. aaa -->
+
+<faces-config>
+	<application>
+		<locale-config>
+			<default-locale>es</default-locale>
+			<supported-locale>en</supported-locale>
+		</locale-config>
+		<!-- <action-listener> com.trascender.presentacion.utiles.TrascenderExceptionActionListener 
+			</action-listener> -->
+	</application>
+	<!-- <lifecycle> <phase-listener>com.trascender.presentacion.utiles.TrascenderPhaseListener</phase-listener>> 
+		</lifecycle> -->
+
+	<managed-bean>
+		<managed-bean-name>Footer</managed-bean-name>
+		<managed-bean-class>muni.Footer</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Header</managed-bean-name>
+		<managed-bean-class>muni.Header</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Inicio</managed-bean-name>
+		<managed-bean-class>muni.Inicio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Login</managed-bean-name>
+		<managed-bean-class>muni.Login</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Logout</managed-bean-name>
+		<managed-bean-class>muni.Logout</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Main</managed-bean-name>
+		<managed-bean-class>muni.Main</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Nav1</managed-bean-name>
+		<managed-bean-class>muni.Nav1</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Nav2</managed-bean-name>
+		<managed-bean-class>muni.Nav2</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>Page1</managed-bean-name>
+		<managed-bean-class>muni.Page1</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ApplicationBean1</managed-bean-name>
+		<managed-bean-class>muni.ApplicationBean1</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationCajaBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationCajaBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationComprasBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationComprasBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationContabilidadBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationContabilidadBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationExcepcionesBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationExcepcionesBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationHabilitacionesBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationHabilitacionesBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationInventarioBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationInventarioBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationSAICBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationSAICBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationAccionSocialBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationAccionSocialBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ComunicationBean</managed-bean-name>
+		<managed-bean-class>muni.ComunicationBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ComunicationCatastroBean</managed-bean-name>
+		<managed-bean-class>muni.ComunicationCatastroBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>RequestBean1</managed-bean-name>
+		<managed-bean-class>muni.RequestBean1</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>SessionBean1</managed-bean-name>
+		<managed-bean-class>muni.SessionBean1</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<!-- CATASTRO -->
+	<!-- Calle -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCalle$AdminCalle</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCalle.AdminCalle</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCalle$ABMCalle</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCalle.ABMCalle</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Calle -->
+
+	<!-- Categoria -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCategoria$AdminCategoria</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCategoria.AdminCategoria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCategoria$ABMCategoria</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCategoria.ABMCategoria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Categoria -->
+
+	<!-- Coeficiente Depreciacion -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCoeficienteDepreciacion$AdminCoeficienteDepreciacion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCoeficienteDepreciacion.AdminCoeficienteDepreciacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCoeficienteDepreciacion$ABMCoeficienteDepreciacion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCoeficienteDepreciacion.ABMCoeficienteDepreciacion</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Coeficiente Depreciacion -->
+
+	<!-- Cuadra -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCuadra$AdminCuadra</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCuadra.AdminCuadra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMCuadra$ABMCuadra</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMCuadra.ABMCuadra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Cuadra -->
+
+	<!-- Declaracion Jurada -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMDeclaracionJurada$ABMDeclaracionJurada</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMDeclaracionJurada.ABMDeclaracionJurada</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Declaracion Jurada -->
+
+	<!-- Manzana -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMManzana$AdminManzana</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMManzana.AdminManzana</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMManzana$ABMManzana</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMManzana.ABMManzana</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Manzana -->
+
+	<!-- Parcela -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$AdminParcela</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.AdminParcela</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$ABMParcela</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.ABMParcela</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$ImprimirParcela</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.ImprimirParcela</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$AdministrarSubdivisiones</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.AdministrarSubdivisiones</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$SubdividirParcela</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.SubdividirParcela</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$GenerarObligacionOSP</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.GenerarObligacionOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$ABMPlanoConstruccion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.ABMPlanoConstruccion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMParcela$ABMEstadisticasIndec</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMParcela.ABMEstadisticasIndec</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Parcela -->
+
+	<!-- Registro Mejora -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMRegistroMejora$ABMRegistroMejora</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMRegistroMejora.ABMRegistroMejora</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Registro Mejora -->
+
+	<!-- Subparcela -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMSubparcela$AdminSubparcela</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMSubparcela.AdminSubparcela</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Subparcela -->
+
+	<!-- Tipo Calle -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoCalle$AdminTipoCalle</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoCalle.AdminTipoCalle</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoCalle$ABMTipoCalle</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoCalle.ABMTipoCalle</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Calle -->
+
+	<!-- Tipo Construccion -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoConstruccion$AdminTipoConstruccion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoConstruccion.AdminTipoConstruccion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoConstruccion$ABMTipoConstruccion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoConstruccion.ABMTipoConstruccion</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Construccion -->
+
+	<!-- Tipo Transaccion Catastral -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoTransaccionCatastral$AdminTipoTransaccionCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoTransaccionCatastral.AdminTipoTransaccionCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoTransaccionCatastral$ModificarTipoTransaccionCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoTransaccionCatastral.ABMTipoTransaccionCatastral</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoTransaccionCatastral$EliminarTipoTransaccionCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoTransaccionCatastral.EliminarTipoTransaccionCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMTipoTransaccionCatastral$ConsultarTipoTransaccionCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMTipoTransaccionCatastral.ConsultarTipoTransaccionCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Transaccion Catastral -->
+
+	<!-- Valor basico mejora -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMValorBasicoMejora$AdminValorBasicoMejora</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMValorBasicoMejora.AdminValorBasicoMejora</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMValorBasicoMejora$ABMValorBasicoMejora</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMValorBasicoMejora.ABMValorBasicoMejora</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Valor basico mejora -->
+
+	<!-- volante catastral -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMVolanteCatastral$AdminVolanteCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMVolanteCatastral.AdminVolanteCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMVolanteCatastral$ModificarVolanteCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMVolanteCatastral.ModificarVolanteCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMVolanteCatastral$ConsultarVolanteCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMVolanteCatastral.ConsultarVolanteCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMVolanteCatastral$ImprimirVolanteCatastral</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMVolanteCatastral.ImprimirVolanteCatastral</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /volante catastral -->
+
+	<!-- zona -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMZona$AdminZona</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMZona.AdminZona</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMZona$ABMZona</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMZona.ABMZona</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /zona -->
+
+	<!-- zonificacion -->
+	<managed-bean>
+		<managed-bean-name>catastro$ABMZonificacion$AdminZonificacion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMZonificacion.AdminZonificacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>catastro$ABMZonificacion$ABMZonificacion</managed-bean-name>
+		<managed-bean-class>muni.catastro.ABMZonificacion.ABMZonificacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /zonificacion -->
+
+	<!-- COMPRAS -->
+	<!-- Autorizacion Solicitud Suministro -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMAutorizacionSolicitudSuministro$AdminAutorizacionSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMAutorizacionSolicitudSuministro.AdminAutorizacionSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMAutorizacionSolicitudSuministro$ABMAutorizacionSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMAutorizacionSolicitudSuministro.ABMAutorizacionSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMAutorizacionSolicitudSuministro$ABMUsuarioAutorizadorSuplente</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMAutorizacionSolicitudSuministro.ABMUsuarioAutorizadorSuplente</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMAutorizacionSolicitudSuministro$ABMReglaFirmaSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMAutorizacionSolicitudSuministro.ABMReglaFirmaSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMAutorizacionSolicitudSuministro$ABMUsuarioAutorizador</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMAutorizacionSolicitudSuministro.ABMUsuarioAutorizador</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!--/Autorizacion Solicitud Suministro -->
+
+	<!-- Bien -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMBien$AdminBien</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMBien.AdminBien</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMBien$ABMBien</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMBien.ABMBien</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMTipoBien$AdminTipoBien</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMTipoBien.AdminTipoBien</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMTipoBien$ABMTipoBien</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMTipoBien.ABMTipoBien</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Bien -->
+
+	<!-- UsuarioFirmante -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMUsuarioFirmante$AdminUsuarioFirmante</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMUsuarioFirmante.AdminUsuarioFirmante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMUsuarioFirmante$ABMUsuarioFirmante</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMUsuarioFirmante.ABMUsuarioFirmante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /UsuarioFirmante -->
+
+	<!-- Cuenta -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMCuenta$AdminCuenta</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMCuenta.AdminCuenta</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Cuenta -->
+
+	<!-- Factura Contrato -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaContrato$AdminFacturaContrato</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaContrato.AdminFacturaContrato</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaContrato$ABMFacturaContrato</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaContrato.ABMFacturaContrato</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Factura Contrato -->
+
+	<!-- Factura Proveedor -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaProveedor$AdminFacturaProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaProveedor.AdminFacturaProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaProveedor$ABMFacturaProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaProveedor.ABMFacturaProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaProveedor$AgregarLineaFacturaProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaProveedor.AgregarLineaFacturaProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaProveedor$ConsultarBienesProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaProveedor.ConsultarBienesProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaProveedor$ModificarLineaFacturaProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaProveedor.ModificarLineaFacturaProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaProveedor$GenerarLineasFactura</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaProveedor.GenerarLineasFactura</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Factura Proveedor -->
+
+	<!-- Factura Servicio -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaServicio$AdminFacturaServicio</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaServicio.AdminFacturaServicio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaServicio$ABMFacturaServicio</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaServicio.ABMFacturaServicio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Factura Servicio -->
+
+	<!-- Factura Subsidio -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaSubsidio$AdminFacturaSubsidio</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaSubsidio.AdminFacturaSubsidio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMFacturaSubsidio$ABMFacturaSubsidio</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Factura Subsidio -->
+
+	<!-- Licitacion -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMLicitacion$AdminLicitacion</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMLicitacion.AdminLicitacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMLicitacion$ABMLicitacion</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMLicitacion.ABMLicitacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMLicitacion$AgregarLineaContratacion</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMLicitacion.AgregarLineaContratacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMActaApertura$ABMOfertaLicitacion</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMActaApertura.ABMOfertaLicitacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Orden de Compra -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMOrdenCompra$AdminOrdenCompra</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMOrdenCompra.AdminOrdenCompra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMOrdenCompra$AgregarLineaOrdenCompra</managed-bean-name>
+
+		<managed-bean-class>muni.compras.ABMOrdenCompra.AgregarLineaOrdenCompra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMOrdenCompra$ABMOrdenCompra</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMOrdenCompra.ABMOrdenCompra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Orden de Compra -->
+
+	<!-- Proveedor -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMProveedor$AdminProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMProveedor.AdminProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMProveedor$ABMProveedor</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMProveedor.ABMProveedor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Proveedor -->
+
+	<!-- Solicitud de Suministro -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMSolicitudSuministro$AdminLineaSolSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMSolicitudSuministro.AdminLineaSolSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMSolicitudSuministro$AdminSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMSolicitudSuministro.AdminSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMSolicitudSuministro$ABMSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMSolicitudSuministro.ABMSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMSolicitudSuministro$FirmarSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMSolicitudSuministro.FirmarSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMSolicitudSuministro$ModificarLineaSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMSolicitudSuministro.ModificarLineaSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMEstadoSolicitudSuministro$AdminEstadoSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMEstadoSolicitudSuministro.AdminEstadoSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMSolicitudSuministro$ABMPresupuestoSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMSolicitudSuministro.ABMPresupuestoSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Doc Esp Cementerio -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMDocEspCementerio$AdminDocEspCementerio</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMDocEspCementerio.AdminDocEspCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMDocEspCementerio$ABMDocEspCementerio</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMDocEspCementerio.ABMDocEspCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp Cementerio -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMEstadoSolicitudSuministro$ABMEstadoSolicitudSuministro</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMEstadoSolicitudSuministro.ABMEstadoSolicitudSuministro</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Solicitud de Suministro -->
+
+	<!-- Unidad -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMUnidad$AdminUnidad</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMUnidad.AdminUnidad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMUnidad$ABMUnidad</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMUnidad.ABMUnidad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Unidad -->
+
+	<!-- EstadoCuentaCorriente -->
+	<managed-bean>
+		<managed-bean-name>compras$EstadoCuentaCorriente$AdminEstadoCuentaCorriente</managed-bean-name>
+		<managed-bean-class>muni.compras.EstadoCuentaCorriente.AdminEstadoCuentaCorriente</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /EstadoCuentaCorriente -->
+
+	<!-- LiquidacionCompra -->
+	<managed-bean>
+		<managed-bean-name>compras$ABMLiquidacionCompra$AdminLiquidacionCompra</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMLiquidacionCompra.AdminLiquidacionCompra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>compras$ABMLiquidacionCompra$ABMLiquidacionCompra</managed-bean-name>
+		<managed-bean-class>muni.compras.ABMLiquidacionCompra.ABMLiquidacionCompra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /LiquidacionCompra -->
+
+	<!-- COMUNES -->
+	<managed-bean>
+		<managed-bean-name>comunes$ErrorHandler</managed-bean-name>
+		<managed-bean-class>muni.comunes.ErrorHandler</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$OpcionesUsuario</managed-bean-name>
+		<managed-bean-class>muni.comunes.OpcionesUsuario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$PaginaCaducidad</managed-bean-name>
+		<managed-bean-class>muni.comunes.PaginaCaducidad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$PaginaImpresion</managed-bean-name>
+		<managed-bean-class>muni.comunes.PaginaImpresion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Concepto Ingreso Vario -->
+	<managed-bean>
+		<managed-bean-name>comunes$ABMConceptoIngresoVario$AdminConceptoIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMConceptoIngresoVario.AdminConceptoIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMConceptoIngresoVario$ABMConceptoIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMConceptoIngresoVario.ABMConceptoIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMConceptoIngresoVario$ModificarConceptoIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMConceptoIngresoVario.ModificarConceptoIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMConceptoIngresoVario$EliminarConceptoIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMConceptoIngresoVario.EliminarConceptoIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMConceptoIngresoVario$ConsultarConceptoIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMConceptoIngresoVario.ConsultarConceptoIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Concepto Ingreso Vario -->
+
+	<!-- Domicilio -->
+	<managed-bean>
+		<managed-bean-name>comunes$ABMDomicilio$AgregarDomicilio</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMDomicilio.AgregarDomicilio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMDomicilio$ModificarDomicilio</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMDomicilio.ModificarDomicilio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMDomicilio$ConsultarDomicilio</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMDomicilio.ConsultarDomicilio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Domicilio -->
+
+	<!-- Ingreso Vario -->
+	<managed-bean>
+		<managed-bean-name>comunes$ABMIngresoVario$AdminIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMIngresoVario.AdminIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMIngresoVario$ABMIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMIngresoVario.ABMIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>comunes$ABMIngresoVario$ImprimirIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMIngresoVario.ImprimirIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- Ingreso Vario -->
+
+	<!-- Refinanciacion -->
+	<managed-bean>
+		<managed-bean-name>excepciones$ABMRefinanciacion$AdminRefinanciacion</managed-bean-name>
+		<managed-bean-class>muni.excepciones.ABMRefinanciacion.AdminRefinanciacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>excepciones$ABMRefinanciacion$AgregarRefinanciacion</managed-bean-name>
+		<managed-bean-class>muni.excepciones.ABMRefinanciacion.AgregarRefinanciacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion</managed-bean-name>
+		<managed-bean-class>muni.excepciones.ABMRefinanciacion.AgregarPlanPagoRefinanciacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>excepciones$ABMRefinanciacion$ConsultarRefinanciacion</managed-bean-name>
+		<managed-bean-class>muni.excepciones.ABMRefinanciacion.ConsultarRefinanciacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Refinanciacion -->
+
+	<!-- FRAMEWORK -->
+	<!-- Area -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMArea$AdminArea</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMArea.AdminArea</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMArea$ABMArea</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMArea.ABMArea</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Area -->
+
+	<!-- Secretaria -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMSecretaria$AdminSecretaria</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMSecretaria.AdminSecretaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMSecretaria$ABMSecretaria</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMSecretaria.ABMSecretaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Secretaria -->
+
+	<!-- Atributo Dinamico -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMAtributoDinamico$AdminAtributoDinamico</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMAtributoDinamico.AdminAtributoDinamico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMAtributoDinamico$ABMAtributoDinamico</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMAtributoDinamico.ABMAtributoDinamico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMAtributoDinamico$SeleccionarRecurso</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMAtributoDinamico.SeleccionarRecurso</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Atributo Dinamico -->
+
+	<!-- Atributo Dinamico -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMAtributoDinamico$AdminAtributoDinamico</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMAtributoDinamico.AdminAtributoDinamico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMAtributoDinamico$ABMAtributoDinamico</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMAtributoDinamico.ABMAtributoDinamico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Atributo Dinamico -->
+
+	<!-- Reporte Jasper -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMReporteJasper$AdminReporteJasper</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMReporteJasper.AdminReporteJasper</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMReporteJasper$ABMReporteJasper</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMReporteJasper.ABMReporteJasper</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Reporte Jasper -->
+
+	<!-- Calendario Municipal -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMCalendarioMunicipal$AdminCalendarioMunicipal</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMCalendarioMunicipal.AdminCalendarioMunicipal</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMCalendarioMunicipal$ABMCalendarioMunicipal</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMCalendarioMunicipal.ABMCalendarioMunicipal</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMCalendarioMunicipal$ABMPeriodo</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMCalendarioMunicipal.ABMPeriodo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMCalendarioMunicipal$ABMCuota</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMCalendarioMunicipal.ABMCuota</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Calendario Municipal -->
+
+	<!-- Contrato -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMContrato$AdminContrato</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMContrato.AdminContrato</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMContrato$ABMContrato</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMContrato.ABMContrato</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Contrato -->
+
+	<!-- Dia Feriado -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMDiaFeriado$AdminDiaFeriado</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMDiaFeriado.AdminDiaFeriado</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMDiaFeriado$ABMDiaFeriado</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMDiaFeriado.ABMDiaFeriado</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- /Dia Feriado -->
+
+	<!-- Digesto Municipal -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMDigestoMunicipal$AdminDigestoMunicipal</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMDigestoMunicipal.AdminDigestoMunicipal</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMDigestoMunicipal$ABMDigestoMunicipal</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMDigestoMunicipal.ABMDigestoMunicipal</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Digesto Municipal -->
+
+	<!-- Localidad -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMLocalidad$AdminLocalidad</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMLocalidad.AdminLocalidad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMLocalidad$ABMLocalidad</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMLocalidad.ABMLocalidad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Localidad -->
+
+	<!-- Municipalidad -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMMunicipalidad$AdminMunicipalidad</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMMunicipalidad.AdminMunicipalidad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMMunicipalidad$ABMMunicipalidad</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMMunicipalidad.ABMMunicipalidad</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Municipalidad -->
+
+	<!-- Pais -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMPais$AdminPais</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMPais.AdminPais</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMPais$ABMPais</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMPais.ABMPais</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Pais -->
+
+	<!-- Persona Fisica -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMPersonaFisica$AdminPersonaFisica</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMPersonaFisica.AdminPersonaFisica</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMPersonaFisica$ABMPersonaFisica</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMPersonaFisica.ABMPersonaFisica</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Persona Fisica -->
+
+	<!-- Persona Juridica -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMPersonaJuridica$AdminPersonaJuridica</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMPersonaJuridica.AdminPersonaJuridica</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMPersonaJuridica$ABMPersonaJuridica</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMPersonaJuridica.ABMPersonaJuridica</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /PersonaJuridica -->
+
+	<!--Provincia -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMProvincia$AdminProvincia</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMProvincia.AdminProvincia</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMProvincia$ABMProvincia</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMProvincia.ABMProvincia</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!--/Provincia -->
+
+	<!-- Rol -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMRol$AdminRol</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMRol.AdminRol</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMRol$ABMRol</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMRol.ABMRol</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Rol -->
+
+	<!-- Usuario -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMUsuario$AdminUsuario</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMUsuario.AdminUsuario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMUsuario$ABMUsuario</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMUsuario.ABMUsuario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Usuario -->
+
+	<!-- HABILITACIONES -->
+	<!-- Doc Esp Automotor -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMDocEspAutomotor$AdminDocEspAutomotor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMDocEspAutomotor.AdminDocEspAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMDocEspAutomotor$ABMDocEspAutomotor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMDocEspAutomotor.ABMDocEspAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp Automotor -->
+
+	<!-- Concepto por Mora -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMConceptoPorMora$ABMConceptoPorMora</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMConceptoPorMora.ABMConceptoPorMora</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Concepto por Mora -->
+
+	<!-- ParcelaCementerio -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMParcelaCementerio.AdminParcelaCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMParcelaCementerio$ABMParcelaCementerio</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMParcelaCementerio.ABMParcelaCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMParcelaCementerio$ABMDifunto</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMParcelaCementerio.ABMDifunto</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /ParcelaCementerio -->
+	<!-- Tipo Sepultura -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMTipoSepultura$AdminTipoSepultura</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMTipoSepultura.AdminTipoSepultura</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpCementerio$ABMTipoSepultura$ABMTipoSepultura</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpCementerio.ABMTipoSepultura.ABMTipoSepultura</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Sepultura -->
+
+	<!-- Firma Pendiente -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMFirmaPendiente$AdminPermisoSinFirma</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMFirmaPendiente.AdminPermisoSinFirma</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMFirmaPendiente$ConsultarPermisoSinFirmaOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMFirmaPendiente.ConsultarPermisoSinFirmaOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMFirmaPendiente$ConsultarPermisoSinFirmaPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMFirmaPendiente.ConsultarPermisoSinFirmaPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMFirmaPendiente$ConsultarPermisoSinFirmaSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMFirmaPendiente.ConsultarPermisoSinFirmaSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMFirmaPendiente$ConsultarPermisoSinFirmaTGI</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMFirmaPendiente.ConsultarPermisoSinFirmaTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Firma Pendiente -->
+
+	<!-- Tipo Parametro Cementerio -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroCementerio$AdminTipoParametroCementerio</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroCementerio.AdminTipoParametroCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Cementerio -->
+
+	<!-- Tipo Parametro Automotor -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroAutomotor$AdminTipoParametroAutomotor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroAutomotor.AdminTipoParametroAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Automotor -->
+
+	<!-- Tipo Parametro Vehiculo -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroVehiculo$AdminTipoParametroVehiculo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroVehiculo.AdminTipoParametroVehiculo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Automotor -->
+
+	<!-- Tipo Parametro Deuda -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroDeuda$AdminTipoParametroDeuda</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroDeuda.AdminTipoParametroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Deuda -->
+
+	<!-- Plantilla Obligacion -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaObligacion$AdminPlantillaObligacion</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacion.AdminPlantillaObligacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaObligacion$ABMPlantillaObligacion</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacion.ABMPlantillaObligacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plantilla Obligacion -->
+
+	<!-- Plantilla Obligacion Tasa Menor -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaObligacionTasaMenor$AdminPlantillaObligacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacionTasaMenor.AdminPlantillaObligacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaObligacionTasaMenor$ABMPlantillaObligacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacionTasaMenor.ABMPlantillaObligacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plantilla Obligacion Menor -->
+
+	<!-- Plantilla Obligacion Tasa Menor -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaObligacionTasaMenor$AdminPlantillaObligacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacionTasaMenor.AdminPlantillaObligacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaObligacionTasaMenor$ABMPlantillaObligacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacionTasaMenor.ABMPlantillaObligacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plantilla Obligacion Menor -->
+
+	<!-- Plantilla Doc Hab Compuesto -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaDocHabCompuesto$AgregarPlantillaDocHabCompuesto</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaDocHabCompuesto.AgregarPlantillaDocHabCompuesto</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plantilla Doc Hab Compuesto -->
+
+	<!-- Plantilla Permiso -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaPermiso$AgregarPlantillaPermiso</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaPermiso.AgregarPlantillaPermiso</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plantilla Permiso -->
+
+	<!-- Plantilla Sellado -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMPlantillaSellado$AgregarPlantillaSellado</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMPlantillaSellado.AgregarPlantillaSellado</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plantilla Sellado -->
+
+	<!-- Tipo Modificador -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMTipoModificador$ABMTipoModificador</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMTipoModificador.ABMTipoModificador</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Modificador -->
+
+	<!-- Tipo Tasa -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMTipoTasa$AdminTipoTasa</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMTipoTasa.AdminTipoTasa</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMTipoTasa$ABMTipoTasa</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMTipoTasa.ABMTipoTasa</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!--<managed-bean> <managed-bean-name>habilitaciones$ABMTipoTasa$ModificarTipoTasa</managed-bean-name> 
+		<managed-bean-class>muni.habilitaciones.ABMTipoTasa.ModificarTipoTasa</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> <managed-bean> 
+		<managed-bean-name>habilitaciones$ABMTipoTasa$ConsultarTipoTasa</managed-bean-name> 
+		<managed-bean-class>muni.habilitaciones.ABMTipoTasa.ConsultarTipoTasa</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> <managed-bean> 
+		<managed-bean-name>habilitaciones$ABMTipoTasa$EliminarTipoTasa</managed-bean-name> 
+		<managed-bean-class>muni.habilitaciones.ABMTipoTasa.EliminarTipoTasa</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> -->
+	<!-- /Tipo Tasa -->
+
+	<!-- Tipo Tasa Formula Alicuota -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMTipoTasaFormulaAlicuota$AgregarTipoTasaFormulaAlicuota</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMTipoTasaFormulaAlicuota.AgregarTipoTasaFormulaAlicuota</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+
+	</managed-bean>
+	<!-- /Tipo Tasa Formula Alicuota -->
+
+	<!-- Tipo Vencimiento -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$ABMTipoVencimiento$ABMTipoVencimiento</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.ABMTipoVencimiento.ABMTipoVencimiento</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Vencimiento -->
+
+	<!-- Inspeccion Comercial -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpBromatologia$ABMInspeccionComercial$AgregarInspeccionComercial</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpBromatologia.ABMInspeccionComercial.AgregarInspeccionComercial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpBromatologia$ABMInspeccionComercial$ConsultarInspeccionComercial</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpBromatologia.ABMInspeccionComercial.ConsultarInspeccionComercial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Inspeccion Comercial -->
+
+	<!-- Inspeccion Vehicular -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpBromatologia$ABMInspeccionVehicular$AgregarInspeccionVehicular</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpBromatologia.ABMInspeccionVehicular.AgregarInspeccionVehicular</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpBromatologia$ABMInspeccionVehicular$ConsultarInspeccionVehicular</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpBromatologia.ABMInspeccionVehicular.ConsultarInspeccionVehicular</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Inspeccion Vehicular -->
+
+	<!-- Transporte Vehicular -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpBromatologia$ABMTransporteVehicular$AdminTransporteVehicular</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpBromatologia.ABMTransporteVehicular.AdminTransporteVehicular</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpBromatologia$ABMTransporteVehicular$ABMTransporteVehicular</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpBromatologia.ABMTransporteVehicular.ABMTransporteVehicular</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Transporte Vehicular -->
+
+	<!-- Consumo Basico -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpOSP$ABMConsumoBasico$AdminConsumoBasico</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpOSP.ABMConsumoBasico.AdminConsumoBasico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpOSP$ABMConsumoBasico$ABMConsumoBasico</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpOSP.ABMConsumoBasico.ABMConsumoBasico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Consumo Basico -->
+
+	<!-- Doc Esp OSP -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpOSP.ABMDocEspOSP.AdminDocEspOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpOSP$ABMDocEspOSP$ABMDocEspOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpOSP.ABMDocEspOSP.ABMDocEspOSP</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp OSP -->
+
+	<!-- Doc Esp Tasa Menor -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTasaMenor$ABMDocEspTasaMenor$AdminDocEspTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTasaMenor.ABMDocEspTasaMenor.AdminDocEspTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTasaMenor$ABMDocEspTasaMenor$ABMDocEspTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTasaMenor.ABMDocEspTasaMenor.ABMDocEspTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTasaMenor$ABMDocEspTasaMenor$ModificarDocEspTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTasaMenor.ABMDocEspTasaMenor.ModificarDocEspTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTasaMenor$ABMDocEspTasaMenor$EliminarDocEspTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTasaMenor.ABMDocEspTasaMenor.EliminarDocEspTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTasaMenor$ABMDocEspTasaMenor$ConsultarDocEspTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTasaMenor.ABMDocEspTasaMenor.ConsultarDocEspTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp Tasa Menor -->
+
+	<!-- Servicio OSP -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpOSP$ABMServicioOSP$AdminServicioOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpOSP.ABMServicioOSP.AdminServicioOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpOSP$ABMServicioOSP$ABMServicioOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpOSP.ABMServicioOSP.ABMServicioOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Servicio OSP -->
+
+	<!-- Doc Esp PFO -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMDocEspPFO$AdminDocEspPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMDocEspPFO.AdminDocEspPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMDocEspPFO$AgregarDocEspPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMDocEspPFO.AgregarDocEspPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMDocEspPFO$ModificarDocEspPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMDocEspPFO.ModificarDocEspPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMDocEspPFO$EliminarDocEspPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMDocEspPFO.EliminarDocEspPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMDocEspPFO$ConsultarDocEspPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMDocEspPFO.ConsultarDocEspPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp PFO -->
+
+	<!-- Obra -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMObra$AdminObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMObra.AdminObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMObra$ABMObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMObra.ABMObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Obra -->
+
+	<!-- Plan cuenta Obra -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMPlanCuentaObra$AdminPlanCuentaObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMPlanCuentaObra.AdminPlanCuentaObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMPlanCuentaObra$AgregarPlanCuentaObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMPlanCuentaObra.AgregarPlanCuentaObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMPlanCuentaObra$ModificarPlanCuentaObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMPlanCuentaObra.ModificarPlanCuentaObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMPlanCuentaObra$EliminarPlanCuentaObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMPlanCuentaObra.EliminarPlanCuentaObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpPlanFinanciacionObra$ABMPlanCuentaObra$ConsultarPlanCuentaObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpPlanFinanciacionObra.ABMPlanCuentaObra.ConsultarPlanCuentaObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plan cuenta Obra -->
+
+	<!-- Clausura SHPS -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMClausuraSHPS$AgregarClausuraSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMClausuraSHPS.AgregarClausuraSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Clausura SHPS -->
+
+	<!-- Clausura Sin Firma -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMClausuraSinFirma$AdminClausuraSinFirma</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMClausuraSinFirma.AdminClausuraSinFirma</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Clausura Sin Firma -->
+
+	<!-- Constancia vacunacion -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMConstanciaVacunacion$AgregarConstanciaVacunacion</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMConstanciaVacunacion.AgregarConstanciaVacunacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Constancia vacunacion -->
+
+	<!-- Doc Esp SHPS -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMDocEspSHPS.AdminDocEspSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMDocEspSHPS$ABMDocEspSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMDocEspSHPS.ABMDocEspSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp SHPS -->
+
+	<!-- Inhabilitacion TemporariaLS -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInhabilitacionTemporariaLS$AgregarInhabilitacionTemporariaLS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInhabilitacionTemporariaLS.AgregarInhabilitacionTemporariaLS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInhabilitacionTemporariaLS$ConsultarInhabilitacionTemporariaLS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInhabilitacionTemporariaLS.ConsultarInhabilitacionTemporariaLS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Inhabilitacion TemporariaLS -->
+
+	<!-- Inspector -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInspector$AdminInspector</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInspector.AdminInspector</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInspector$ABMInspector</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInspector.ABMInspector</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInspector$ModificarInspector</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInspector.ModificarInspector</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInspector$EliminarInspector</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInspector.EliminarInspector</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMInspector$ConsultarInspector</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMInspector.ConsultarInspector</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Inspector -->
+
+	<!-- Libreta Sanitaria -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMLibretaSanitaria$AdminLibretaSanitaria</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMLibretaSanitaria.AdminLibretaSanitaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMLibretaSanitaria$ABMLibretaSanitaria</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMLibretaSanitaria.ABMLibretaSanitaria</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Libreta Sanitaria -->
+
+	<!-- Local Comercial -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMLocalComercial$AdminLocalComercial</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMLocalComercial.AdminLocalComercial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMLocalComercial$ABMLocalComercial</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMLocalComercial.ABMLocalComercial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Local Comercial -->
+
+	<!-- Reg Alicuota SHPS -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMRegAlicuotaSHPS$AdminRegAlicuotaSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMRegAlicuotaSHPS.AdminRegAlicuotaSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMRegAlicuotaSHPS$ABMRegAlicuotaSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMRegAlicuotaSHPS.ABMRegAlicuotaSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Reg Alicuota SHPS -->
+
+	<!-- Renovacion Libreta Sanitaria -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpSHPS$ABMRenovacionLibretaSanitaria$AgregarRenovacionLibretaSanitaria</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpSHPS.ABMRenovacionLibretaSanitaria.AgregarRenovacionLibretaSanitaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Renovacion Libreta Sanitaria -->
+
+	<!-- Doc Esp TGI -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTGI.ABMDocEspTGI.AdminDocEspTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTGI$ABMDocEspTGI$ABMDocEspTGI</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTGI.ABMDocEspTGI.ABMDocEspTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTGI$ABMDocEspTGI$DardeAltaDocEspTGI</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTGI.ABMDocEspTGI.DardeAltaDocEspTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Doc Esp TGI -->
+
+	<!-- Tipo Parametro Constante -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$AdminTipoParametroConstante</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.AdminTipoParametroConstante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$ABMTipoParametroConstante</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.ABMTipoParametroConstante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$ModificarTipoParametroConstante</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.ModificarTipoParametroConstante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$EliminarTipoParametroConstante</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.EliminarTipoParametroConstante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$ConsultarTipoParametroConstante</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.ConsultarTipoParametroConstante</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Constante -->
+
+	<!-- Tipo Parametro Constante -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroDinamico$AdminTipoParametroDinamico</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroDinamico.AdminTipoParametroDinamico</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Constante -->
+
+	<!-- Tipo Parametro Dinamico -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroDinamico$AdminTipoParametroDinamico</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroDinamico.AdminTipoParametroDinamico</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Dinamico -->
+
+	<!-- Tipo Parametro Grupo Zona -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrupoZona$AdminTipoParametroGrupoZona</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrupoZona.AdminTipoParametroGrupoZona</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrupoZona$ABMTipoParametroGrupoZona</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrupoZona.ABMTipoParametroGrupoZona</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Grupo Zona -->
+
+	<!-- Plan -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMPlan$AdminPlan</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMPlan.AdminPlan</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMPlan$ABMPlan</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMPlan.ABMPlan</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Plan -->
+
+	<!-- Tipo Parametro Grilla -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrilla$AdminTipoParametroGrilla</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrilla.AdminTipoParametroGrilla</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrilla$ABMTipoParametroGrilla</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrilla.ABMTipoParametroGrilla</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Grilla -->
+
+	<!-- Tipo Parametro Grilla Fila -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrilla$ABMTipoParametroGrillaFila</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrilla.ABMTipoParametroGrillaFila</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Grilla -->
+
+	<!-- Tipo Parametro OSP -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroOSP$AdminTipoParametroOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroOSP.AdminTipoParametroOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro OSP -->
+
+	<!-- Tipo Parametro Servicios OSP -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroServiciosOSP$AdminTipoParametroServiciosOSP</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroServiciosOSP.AdminTipoParametroServiciosOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Servicios OSP -->
+
+	<!-- Tipo Parametro Obra -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroObra$AdminTipoParametroObra</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroObra.AdminTipoParametroObra</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Obra -->
+
+	<!-- Tipo Parametro PFO -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroPFO$AdminTipoParametroPFO</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroPFO.AdminTipoParametroPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro PFO -->
+
+	<!-- Tipo Parametro Parcelario -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroParcelario$AdminTipoParametroParcelario</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroParcelario.AdminTipoParametroParcelario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Parcelario -->
+
+	<!-- Tipo Parametro Persona -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroPersona$AdminTipoParametroPersona</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroPersona.AdminTipoParametroPersona</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro Persona -->
+
+	<!-- Tipo Parametro SHPS -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroSHPS$AdminTipoParametroSHPS</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroSHPS.AdminTipoParametroSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro SHPS -->
+
+	<!-- Tipo Parametro TGI -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroTGI$AdminTipoParametroTGI</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroTGI.AdminTipoParametroTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro TGI -->
+
+	<!-- Tipo Parametro vencimiento -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroVencimiento$AdminTipoParametroVencimiento</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroVencimiento.AdminTipoParametroVencimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Tipo Parametro vencimiento -->
+
+	<!-- Vehiculo -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMVehiculo$AdminVehiculo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMVehiculo.AdminVehiculo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMVehiculo$ABMVehiculo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMVehiculo.ABMVehiculo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Vehiculo -->
+
+	<!-- Marca -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMMarca$AdminMarca</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMMarca.AdminMarca</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMMarca$ABMMarca</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMMarca.ABMMarca</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- Marca -->
+	<!-- Tipo Vehiculo -->
+	<!-- Marca -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMTipoVehiculo$AdminTipoVehiculo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMTipoVehiculo.AdminTipoVehiculo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMTipoVehiculo$ABMTipoVehiculo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMTipoVehiculo.ABMTipoVehiculo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!--TipoVehiculo -->
+	<!--ValuacionAcara -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMValuacionAcara$AdminValuacionAcara</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMValuacionAcara.AdminValuacionAcara</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMValuacionAcara$ABMValuacionAcara</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMValuacionAcara.ABMValuacionAcara</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMValuacionAcara$ABMProcesarArchivoAcara</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMValuacionAcara.ABMProcesarArchivoAcara</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!--ValuacionAcara -->
+
+	<!-- INVENTARIO -->
+	<!-- Deposito -->
+	<managed-bean>
+		<managed-bean-name>inventario$ABMDeposito$AdminDeposito</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMDeposito.AdminDeposito</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMDeposito$ABMDeposito</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMDeposito.ABMDeposito</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Deposito -->
+
+	<!-- Articulo -->
+	<managed-bean>
+		<managed-bean-name>inventario$ABMArticulo$AdminArticulo</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMArticulo.AdminArticulo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMArticulo$ABMArticulo</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMArticulo.ABMArticulo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMArticulo$AgregarPaseArticulo</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMArticulo.AgregarPaseArticulo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Articulo -->
+
+	<!-- Movimiento Mercaderia -->
+	<managed-bean>
+		<managed-bean-name>inventario$ABMMovimientoDeMercaderia$AdminMovimientoDeMercaderia</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMMovimientoDeMercaderia.AdminMovimientoDeMercaderia</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMMovimientoDeMercaderia$ABMMovimientoDeMercaderia</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMMovimientoDeMercaderia.ABMMovimientoDeMercaderia</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Movimiento Mercaderia -->
+
+	<!-- Stock -->
+	<managed-bean>
+		<managed-bean-name>inventario$ABMStock$AdminStock</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMStock.AdminStock</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMStock$AgregarStock</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMStock.AgregarStock</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMStock$ModificarStock</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMStock.ModificarStock</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMStock$EliminarStock</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMStock.EliminarStock</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inventario$ABMStock$ConsultarStock</managed-bean-name>
+		<managed-bean-class>muni.inventario.ABMStock.ConsultarStock</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Stock -->
+
+	<!-- SAIC -->
+	<!-- Auditoria Tributaria -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$AdminAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.AdminAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$AgregarAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.AgregarAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$ModificarAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.ModificarAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$EliminarAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.EliminarAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$ConsultarAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.ConsultarAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$EnJuicioAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.EnJuicioAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$ProvisorioAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.ProvisorioAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$FirmarAuditoriaTributaria</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.FirmarAuditoriaTributaria</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$AgregarIntimacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.AgregarIntimacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMAuditoriaTributaria$ModificarIntimacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMAuditoriaTributaria.ModificarIntimacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!--/Auditoria Tributaria -->
+
+	<!-- Estado Cuenta -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMEstadoCuenta$AdminEstadoCuenta</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMEstadoCuenta.AdminEstadoCuenta</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMEstadoCuenta$ConsultarEstadoCuenta</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMEstadoCuenta.ConsultarEstadoCuenta</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMEstadoCuenta$ImprimirEstadoCuenta</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMEstadoCuenta.ImprimirEstadoCuenta</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Estado Cuenta -->
+
+	<!-- Exencion Obligacion -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionObligacion$AdminExencionObligacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionObligacion.AdminExencionObligacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionObligacion$ABMExencionObligacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionObligacion.ABMExencionObligacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionObligacion$AutorizarExencionObligacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionObligacion.AutorizarExencionObligacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Exencion Obligacion -->
+
+	<!-- Exencion Registro Deuda -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionRegistroDeuda$AdminExencionRegistroDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.AdminExencionRegistroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionRegistroDeuda$AgregarExencionRegistroDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.AgregarExencionRegistroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionRegistroDeuda$ModificarExencionRegistroDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.ModificarExencionRegistroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionRegistroDeuda$EliminarExencionRegistroDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.EliminarExencionRegistroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionRegistroDeuda$ConsultarExencionRegistroDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.ConsultarExencionRegistroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMExencionRegistroDeuda$AutorizarExencionRegistroDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.AutorizarExencionRegistroDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Exencion Registro Deuda -->
+
+	<!-- Reliquidacion -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMReliquidacion$GenerarReliquidacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMReliquidacion.GenerarReliquidacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMReliquidacion$ReliquidarVarias</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMReliquidacion.ReliquidarVarias</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Reliquidacion -->
+
+	<!-- Actualizar Deuda Liquidacion -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMReliquidacion$ABMActualizarDeuda</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMReliquidacion.ABMActualizarDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- Actualizar Deuda Liquidacion -->
+
+	<!-- Liquidacion OSP -->
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMLiquidacionOSP$AdminLiquidacionOSP</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMLiquidacionOSP.AdminLiquidacionOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMLiquidacionOSP$ABMLiquidacionOSP</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMLiquidacionOSP.ABMLiquidacionOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMLiquidacionOSP$GenerarLiquidacionOSP</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMLiquidacionOSP.GenerarLiquidacionOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMLiquidacionOSP$ImprimirLiquidacionOSP</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMLiquidacionOSP.ImprimirLiquidacionOSP</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Liquidacion OSP -->
+
+	<!-- Valor Medidor -->
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMValorMedidor$AdminValorMedidor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMValorMedidor.AdminValorMedidor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMValorMedidor$AgregarValorMedidor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMValorMedidor.AgregarValorMedidor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMValorMedidor$ModificarValorMedidor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMValorMedidor.ModificarValorMedidor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpOSP$ABMValorMedidor$ConsultarValorMedidor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpOSP.ABMValorMedidor.ConsultarValorMedidor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Valor Medidor -->
+
+	<!-- Liquidacion PFO -->
+	<managed-bean>
+		<managed-bean-name>saic$grpPFO$ABMLiquidacionPFO$AdminLiquidacionPFO</managed-bean-name>
+		<managed-bean-class>muni.saic.grpPFO.ABMLiquidacionPFO.AdminLiquidacionPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpPFO$ABMLiquidacionPFO$ABMLiquidacionPFO</managed-bean-name>
+		<managed-bean-class>muni.saic.grpPFO.ABMLiquidacionPFO.ABMLiquidacionPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpPFO$ABMLiquidacionPFO$GenerarLiquidacionPFO</managed-bean-name>
+		<managed-bean-class>muni.saic.grpPFO.ABMLiquidacionPFO.GenerarLiquidacionPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpPFO$ABMLiquidacionPFO$ImprimirLiquidacionPFO</managed-bean-name>
+		<managed-bean-class>muni.saic.grpPFO.ABMLiquidacionPFO.ImprimirLiquidacionPFO</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Liquidacion PFO -->
+
+	<!-- DDjjSHPS -->
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMDDJJSHPS$AdminDDJJSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMDDJJSHPS.AdminDDJJSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMDDJJSHPS.ABMDDJJSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMDDJJSHPS.ImprimirDDJJSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /DDjjSHPS -->
+
+	<!-- Liquidacion SHPS -->
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMLiquidacionSHPS$AdminLiquidacionSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMLiquidacionSHPS.AdminLiquidacionSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMLiquidacionSHPS$ABMLiquidacionSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMLiquidacionSHPS.ABMLiquidacionSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMLiquidacionSHPS$GenerarLiquidacionSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMLiquidacionSHPS.GenerarLiquidacionSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpSHPS$ABMLiquidacionSHPS$ImprimirLiquidacionSHPS</managed-bean-name>
+		<managed-bean-class>muni.saic.grpSHPS.ABMLiquidacionSHPS.ImprimirLiquidacionSHPS</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Liquidacion SHPS -->
+
+	<!-- Liquidacion TGI -->
+	<managed-bean>
+		<managed-bean-name>saic$grpTGI$ABMLiquidacionTGI$AdminLiquidacionTGI</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTGI.ABMLiquidacionTGI.AdminLiquidacionTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpTGI$ABMLiquidacionTGI$ABMLiquidacionTGI</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTGI.ABMLiquidacionTGI.ABMLiquidacionTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpTGI$ABMLiquidacionTGI$GenerarLiquidacionTGI</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTGI.ABMLiquidacionTGI.GenerarLiquidacionTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpTGI$ABMLiquidacionTGI$ImprimirLiquidacionTGI</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTGI.ABMLiquidacionTGI.ImprimirLiquidacionTGI</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Liquidacion TGI -->
+
+	<!-- Liquidacion Automotor -->
+	<managed-bean>
+		<managed-bean-name>saic$grpAutomotor$ABMLiquidacionAutomotor$AdminLiquidacionAutomotor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpAutomotor.AdminLiquidacionAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpAutomotor$ABMLiquidacionAutomotor$ABMLiquidacionAutomotor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpAutomotor.ABMLiquidacionAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpAutomotor$ABMLiquidacionAutomotor$GenerarLiquidacionAutomotor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpAutomotor.GenerarLiquidacionAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpAutomotor$ABMLiquidacionAutomotor$ImprimirLiquidacionAutomotor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpAutomotor.ImprimirLiquidacionAutomotor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Liquidacion Automotor -->
+
+	<!-- Liquidacion Cementerio -->
+	<managed-bean>
+		<managed-bean-name>saic$grpCementerio$ABMLiquidacionCementerio$AdminLiquidacionCementerio</managed-bean-name>
+		<managed-bean-class>muni.saic.grpCementerio.AdminLiquidacionCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpCementerio$ABMLiquidacionCementerio$ABMLiquidacionCementerio</managed-bean-name>
+		<managed-bean-class>muni.saic.grpCementerio.ABMLiquidacionCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpCementerio$ABMLiquidacionCementerio$GenerarLiquidacionCementerio</managed-bean-name>
+		<managed-bean-class>muni.saic.grpCementerio.GenerarLiquidacionCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpCementerio$ABMLiquidacionCementerio$ImprimirLiquidacionCementerio</managed-bean-name>
+		<managed-bean-class>muni.saic.grpCementerio.ImprimirLiquidacionCementerio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Liquidacion Cementerio -->
+
+	<!-- Liquidacion TasaMenor -->
+	<managed-bean>
+		<managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$AdminLiquidacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.AdminLiquidacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$ABMLiquidacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.ABMLiquidacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$GenerarLiquidacionTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.GenerarLiquidacionTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- <managed-bean> <managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$ImprimirLiquidacionTasaMenor</managed-bean-name> 
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.ImprimirLiquidacionTasaMenor</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> -->
+	<!-- /Liquidacion TasaMenor -->
+
+	<!-- Liquidacion TasaMenor <managed-bean> <managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$AdminLiquidacionTasaMenor</managed-bean-name> 
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.AdminLiquidacionTasaMenor</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> <managed-bean> 
+		<managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$ConsultarLiquidacionTasaMenor</managed-bean-name> 
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.ConsultarLiquidacionTasaMenor</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> <managed-bean> 
+		<managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$GenerarLiquidacionTasaMenor</managed-bean-name> 
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.GenerarLiquidacionTasaMenor</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> <managed-bean> 
+		<managed-bean-name>saic$grpTasaMenor$ABMLiquidacionTasaMenor$ImprimirLiquidacionTasaMenor</managed-bean-name> 
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMLiquidacionTasaMenor.ImprimirLiquidacionTasaMenor</managed-bean-class> 
+		<managed-bean-scope>request</managed-bean-scope> </managed-bean> /Liquidacion 
+		TasaMenor -->
+
+	<!-- Registro Valuado Tasa Menor -->
+	<managed-bean>
+		<managed-bean-name>saic$grpTasaMenor$ABMRegistroValuadoTasaMenor$AdminRegistroValuadoTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMRegistroValuadoTasaMenor.AdminRegistroValuadoTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpTasaMenor$ABMRegistroValuadoTasaMenor$AgregarRegistroValuadoTasaMenor</managed-bean-name>
+		<managed-bean-class>muni.saic.grpTasaMenor.ABMRegistroValuadoTasaMenor.AgregarRegistroValuadoTasaMenor</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!--/ Registro Valuado Tasa Menor -->
+
+	<!-- Imprimir Liquidaciones -->
+	<managed-bean>
+		<managed-bean-name>saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones</managed-bean-name>
+		<managed-bean-class>muni.saic.ImprimirLiquidaciones.AdminImprimirLiquidaciones</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ImprimirLiquidaciones$ConsultarLiquidaciones</managed-bean-name>
+		<managed-bean-class>muni.saic.ImprimirLiquidaciones.ConsultarLiquidaciones</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ImprimirLiquidaciones$ABMRegistroCancelacionManual</managed-bean-name>
+		<managed-bean-class>muni.saic.ImprimirLiquidaciones.ABMRegistroCancelacionManual</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ImprimirLiquidaciones$ABMLiquidacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ImprimirLiquidaciones.ABMLiquidacion</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ImprimirLiquidaciones$ModificarVarias</managed-bean-name>
+		<managed-bean-class>muni.saic.ImprimirLiquidaciones.ModificarVarias</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Imprimir Liquidaciones -->
+
+	<!-- /Log Liquidaciones -->
+	<managed-bean>
+		<managed-bean-name>saic$LogLiquidaciones$AdminLogLiquidaciones</managed-bean-name>
+		<managed-bean-class>muni.saic.LogLiquidaciones.AdminLogLiquidaciones</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Log Liquidaciones -->
+
+	<!-- Cobro Externo -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMCobroExterno$AdminCobroExterno</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMCobroExterno.AdminCobroExterno</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Cobro Externo -->
+
+	<!-- accion social ObraSocial -->
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMObraSocial$AdminObraSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMObraSocial.AdminObraSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMObraSocial$AgregarObraSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMObraSocial.AgregarObraSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMObraSocial$ModificarObraSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMObraSocial.ModificarObraSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMObraSocial$EliminarObraSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMObraSocial.EliminarObraSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMObraSocial$ConsultarObraSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMObraSocial.ConsultarObraSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- /ObraSocial -->
+
+	<!-- FichaSocial -->
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMFichaSocial$AdminFichaSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMFichaSocial.AdminFichaSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMFichaSocial$AgregarFichaSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMFichaSocial.AgregarFichaSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMFichaSocial$ModificarFichaSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMFichaSocial.ModificarFichaSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMFichaSocial$EliminarFichaSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMFichaSocial.EliminarFichaSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMFichaSocial$ConsultarFichaSocial</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMFichaSocial.ConsultarFichaSocial</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /FichaSocial -->
+
+	<!-- Beneficiario -->
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficiario$AdminBeneficiario</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficiario.AdminBeneficiario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficiario$AgregarBeneficiario</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficiario.AgregarBeneficiario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficiario$ModificarBeneficiario</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficiario.ModificarBeneficiario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficiario$EliminarBeneficiario</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficiario.EliminarBeneficiario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficiario$ConsultarBeneficiario</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficiario.ConsultarBeneficiario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Beneficiario -->
+
+
+	<!-- Beneficio -->
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficio$AdminBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficio.AdminBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficio$AgregarBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficio.AgregarBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficio$ModificarBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficio.ModificarBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficio$EliminarBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficio.EliminarBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMBeneficio$ConsultarBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMBeneficio.ConsultarBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Beneficio -->
+
+	<!-- SolicitudBeneficio -->
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMSolicitudBeneficio$AgregarSolicitudBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMSolicitudBeneficio.AgregarSolicitudBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMSolicitudBeneficio$ModificarSolicitudBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMSolicitudBeneficio.ModificarSolicitudBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMSolicitudBeneficio$AceptarSolicitudBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMSolicitudBeneficio.AceptarSolicitudBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>accionsocial$ABMSolicitudBeneficio$RechazarSolicitudBeneficio</managed-bean-name>
+		<managed-bean-class>muni.accionsocial.ABMSolicitudBeneficio.RechazarSolicitudBeneficio</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- /SolicitudBeneficio -->
+
+	<!-- Modelo -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMModelo$AdminModelo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMModelo.AdminModelo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpAutomotor$ABMModelo$ABMModelo</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpAutomotor.ABMModelo.ABMModelo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- Modelo -->
+
+	<!-- Codigo CIIU -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMCodigoCiiu$AdminCodigoCiiu</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMCodigoCiiu.AdminCodigoCiiu</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMCodigoCiiu$ABMCodigoCiiu</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMCodigoCiiu.ABMCodigoCiiu</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Codigo CIIU -->
+
+	<!-- Configuracion Recurso -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMConfiguracionRecurso$AdminConfiguracionRecurso</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMConfiguracionRecurso.AdminConfiguracionRecurso</managed-bean-class>
+
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMConfiguracionRecurso$ABMConfiguracionRecurso</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMConfiguracionRecurso.ABMConfiguracionRecurso</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMConfiguracionRecurso$ABMConjuntoAtributoTabla</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMConfiguracionRecurso.ABMConjuntoAtributoTabla</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<!-- /Codigo CIIU -->
+	<!-- Expedientes -->
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMExpediente$AdminExpediente</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMExpediente.AdminExpediente</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMExpediente$ABMExpediente</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMExpediente.ABMExpediente</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMExpediente$ABMTramite</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMExpediente.ABMTramite.ABMTramite</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMExpediente$ABMDocumento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMExpediente.ABMDocumento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMDocumentoCatalogo$AdminDocumentoCatalogo</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMDocumentoCatalogo.AdminDocumentoCatalogo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMDocumentoCatalogo.ABMDocumentoCatalogo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMEstadoTramite$AdminEstadoTramite</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMEstadoTramite.AdminEstadoTramite</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMEstadoTramite$ABMEstadoTramite</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMEstadoTramite.ABMEstadoTramite</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMFaseCatalogo$AdminFaseCatalogo</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMFaseCatalogo.AdminFaseCatalogo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMFaseCatalogo$ABMFaseCatalogo</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMFaseCatalogo.ABMFaseCatalogo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMFaseProcedimiento$AdminFaseProcedimiento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMFaseProcedimiento.AdminFaseProcedimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMFaseProcedimiento$ABMFaseProcedimiento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMFaseProcedimiento.ABMFaseProcedimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMProcedimiento$AdminProcedimiento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMProcedimiento.AdminProcedimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMProcedimiento$ABMProcedimiento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMProcedimiento.ABMProcedimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMTramiteCatalogo.AdminTramiteCatalogo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMTramiteCatalogo$ABMTramiteCatalogo</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMTramiteCatalogo.ABMTramiteCatalogo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMTramiteProcedimiento$AdminTramiteProcedimiento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMTramiteProcedimiento.AdminTramiteProcedimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMTramiteProcedimiento.ABMTramiteProcedimiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMResponsable$ABMResponsable</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMResponsable.ABMResponsable</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMProcedimiento$EditarNodoBean</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMProcedimiento.EditarNodoBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>expedientes$ABMExpediente$ABMExtension</managed-bean-name>
+		<managed-bean-class>muni.expedientes.ABMExpediente.ABMExtension</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>CommunicationExpedientesBean</managed-bean-name>
+		<managed-bean-class>muni.CommunicationExpedientesBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<!-- /Expedientes -->
+	<converter>
+		<converter-id>EnumConverter</converter-id>
+		<converter-class>com.trascender.presentacion.utiles.EnumConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>DateConverter</converter-id>
+		<converter-class>com.trascender.presentacion.utiles.DateConverter</converter-class>
+	</converter>
+</faces-config>

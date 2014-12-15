@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="/opt/jboss-6.0.0.Final/server/default/deploy/logicaVipians.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/SAIC/jardesc.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/Framework/src/jndi.properties"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessExencionRegistroDeudaBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.dinamicos"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.osp"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTransitoLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.tgi"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.exception"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoPlanObraLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.util"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.persistent"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessImpresionBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoPlanObraBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTipoAlicuotaLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.birt"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoOSPBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.transito"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.enums"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoTGILocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.system.ejb"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessReLiquidacionLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessRegistroValuadoLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.transients"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.rfr"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.exception"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoSHPSBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroParcelarioBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.system.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.system.ejb"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessTransitoBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.transients"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroParcelarioLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessTipoTasaBean.java"/>
+        <file path="/Framework/src/META-INF/persistence.xml"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.system.interfaces"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessEstadoCuentaContribuyenteBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.refinanciacion"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.pfo"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessExencionObligacionBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessRefinanciacionBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessImpresionLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessAuditoriaTributariaLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.shps"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.system.interfaces"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.persistent.auditoriaTributaria"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessPlantillaObligacionBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroPropiedadLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.persistent.refinanciacion"/>
+        <file path="/Habilitaciones/src/jndi.properties"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoTGIBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{Messages.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessCodigosCatastralesBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.system.ejb"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessEstadoCuentaContribuyenteLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.exception"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroPropiedadBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessObligacionLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessRefinanciacionLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroGeograficoBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessRegistroValuadoBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessCodigosCatastralesLocal.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.ejb"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoOSPLocal.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.referencia"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.business.ejb"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.transients.pagoFacil"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessZonificacionBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessLiquidacionTasaBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessPlantillaObligacionLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent.reference"/>
+        <file path="/Catastro/src/jndi.properties"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessReLiquidacionBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.business.interfaces"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessExencionRegistroDeudaLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessExencionObligacionLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessZonificacionLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessTipoAlicuotaBean.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessAuditoriaTributariaBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTipoTasaLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroGeograficoLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessObligacionBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.enums"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessLiquidacionTasaLocal.java"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.references"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.exception"/>
+        <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.util"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoSHPSLocal.java"/>
+    </selectedElements>
+</jardesc>

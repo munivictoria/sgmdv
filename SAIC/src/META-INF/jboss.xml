@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 3.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_3_0.dtd">
+
+<jboss>
+   <enterprise-beans>
+
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+
+      <session>
+         <ejb-name>BusinessRegistroValuado</ejb-name>
+         <local-jndi-name>BusinessRegistroValuadoLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemImpresion</ejb-name>
+         <jndi-name>ejb/SystemImpresion</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessImpresion</ejb-name>
+         <local-jndi-name>BusinessImpresionLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessEstadoCuentaContribuyente</ejb-name>
+         <local-jndi-name>BusinessEstadoCuentaContribuyenteLocal</local-jndi-name>
+      </session>
+      <session>
+         <ejb-name>BusinessExencionRegistroDeuda</ejb-name>
+         <local-jndi-name>BusinessExencionRegistroDeudaLocal</local-jndi-name>
+      </session>
+            
+      <session>
+         <ejb-name>ControlSaic</ejb-name>
+         <jndi-name>ejb/ControlSaic</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemLiquidacionTasa</ejb-name>
+         <jndi-name>ejb/SystemLiquidacionTasa</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessRefinanciacion</ejb-name>
+         <local-jndi-name>BusinessRefinanciacionLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessReLiquidacion</ejb-name>
+         <local-jndi-name>BusinessReLiquidacionLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessLiquidacionTasa</ejb-name>
+         <local-jndi-name>BusinessLiquidacionTasaLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemReliquidacion</ejb-name>
+         <jndi-name>ejb/SystemReliquidacion</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemRegistroValuado</ejb-name>
+         <jndi-name>ejb/SystemRegistroValuado</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemEstadoCuentaContribuyente</ejb-name>
+         <jndi-name>ejb/SystemEstadoCuentaContribuyente</jndi-name>
+      </session>
+      <session>
+          <ejb-name>SystemExencionRegistroDeuda</ejb-name>
+         <jndi-name>ejb/SystemExencionRegistroDeuda</jndi-name>
+      </session>
+      
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>

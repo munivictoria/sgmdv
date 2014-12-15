@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 4.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd">
+
+<jboss>
+   <enterprise-beans>
+
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+
+      <session>
+         <ejb-name>BusinessSellado</ejb-name>
+         <local-jndi-name>BusinessSelladoLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionConsultaContable</ejb-name>
+         <jndi-name>ejb/SystemAdministracionConsultaContable</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      
+       <session>
+         <ejb-name>SystemReportesContabilidad</ejb-name>
+         <jndi-name>ejb/SystemReportesContabilidad</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionPlanillaDiaria</ejb-name>
+         <jndi-name>ejb/SystemAdministracionPlanillaDiaria</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemImpresionContabilidad</ejb-name>
+         <jndi-name>ejb/SystemImpresionContabilidad</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessSubdiarioCaja</ejb-name>
+         <local-jndi-name>BusinessSubdiarioCajaLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessPlanDeCuenta</ejb-name>
+         <local-jndi-name>BusinessPlanDeCuentaLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionIngresos</ejb-name>
+         <jndi-name>ejb/SystemAdministracionIngresos</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionConciliacionBancaria</ejb-name>
+         <jndi-name>ejb/SystemAdministracionConciliacionBancaria</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionEgresos</ejb-name>
+         <jndi-name>ejb/SystemAdministracionEgresos</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessBanco</ejb-name>
+         <local-jndi-name>BusinessBancoLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessCajaChica</ejb-name>
+         <local-jndi-name>BusinessCajaChicaLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessImpresionContabilidad</ejb-name>
+         <local-jndi-name>BusinessImpresionContabilidadLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessLibroDiario</ejb-name>
+         <local-jndi-name>BusinessLibroDiarioLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionCajaChica</ejb-name>
+         <jndi-name>ejb/SystemAdministracionCajaChica</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemImpresionTicketCaja</ejb-name>
+         <jndi-name>ejb/SystemImpresionTicketCaja</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessCaja</ejb-name>
+         <local-jndi-name>BusinessCajaLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessPresupuesto</ejb-name>
+         <local-jndi-name>BusinessPresupuestoLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>ControlCaja</ejb-name>
+         <jndi-name>ejb/ControlCaja</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+     <!--
+       To specify your own assembly descriptor info here, add a file to your
+       XDoclet merge directory called jboss-assembly-descriptor.xml that contains
+       the <assembly-descriptor></assembly-descriptor> markup.
+     -->
+   <assembly-descriptor>
+    <!-- message destinations -->
+     <!--
+       To specify additional message-destination elements, add a file in the merge
+       directory called jboss-message-destinations.ent that contains them.
+     -->
+   </assembly-descriptor>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>

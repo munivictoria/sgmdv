@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="818" leftMargin="12" rightMargin="12" topMargin="20" bottomMargin="4">
+	<property name="ireport.zoom" value="1.1000000000000025"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="TITULOS" mode="Opaque" forecolor="#000000" backcolor="#D4D4D4" fill="Solid" hAlign="Center" vAlign="Middle" fontName="Monospaced" fontSize="12" isBold="true">
+		<box>
+			<pen lineWidth="0.75" lineColor="#000000"/>
+			<topPen lineWidth="0.75" lineColor="#000000"/>
+			<leftPen lineWidth="0.75" lineColor="#000000"/>
+			<bottomPen lineWidth="0.75" lineColor="#000000"/>
+			<rightPen lineWidth="0.75" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="ID_MAYOR" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_CUENTA_NOMBRE" class="java.lang.String"/>
+	<parameter name="PAR_COD_IMPUTACION" class="java.lang.String"/>
+	<parameter name="PAR_TIPO_MAYOR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM P_MAYOR_CONTABLE($P{ID_MAYOR})]]>
+	</queryString>
+	<field name="F_CUENTA_NOMBRE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_TIPO_MAYOR" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_NUMERO_FOLIO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_IMPORTE_DEBE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IMPORTE_HABER" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_DIF_D_H" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_SALDO" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_FECHA_LINEA" class="java.util.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="F_COD_IMPUTACION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="IMPORTE_DEBE_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{F_IMPORTE_DEBE}]]></variableExpression>
+	</variable>
+	<variable name="IMPORTE_HABER_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{IMPORTE_HABER}]]></variableExpression>
+	</variable>
+	<variable name="IMPORTE_DEBE_2" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{F_IMPORTE_DEBE}]]></variableExpression>
+	</variable>
+	<variable name="IMPORTE_HABER_2" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{IMPORTE_HABER}]]></variableExpression>
+	</variable>
+	<variable name="SUMA_D_H_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="SALDO_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{F_SALDO}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="149" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="104" width="817" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="1" width="69" height="65"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="1" y="1" width="66" height="64"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="68" y="1" width="412" height="45"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="1" width="412" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="68" y="46" width="412" height="20"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="69" y="46" width="411" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="480" y="1" width="337" height="65"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="480" y="1" width="337" height="65"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MAYOR CONTABLE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="480" y="66" width="337" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="700" y="104" width="82" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO MAYOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="TITULOS" x="0" y="104" width="66" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="66" y="104" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="146" y="104" width="66" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="TITULOS" x="440" y="104" width="90" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPUTACION]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="480" y="66" width="335" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="214" y="104" width="224" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CUENTA_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="533" y="104" width="166" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_COD_IMPUTACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="785" y="104" width="32" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TIPO_MAYOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="2" width="817" height="21"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<staticText>
+					<reportElement style="TITULOS" x="118" y="0" width="124" height="21"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<text><![CDATA[FECHA GENERACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="TITULOS" x="242" y="0" width="140" height="21"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<text><![CDATA[FOLIO LIBRO DIARIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="TITULOS" x="382" y="0" width="140" height="21"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<text><![CDATA[DEBE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="TITULOS" x="522" y="0" width="140" height="21"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<text><![CDATA[HABER]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="TITULOS" x="662" y="0" width="153" height="21"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<text><![CDATA[SALDO]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="382" y="0" width="140" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_IMPORTE_DEBE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="662" y="0" width="153" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_SALDO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="522" y="0" width="140" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IMPORTE_HABER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="0" width="140" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_NUMERO_FOLIO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="118" y="0" width="124" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_FECHA_LINEA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<lastPageFooter>
+		<band height="99">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="599" y="75" width="179" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="778" y="75" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="494" y="11" width="321" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="TITULOS" x="692" y="11" width="123" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="TITULOS" x="494" y="11" width="98" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[TOTAL DEBE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="TITULOS" x="592" y="11" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[TOTAL HABER]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="494" y="31" width="98" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{IMPORTE_DEBE_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="592" y="31" width="100" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{IMPORTE_HABER_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="691" y="31" width="123" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SALDO_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

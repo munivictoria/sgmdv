@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 3.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_3_0.dtd">
+
+<jboss>
+   <enterprise-beans>
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+
+      <session>
+         <ejb-name>SystemTransito</ejb-name>
+         <jndi-name>ejb/SystemTransito</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessTransito</ejb-name>
+         <local-jndi-name>BusinessTransitoLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemPlantillaObligaciones</ejb-name>
+         <jndi-name>ejb/SystemPlantillaObligaciones</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemDocumentoTGI</ejb-name>
+         <jndi-name>ejb/SystemDocumentoTGI</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessTipoAlicuota</ejb-name>
+         <local-jndi-name>BusinessTipoAlicuotaLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessPlantillaObligacion</ejb-name>
+         <local-jndi-name>BusinessPlantillaObligacionLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessDocumentoTGI</ejb-name>
+         <local-jndi-name>BusinessDocumentoTGILocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemInspectores</ejb-name>
+         <jndi-name>ejb/SystemInspectores</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessDocumentoPlanObra</ejb-name>
+         <local-jndi-name>BusinessDocumentoPlanObraLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemTipoTasa</ejb-name>
+         <jndi-name>ejb/SystemTipoTasa</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessTipoTasa</ejb-name>
+         <local-jndi-name>BusinessTipoTasaLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessDocumentoSHPS</ejb-name>
+         <local-jndi-name>BusinessDocumentoSHPSLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessObligacion</ejb-name>
+         <local-jndi-name>BusinessObligacionLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemBromatologia</ejb-name>
+         <jndi-name>ejb/SystemBromatologia</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemAlicuota</ejb-name>
+         <jndi-name>ejb/SystemAlicuota</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemDocumentoOSP</ejb-name>
+         <jndi-name>ejb/SystemDocumentoOSP</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemPlanFinanciacionObra</ejb-name>
+         <jndi-name>ejb/SystemPlanFinanciacionObra</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemObligacion</ejb-name>
+         <jndi-name>ejb/SystemObligacion</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessExencionObligacion</ejb-name>
+         <local-jndi-name>BusinessExencionObligacionLocal</local-jndi-name>
+      </session>
+      <session>
+         <ejb-name>ControlHabilitaciones</ejb-name>
+         <jndi-name>ejb/ControlHabilitaciones</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessDocumentoOSP</ejb-name>
+         <local-jndi-name>BusinessDocumentoOSPLocal</local-jndi-name>
+
+      </session>
+       <session>
+          <ejb-name>SystemExencionObligacion</ejb-name>
+         <jndi-name>ejb/SystemExencionObligacion</jndi-name>
+      </session>
+
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>

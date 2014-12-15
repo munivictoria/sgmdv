@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.4">
+  <description>Vipians:Sistema de Gestión de Municipalidades. Powered by Trascender SRL</description>
+  <display-name>Vipians</display-name>
+  <context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>server</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.faces.CONFIG_FILES</param-name>
+    <param-value>/WEB-INF/navigation.xml,/WEB-INF/managed-beans.xml,/WEB-INF/faces-config.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>com.sun.faces.validateXml</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  <context-param>
+    <param-name>com.sun.faces.verifyObjects</param-name>
+    <param-value>false</param-value>
+  </context-param>
+  <context-param>
+    <param-name>ipServer</param-name>
+    <param-value>localhost</param-value>
+  </context-param>
+  <context-param>
+    <param-name>puertoServer</param-name>
+    <param-value>8080</param-value>
+  </context-param>
+  <context-param>
+    <param-name>helpApp</param-name>
+    <param-value>ayudaVipians</param-value>
+  </context-param>
+  <filter>
+    <filter-name>UploadFilter</filter-name>
+    <filter-class>com.sun.rave.web.ui.util.UploadFilter</filter-class>
+    <init-param>
+      <description>
+                The maximum allowed upload size in bytes.  If this is set
+                to a negative value, there is no maximum.  The default
+                value is 1000000.
+            </description>
+      <param-name>maxSize</param-name>
+      <param-value>1000000</param-value>
+    </init-param>
+    <init-param>
+      <description>
+                The size (in bytes) of an uploaded file which, if it is
+                exceeded, will cause the file to be written directly to
+                disk instead of stored in memory.  Files smaller than or
+                equal to this size will be stored in memory.  The default
+                value is 4096.
+            </description>
+      <param-name>sizeThreshold</param-name>
+      <param-value>4096</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>UploadFilter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <description>Servlet Para la impresion de Reportes</description>
+    <display-name>ImpresionServlet</display-name>
+    <servlet-name>ImpresionServlet</servlet-name>
+    <servlet-class>jasper.ImpresionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ImageServlet</servlet-name>
+    <servlet-class>servlet.ImageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AutocompletarServlet</servlet-name>
+    <servlet-class>servlet.AutocompletarServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DescargarArchivoServlet</servlet-name>
+    <servlet-class>servlet.DescargarArchivoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImpresionServlet</servlet-name>
+    <url-pattern>/ImpresionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ExceptionHandlerServlet</servlet-name>
+    <servlet-class>com.sun.errorhandler.ExceptionHandler</servlet-class>
+    <init-param>
+      <param-name>errorHost</param-name>
+      <param-value>localhost</param-value>
+    </init-param>
+    <init-param>
+      <param-name>errorPort</param-name>
+      <param-value>25444</param-value>
+    </init-param>
+  </servlet>
+  <servlet>
+    <servlet-name>ThemeServlet</servlet-name>
+    <servlet-class>com.sun.rave.web.ui.theme.ThemeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>/faces/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExceptionHandlerServlet</servlet-name>
+    <url-pattern>/error/ExceptionHandler</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ThemeServlet</servlet-name>
+    <url-pattern>/theme/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ImageServlet</servlet-name>
+    <url-pattern>/ImageServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AutocompletarServlet</servlet-name>
+    <url-pattern>/AutocompletarServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DescargarArchivoServlet</servlet-name>
+    <url-pattern>/DescargarArchivoServlet</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>60</session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file>faces/Login.jsp</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+    <location>/faces/Logout.jsf</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.IllegalArgumentException</exception-type>
+    <location>/faces/Logout.jsf</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.io.IOException</exception-type>
+    <location>/error/ExceptionHandler</location>
+  </error-page>
+  <error-page>
+    <exception-type>javax.faces.FacesException</exception-type>
+    <location>/error/ExceptionHandler</location>
+  </error-page>
+  <error-page>
+    <exception-type>com.sun.rave.web.ui.appbase.ApplicationException</exception-type>
+    <location>/error/ExceptionHandler</location>
+  </error-page>
+  <error-page>
+    <exception-type>com.trascender.framework.exception.TrascenderException</exception-type>
+    <location>/comunes/ErrorHandler.jsp</location>
+  </error-page>
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jspf</url-pattern>
+      <is-xml>true</is-xml>
+    </jsp-property-group>
+  </jsp-config>
+  <filter>
+    <display-name>Ajax4jsf Filter</display-name>
+    <filter-name>ajax4jsf</filter-name>
+    <filter-class>org.ajax4jsf.Filter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ajax4jsf</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
+  <context-param>
+    <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+    <param-value>resources.application</param-value>
+  </context-param>
+  <listener>
+    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+  </listener>
+</web-app>

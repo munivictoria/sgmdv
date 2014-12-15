@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="Habilitaciones/controlHabilitaciones.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Habilitaciones/controlHabilitaciones.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{ControlCatastroBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{ControlCatastro.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{ControlHabilitaciones.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{ControlHabilitacionesBean.java"/>
+    </selectedElements>
+</jardesc>

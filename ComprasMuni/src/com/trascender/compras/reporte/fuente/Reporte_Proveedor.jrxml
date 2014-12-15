@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Proveedor" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2100000000000029"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ID_PROVEEDOR" class="java.lang.Integer"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_RAZON_SOCIAL" class="java.lang.String"/>
+	<parameter name="PAR_PROVEEDOR_RESPONSABLE" class="java.lang.String"/>
+	<parameter name="PAR_CUIT" class="java.lang.String"/>
+	<parameter name="PAR_ESTADO" class="java.lang.String"/>
+	<parameter name="PAR_TELEFONO" class="java.lang.String"/>
+	<parameter name="PAR_CALLE_NUMERO" class="java.lang.String"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * From P_Proveedor($P{ID_PROVEEDOR})]]>
+	</queryString>
+	<field name="PROVEEDOR_ID" class="java.lang.Long"/>
+	<field name="PROVEEDOR_CONTACTO" class="java.lang.String"/>
+	<field name="F_PRODUCTO_NOMBRE" class="java.lang.String"/>
+	<field name="F_PRODUCTO_DESCRIPCION" class="java.lang.String"/>
+	<field name="F_PRODUCTO_PRECIO" class="java.lang.Double"/>
+	<field name="F_PRODUCTO_ESTADO" class="java.lang.String"/>
+	<variable name="Cantidad_Productos" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{F_PRODUCTO_NOMBRE}]]></variableExpression>
+	</variable>
+	<variable name="Monto_Productos" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{F_PRODUCTO_PRECIO}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<rectangle>
+				<reportElement x="506" y="0" width="296" height="66"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="64" y="0" width="442" height="45"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="64" y="45" width="442" height="21"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="506" y="0" width="296" height="66"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información del Proveedor]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="0" width="64" height="66"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="6" y="2" width="52" height="63"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="65" y="0" width="441" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="46" width="441" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="161" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="32" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información Personal del Proveedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="32" width="161" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor Responsable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="161" y="32" width="145" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Social]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="306" y="32" width="100" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="406" y="32" width="100" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="506" y="32" width="113" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="619" y="32" width="183" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Calle - Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="161" y="111" width="641" height="30" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de los Productos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="161" y="141" width="216" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="377" y="141" width="212" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="589" y="141" width="100" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="689" y="141" width="113" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="161" y="52" width="145" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_RAZON_SOCIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="52" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CUIT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="52" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ESTADO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="506" y="52" width="113" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TELEFONO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="619" y="52" width="183" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CALLE_NUMERO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="52" width="161" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PROVEEDOR_RESPONSABLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="167" y="0" width="210" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_PRODUCTO_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="377" y="1" width="212" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_PRODUCTO_DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="589" y="1" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_PRODUCTO_ESTADO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="689" y="1" width="113" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_PRODUCTO_PRECIO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="69" splitType="Stretch">
+			<rectangle>
+				<reportElement x="447" y="15" width="355" height="54"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="447" y="15" width="199" height="25" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad de Productos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="447" y="40" width="199" height="29" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Total de los Productos]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="646" y="15" width="156" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Cantidad_Productos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="646" y="40" width="156" height="29"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Monto_Productos}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="802" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="50">
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="763" y="31" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="593" y="31" width="170" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página. " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

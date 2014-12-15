@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Reconocimiento_Deudas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.4641000000000082"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="797"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1">
+		<field name="F_MODIFICADOR1" class="java.lang.String"/>
+		<field name="F_MONTO_MODIFICADOR1" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_NRO_REFINANCIACION" class="java.lang.Integer"/>
+	<parameter name="PAR_DIGESTO" class="java.lang.String"/>
+	<parameter name="PAR_CONTRIBUYENTE" class="java.lang.String"/>
+	<parameter name="PAR_INMUEBLES" class="java.lang.String"/>
+	<parameter name="PAR_COMERCIOS" class="java.lang.String"/>
+	<parameter name="PAR_CANTIDAD_CUOTAS" class="java.lang.Integer"/>
+	<parameter name="PAR_MONTO_CUOTAS" class="java.lang.Double"/>
+	<parameter name="PAR_FECHA_REFINANCIACION" class="java.util.Date"/>
+	<parameter name="PAR_MES_AÑO_INICIO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTOTAL" class="java.lang.Double"/>
+	<parameter name="PAR_SALDO_FAVOR" class="java.lang.Double"/>
+	<parameter name="PAR_TOTAL_ADEUDADO" class="java.lang.Double"/>
+	<parameter name="PAR_FACILIDADES_PAGO" class="java.lang.String"/>
+	<parameter name="PAR_MODIFICADORES_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<pageHeader>
+		<band height="802" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="254" width="554" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="86" width="554" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="101" width="554" height="27"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="132" width="554" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="87" width="552" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Régimen de Facilidades de Pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="133" width="552" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle de la Refinanciación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="147" width="370" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="163" width="370" height="29"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="222" width="369" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="191" width="369" height="31"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="238" width="369" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="148" width="90" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Refinanciacion Nro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="164" width="90" height="26" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Digesto Municipal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="192" width="90" height="29" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Contribuyente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="223" width="90" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Inmuebles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="239" width="90" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Comercios]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="1" width="68" height="64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="67" y="45" width="291" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="358" y="1" width="196" height="64"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="358" y="1" width="196" height="64"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reconocimiento de Deudas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="67" y="1" width="291" height="44"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="147" width="185" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="163" width="185" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="195" width="185" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="179" width="185" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="180" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha Refinanciación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="164" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Monto por Cuotas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="196" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Mes/Año Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="148" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Cantidad Cuotas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="255" width="552" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle de lo Adeudado]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="358" y="65" width="196" height="21"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="22" y="473" width="46" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="511" width="70" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Saldo a favor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="541" width="108" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[TOTAL ADEUDADO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="21" y="536" width="533" height="1"/>
+			</line>
+			<rectangle>
+				<reportElement x="0" y="577" width="555" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="578" width="554" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aceptación de Deudas]]></text>
+			</staticText>
+			<line>
+				<reportElement x="22" y="640" width="200" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="72" y="641" width="100" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Firma Responsable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="709" width="100" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Aclaración]]></text>
+			</staticText>
+			<line>
+				<reportElement x="23" y="708" width="200" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="389" y="707" width="100" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<line>
+				<reportElement x="334" y="707" width="200" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="735" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="18" y="740" width="529" height="50"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Se producirá la caducidad del plan suscripto, por el pago fuera de término o la falta de pago de cinco (5) cuotas consecutivas o no, durante la vigencia del plan establecido en las cuotas solicitadas. A tales efectos, se considerará pago fuera de término el que ingrese en el lapso mayor a treinta (30) días corridos contados desde el vencimiento de la obligación, Artículo 8º - Ordenanza Nº 98/06.]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm">
+				<reportElement x="449" y="65" width="105" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="369" y="65" width="80" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha Impresión:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="93" y="148" width="275" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_REFINANCIACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="164" width="275" height="27"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DIGESTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="192" width="275" height="29"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CONTRIBUYENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="224" width="275" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_INMUEBLES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="239" width="275" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_COMERCIOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="148" width="80" height="14"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CANTIDAD_CUOTAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="472" y="164" width="80" height="14"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MONTO_CUOTAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="472" y="180" width="80" height="14"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_REFINANCIACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="196" width="80" height="14"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MES_AÑO_INICIO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="400" y="466" width="155" height="1"/>
+			</line>
+			<textField pattern="$ ###0.00">
+				<reportElement x="437" y="473" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="437" y="511" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SALDO_FAVOR}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="437" y="541" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL_ADEUDADO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="101" width="553" height="27"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FACILIDADES_PAGO}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="table" x="19" y="274" width="480" height="185"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1">
+						<dataSourceExpression><![CDATA[$P{PAR_MODIFICADORES_DS}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="400">
+						<jr:detailCell style="table_TD" height="13" rowSpan="1">
+							<textField>
+								<reportElement x="4" y="0" width="395" height="13"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="152">
+						<jr:detailCell style="table_TD" height="13" rowSpan="1">
+							<textField pattern="$ ###0.00">
+								<reportElement x="0" y="0" width="152" height="13"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<line>
+				<reportElement x="90" y="147" width="1" height="107"/>
+			</line>
+			<line>
+				<reportElement x="470" y="147" width="1" height="64"/>
+			</line>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="3" y="4" width="60" height="58"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="68" y="1" width="290" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="17" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="67" y="45" width="291" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

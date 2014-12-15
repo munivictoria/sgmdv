@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Imputaciones" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.996500000000001"/>
+	<property name="ireport.x" value="259"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetImputaciones">
+		<parameter name="FECHA_DESDE_IMPUTACION" class="java.util.Date"/>
+		<parameter name="FECHA_HASTA_IMPUTACION" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[select c.abreviatura, c.nombre, sum(m.importe)
+from cuenta c
+join movimiento_caja_ingreso m on c.id_cuenta = m.id_cuenta
+where fecha between $P{FECHA_DESDE_IMPUTACION} and $P{FECHA_HASTA_IMPUTACION}
+and c.abreviatura in ('225', '16', '334', '171', '237', '14', '15', '224', '1', '2', '19', '124')
+group by c.abreviatura, c.nombre
+order by c.nombre;]]>
+		</queryString>
+		<field name="abreviatura" class="java.lang.String"/>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="sum" class="java.math.BigDecimal"/>
+		<variable name="total" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{sum}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="FECHA_HASTA" class="java.util.Date"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select t.numero as numero_ticket, per.cuim,
+case when pf.apellido is not null then (pf.apellido || ', ' ||pf.nombre) else pj.razon_social end as persona,
+ case when parcela.nro_parcela is not null then (parcela.nro_parcela) else dh.numero_inscripcion end as n_inscripcion_cuenta,
+t.importe, (p.nombre || '/' || calendario.anio) as periodo, ca.numero as numero_caja, us.usuario,
+case when dh.tipo_doc_hab_especializado != 'SHPS' then 'SM' else 'TSH' end as tasa
+from registro_cancelacion r
+join detalle_ticket_caja d on r.id_registro_cancelacion = d.id_registro_cancelacion
+join ticket_caja t on t.id_ticket_caja = d.id_ticket_caja
+join usuario us on us.id_usuario = t.id_usuario
+join caja ca on ca.id_caja = t.id_caja
+join registro_deuda rd on rd.id_registro_cancelacion = r.id_registro_cancelacion
+join liquidacion_tasa lt on rd.id_registro_deuda = lt.id_Registro_deuda
+join doc_generador_deuda doc on rd.id_doc_generador_deuda = doc.id_doc_generador_deuda
+join obligacion o on doc.id_obligacion = o.id_obligacion
+join doc_hab_especializado dh on o.id_obligacion = dh.id_obligacion
+left join parcela parcela on dh.id_parcela = parcela.id_parcela
+join persona per on o.id_persona = per.id_persona
+left join persona_fisica pf on per.id_persona = pf.id_persona
+left join persona_juridica pj on per.id_persona = pj.id_persona
+join cuota_liquidacion cuota on lt.id_cuota_liquidacion = cuota.id_cuota_liquidacion
+join periodo p on p.id_periodo = cuota.id_periodo
+join calendario calendario on calendario.id_calendario = p.id_calendario
+where t.fecha between $P{FECHA_DESDE} and $P{FECHA_HASTA} and t.estado = 'ACTIVO'
+group by t.numero, per.cuim, persona, n_inscripcion_cuenta, t.importe, periodo, ca.numero, us.usuario, tasa
+order by t.numero;]]>
+	</queryString>
+	<field name="numero_ticket" class="java.math.BigDecimal"/>
+	<field name="cuim" class="java.lang.String"/>
+	<field name="persona" class="java.lang.String"/>
+	<field name="n_inscripcion_cuenta" class="java.lang.String"/>
+	<field name="importe" class="java.math.BigDecimal"/>
+	<field name="periodo" class="java.lang.String"/>
+	<field name="numero_caja" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="tasa" class="java.lang.String"/>
+	<variable name="total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="95" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="86" height="73"/>
+			</rectangle>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="423" y="29" width="54" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHA_DESDE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="391" y="29" width="32" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Desde]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="423" y="52" width="54" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHA_HASTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="390" y="52" width="33" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Hasta]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="86" height="73"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="7" y="78" width="537" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="135" y="45" width="196" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Listado de Imputaciones por Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="167" y="17" width="117" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección de Rentas Municipal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="490" y="0" width="65" height="17"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="43" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="43" y="0" width="66" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="109" y="0" width="128" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="237" y="0" width="59" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Insc/Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="296" y="0" width="86" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="477" y="0" width="77" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="413" y="0" width="25" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cajero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="438" y="0" width="39" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Caja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="382" y="0" width="31" height="12" backcolor="#D4D4D4"/>
+				<box>
+					<topPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tasa]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="43" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_ticket}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="0" width="66" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="0" width="128" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{persona}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="0" width="59" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{n_inscripcion_cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="296" y="0" width="86" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="477" y="0" width="77" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="0" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="0" width="39" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_caja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="0" width="31" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tasa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="50">
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="0" y="28" width="555" height="22"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="DatasetImputaciones">
+						<datasetParameter name="FECHA_DESDE_IMPUTACION">
+							<datasetParameterExpression><![CDATA[$P{FECHA_DESDE}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="FECHA_HASTA_IMPUTACION">
+							<datasetParameterExpression><![CDATA[$P{FECHA_HASTA}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="78">
+						<jr:detailCell height="14" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="14"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None"/>
+								<textFieldExpression><![CDATA[$F{abreviatura}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="355">
+						<jr:detailCell height="14" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="355" height="14"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None"/>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnFooter height="15" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="90" height="15"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None"/>
+								<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None"/>
+								<textFieldExpression><![CDATA[$F{sum}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="477" y="0" width="77" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

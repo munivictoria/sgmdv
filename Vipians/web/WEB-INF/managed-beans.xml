@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+"http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+    
+    <!--
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$AdminVehiculo</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.AdminVehiculo</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroParcelario$AdminTipoParametroConstante</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroParcelario.AdminTipoParametroConstante</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroConstante$AgregarServicioOSP</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroConstante.AgregarServicioOSP</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroAlicuota$AdminTipoParametroConstante</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroAlicuota.AdminTipoParametroConstante</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrupoZona$AdminTipoParametroConstante</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrupoZona.AdminTipoParametroConstante</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroGrupoZona$AgregarTipoParametroConstante</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroGrupoZona.AgregarTipoParametroConstante</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroObra$AdminTipoParametroParcelario</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroObra.AdminTipoParametroParcelario</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$AMBTipoModificador$AdminTipoParametroConstante</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.AMBTipoModificador.AdminTipoParametroConstante</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>habilitaciones$AMBTipoModificador$AgregarTipoParametroConstante</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.AMBTipoModificador.AgregarTipoParametroConstante</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroPersona$AdminTipoParametroParcelario</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroPersona.AdminTipoParametroParcelario</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroOSP$AdminTipoParametroPersona</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroOSP.AdminTipoParametroPersona</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroSHPS$AdminTipoParametroPersona</managed-bean-name>
+        <managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroSHPS.AdminTipoParametroPersona</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    -->
+
+</faces-config>
+
+
+
+
+
+
+

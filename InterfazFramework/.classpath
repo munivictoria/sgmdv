@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Contabilidad"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jasper"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/JbossClient"/>
+	<classpathentry exported="true" kind="lib" path="/opt/marina-lib/lib-laf/tiny/tinylaf.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

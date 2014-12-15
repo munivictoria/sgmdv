@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_CuotarefinanciacionAgrupadas_DS" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="617"/>
+	<field name="DATASOURCE" class="java.lang.Object"/>
+	<field name="SUBREPORTE" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="MAPA_PARAMETROS" class="java.lang.Object"/>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="802"/>
+				<parametersMapExpression><![CDATA[$F{MAPA_PARAMETROS}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[$F{DATASOURCE}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$F{SUBREPORTE}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

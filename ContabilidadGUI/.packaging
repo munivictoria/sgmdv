@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configurations>
+<archive destination="" exploded="false" name="ContabilidadGUI.jar" used="true">
+<folder excludes="" includes="**/*.class" location="bin" name="bin" prefix="" project="" projectLocation="/bin" used="true"/>
+<file location="src/META-INF/MANIFEST.MF" name="MANIFEST.MF" prefix="META-INF" project="" projectLocation="/src/META-INF/MANIFEST.MF" used="true"/>
+<folder excludes="" includes="**/*" location="src/resources" name="resources" prefix="resources" project="" projectLocation="src/resources" used="true"/>
+<folder excludes="" includes="**/*" location="src/properties" name="properties" prefix="properties" project="" projectLocation="src/properties" used="true"/>
+<folder excludes="" includes="**/*.class" location="../InterfazFramework/bin" name="bin" prefix="" project="InterfazFramework" projectLocation="bin" used="true"/>
+<folder excludes="" includes="**/*" location="../Catastro/bin" name="bin" prefix="" project="Catastro" projectLocation="bin" used="true"/>
+<folder excludes="" includes="**/*" location="../Contabilidad/bin" name="bin" prefix="" project="Contabilidad" projectLocation="bin" used="true"/>
+<folder excludes="" includes="**/*" location="../ComprasMuni/bin" name="bin" prefix="" project="ComprasMuni" projectLocation="bin" used="true"/>
+<folder excludes="" includes="**/*" location="../Framework/bin" name="bin" prefix="" project="Framework" projectLocation="bin" used="true"/>
+<folder excludes="" includes="**/*" location="../Habilitaciones/bin" name="bin" prefix="" project="Habilitaciones" projectLocation="bin" used="true"/>
+<folder excludes="" includes="**/*" location="../SAIC/bin" name="bin" prefix="" project="SAIC" projectLocation="bin" used="true"/>
+<file location="contabilidadGUI.conf" name="contabilidadGUI.conf" prefix="" project="" projectLocation="contabilidadGUI.conf" used="true"/>
+<folder excludes="" includes="**/*" location="../InterfazFramework/bin/resources" name="resources" prefix="resources" project="InterfazFramework" projectLocation="bin/resources" used="true"/>
+</archive>
+</configurations>

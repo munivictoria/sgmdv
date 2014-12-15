@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cuotas_Refinanciacion" pageWidth="595" pageHeight="802" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="0.7513148009015822"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_TASA" class="java.lang.String"/>
+	<parameter name="PAR_APELLIDO_NOMBRE" class="java.lang.String"/>
+	<parameter name="PAR_INMUEBLES" class="java.lang.String"/>
+	<parameter name="PAR_COMERCIOS" class="java.lang.String"/>
+	<parameter name="PAR_NRO_REFINANCIACION" class="java.lang.Integer"/>
+	<parameter name="PAR_NRO_CUOTA" class="java.lang.Integer"/>
+	<parameter name="PAR_MONTO_CUOTA" class="java.lang.Double"/>
+	<parameter name="PAR_CANTIDAD_CUOTAS" class="java.lang.Integer"/>
+	<parameter name="PAR_FECHA_VENCIMIENTO" class="java.util.Date"/>
+	<parameter name="PAR_CODIGO_BARRAS" class="java.lang.String"/>
+	<pageHeader>
+		<band height="791" splitType="Stretch">
+			<rectangle>
+				<reportElement x="69" y="46" width="291" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="359" y="2" width="196" height="64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="68" y="2" width="291" height="44"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="68" y="46" width="291" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[25 de Mayo 943 - I.V.A. Exento - C.U.I.T. Nº 30-99905389-7]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="2" width="68" height="64"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="4" y="4" width="62" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="69" y="2" width="289" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MUNICIPALIDAD DE CRESPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="2" width="196" height="64"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="17" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Coutas de Refinanciación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="72" width="555" height="30"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="73" width="67" height="28" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tasa]]></text>
+			</staticText>
+			<line>
+				<reportElement x="68" y="72" width="1" height="30"/>
+			</line>
+			<rectangle>
+				<reportElement x="0" y="107" width="555" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="108" width="553" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Contribuyente]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="125" width="92" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="141" width="92" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="157" width="92" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="158" width="90" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Comercios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="142" width="90" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Inmuebles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="126" width="90" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Apellido y Nombre]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="179" width="555" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="197" width="127" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="213" width="127" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="229" width="127" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="180" width="553" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de la Refinanciación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="230" width="125" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Monto de la Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="214" width="125" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Número de Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="198" width="125" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Número de Refinanciación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="312" y="213" width="102" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="312" y="197" width="102" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="214" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha de Vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="198" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Cantidad de Cuotas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="340" width="555" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="341" width="553" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Válido solo con ticket o sello de caja]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="73" width="484" height="28"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TASA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="126" width="462" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_APELLIDO_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="142" width="462" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_INMUEBLES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="158" width="462" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_COMERCIOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="198" width="181" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_REFINANCIACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="214" width="181" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_CUOTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="129" y="230" width="181" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MONTO_CUOTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="198" width="136" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CANTIDAD_CUOTAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="417" y="214" width="136" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_VENCIMIENTO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="250" width="555" height="85"/>
+			</rectangle>
+			<componentElement>
+				<reportElement mode="Opaque" x="138" y="272" width="245" height="18"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGO_BARRAS}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<rectangle>
+				<reportElement x="69" y="434" width="291" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="359" y="390" width="196" height="64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="68" y="390" width="291" height="44"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="68" y="434" width="291" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[25 de Mayo 943 - I.V.A. Exento - C.U.I.T. Nº 30-99905389-7]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="390" width="68" height="64"/>
+			</rectangle>
+			<image>
+				<reportElement x="4" y="392" width="62" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="69" y="390" width="289" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MUNICIPALIDAD DE CRESPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="390" width="196" height="64"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="17" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Coutas de Refinanciación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="460" width="555" height="30"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="461" width="67" height="28" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tasa]]></text>
+			</staticText>
+			<line>
+				<reportElement x="68" y="460" width="1" height="30"/>
+			</line>
+			<rectangle>
+				<reportElement x="0" y="498" width="555" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="499" width="553" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Contribuyente]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="516" width="87" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="532" width="87" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="548" width="87" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="549" width="85" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Comercios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="533" width="85" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Inmuebles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="517" width="85" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Apellido y Nombre]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="570" width="555" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="588" width="122" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="604" width="122" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="620" width="122" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="571" width="553" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de la Refinanciación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="621" width="120" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Monto de la Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="605" width="120" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Número de Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="589" width="120" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Número de Refinanciación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="312" y="604" width="102" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="312" y="588" width="102" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="605" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha de Vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="589" width="100" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Cantidad de Cuotas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="737" width="555" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="738" width="553" height="14" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Válido solo con ticket o sello de caja]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="461" width="484" height="28"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TASA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="517" width="462" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_APELLIDO_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="533" width="462" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_INMUEBLES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="549" width="462" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_COMERCIOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="589" width="186" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_REFINANCIACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="605" width="186" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_CUOTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="124" y="621" width="186" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MONTO_CUOTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="589" width="135" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CANTIDAD_CUOTAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="417" y="605" width="135" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_VENCIMIENTO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="641" width="555" height="85"/>
+			</rectangle>
+			<componentElement>
+				<reportElement mode="Opaque" x="137" y="661" width="240" height="18"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGO_BARRAS}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement x="1" y="361" width="553" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="137" y="290" width="235" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGO_BARRAS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="137" y="678" width="235" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGO_BARRAS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Main-Class: com.trascender.caja.gui.main.CajaGUI
+Class-Path: lib/chartengineapi.jar lib/com.ibm.icu_3.4.4.1.jar lib/commons-cli-1.0.jar 
+ lib/commons-codec-1.3.jar lib/coreapi.jar lib/dataadapterapi.jar lib/dteapi.jar lib/engineapi.jar 
+ lib/flute.jar lib/javassist.jar lib/jboss.jar lib/js.jar lib/modelapi.jar lib/org.eclipse.emf.common_2.2.0.v200606051102.jar 
+ lib/org.eclipse.emf.ecore_2.2.0.v200606051102.jar lib/org.eclipse.emf.ecore.xmi_2.2.0.v200606051102.jar 
+ lib/sac.jar lib/scriptapi.jar lib/jbossall-client.jar lib/hibernate/hibernate3.jar lib/look/tinylaf.jar lib/hibernate/ant-antlr-1.6.5.jar 
+ lib/hibernate/commons-collections-2.1.1.jar lib/hibernate/jboss-jmx.jar lib/hibernate/asm-attrs.jar lib/hibernate/commons-logging-1.0.4.jar 
+ lib/hibernate/jdbc2_0-stdext.jar lib/hibernate/asm.jar lib/hibernate/dom4j-1.6.1.jar 
+ lib/hibernate/jta.jar lib/hibernate/cglib-2.1.3.jar lib/hibernate/jaxen-1.1-beta-7.jar lib/hibernate/xml-apis.jar 
+ lib/jasper/ant-1.7.1.jar lib/jasper/antlr-2.7.5.jar lib/jasper/barbecue-1.5-beta1.jar lib/jasper/barcode4j-2.0.jar lib/jasper/batik-anim.jar 
+ lib/jasper/batik-awt-util.jar lib/jasper/batik-bridge.jar lib/jasper/batik-css.jar lib/jasper/batik-dom.jar lib/jasper/batik-ext.jar 
+ lib/jasper/batik-gvt.jar lib/jasper/batik-parser.jar lib/jasper/batik-script.jar lib/jasper/batik-svg-dom.jar lib/jasper/batik-svggen.jar 
+ lib/jasper/batik-util.jar lib/jasper/batik-xml.jar lib/jasper/bcel-5.2.jar lib/jasper/bsh-2.0b4.jar lib/jasper/common-annotations.jar 
+ lib/jasper/commons-beanutils.jar lib/jasper/commons-beanutils-1.8.0.jar lib/jasper/commons-collections.jar lib/jasper/commons-collections-2.1.1.jar 
+ lib/jasper/commons-digester.jar lib/jasper/commons-digester-1.7.jar lib/jasper/commons-javaflow-20060411.jar lib/jasper/commons-logging.jar 
+ lib/jasper/commons-logging-1.0.4.jar lib/jasper/groovy-all-1.5.5.jar lib/jasper/hibernate3.jar lib/jasper/hsqldb-1.8.0-10.jar lib/jasper/iText-2.1.7.jar 
+ lib/jasper/jasperreports-4.5.0.jar lib/jasper/jasperreports-chart-themes-4.5.0.jar lib/jasper/jasperreports-fonts-4.5.0.jar
+ lib/jasper/jaxen-1.1.1.jar lib/jasper/jcommon-1.0.15.jar lib/jasper/jdt-compiler-3.1.1.jar lib/jasper/jfreechart-1.0.12.jar lib/jasper/jpa.jar 
+ lib/jasper/jxl-2.6.jar lib/jasper/log4j-1.2.15.jar lib/jasper/mondrian-3.1.1.12687.jar lib/jasper/png-encoder-1.5.jar lib/jasper/poi-3.5-FINAL-20090928.jar 
+ lib/jasper/rhino-1.7R1.jar lib/jasper/saaj-api-1.3.jar lib/jasper/serializer.jar lib/jasper/servlet.jar lib/jasper/spring-beans-2.5.5.jar 
+ lib/jasper/spring-core-2.5.5.jar lib/jasper/xalan-2.7.1.jar lib/jasper/xercesImpl-2.7.0.jar lib/jasper/xml-apis.jar lib/jasper/xml-apis-ext.jar 
+ lib/firebird/jaybird-full-2.0.1.jar
+ 

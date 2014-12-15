@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 4.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd">
+
+<jboss>
+
+   <enterprise-beans>
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+
+      <session>
+         <ejb-name>SystemCodigosCatastrales</ejb-name>
+         <jndi-name>ejb/SystemCodigosCatastrales</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+	  <session>
+         <ejb-name>SystemAdministracionZona</ejb-name>
+         <jndi-name>ejb/SystemAdministracionZona</jndi-name>
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>ControlCatastro</ejb-name>
+         <jndi-name>ejb/ControlCatastro</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessCodigosCatastrales</ejb-name>
+         <local-jndi-name>BusinessCodigosCatastralesLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+       <session>
+         <ejb-name>BusinessZonificacion</ejb-name>
+         <local-jndi-name>BusinessZonificacionLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessRegistroPropiedad</ejb-name>
+         <local-jndi-name>BusinessRegistroPropiedadLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessRegistroParcelario</ejb-name>
+         <local-jndi-name>BusinessRegistroParcelarioLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemInformacionParcelaria</ejb-name>
+         <jndi-name>ejb/SystemInformacionParcelaria</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemInformacionGeografica</ejb-name>
+         <jndi-name>ejb/SystemInformacionGeografica</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessRegistroGeografico</ejb-name>
+         <local-jndi-name>BusinessRegistroGeograficoLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemRegistroPropiedad</ejb-name>
+         <jndi-name>ejb/SystemRegistroPropiedad</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionDDJJ</ejb-name>
+         <jndi-name>ejb/SystemAdministracionDDJJ</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+ 	
+ 	<session>
+         <ejb-name>SystemAdministracionZonificacion</ejb-name>
+         <jndi-name>ejb/SystemAdministracionZonificacion</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+     <!--
+       To specify your own assembly descriptor info here, add a file to your
+       XDoclet merge directory called jboss-assembly-descriptor.xml that contains
+       the <assembly-descriptor></assembly-descriptor> markup.
+     -->
+   <assembly-descriptor>
+    <!-- message destinations -->
+     <!--
+       To specify additional message-destination elements, add a file in the merge
+       directory called jboss-message-destinations.ent that contains them.
+     -->
+   </assembly-descriptor>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>

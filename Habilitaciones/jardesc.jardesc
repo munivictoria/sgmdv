@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="AarmameElJar/jarLogica/logicaVipians.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Habilitaciones/jardesc.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/Framework/src/jndi.properties"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.dinamicos"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.osp"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTransitoLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.tgi"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.exception"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoPlanObraLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.util"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoPlanObraBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTipoAlicuotaLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoOSPBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.transito"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.enums"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoTGILocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.rfr"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoSHPSBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.system.interfaces"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroParcelarioBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.system.ejb"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessTransitoBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.transients"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessTipoTasaBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroParcelarioLocal.java"/>
+        <file path="/Framework/src/META-INF/persistence.xml"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.system.interfaces"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.refinanciacion"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.pfo"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessExencionObligacionBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.shps"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.interfaces"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessPlantillaObligacionBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroPropiedadLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoTGIBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessCodigosCatastralesBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.system.ejb"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.exception"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessObligacionLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroPropiedadBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroGeograficoBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.ejb"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessCodigosCatastralesLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoOSPLocal.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.referencia"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.business.ejb"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessZonificacionBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessPlantillaObligacionLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent.reference"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.business.interfaces"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessExencionObligacionLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessZonificacionLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessTipoAlicuotaBean.java"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTipoTasaLocal.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroGeograficoLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessObligacionBean.java"/>
+        <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.enums"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.exception"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoSHPSLocal.java"/>
+    </selectedElements>
+</jardesc>

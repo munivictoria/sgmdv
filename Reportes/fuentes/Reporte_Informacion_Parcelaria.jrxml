@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Parcela" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.357947691000002"/>
+	<property name="ireport.x" value="708"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI"/>
+	<parameter name="PAR_DOCUMENTO_OSM" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP"/>
+	<parameter name="PAR_PARCELA" class="com.trascender.catastro.recurso.persistent.Parcela"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_STRING_ZONAS" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="453">
+			<rectangle>
+				<reportElement x="13" y="1" width="68" height="59"/>
+			</rectangle>
+			<textField>
+				<reportElement x="83" y="23" width="255" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="39" width="255" height="14"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="13" y="75" width="529" height="27"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="14" y="75" width="528" height="13" backcolor="#C0C0C0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[   Identificación del inmueble]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="101" y="89" width="100" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{PAR_PARCELA}.getNomenclaturaCatastral().getNroParcela() == null
+    ? "----"
+    : $P{PAR_PARCELA}.getNomenclaturaCatastral().getNroParcela() )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="281" y="89" width="100" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Partida provincial ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="381" y="89" width="100" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroPartidaProvincial()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="89" width="74" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Nº Parcela (Cta SM)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="13" y="109" width="529" height="88"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="14" y="109" width="528" height="13" backcolor="#C0C0C0"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[   Datos del Contribuyente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="122" width="185" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Apellido y Nombres o Razón Social]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="198" y="122" width="345" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getStringTitular()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="137" width="98" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Domicilio Postal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="137" width="432" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getTituloPropiedad().getListaRegistrosPropietarios().get(0).getPersona().getDomicilio().getCalle()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="167" width="98" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ CUIT/CUIL/CDI]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="167" width="120" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getTituloPropiedad().getListaRegistrosPropietarios().get(0)
+.getPersona().getCuim()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="231" y="167" width="38" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[M.I.Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="167" width="162" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="182" width="100" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ E-Mail]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="13" y="203" width="529" height="90"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="14" y="203" width="528" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[   Datos del Inmueble]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="218" width="113" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Domicilio Parcelario]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="127" y="218" width="416" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getDomicilioParcelario().toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="233" width="97" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Registro TGI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="233" width="56" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Manzana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="233" width="43" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Partida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="233" width="40" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Zona]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="248" width="71" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Frente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="248" width="100" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Superficie Terreno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="248" width="100" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Superficie Mejoras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="263" width="100" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Avalúo Terreno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="263" width="100" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Avalúo Mejoras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="278" width="100" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Cuenta OSM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="278" width="76" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Manzana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="278" width="63" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Parcela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="278" width="99" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Código de Servicio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="84" y="248" width="60" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getMetrosFrenteTotal()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="244" y="248" width="94" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getSuperficie()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="248" width="105" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getSuperficieMejoras()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="263" width="119" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getAvaluoTerreno()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="233" width="95" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroPartidaProvincial()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="278" width="43" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroParcela()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="167" y="233" width="45" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getManzana().getNroManzana()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="278" width="51" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getManzana().getNroManzana()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="278" width="46" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{PAR_DOCUMENTO_OSM}.getNumeroCuenta() == null ? "----" : $P{PAR_DOCUMENTO_OSM}.getNumeroCuenta())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="263" width="211" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getAvaluoPorMejoras()]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="19" y="0" width="56" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="489" y="278" width="53" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_OSM}.getRegistroAlicuota().getCodigo()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="233" width="152" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_STRING_ZONAS}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="338" y="4" width="205" height="49"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="83" y="4" width="254" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección de Rentas Municipal]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="438" y="-10" width="71" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="88" y="60" width="454" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="111" y="152" width="120" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getTituloPropiedad().getListaRegistrosPropietarios().get(0).getPersona().getDomicilioPostal().getCalle()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="12" y="323" width="529" height="74"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="323" width="528" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="12" y="338" width="529" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="12" y="353" width="529" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="12" y="368" width="529" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="293" width="528" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nota: Los datos consignados en la presente, se encuentran sujetos a verificación administrativa.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="308" width="528" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Observaciónes / Modificación de datos]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="408" y="404" width="133" height="49"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="457" y="445" width="35" height="8"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Firma y sello]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="152" width="530" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[ Otro Domicilio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="269" y="167" width="112" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getTituloPropiedad().getListaRegistrosPropietarios().get(0).getPersona()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="liquidacionDeuda" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.357947691000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="296"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<style name="table"/>
+	<style name="table_TH" mode="Opaque"/>
+	<style name="table_CH" mode="Opaque"/>
+	<style name="table_TD" mode="Opaque"/>
+	<subDataset name="Table Dataset 1">
+		<field name="cuenta" class="com.trascender.contabilidad.recurso.persistent.Cuenta"/>
+		<field name="importe" class="java.lang.Double"/>
+		<variable name="total" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="PAR_LISTA_MOV_CAJA_INGRESO" class="java.util.List"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_PARCELA" class="com.trascender.catastro.recurso.persistent.Parcela"/>
+	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI"/>
+	<parameter name="PAR_DOCUMENTO_OSP" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP"/>
+	<parameter name="PAR_FECHA_LIQUIDACION_DEUDA" class="java.util.Date"/>
+	<field name="F_LIQUIDACION_TASA" class="com.trascender.saic.recurso.persistent.LiquidacionTasa"/>
+	<field name="F_CUOTA_LIQUIDACION" class="com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion"/>
+	<field name="F_DOCUMENTO_ESPECIALIZADO" class="com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado"/>
+	<field name="F_NOMBRE_COLUMNA" class="java.lang.String"/>
+	<field name="F_VALOR_COLUMNA" class="java.lang.Double"/>
+	<title>
+		<band height="66">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="6" y="0" width="61" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="496" y="0" width="59" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="496" y="43" width="59" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hoja Nº " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="107" y="6" width="146" height="18"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dirección de Rentas Municipal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="24" width="146" height="18"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Servicios Municipales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="42" width="146" height="18"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Liquidación de Deuda]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="80">
+			<staticText>
+				<reportElement x="11" y="6" width="38" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Cuenta Nº:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="6" width="31" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[TGI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="6" width="28" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[OSM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="6" width="29" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Partida:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="6" width="47" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Servicio OSM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="21" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Contribuyente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="36" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio postal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="51" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio parcelario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="66" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Deuda liquidada al:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="84" y="21" width="471" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getPersona().getDenominacion()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="36" width="471" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getPersona().getDomicilioPostal()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="51" width="471" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO_ESPECIALIZADO}.getParcela().getDomicilioParcelario()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="6" width="35" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroParcela()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="6" width="26" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["----"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="6" width="57" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{PAR_DOCUMENTO_OSP}.getNumeroCuenta() == null ?  "----"  : $P{PAR_DOCUMENTO_OSP}.getNumeroCuenta())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="254" y="6" width="60" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroPartidaProvincial()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="6" width="195" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{PAR_DOCUMENTO_OSP}.getRegistroAlicuota() != null ? $P{PAR_DOCUMENTO_OSP}.getRegistroAlicuota().toString() : "----" )]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="84" y="66" width="141" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_LIQUIDACION_DEUDA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="164">
+			<componentElement>
+				<reportElement key="table" style="table" positionType="Float" x="0" y="64" width="555" height="100"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="Table Dataset 1">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{PAR_LISTA_MOV_CAJA_INGRESO})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:detailCell style="table_TD" height="14" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="11"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{cuenta}.getAbreviatura()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="281">
+						<jr:detailCell style="table_TD" height="14" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="281" height="11"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{cuenta}.getNombre()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="99">
+						<jr:columnFooter height="19" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="90" height="11"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table_TD" height="14" rowSpan="1">
+							<textField pattern="###0.00">
+								<reportElement x="0" y="0" width="90" height="11"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<crosstab ignoreWidth="true">
+				<reportElement positionType="Float" x="0" y="0" width="555" height="43"/>
+				<rowGroup name="F_LIQUIDACION_TASA" width="0">
+					<bucket class="java.lang.Double">
+						<bucketExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getIdRegistroDeuda()]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{F_LIQUIDACION_TASA_MEA}.getCuotaLiquidacion().getPeriodo()]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents/>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="PERIODO" width="100">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_CUOTA_LIQUIDACION}.getPeriodo().getNumero()
++ "/"
++ $F{F_CUOTA_LIQUIDACION}.getPeriodo().getCalendario().getAnio()]]></bucketExpression>
+						<orderByExpression><![CDATA[]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="100" height="10"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{PERIODO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="F_NOMBRE_COLUMNA" height="15" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_NOMBRE_COLUMNA}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{F_NOMBRE_COLUMNAmeasure} == null ? "z" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("TGI") ? "a" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("OSM") ? "b" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("FBV") ? "c" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("FMP") ? "d" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("FON") ? "e" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("AdBa") ? "f" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("ReAc") ? "g" : "z"]]></orderByExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="31" height="15" backcolor="#CCCCCC"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_NOMBRE_COLUMNA}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="15" backcolor="#CCCCCC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="F_VALOR_COLUMNAMeasure" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{F_VALOR_COLUMNA}]]></measureExpression>
+				</measure>
+				<measure name="F_NOMBRE_COLUMNAmeasure" class="java.lang.String">
+					<measureExpression><![CDATA[$F{F_NOMBRE_COLUMNA}]]></measureExpression>
+				</measure>
+				<measure name="F_LIQUIDACION_TASA_MEA" class="com.trascender.saic.recurso.persistent.LiquidacionTasa">
+					<measureExpression><![CDATA[$F{F_LIQUIDACION_TASA}]]></measureExpression>
+				</measure>
+				<crosstabCell width="31" height="10">
+					<cellContents>
+						<textField pattern="###0.00" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="31" height="10"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[( $V{F_VALOR_COLUMNAMeasure} != null ? $V{F_VALOR_COLUMNAMeasure} : 0d )]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="10" columnTotalGroup="F_NOMBRE_COLUMNA">
+					<cellContents>
+						<textField pattern="###0.00" isBlankWhenNull="true">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="10"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{F_VALOR_COLUMNAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

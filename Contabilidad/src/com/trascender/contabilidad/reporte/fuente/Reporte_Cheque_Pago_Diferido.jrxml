@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="566" pageHeight="283" columnWidth="566" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ID_MOVIMIENTO_BANC" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PAR_NUMERO_EN_LETRAS" class="java.lang.String"/>
+	<parameter name="PAR_IMPORTE" class="java.lang.Double"/>
+	<parameter name="PAR_DIA_EMISION" class="java.lang.Integer"/>
+	<parameter name="PAR_MES_EMISION" class="java.lang.Integer"/>
+	<parameter name="PAR_ANIO_EMISION" class="java.lang.Integer"/>
+	<parameter name="PAR_DIA_PAGO" class="java.lang.Integer"/>
+	<parameter name="PAR_MES_PAGO" class="java.lang.Integer"/>
+	<parameter name="PAR_ANIO_PAGO" class="java.lang.Integer"/>
+	<parameter name="PAR_RAZON_SOCIAL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select che.id_movimiento_bancario, CHE.numero_cheque AS "NUMERO_CHEQUE", EXTRACT (DAY FROM CHE.fecha_emision) "DIA EMISION",
+(CASE (EXTRACT(MONTH FROM (CHE.fecha_emision)))
+  WHEN 1 THEN 'ENERO'
+  WHEN 2 THEN 'FEBRERO'
+  WHEN 3 THEN 'MARZO'
+  WHEN 4 THEN 'ABRIL'
+  WHEN 5 THEN 'MAYO'
+  WHEN 6 THEN 'JUNIO'
+  WHEN 7 THEN 'JULIO'
+  WHEN 8 THEN 'AGOSTO'
+  WHEN 9 THEN 'SEPTIEMBRE'
+  WHEN 10 THEN 'OCTUBRE'
+  WHEN 11 THEN 'NOVIEMBRE'
+  WHEN 12 THEN 'DICIEMBRE'
+END) AS "MES EMISION",
+EXTRACT (YEAR FROM CHE.fecha_emision) "ANIO EMISION",
+EXTRACT (DAY FROM CHE.fecha_pago) "DIA PAGO",
+(CASE (EXTRACT(MONTH FROM (CHE.fecha_pago)))
+  WHEN 1 THEN 'ENERO'
+  WHEN 2 THEN 'FEBRERO'
+  WHEN 3 THEN 'MARZO'
+  WHEN 4 THEN 'ABRIL'
+  WHEN 5 THEN 'MAYO'
+  WHEN 6 THEN 'JUNIO'
+  WHEN 7 THEN 'JULIO'
+  WHEN 8 THEN 'AGOSTO'
+  WHEN 9 THEN 'SEPTIEMBRE'
+  WHEN 10 THEN 'OCTUBRE'
+  WHEN 11 THEN 'NOVIEMBRE'
+  WHEN 12 THEN 'DICIEMBRE'
+END) AS "MES PAGO",
+EXTRACT(YEAR FROM CHE.fecha_pago) AS "ANIO PAGO",
+PRV.razon_social AS "RAZON SOCIAL", cast(MB.IMPORTE as varchar(200)) as "Importe_Letra",
+MB.IMPORTE
+from cheque CHE
+INNER JOIN movimiento_bancario MB
+ON MB.id_movimiento_bancario = CHE.id_movimiento_bancario
+INNER JOIN rela_orden_p_mov_ban RELA
+ON RELA.id_movimiento_bancario = MB.id_movimiento_bancario
+INNER JOIN orden_pago OP
+ON OP.id_documento_egreso = RELA.id_documento_egreso
+INNER JOIN proveedor PRV
+ON PRV.id_proveedor = OP.id_proveedor
+where che.id_movimiento_bancario = $P{ID_MOVIMIENTO_BANC}]]>
+	</queryString>
+	<field name="ID_MOVIMIENTO_BANCARIO" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NUMERO_CHEQUE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DIA EMISION" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MES EMISION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ANIO EMISION" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DIA PAGO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MES PAGO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ANIO PAGO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RAZON SOCIAL" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Importe_Letra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IMPORTE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="231" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="91" height="231"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="91" y="0" width="450" height="231"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="106" width="434" height="29"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NUMERO_EN_LETRAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="6" width="146" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_IMPORTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="37" width="56" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DIA_EMISION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="37" width="70" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MES_EMISION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="37" width="68" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ANIO_EMISION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="58" width="20" height="18"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DIA_PAGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="60" width="130" height="16"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MES_PAGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="58" width="68" height="18"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ANIO_PAGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="80" width="255" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_RAZON_SOCIAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

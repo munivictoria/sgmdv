@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_ObrasYServiciosPublicos" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="35" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0000000000000018"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/nico/Proyectos/Vipians/Reportes/Jasper Crespo entrega 20 Enero/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_LOGO" class="net.sf.jasperreports.engine.JRRenderable"/>
+	<field name="SUBREPORTE" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="DATASOURCE" class="java.lang.Object"/>
+	<field name="MAPA_PARAMETROS" class="java.lang.Object"/>
+	<group name="SUBREPORTE">
+		<groupExpression><![CDATA[$F{DATASOURCE}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<rectangle radius="10">
+					<reportElement x="29" y="0" width="555" height="50"/>
+				</rectangle>
+				<image>
+					<reportElement x="41" y="3" width="86" height="45"/>
+					<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="153" y="14" width="417" height="20"/>
+					<textElement>
+						<font fontName="Arial Black" size="12"/>
+					</textElement>
+					<text><![CDATA[Tasa por Inspección Sanitaria, Higiene, Profilaxis y Seguridad]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="345" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="585" height="345"/>
+				<parametersMapExpression><![CDATA[$F{MAPA_PARAMETROS}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[$F{DATASOURCE}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$F{SUBREPORTE}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

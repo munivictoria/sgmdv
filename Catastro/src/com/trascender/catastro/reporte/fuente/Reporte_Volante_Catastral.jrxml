@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Volante_Catastral" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3310000000000042"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="418"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset Mensura">
+		<field name="F_NRO_MENSURA" class="java.lang.String"/>
+		<field name="F_FECHA_INSCRIPCION" class="java.util.Date"/>
+	</subDataset>
+	<subDataset name="Table Dataset Contribuyente">
+		<field name="F_APELLIDO_NOMBRE" class="java.lang.String"/>
+		<field name="F_DOMICILIO" class="java.lang.String"/>
+		<field name="F_CODIGO_POSTAL" class="java.lang.String"/>
+		<field name="F_LOCALIDAD" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Table Dataset Zonificacion">
+		<field name="F_ZONIFICACION" class="java.lang.String"/>
+		<field name="F_ZONA" class="java.lang.String"/>
+		<field name="F_ESTADO" class="java.lang.String"/>
+		<field name="F_PRIORIDAD" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Table Dataset Mejoras">
+		<field name="F_ESTADO" class="java.lang.String"/>
+		<field name="F_SUPERFICIE" class="java.lang.Double"/>
+		<field name="F_ANIO" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_NRO_VOLANTE" class="java.lang.Integer"/>
+	<parameter name="PAR_FECHA_VOLANTE" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="PAR_NRO_REGISTRO" class="java.lang.Integer"/>
+	<parameter name="PAR_NRO_PARCELA" class="java.lang.String"/>
+	<parameter name="PAR_MANZANA" class="java.lang.String"/>
+	<parameter name="PAR_DOM_PARCELARIO" class="java.lang.String"/>
+	<parameter name="PAR_RADIO_CENTRICO" class="java.lang.String"/>
+	<parameter name="PAR_TIPO_PLANTA" class="java.lang.String"/>
+	<parameter name="PAR_CODIGO_POSTAL" class="java.lang.String"/>
+	<parameter name="PAR_PARTIDA_PROVINCIAL" class="java.lang.String"/>
+	<parameter name="PAR_SUPERFICIE_TERRENO" class="java.lang.Double"/>
+	<parameter name="PAR_AVALUO_TERRENO" class="java.lang.Double"/>
+	<parameter name="PAR_AVALUO_MEJORA" class="java.lang.Double"/>
+	<parameter name="PAR_MENSURA_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_CONTRIBUYENTE_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_ZONIFICACION_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_MEJORAS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<group name="Grupo_Mensura">
+		<groupHeader>
+			<band height="108">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="22" width="278" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nº de Mensura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="278" y="22" width="277" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha de Inscripción]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="22" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Datos de la/s Mensura/s]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement key="table" style="table" x="0" y="38" width="556" height="68"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset Mensura">
+							<dataSourceExpression><![CDATA[$P{PAR_MENSURA_DS}]]></dataSourceExpression>
+						</datasetRun>
+						<jr:column width="277">
+							<jr:detailCell style="table_TD" height="14" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="1" width="277" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_NRO_MENSURA}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="276">
+							<jr:detailCell style="table_TD" height="14" rowSpan="1">
+								<textField pattern="dd/MM/yyyy">
+									<reportElement x="0" y="1" width="276" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_FECHA_INSCRIPCION}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Grupo_Contribuyente">
+		<groupHeader>
+			<band height="107">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="2" width="555" height="22" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Datos del Contribuyente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="24" width="180" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Apellido y Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="180" y="24" width="200" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Domicilio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="380" y="24" width="64" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[C.P.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="444" y="24" width="111" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Localidad]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement key="table 1" style="table 1" x="0" y="40" width="556" height="67"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset Contribuyente">
+							<dataSourceExpression><![CDATA[$P{PAR_CONTRIBUYENTE_DS}]]></dataSourceExpression>
+						</datasetRun>
+						<jr:column width="180">
+							<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="180" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_APELLIDO_NOMBRE}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="200">
+							<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="200" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_DOMICILIO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="62">
+							<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="62" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_CODIGO_POSTAL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="111">
+							<jr:detailCell style="table 1_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="111" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_LOCALIDAD}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Grupo_Zonificacion">
+		<groupHeader>
+			<band height="109">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="3" width="555" height="22" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Zona - Zonificación]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="338" y="25" width="99" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Estado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="25" width="180" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Zonificación]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="178" y="25" width="160" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Zona]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="437" y="25" width="118" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Prioridad]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement key="table 2" style="table 2" x="0" y="41" width="556" height="68"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset Zonificacion">
+							<dataSourceExpression><![CDATA[$P{PAR_ZONIFICACION_DS}]]></dataSourceExpression>
+						</datasetRun>
+						<jr:column width="180">
+							<jr:detailCell style="table 2_TD" height="14" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="180" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_ZONIFICACION}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="162">
+							<jr:detailCell style="table 2_TD" height="14" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="162" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_ZONA}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100">
+							<jr:detailCell style="table 2_TD" height="14" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_ESTADO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="111">
+							<jr:detailCell style="table 2_TD" height="14" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="111" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_PRIORIDAD}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Grupo_Mejoras">
+		<groupHeader>
+			<band height="138">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="3" width="555" height="22" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Mejoras]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="376" y="25" width="179" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Año]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="178" y="25" width="198" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Superficie]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="25" width="178" height="16" backcolor="#D4D4D4"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Estado]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement key="table 3" style="table 3" x="0" y="41" width="556" height="97"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset Mejoras">
+							<dataSourceExpression><![CDATA[$P{PAR_MEJORAS_DS}]]></dataSourceExpression>
+						</datasetRun>
+						<jr:column width="180">
+							<jr:detailCell style="table 3_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="180" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_ESTADO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="200">
+							<jr:detailCell style="table 3_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="200" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_SUPERFICIE}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="173">
+							<jr:detailCell style="table 3_TD" height="13" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="173" height="13"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{F_ANIO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band height="200">
+			<staticText>
+				<reportElement x="359" y="1" width="196" height="64"/>
+				<box>
+					<pen lineWidth="1.5"/>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Volante Catastral]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="69" height="65"/>
+				<box>
+					<pen lineWidth="1.5"/>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Opaque" x="423" y="81" width="60" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="423" y="66" width="60" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Volante]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="69" y="1" width="290" height="44"/>
+				<box>
+					<pen lineWidth="1.5"/>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="45" width="290" height="20"/>
+				<box>
+					<pen lineWidth="1.5"/>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="483" y="82" width="72" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_VOLANTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="66" width="72" height="16"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_VOLANTE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="119" width="555" height="75" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="1.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="97" width="555" height="22" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="1.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de la Parcela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="163" y="141" width="68" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nº Registro:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="255" y="141" width="54" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_REGISTRO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="155" y="124" width="68" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nº Parcela:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="255" y="125" width="54" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_PARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="322" y="159" width="57" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Manzana:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="378" y="159" width="177" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MANZANA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="310" y="124" width="80" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Tipo Planta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="163" y="159" width="92" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Partida Provincial:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="256" y="159" width="54" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARTIDA_PROVINCIAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="159" width="98" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Superficie Terreno:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="100" y="159" width="54" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUPERFICIE_TERRENO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="124" width="80" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Avalúo Terreno:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="99" y="123" width="54" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_AVALUO_TERRENO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="141" width="76" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Avalúo Mejora:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="99" y="141" width="54" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_AVALUO_MEJORA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="321" y="141" width="80" height="15" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Código Postal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="155" y="177" width="92" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Dom. Parcelario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="278" y="175" width="278" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DOM_PARCELARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="124" width="87" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TIPO_PLANTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="141" width="87" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGO_POSTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="177" width="75" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial" size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Radio Céntrico:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="101" y="177" width="54" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_RADIO_CENTRICO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="50">
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="519" y="31" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="349" y="31" width="170" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página. " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

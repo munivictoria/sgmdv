@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Planilla_Diaria_Caja_Subreporte" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ID_USUARIO" class="java.lang.Integer"/>
+	<parameter name="ID_CAJA" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select
+--US.id_usuario, CAJ.id_caja, tc.id_ticket_caja,
+--pf.nombre||' '||pf.apellido as "nombreyapellido", us.usuario as "usuario",
+--caj.nombre as "caja", caj.numero as "numero_caja", tc.fecha as "ticket_fecha",
+tc.numero as "ticket_numero", tc.importe as "ticket_importe", tc.estado
+
+from caja caj
+left join ticket_caja tc on tc.id_caja = caj.id_caja
+left join detalle_ticket_caja dtc on dtc.id_ticket_caja = tc.id_ticket_caja
+left join planilla_diaria_caja pl on pl.id_planilla_diaria_caja = tc.id_planilla_diaria_caja
+left join usuario us on us.id_usuario = tc.id_usuario
+left join persona_fisica pf on pf.id_persona = us.id_persona
+where us.id_usuario = $P{ID_USUARIO} and caj.id_caja = $P{ID_CAJA} and tc.fecha = current_date
+--and tc.estado = 'ACTIVO'
+order by tc.fecha, tc.numero]]>
+	</queryString>
+	<field name="ticket_numero" class="java.lang.Long"/>
+	<field name="ticket_importe" class="java.math.BigDecimal"/>
+	<field name="ESTADO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="198" y="0" width="160" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Detalle del Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="358" y="0" width="197" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Importe de Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="198" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Número de Ticket]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="198" height="17"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{ticket_numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="0" width="160" height="17"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ESTADO}]]></textFieldExpression>
+			</textField>
+			<textField pattern=" $#,##0.00">
+				<reportElement x="358" y="0" width="197" height="17"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ticket_importe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Packaging Generator" default="_packaging_generation_">
+<target name="_packaging_generation_" depends="N65540"/>
+<target name="N65540" description="ContabilidadGUI.jar">
+<jar destfile="ContabilidadGUI.jar" manifest="src/META-INF/MANIFEST.MF">
+<zipfileset dir="bin" includes="**/*"/>
+<zipfileset dir="../Framework/bin/com/trascender/framework/recurso" prefix="com/trascender/framework/recurso" includes="**/*class"/>
+<zipfileset dir="../Framework/bin/com/trascender/framework/system/interfaces" prefix="com/trascender/framework/system/interfaces" includes="**/*class"/>
+<zipfileset dir="../Framework/bin/com/trascender/framework/exception" prefix="com/trascender/framework/exception" includes="**/*class"/>
+<zipfileset dir="../Framework/bin/com/trascender/framework/util" prefix="com/trascender/framework/util" includes="**/*class"/>
+<zipfileset dir="../Catastro/bin/com/trascender/catastro/exception" prefix="com/trascender/catastro/exception" includes="**/*class"/>
+<zipfileset dir="../Catastro/bin/com/trascender/catastro/recurso" prefix="com/trascender/catastro/recurso" includes="**/*class"/>
+<zipfileset dir="../Catastro/bin/com/trascender/catastro/system/interfaces" prefix="com/trascender/catastro/system/interfaces" includes="**/*class"/>
+<zipfileset dir="../Habilitaciones/bin/com/trascender/habilitaciones/exception" prefix="com/trascender/habilitaciones/exception" includes="**/*class"/>
+<zipfileset dir="../Habilitaciones/bin/com/trascender/habilitaciones/recurso" prefix="com/trascender/habilitaciones/recurso" includes="**/*class"/>
+<zipfileset dir="../Habilitaciones/bin/com/trascender/habilitaciones/system/interfaces" prefix="com/trascender/habilitaciones/system/interfaces" includes="**/*class"/>
+<zipfileset dir="../SAIC/bin/com/trascender/saic/exception" prefix="com/trascender/saic/exception" includes="**/*class"/>
+<zipfileset dir="../SAIC/bin/com/trascender/saic/system/interfaces" prefix="com/trascender/saic/system/interfaces" includes="**/*class"/>
+<zipfileset dir="../SAIC/bin/com/trascender/saic/recurso" prefix="com/trascender/saic/recurso" includes="**/*class"/>
+<zipfileset dir="../ComprasMuni/bin/com/trascender/compras/exception" prefix="com/trascender/compras/exception" includes="**/*class"/>
+<zipfileset dir="../ComprasMuni/bin/com/trascender/compras/recurso" prefix="com/trascender/compras/recurso" includes="**/*class"/>
+<zipfileset dir="../ComprasMuni/bin/com/trascender/compras/system/interfaces" prefix="com/trascender/compras/system/interfaces" includes="**/*class"/>
+<zipfileset dir="../Contabilidad/bin/com/trascender/contabilidad/exception" prefix="com/trascender/contabilidad/exception" includes="**/*class"/>
+<zipfileset dir="../Contabilidad/bin/com/trascender/contabilidad/recurso" prefix="com/trascender/contabilidad/recurso" includes="**/*class"/>
+<zipfileset dir="../Contabilidad/bin/com/trascender/contabilidad/system/interfaces" prefix="com/trascender/contabilidad/system/interfaces" includes="**/*class"/>
+<zipfileset dir="../InterfazFramework/bin" includes="**/*class"/>
+<zipfileset dir="../InterfazFramework/bin/resources" prefix="resources" includes="**/*"/>
+</jar>
+</target>
+</project>

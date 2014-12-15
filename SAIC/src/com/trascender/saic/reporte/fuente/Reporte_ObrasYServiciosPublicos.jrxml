@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_ObrasYServiciosPublicos_Subreporte" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.464100000000018"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="349"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1">
+		<field name="F_MODIFICADOR1" class="java.lang.String"/>
+		<field name="F_MONTO_MODIFICADOR1" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table Dataset 2">
+		<field name="F_MONTO_VENCIMIENTO" class="java.lang.Double"/>
+		<field name="F_FECHA_VENCIMIENTO" class="java.util.Date"/>
+		<field name="F_CODIGOBARRA_VENCIMIENTO" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_CODIGOBARRA_LIQUIDACION" class="java.lang.String"/>
+	<parameter name="PAR_CODIGOBARRA_LIQUIDACION_PF" class="java.lang.String"/>
+	<parameter name="PAR_CUIM" class="java.lang.String"/>
+	<parameter name="PAR_PERSONA" class="java.lang.String"/>
+	<parameter name="PAR_CALLE" class="java.lang.String"/>
+	<parameter name="PAR_COD_POSTAL" class="java.lang.String"/>
+	<parameter name="PAR_LOCALIDAD" class="java.lang.String"/>
+	<parameter name="PAR_PROVINCIA" class="java.lang.String"/>
+	<parameter name="PAR_NRO_CUENTA" class="java.lang.String"/>
+	<parameter name="PAR_DOM_PARCELARIO" class="java.lang.String"/>
+	<parameter name="PAR_NRO_PART_PROV" class="java.lang.String"/>
+	<parameter name="PAR_NRO_PLANO_MENS" class="java.lang.String"/>
+	<parameter name="PAR_USO_DRM" class="java.lang.String"/>
+	<parameter name="PAR_MANZANA" class="java.lang.String"/>
+	<parameter name="PAR_PARCELA" class="java.lang.String"/>
+	<parameter name="PAR_METROS_FRENTE" class="java.lang.String"/>
+	<parameter name="PAR_BALDIO" class="java.lang.String"/>
+	<parameter name="PAR_RADIO_CENTRICO" class="java.lang.String"/>
+	<parameter name="PAR_CODIGO_MEDIDOR" class="java.lang.String"/>
+	<parameter name="PAR_ANTERIOR" class="java.lang.String"/>
+	<parameter name="PAR_ACTUAL" class="java.lang.String"/>
+	<parameter name="PAR_CONSUMO_ACTUAL" class="java.lang.String"/>
+	<parameter name="PAR_ZONA" class="java.lang.String"/>
+	<parameter name="PAR_SUP_TERRENO" class="java.lang.Double"/>
+	<parameter name="PAR_SUP_MEJORAS" class="java.lang.Double"/>
+	<parameter name="PAR_AVALUO_TERRENO" class="java.lang.Double"/>
+	<parameter name="PAR_AVALUO_MEJORAS" class="java.lang.Double"/>
+	<parameter name="PAR_ENCABEZADO" class="java.lang.String"/>
+	<parameter name="PAR_PERIODO" class="java.lang.String"/>
+	<parameter name="PAR_TITULO_PAGOFACIL" class="java.lang.String"/>
+	<parameter name="PAR_SERVICIO" class="java.lang.String"/>
+	<parameter name="PAR_TOTAL" class="java.lang.Double"/>
+	<parameter name="PAR_MODIFICADOR_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_VENCIMIENTOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<field name="F_CUIM" class="java.lang.String"/>
+	<field name="F_PERSONA" class="java.lang.String"/>
+	<pageHeader>
+		<band height="474" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="64" width="280" height="15" backcolor="#D4D4D4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="281" y="64" width="274" height="15" backcolor="#D4D4D4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="136" width="281" height="15" backcolor="#D4D4D4"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="65" width="278" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL CONTRIBUYENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="282" y="65" width="272" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DAROS CATASTRALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="137" width="279" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LECTURA DE CONSUMOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="79" width="280" height="50"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="81" width="24" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIM:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="134" y="79" width="1" height="50"/>
+			</line>
+			<staticText>
+				<reportElement x="137" y="81" width="42" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="281" y="79" width="274" height="50"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="412" y="80" width="86" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Nº Cuenta/Subcuenta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="90" width="74" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domicilio Parcelario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="100" width="52" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Part. Prov.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="100" width="64" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Nº Plano Mens.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="100" width="50" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Uso D.R.M.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="458" y="110" width="55" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Metros Frente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="80" width="30" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parcela:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="110" width="38" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Manzana:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="120" width="28" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Baldío:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="120" width="65" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Radio Céntrico:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="151" width="281" height="50"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="-1" y="188" width="134" height="9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consumo Anual:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="166" width="134" height="9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anterior:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="156" width="133" height="9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código Medidor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="177" width="134" height="9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="133" y="151" width="1" height="50"/>
+			</line>
+			<rectangle>
+				<reportElement x="-1" y="210" width="554" height="29"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="211" width="280" height="27" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LIQUIDACIÓN]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="281" y="224" width="272" height="15"/>
+			</rectangle>
+			<componentElement>
+				<reportElement x="287" y="226" width="260" height="11"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="278" y="211" width="274" height="11" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-1" y="239" width="554" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="240" width="30" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zona:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="64" y="240" width="68" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Sup. Terreno:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="240" width="68" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Sup. Mejoras:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="240" width="75" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Avalúo Terreno:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="240" width="75" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[~ Avalúo Mejoras:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="27" y="81" width="107" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CUIM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="90" width="130" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PERSONA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="90" width="141" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CALLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="99" width="141" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_COD_POSTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="108" width="141" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_LOCALIDAD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="117" width="141" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PROVINCIA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="155" width="142" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGO_MEDIDOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="166" width="141" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ANTERIOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="177" width="141" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ACTUAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="188" width="142" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CONSUMO_ACTUAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="498" y="80" width="56" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_CUENTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="90" width="196" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_DOM_PARCELARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="336" y="100" width="43" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_PART_PROV}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="100" width="27" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_PLANO_MENS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="528" y="100" width="26" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_USO_DRM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="322" y="110" width="136" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_MANZANA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="80" width="99" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="512" y="110" width="42" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_METROS_FRENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="312" y="120" width="67" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_BALDIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="120" width="31" height="9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_RADIO_CENTRICO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="240" width="33" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ZONA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="240" width="45" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUP_TERRENO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="240" width="48" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUP_MEJORAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="240" width="52" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_AVALUO_TERRENO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="240" width="51" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_AVALUO_MEJORAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="0" width="274" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_ENCABEZADO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="44" width="274" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PERIODO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="68" y="44" width="213" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="281" y="0" width="274" height="64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="0" width="68" height="64"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="4" y="2" width="61" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="69" y="0" width="212" height="44"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-1" y="259" width="554" height="135"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="277" width="101" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Cuenta/Subcuenta:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="43" y="291" width="132" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SERVICIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="291" width="40" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Servicio:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="277" width="71" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_CUENTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="188" y="377" width="25" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="454" y="377" width="91" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="table" x="182" y="263" width="369" height="110"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1">
+						<dataSourceExpression><![CDATA[$P{PAR_MODIFICADOR_DS}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="270">
+						<jr:detailCell style="table_TD" height="14" rowSpan="1">
+							<textField>
+								<reportElement x="10" y="0" width="260" height="13"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="95">
+						<jr:detailCell style="table_TD" height="14" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="95" height="13"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_MODIFICADOR1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<rectangle>
+				<reportElement x="-1" y="398" width="554" height="15"/>
+			</rectangle>
+			<line>
+				<reportElement x="178" y="259" width="1" height="135"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="399" width="552" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENCIMIENTOS]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="-1" y="413" width="555" height="52"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 2">
+						<dataSourceExpression><![CDATA[$P{PAR_VENCIMIENTOS_DS}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="313">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<componentElement>
+								<reportElement x="10" y="3" width="280" height="14"/>
+								<jr:barbecue type="Code39" drawText="false" checksumRequired="false" barWidth="0" barHeight="13">
+									<jr:codeExpression><![CDATA[$F{F_CODIGOBARRA_VENCIMIENTO}]]></jr:codeExpression>
+								</jr:barbecue>
+							</componentElement>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="120" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_FECHA_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="121">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="121" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{F_MONTO_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="281" y="0" width="275" height="64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBRAS Y SERVICIOS PUBLICOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="69" y="0" width="212" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="44" width="210" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_SUBTITULO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="263" width="36" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parcela:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="38" y="263" width="137" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="157">
+			<rectangle>
+				<reportElement x="-1" y="10" width="288" height="15"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="287" y="10" width="267" height="15"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="11" width="286" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DE CUENTA TRIBUTARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="288" y="11" width="265" height="13" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVACIONES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-1" y="25" width="288" height="70"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="287" y="25" width="267" height="70"/>
+			</rectangle>
+			<componentElement>
+				<reportElement x="177" y="111" width="300" height="18"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128C" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_PF}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement x="89" y="117" width="90" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULO_PAGOFACIL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="192" y="129" width="278" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_LIQUIDACION_PF}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Padron_Catastral_Mejoras_Subreporte" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="F_CATEGORIA" class="java.lang.Integer"/>
+	<field name="F_SUPERFICIE" class="java.lang.Double"/>
+	<field name="F_AÑO_CONSTRUCCION" class="java.lang.Integer"/>
+	<field name="F_ESTADO_MEJORAS" class="java.lang.String"/>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="20" width="170" height="19" forecolor="#000000" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Categoría]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="453" y="20" width="100" height="19" forecolor="#000000" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Estado Mejoras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="173" y="20" width="134" height="19" forecolor="#000000" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Superficie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="305" y="20" width="147" height="19" forecolor="#000000" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Año de Construcción]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="2" y="20" width="551" height="19"/>
+			</rectangle>
+			<line>
+				<reportElement x="172" y="20" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement x="304" y="20" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement x="452" y="20" width="1" height="19"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="0" width="551" height="20" backcolor="#D4D4D4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mejoras]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="2" y="0" width="551" height="20"/>
+			</rectangle>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="306" y="1" width="147" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_AÑO_CONSTRUCCION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="453" y="1" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_ESTADO_MEJORAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="0" y="1" width="172" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_CATEGORIA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="173" y="1" width="131" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_SUPERFICIE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

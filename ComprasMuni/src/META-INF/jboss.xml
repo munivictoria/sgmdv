@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 4.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd">
+
+<jboss>
+
+   <enterprise-beans>
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+ 	 <session>
+         <ejb-name>SystemAdministracionFactura</ejb-name>
+         <jndi-name>ejb/SystemAdministracionFactura</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      
+      <session>
+         <ejb-name>SystemAdministracionLicitacion</ejb-name>
+         <jndi-name>ejb/SystemAdministracionLicitacion</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      
+      <session>
+         <ejb-name>SystemReportesCompras</ejb-name>
+         <jndi-name>ejb/SystemReportesCompras</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      
+      <session>
+         <ejb-name>SystemAdministracionFacturaProveedor</ejb-name>
+         <jndi-name>ejb/SystemAdministracionFacturaProveedor</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+       <session>
+         <ejb-name>SystemAdministracionFacturaSubsidio</ejb-name>
+         <jndi-name>ejb/SystemAdministracionFacturaSubsidio</jndi-name>
+        
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+      	<ejb-name>SystemAdministracionFacturaContrato</ejb-name>
+      	<jndi-name>ejb/SystemAdministracionFacturaContrato</jndi-name>
+      	
+      	<method-attributes>
+      	</method-attributes>
+      </session>
+      <session>
+      	<ejb-name>SystemAdministracionFacturaServicio</ejb-name>
+      	<jndi-name>ejb/SystemAdministracionFacturaServicio</jndi-name>
+      	
+      	<method-attributes>
+      	</method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionOrdenCompra</ejb-name>
+         <jndi-name>ejb/SystemAdministracionOrdenCompra</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionProveedores</ejb-name>
+         <jndi-name>ejb/SystemAdministracionProveedores</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionSolicitudSuministro</ejb-name>
+         <jndi-name>ejb/SystemAdministracionSolicitudSuministro</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionBienes</ejb-name>
+         <jndi-name>ejb/SystemAdministracionBienes</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessFactura</ejb-name>
+         <local-jndi-name>BusinessFacturaLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      
+      <session>
+         <ejb-name>BusinessLicitacion</ejb-name>
+         <local-jndi-name>BusinessLicitacionLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+     
+      <session>
+         <ejb-name>BusinessOrdenCompra</ejb-name>
+         <local-jndi-name>BusinessOrdenCompraLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessProveedor</ejb-name>
+         <local-jndi-name>BusinessProveedorLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessSolicitudSuministro</ejb-name>
+         <local-jndi-name>BusinessSolicitudSuministroLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>ControlCompras</ejb-name>
+         <jndi-name>ejb/ControlCompras</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>BusinessBien</ejb-name>
+         <local-jndi-name>BusinessBienLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>SystemAdministracionCondicionCompra</ejb-name>
+         <jndi-name>ejb/SystemAdministracionCondicionCompra</jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+
+	<session>
+		<ejb-name>BusinessStock</ejb-name>
+		<local-jndi-name>BusinessStockLocal</local-jndi-name>
+
+
+		<method-attributes>
+		</method-attributes>
+	</session>
+
+	<session>
+		<ejb-name>SystemStock</ejb-name>
+		<jndi-name>ejb/SystemStock</jndi-name>
+
+
+		<method-attributes>
+		</method-attributes>
+	</session>
+
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+     <!--
+       To specify your own assembly descriptor info here, add a file to your
+       XDoclet merge directory called jboss-assembly-descriptor.xml that contains
+       the <assembly-descriptor></assembly-descriptor> markup.
+     -->
+   <assembly-descriptor>
+    <!-- message destinations -->
+     <!--
+       To specify additional message-destination elements, add a file in the merge
+       directory called jboss-message-destinations.ent that contains them.
+     -->
+   </assembly-descriptor>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>
