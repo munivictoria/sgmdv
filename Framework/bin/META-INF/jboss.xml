@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 3.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_3_0.dtd">
+
+<jboss>
+
+   <enterprise-beans>
+
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+
+      <session>
+         <ejb-name>SystemPersonaJuridica</ejb-name>
+         <jndi-name>ejb/SystemPersonaJuridica</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemMunicipalidad</ejb-name>
+         <jndi-name>ejb/SystemMunicipalidad</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemLogSeguridad</ejb-name>
+         <local-jndi-name>SystemLogSeguridadLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessMunicipalidad</ejb-name>
+         <local-jndi-name>BusinessMunicipalidadLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessRol</ejb-name>
+         <local-jndi-name>BusinessRolLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemUsuario</ejb-name>
+         <jndi-name>ejb/SystemUsuario</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessPersona</ejb-name>
+         <local-jndi-name>BusinessPersonaLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>BusinessUsuario</ejb-name>
+         <local-jndi-name>BusinessUsuarioLocal</local-jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemRol</ejb-name>
+         <jndi-name>ejb/SystemRol</jndi-name>
+
+      </session>
+      <session>
+         <ejb-name>SystemPersonaFisica</ejb-name>
+         <jndi-name>ejb/SystemPersonaFisica</jndi-name>
+
+      </session>
+       <session>
+         <ejb-name>SystemContrato</ejb-name>
+         <jndi-name>ejb/SystemContrato</jndi-name>
+
+      </session>
+       <session>
+         <ejb-name>BusinessContrato</ejb-name>
+         <local-jndi-name>BusinessContratoLocal</local-jndi-name>
+
+      </session>
+      
+
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>
