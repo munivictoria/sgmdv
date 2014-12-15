@@ -26,6 +26,8 @@ public class BusinessCalendarioBean implements BusinessCalendarioLocal {
 
 	@PersistenceContext(name="Vipians")
 	private EntityManager entityManager;
+	
+	//Comentario
 
 	public Calendario addCalendario(
 			Calendario pCalendario)
