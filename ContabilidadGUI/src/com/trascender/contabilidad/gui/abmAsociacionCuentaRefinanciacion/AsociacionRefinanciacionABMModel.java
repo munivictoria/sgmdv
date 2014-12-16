@@ -22,7 +22,7 @@ public class AsociacionRefinanciacionABMModel extends TAbstractABMModel<Asociaci
 			locSetParametroAsociacion.add(parametroAsociacion);
 		}
 		
-		this.objetoABM = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemAdministracionConsultaContable().addAsociacionRefinanciacion(locSetParametroAsociacion, this.objetoABM.getPeriodo());
+		this.objetoABM = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemAdministracionConsultaContable().addAsociacionRefinanciacion(locSetParametroAsociacion, null);
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class AsociacionRefinanciacionABMModel extends TAbstractABMModel<Asociaci
 	}
 	
 	public Periodo getPeriodo() {
-		return this.objetoABM.getPeriodo();
+		return null;
 	}
 
 	public void setPeriodo(Periodo periodo) {
-		this.objetoABM.setPeriodo(periodo);
+//		this.objetoABM.setPeriodo(periodo);
 	}
 
 	public List<ParametroAsociacion> getListaParametrosAsociacion() {

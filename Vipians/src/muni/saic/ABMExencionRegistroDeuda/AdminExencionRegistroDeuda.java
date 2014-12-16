@@ -6,62 +6,65 @@
  */
 package muni.saic.ABMExencionRegistroDeuda;
 
+import jasper.ConstantesReportes;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.faces.FacesException;
+import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.DateTimeConverter;
+import javax.faces.convert.NumberConverter;
+import javax.faces.event.ValueChangeEvent;
+
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
+
+import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
+
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Button;
+import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.Form;
 import com.sun.rave.web.ui.component.Head;
 import com.sun.rave.web.ui.component.HiddenField;
 import com.sun.rave.web.ui.component.Html;
+import com.sun.rave.web.ui.component.ImageComponent;
 import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.Link;
 import com.sun.rave.web.ui.component.MessageGroup;
 import com.sun.rave.web.ui.component.Page;
 import com.sun.rave.web.ui.component.PanelGroup;
 import com.sun.rave.web.ui.component.RadioButton;
+import com.sun.rave.web.ui.component.Script;
 import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.Table;
 import com.sun.rave.web.ui.component.TableColumn;
 import com.sun.rave.web.ui.component.TableRowGroup;
 import com.sun.rave.web.ui.component.TextField;
-import com.trascender.presentacion.navegacion.ElementoPila;
-import java.util.ArrayList;
-import javax.faces.FacesException;
-import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
-import javax.faces.component.html.HtmlPanelGrid;
-import com.sun.rave.web.ui.component.ImageComponent;
-import com.sun.rave.web.ui.component.Script;
 import com.trascender.framework.recurso.persistent.DigestoMunicipal;
 import com.trascender.framework.recurso.transients.Periodo;
-import com.trascender.framework.util.Periodicidad;
 import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.recurso.persistent.CalendarioMunicipal;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
-import com.trascender.presentacion.conversores.Conversor;
 import com.trascender.habilitaciones.recurso.persistent.Exencion;
 import com.trascender.habilitaciones.recurso.persistent.Exencion.Estado;
 import com.trascender.habilitaciones.recurso.persistent.PeriodoLiquidacion;
+import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.reportes.ImpresionReporteDinamico;
 import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.saic.recurso.persistent.ExencionRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroExencionRegistroDeuda;
-import jasper.ConstantesReportes;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.DateTimeConverter;
-import javax.faces.convert.NumberConverter;
-import javax.faces.event.ValueChangeEvent;
-import muni.CommunicationMesaEntradaBean;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
-import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -133,8 +136,9 @@ public class AdminExencionRegistroDeuda extends AbstractPageBean {
         ddEstadoDefaultOptions.setOptions(op);
         
         
-        
-        Set<String> locListaCalendarios = this.getCommunicationSAICBean().getMapaCalendarios().keySet();
+        //TODO Hay calendarios por TipoObligacion
+//        Set<String> locListaCalendarios = this.getCommunicationSAICBean().getMapaCalendarios().keySet();
+        Set<String> locListaCalendarios = new HashSet<String>();
         
         Option[] opCalendarios = new Option[locListaCalendarios.size() + 1];
         int i = 0;
@@ -881,15 +885,6 @@ public class AdminExencionRegistroDeuda extends AbstractPageBean {
         return (muni.ApplicationBean1) getBean("ApplicationBean1");
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
-
     /** 
      * <p>M?todo de devoluci?n de llamada al que se llama cuando se navega hasta esta p?gina,
      * ya sea directamente mediante un URL o de manera indirecta a trav?s de la navegaci?n de p?ginas.
@@ -1175,7 +1170,7 @@ public class AdminExencionRegistroDeuda extends AbstractPageBean {
         if(periodoCalendario != null && periodoCalendario.getIdPeriodo() != -1) {
             this.getDdPeriodos().setSelected(periodoCalendario.toString());
         }
-        if(cuota != null && cuota.getIdPeriodo() != -1) {
+        if(cuota != null && cuota.getIdCuotaLiquidacion() != -1) {
             this.getDdCuotas().setSelected(cuota.toString());
         }
         
@@ -1203,7 +1198,7 @@ public class AdminExencionRegistroDeuda extends AbstractPageBean {
         if(locPeriodo.getIdPeriodo() == -1) {
             locPeriodo = null;  
         }   
-        if(locCuota.getIdPeriodo() == -1) {
+        if(locCuota.getIdCuotaLiquidacion() == -1) {
             locCuota = null;  
         }
 
@@ -1257,7 +1252,8 @@ public class AdminExencionRegistroDeuda extends AbstractPageBean {
     }
     
     private CalendarioMunicipal getCalendarioPorNombre(String pCalendario){
-        return this.getCommunicationSAICBean().getMapaCalendarios().get(pCalendario);
+    	return null;
+//        return this.getCommunicationSAICBean().getMapaCalendarios().get(pCalendario);
     }
     
     private PeriodoLiquidacion getPeriodoPorNombre(CalendarioMunicipal pCalendario, String pPeriodo){

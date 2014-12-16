@@ -4,21 +4,19 @@
  */
 package muni.catastro.ABMVolanteCatastral;
 
-import com.sun.rave.web.ui.appbase.AbstractPageBean;
-import com.trascender.catastro.recurso.persistent.VolanteCatastral;
-import com.trascender.contabilidad.recurso.persistent.IngresoVario;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.faces.FacesException;
+
+import muni.ApplicationBean1;
 import muni.CommunicationCajaBean;
-import muni.ComunicationBean;
+import muni.CommunicationComprasBean;
 import muni.CommunicationExcepcionesBean;
 import muni.CommunicationHabilitacionesBean;
-import muni.CommunicationMesaEntradaBean;
-import muni.ApplicationBean1;
 import muni.CommunicationSAICBean;
-import muni.CommunicationComprasBean;
+import muni.ComunicationBean;
 import muni.ComunicationCatastroBean;
+
+import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.trascender.catastro.recurso.persistent.VolanteCatastral;
 
 /**
  *
@@ -180,14 +178,6 @@ public class ImprimirVolanteCatastral extends AbstractPageBean {
         return (CommunicationHabilitacionesBean) getBean("CommunicationHabilitacionesBean");
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 
     /**
      * <p>Return a reference to the scoped data bean.</p>

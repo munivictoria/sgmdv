@@ -79,11 +79,6 @@ public class AdminRetencion extends AdminController<ComprobanteRetencion> {
 				Calendar calendario= Calendar.getInstance();
 				calendario.setTime(fechaFin);
 				
-				Periodo locPeriodo = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemRegistroValuado()
-				.getPeriodo(Periodicidad.MENSUAL, Conversor.getInteger(this.getView().getTfMes().getText()), 
-						Conversor.getInteger(this.getView().getTfAnio().getText()));
-				
-				locModel.setPeriodo(locPeriodo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

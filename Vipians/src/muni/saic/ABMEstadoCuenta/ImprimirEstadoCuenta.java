@@ -5,18 +5,19 @@
 
 package muni.saic.ABMEstadoCuenta;
 
-import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import javax.faces.FacesException;
+
 import muni.ApplicationBean1;
-import muni.CommunicationExcepcionesBean;
-import muni.CommunicationSAICBean;
-import muni.ComunicationCatastroBean;
-import muni.ComunicationBean;
 import muni.CommunicationCajaBean;
-import muni.RequestBean1;
-import muni.CommunicationHabilitacionesBean;
 import muni.CommunicationComprasBean;
-import muni.CommunicationMesaEntradaBean;
+import muni.CommunicationExcepcionesBean;
+import muni.CommunicationHabilitacionesBean;
+import muni.CommunicationSAICBean;
+import muni.ComunicationBean;
+import muni.ComunicationCatastroBean;
+import muni.RequestBean1;
+
+import com.sun.rave.web.ui.appbase.AbstractPageBean;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -322,14 +323,5 @@ public class ImprimirEstadoCuenta extends AbstractPageBean {
         return (CommunicationComprasBean) getBean("CommunicationComprasBean");
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
-    
 }
 

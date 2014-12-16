@@ -15,8 +15,6 @@ import javax.faces.convert.NumberConverter;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.impl.ObjectListDataProvider;
@@ -774,10 +772,6 @@ public class ABMFacturaServicio extends ABMPageBean {
 		}
 
 		return retorno;
-	}
-
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
 	}
 
 	public String btnSeleccionarBien_action() {

@@ -124,7 +124,7 @@ public class DocumentoRefinanciacion extends DocGeneradorDeuda {
 	public Double getTotalAPagar() {
 		double total = 0d;
 		for (RegistroDeuda cadaRegistroDeuda : this.getListaRegistrosDeuda()) {
-			total += cadaRegistroDeuda.getValor();
+			total += cadaRegistroDeuda.getMonto();
 		}
 		total += this.multa + this.recargo;
 		total -= this.entrega;

@@ -46,14 +46,15 @@ public abstract class ABMAsociacionCuentaLineaFactura extends ABMController<Cuen
 	protected void actualizarABMModel() {
 		Integer locAnio = Conversor.getInteger(this.getView().getTfAnioPeriodo().getText());
 		Periodo locPeriodo = null;
+		//TODO Asociacion solo con año
 		if (locAnio != null) {
-			try {
-				locPeriodo = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemRegistroValuado().getPeriodo(Periodicidad.ANUAL, 1, locAnio);
-			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-				AppManager.getInstance().showErrorMsg(this.getView(), ex.getMessage());
-			}
+//			try {
+//				locPeriodo = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemRegistroValuado().getPeriodo(Periodicidad.ANUAL, 1, locAnio);
+//			}
+//			catch (Exception ex) {
+//				ex.printStackTrace();
+//				AppManager.getInstance().showErrorMsg(this.getView(), ex.getMessage());
+//			}
 		}
 		this.getAbmModel().setPeriodo(locPeriodo);
 		

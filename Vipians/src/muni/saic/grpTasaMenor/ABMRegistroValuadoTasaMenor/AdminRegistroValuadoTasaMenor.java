@@ -7,6 +7,7 @@
 package muni.saic.grpTasaMenor.ABMRegistroValuadoTasaMenor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.faces.FacesException;
@@ -134,8 +135,9 @@ public class AdminRegistroValuadoTasaMenor extends AbstractPageBean {
         dateTimeConverter1.setTimeZone(java.util.TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
         dateTimeConverter1.setTimeStyle("short");
 
-        Set<String> locListaCalendarios = this.getCommunicationSAICBean().getMapaCalendarios().keySet();
-        
+        //TODO Mostrar los Calendarios Tasa Menor?
+//        Set<String> locListaCalendarios = this.getCommunicationSAICBean().getMapaCalendarios().keySet();
+        Set<String> locListaCalendarios = new HashSet<String>();
         Option[] opCalendarios = new Option[locListaCalendarios.size() + 1];
         int i = 0;
         opCalendarios[i++] = new Option("", "");
@@ -1137,7 +1139,7 @@ public class AdminRegistroValuadoTasaMenor extends AbstractPageBean {
         if(periodoCalendario != null && periodoCalendario.getIdPeriodo() != -1) {
             this.getDdPeriodos().setSelected(periodoCalendario.toString());
         }
-        if(cuota != null && cuota.getIdPeriodo() != -1) {
+        if(cuota != null && cuota.getIdCuotaLiquidacion() != -1) {
             this.getDdCuotas().setSelected(cuota.toString());
         }
         
@@ -1168,7 +1170,7 @@ public class AdminRegistroValuadoTasaMenor extends AbstractPageBean {
             plantillaDocumentoTasaMenor = null;
         }
 
-        if(cuota != null && cuota.getIdPeriodo() != -1) {
+        if(cuota != null && cuota.getIdCuotaLiquidacion() != -1) {
             System.out.println("refrescarTabla() -> Periodo seleccionado");
         } else warn("Debe seleccionar un Per\355odo.");
 
@@ -1209,7 +1211,8 @@ public class AdminRegistroValuadoTasaMenor extends AbstractPageBean {
     }
     
     private CalendarioMunicipal getCalendarioPorNombre(String pCalendario){
-        return this.getCommunicationSAICBean().getMapaCalendarios().get(pCalendario);
+//        return this.getCommunicationSAICBean().getMapaCalendarios().get(pCalendario);
+    	return null;
     }
     
     private PeriodoLiquidacion getPeriodoPorNombre(CalendarioMunicipal pCalendario, String pPeriodo){
@@ -1615,7 +1618,7 @@ public class AdminRegistroValuadoTasaMenor extends AbstractPageBean {
                     }
                 }
 
-                if (cuota != null && cuota.getIdPeriodo() != -1) {
+                if (cuota != null && cuota.getIdCuotaLiquidacion() != -1) {
                     System.out.println("btnBuscar_action() -> Periodo seleccionado");
                 } else {
                     warn("Debe seleccionar un Per\355odo para realizar la busqueda.");
@@ -1779,7 +1782,7 @@ public class AdminRegistroValuadoTasaMenor extends AbstractPageBean {
                 }
             }
 
-            if (cuota != null && cuota.getIdPeriodo() != -1) {
+            if (cuota != null && cuota.getIdCuotaLiquidacion() != -1) {
                 System.out.println("btnBuscar_action() -> Periodo seleccionado");
             } else {
                 warn("Debe seleccionar un Per\355odo para realizar la busqueda.");

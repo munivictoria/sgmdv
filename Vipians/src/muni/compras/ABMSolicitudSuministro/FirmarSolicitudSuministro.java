@@ -6,6 +6,15 @@
  */
 package muni.compras.ABMSolicitudSuministro;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
+
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
@@ -26,26 +35,21 @@ import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.Table;
 import com.sun.rave.web.ui.component.TableColumn;
 import com.sun.rave.web.ui.component.TableRowGroup;
-import com.sun.rave.web.ui.component.TextField;
-import com.trascender.presentacion.navegacion.ElementoPila;
-import com.trascender.presentacion.validadores.Validador;
-import java.rmi.RemoteException;
-import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
 import com.sun.rave.web.ui.component.TextArea;
+import com.sun.rave.web.ui.component.TextField;
+import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
 import com.trascender.compras.recurso.persistent.suministros.LineaSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.OrdenCompra;
 import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Area;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.presentacion.conversores.Conversor;
+import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
-import java.util.*;
-import muni.CommunicationMesaEntradaBean;
+import com.trascender.presentacion.validadores.Validador;
 
 
 /**
@@ -1498,15 +1502,6 @@ public class FirmarSolicitudSuministro extends AbstractPageBean {
             retorno = this.prepararCaducidad();
         }
         return retorno;
-    }
-    
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
     }
 
     private ArrayList crearListaLineaFactura(ArrayList list, SolicitudSuministro solicitudS) {

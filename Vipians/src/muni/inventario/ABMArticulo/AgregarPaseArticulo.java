@@ -6,8 +6,17 @@
  */
 package muni.inventario.ABMArticulo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
+import javax.faces.convert.DateTimeConverter;
+
+import muni.compras.ABMFacturaContrato.ABMFacturaContrato;
+import muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio;
+
 import com.sun.data.provider.impl.ObjectListDataProvider;
-import muni.framework.ABMContrato.*;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Button;
@@ -26,32 +35,20 @@ import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.Table;
 import com.sun.rave.web.ui.component.TableColumn;
 import com.sun.rave.web.ui.component.TableRowGroup;
-import com.sun.rave.web.ui.component.TextField;
-import com.trascender.presentacion.navegacion.ElementoPila;
-import com.trascender.presentacion.validadores.Validador;
-import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
 import com.sun.rave.web.ui.component.TextArea;
+import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.compras.recurso.persistent.inventario.Articulo;
 import com.trascender.compras.recurso.persistent.inventario.InformacionTecnica;
 import com.trascender.compras.recurso.persistent.inventario.PaseArticulo;
-import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Area;
-import com.trascender.framework.recurso.persistent.Contrato;
-import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.util.Util;
 import com.trascender.presentacion.conversores.Conversor;
+import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.faces.convert.DateTimeConverter;
-import muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio;
+import com.trascender.presentacion.validadores.Validador;
 //import muni.compras.ABMFacturaProveedor.ConsultarFacturaProveedor;
-import muni.compras.ABMFacturaContrato.ABMFacturaContrato;
-import muni.CommunicationMesaEntradaBean;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -1384,12 +1381,4 @@ public class AgregarPaseArticulo extends AbstractPageBean {
         return (ABMFacturaContrato) getBean("compras$ABMFacturaContrato$AgregarFacturaContrato");
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 }

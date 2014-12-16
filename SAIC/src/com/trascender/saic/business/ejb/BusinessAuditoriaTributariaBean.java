@@ -303,20 +303,6 @@ public class BusinessAuditoriaTributariaBean implements BusinessAuditoriaTributa
 			if (pUsuario == null){
 				throw new TrascenderFrameworkException(62);
 			}
-			boolean firmar = false;
-
-			pUsuario = this.businessUsuario.getUsuarioPorNombre(pUsuario.getUser());
-			// PRE VERIFICA QUE PUEDA FIRMAR EN ALGUNO DE SUS ROLES
-			if (!pUsuario.getUser().equals("root")) {
-				for (Rol locRol : pUsuario.getListaRoles()) {
-					firmar = firmar || (locRol.isFirma());
-				}
-
-				if (!firmar) {
-					throw new TrascenderFrameworkException(65);
-				}
-
-			}
 
 			FirmaPermiso locFirma = new FirmaPermiso();
 			locFirma.setUsuario(pUsuario);

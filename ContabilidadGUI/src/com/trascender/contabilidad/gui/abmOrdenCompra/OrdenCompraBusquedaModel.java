@@ -28,7 +28,6 @@ public class OrdenCompraBusquedaModel extends TAbstractBusquedaModel<OrdenCompra
 		locFiltro.setFechaDesde(this.getFechaDesde());
 		locFiltro.setFechaHasta(this.getFechaHasta());
 		locFiltro.setProveedor(this.getProveedor());
-		locFiltro.setTipoOrdenCompra(this.getTipoOrdenCompra());
 		List<OrdenCompra> locLista = locSystem.findOrdenCompra(locFiltro).getListaResultados();
 		return locLista;
 	}

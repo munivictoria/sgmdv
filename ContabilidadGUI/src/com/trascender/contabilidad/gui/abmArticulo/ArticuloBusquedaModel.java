@@ -19,7 +19,7 @@ public class ArticuloBusquedaModel extends TAbstractBusquedaModel<Articulo>{
 	@Override
 	public List<Articulo> buscar() throws Exception {
 		SystemStock systemStock = ContabilidadGUI.getInstance().getAdminSystemsCompras().getSystemStock();
-		return systemStock.findListaArticulo(nombre, codigo, null, null, estadoContable, area);
+		return systemStock.findListaArticulo(null).getListaResultados();
 	}
 
 	@Override

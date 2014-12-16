@@ -317,15 +317,6 @@ public class Login extends AbstractPageBean {
 	 * Devolver una referencia al bean de datos con �mbito.
 	 * </p>
 	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-	}
-
-	/**
-	 * <p>
-	 * Devolver una referencia al bean de datos con �mbito.
-	 * </p>
-	 */
 	protected CommunicationHabilitacionesBean getCommunicationHabilitacionesBean() {
 		return (CommunicationHabilitacionesBean) getBean("CommunicationHabilitacionesBean");
 	}

@@ -120,10 +120,10 @@ public class ReconocimientoDeudaDS extends TrascenderDataSource{
 					Integer locAnio = locCalendar.get(Calendar.YEAR);
 					this.listaOrdenAniosRef.add(locAnio.toString());
 					if(this.listaMontosDeudas.containsKey(locAnio)){
-						this.listaMontosDeudas.put(locAnio.toString(), this.listaMontosDeudas.get(locAnio)+cadaRegistroDeuda.getValor());
+						this.listaMontosDeudas.put(locAnio.toString(), this.listaMontosDeudas.get(locAnio)+cadaRegistroDeuda.getMonto());
 					}
 					else{
-						this.listaMontosDeudas.put(locAnio.toString(), cadaRegistroDeuda.getValor());
+						this.listaMontosDeudas.put(locAnio.toString(), cadaRegistroDeuda.getMonto());
 					}
 				}
 				else{
@@ -143,10 +143,10 @@ public class ReconocimientoDeudaDS extends TrascenderDataSource{
 					
 					if(locTipoDocumento != null && !locTipoDocumento.trim().isEmpty()){
 						if(this.listaMontosDeudas.containsKey(locTipoDocumento)){
-							this.listaMontosDeudas.put(locTipoDocumento, this.listaMontosDeudas.get(locTipoDocumento)+cadaRegistroDeuda.getValor());
+							this.listaMontosDeudas.put(locTipoDocumento, this.listaMontosDeudas.get(locTipoDocumento)+cadaRegistroDeuda.getMonto());
 						}
 						else{
-							this.listaMontosDeudas.put(locTipoDocumento, cadaRegistroDeuda.getValor());
+							this.listaMontosDeudas.put(locTipoDocumento, cadaRegistroDeuda.getMonto());
 						}
 					}
 				}

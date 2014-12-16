@@ -611,8 +611,7 @@ public class AgregarClausuraSHPS extends AbstractPageBean {
 
 	    		if (seleccionado instanceof Rol) {
 	    			rol = (Rol) seleccionado;
-	    			if (rol.isFirma()) this.getElementoPila().getObjetos().set(1, seleccionado);
-	    			else error("Debe seleccionar un Rol con permiso para Firmar");
+	    			this.getElementoPila().getObjetos().set(1, seleccionado);
 	    			this.getRequestBean1().setObjetoSeleccion(null);
 	    		}
 	    	}

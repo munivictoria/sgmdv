@@ -12,8 +12,6 @@ import java.util.List;
 import javax.faces.FacesException;
 import javax.faces.convert.NumberConverter;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.impl.ObjectListDataProvider;
@@ -1322,17 +1320,6 @@ public class AgregarLineaOrdenCompra extends AbstractPageBean {
 		}
 
 		return retorno;
-	}
-
-	/**
-	 * <p>
-	 * Return a reference to the scoped data bean.
-	 * </p>
-	 * 
-	 * @return reference to the scoped data bean
-	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
 	}
 
 	public String btnAceptar_action() {

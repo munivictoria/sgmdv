@@ -8,8 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import com.trascender.compras.recurso.persistent.suministros.Bien;
-import com.trascender.compras.recurso.persistent.suministros.GrupoBien;
-import com.trascender.contabilidad.gui.abmGrupoBien.AdminGrupoBien;
 import com.trascender.gui.framework.abmStandard.AdminController;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
@@ -106,16 +104,6 @@ public class AdminBien extends AdminController<Bien> {
 		locThread.start();
 	}
 	
-	void seleccionarGrupoBien() throws Exception {
-		AdminGrupoBien adminGrupoBien = new AdminGrupoBien(this.getView());
-		this.actualizarBusquedaModel();
-		GrupoBien locGrupoBien = adminGrupoBien.openSelect();
-		if (locGrupoBien != null) {
-			this.getBusquedaModel().setGrupoBien(locGrupoBien);
-			this.actualizarBusquedaView();
-		}
-	}
-	
 	void limpiarGrupoBien() throws Exception {
 		this.getBusquedaModel().setGrupoBien(null);
 		this.actualizarBusquedaModel();
@@ -148,7 +136,7 @@ class BtnSeleccionarGrupoBienListener implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		try {
-			this.controller.seleccionarGrupoBien();
+//			this.controller.seleccionarGrupoBien();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			AppManager.getInstance().showErrorMsg(this.controller.getView(), ex.getMessage());

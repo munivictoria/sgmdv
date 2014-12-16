@@ -51,6 +51,12 @@ public class TipoTransaccionCatastralModel extends ABMModel{
         @Override
         public void ocultarDeshabilitarEnVista() {
         }
+
+		@Override
+		public ABMModel getModel() {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
     
     public class ModificarTipoTransaccionCatastralController extends ModificarAbstractController{
@@ -67,7 +73,13 @@ public class TipoTransaccionCatastralModel extends ABMModel{
 
         @Override
         public void ocultarDeshabilitarEnVista() {
-        }   
+        }
+
+		@Override
+		public ABMModel getModel() {
+			// TODO Auto-generated method stub
+			return null;
+		}   
     }
     
     public class ConsultarTipoTransaccionCatastralController extends ConsultarAbstractController{
@@ -86,6 +98,12 @@ public class TipoTransaccionCatastralModel extends ABMModel{
         public void ocultarDeshabilitarEnVista() {
             deshabilitarElementosConsultarEliminar();
         }
+
+		@Override
+		public ABMModel getModel() {
+			// TODO Auto-generated method stub
+			return null;
+		}
         
     }
     
@@ -105,5 +123,23 @@ public class TipoTransaccionCatastralModel extends ABMModel{
         public void ocultarDeshabilitarEnVista() {
             deshabilitarElementosConsultarEliminar();
         }
+
+		@Override
+		public ABMModel getModel() {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
+
+	@Override
+	public String getReglaNavegacion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNombreEntidad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

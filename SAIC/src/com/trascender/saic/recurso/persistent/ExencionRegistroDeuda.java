@@ -43,14 +43,14 @@ public class ExencionRegistroDeuda extends Exencion implements Cloneable {
 				throw new SaicException(800);
 			}
 
-			if (this.getCuotaLiquidacion() != null) {
-				if (!this.getCuotaLiquidacion().equals(
-						pRegistroDeudaExento.getRegistroDeuda().getCuotaLiquidacion())) {
-					throw new SaicException(801);
-				}
-			} else {
-				throw new SaicException(802);
-			}
+//			if (this.getCuotaLiquidacion() != null) {
+//				if (!this.getCuotaLiquidacion().equals(
+//						pRegistroDeudaExento.getRegistroDeuda().getCuotaLiquidacion())) {
+//					throw new SaicException(801);
+//				}
+//			} else {
+//				throw new SaicException(802);
+//			}
 
 			if (!this.listaRegistrosExencion.contains(pRegistroDeudaExento)) {
 				this.listaRegistrosExencion.add(pRegistroDeudaExento);
@@ -114,18 +114,18 @@ public class ExencionRegistroDeuda extends Exencion implements Cloneable {
 
 		locExencionRegistroDeudaCopy.setMotivo(pExencionRegistroDeuda
 				.getMotivo());
-		locExencionRegistroDeudaCopy.setCuotaLiquidacion(pExencionRegistroDeuda
-				.getCuotaLiquidacion());
+//		locExencionRegistroDeudaCopy.setCuotaLiquidacion(pExencionRegistroDeuda
+//				.getCuotaLiquidacion());
 		locExencionRegistroDeudaCopy
 				.setPeriodicidadCuotas(pExencionRegistroDeuda
 						.getPeriodicidadCuotas());
 		locExencionRegistroDeudaCopy
 				.setPeriodicidadCuotas(pExencionRegistroDeuda
 						.getPeriodicidadCuotas());
-		locExencionRegistroDeudaCopy.setPorcentaje(pExencionRegistroDeuda
-				.getPorcentaje());
-		locExencionRegistroDeudaCopy.setTipoExencion(pExencionRegistroDeuda
-				.getTipoExencion());
+//		locExencionRegistroDeudaCopy.setPorcentaje(pExencionRegistroDeuda
+//				.getPorcentaje());
+//		locExencionRegistroDeudaCopy.setTipoExencion(pExencionRegistroDeuda
+//				.getTipoExencion());
 
 		locExencionRegistroDeudaCopy
 				.setListaFirmas(new ArrayList<FirmaPermiso>());

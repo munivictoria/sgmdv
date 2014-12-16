@@ -92,7 +92,7 @@ public abstract class ABMAsociacionCuentaSolicitudSuministro extends ABMControll
 			
 			for (Iterator iterator = this.getAbmModel().getObjetoABM().getListaLineaSolSuministro().iterator(); iterator.hasNext();) {
 				LineaSolicitudSuministro lineaSS = (LineaSolicitudSuministro) iterator.next();
-				System.out.println("lineaSS.getCuentaRfr() ----> " + lineaSS.getCuentaRfr());
+				System.out.println("lineaSS.getCuentaRfr() ----> " + lineaSS.getCuenta());
 				locListSS.add(lineaSS);
 			}
 			
@@ -119,7 +119,7 @@ public abstract class ABMAsociacionCuentaSolicitudSuministro extends ABMControll
 				cuentaRfr.setIdCuenta(locCuenta.getIdCuenta());
 				cuentaRfr.setNombre(locCuenta.getNombre());
 				
-				locLineaSS.setCuentaRfr(cuentaRfr);
+				locLineaSS.setCuenta(cuentaRfr);
 				
 				this.actualizarABMModel();
 				this.actualizarView();
@@ -133,7 +133,7 @@ public abstract class ABMAsociacionCuentaSolicitudSuministro extends ABMControll
 		
 		if(locLineaSolicitudSuministros > -1){
 			LineaSolicitudSuministro locLineaSS = this.getLineaSolicitudSuministroTableModel().getRow(locLineaSolicitudSuministros);
-			locLineaSS.setCuentaRfr(null);
+			locLineaSS.setCuenta(null);
 			
 			this.actualizarABMModel();
 			this.actualizarView();

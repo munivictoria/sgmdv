@@ -93,10 +93,13 @@ public abstract class ABMAsociacionCuentaArticulo extends ABMController<CuentaAr
 	@Override
 	public void actualizarABMModel() {
 		Integer locAnio = Conversor.getInteger(this.getView().getTfAnioPeriodo().getText());
+		//TODO Las asociaciones van solo con el año.
 		Periodo locPeriodo = null;
 		if (locAnio != null) {
 			try {
-				locPeriodo = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemRegistroValuado().getPeriodo(Periodicidad.ANUAL, 1, locAnio);
+//				locPeriodo = ContabilidadGUI.getInstance()
+//						.getAdminSystemsContabilidad()
+//						.getSystemRegistroValuado().getPeriodo(Periodicidad.ANUAL, 1, locAnio);
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();

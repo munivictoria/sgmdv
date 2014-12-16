@@ -32,6 +32,8 @@ import com.trascender.habilitaciones.recurso.persistent.PlantillaObligacion;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.framework.util.Util;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import javax.faces.FacesException;
 import com.trascender.presentacion.utiles.Constantes;
 import com.sun.rave.web.ui.component.TextArea;
@@ -123,7 +125,8 @@ public class ConsultarEstadoCuenta extends AbstractPageBean {
        
         
         
-        Set<String> locListaCalendarios = this.getCommunicationSAICBean().getMapaCalendarios().keySet();
+//        Set<String> locListaCalendarios = this.getCommunicationSAICBean().getMapaCalendarios().keySet();
+        Set<String> locListaCalendarios = new HashSet<String>();
         
         Option[] opCalendarios = new Option[locListaCalendarios.size()];
         int i = 0;
@@ -1050,7 +1053,7 @@ public class ConsultarEstadoCuenta extends AbstractPageBean {
         if(periodoCalendario != null && periodoCalendario.getIdPeriodo() != -1) {
             this.getDdPeriodos().setSelected(periodoCalendario.toString());
         }
-        if(cuota != null && cuota.getIdPeriodo() != -1) {
+        if(cuota != null && cuota.getIdCuotaLiquidacion() != -1) {
             this.getDdCuotas().setSelected(cuota.toString());
         }
         
@@ -1226,7 +1229,8 @@ public class ConsultarEstadoCuenta extends AbstractPageBean {
     }
     
     private CalendarioMunicipal getCalendarioPorNombre(String pCalendario){
-        return this.getCommunicationSAICBean().getMapaCalendarios().get(pCalendario);
+//        return this.getCommunicationSAICBean().getMapaCalendarios().get(pCalendario);
+    	return null;
     }
     
     private PeriodoLiquidacion getPeriodoPorNombre(CalendarioMunicipal pCalendario, String pPeriodo){

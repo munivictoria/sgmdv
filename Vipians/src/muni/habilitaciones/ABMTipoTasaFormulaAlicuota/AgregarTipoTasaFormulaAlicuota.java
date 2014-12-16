@@ -17,8 +17,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlPanelGrid;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
@@ -2757,12 +2755,4 @@ public class AgregarTipoTasaFormulaAlicuota extends AbstractPageBean {
         this.getCommunicationHabilitacionesBean().setListaVariablesCompuestaAlicuota(lista);
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 }

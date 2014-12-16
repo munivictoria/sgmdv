@@ -216,7 +216,7 @@ public class ABMResponsable extends ABMPageBean {
 		this.getObjectListDataProviderArea().commitChanges();
 		locListaAreas = (ArrayList) this.getObjectListDataProviderArea().getList();
 		this.setListaDelCommunicationArea(locListaAreas);
-		locResponsable.setAreas(locListaAreas);
+//		locResponsable.setAreas(locListaAreas);
 
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, locResponsable);

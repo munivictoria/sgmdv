@@ -182,8 +182,9 @@ public class BusinessPresupuestoBean implements BusinessPresupuestoLocal {
 		for(LineaPresupuesto locLineaPresupuesto : pPresupuesto.getLineaPresupuesto()) {
 			List<LineaAsientoContable> listaLineasAsientosContables = Criterio.getInstance(entity, LineaAsientoContable.class)
 					.add(Restriccion.IGUAL("cuenta", locLineaPresupuesto.getCuenta()))
-					.add(Restriccion.MAYOR("asientoContable.fecha", pPresupuesto.getPeriodo().getFechaInicio().getTime()))
-					.add(Restriccion.MENOR("asientoContable.fecha", pPresupuesto.getPeriodo().getFechaFin().getTime())).list();
+//					.add(Restriccion.MAYOR("asientoContable.fecha", pPresupuesto.getPeriodo().getFechaInicio().getTime()))
+//					.add(Restriccion.MENOR("asientoContable.fecha", pPresupuesto.getPeriodo().getFechaFin().getTime()))
+					.list();
 			if(!listaLineasAsientosContables.isEmpty()) {
 				throw new TrascenderContabilidadException(92);
 			}

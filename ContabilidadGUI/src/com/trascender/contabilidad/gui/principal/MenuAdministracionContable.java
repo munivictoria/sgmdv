@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 
 import com.trascender.contabilidad.gui.abmAsientoContable.AdminAsientoContable;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaArticulo.AdminAsociacionCuentaArticulo;
-import com.trascender.contabilidad.gui.abmAsociacionCuentaConceptoIngresoVario.AdminAsociacionCuentaConceptoIngresoVario;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaInteresRecargo.AdminAsociacionCuentaInteresRecargo;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaModificador.AdminAsociacionCuentaModificador;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaRefinanciacion.AdminAsociacionRefinanciacion;
@@ -551,8 +550,8 @@ class AdminAsociacionCuentaConceptoIngresoVarioListener implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try {
-			AdminAsociacionCuentaConceptoIngresoVario adminAsociacionCuentaConceptoIngresoVario = new AdminAsociacionCuentaConceptoIngresoVario(this.owner);
-			adminAsociacionCuentaConceptoIngresoVario.open();
+//			AdminAsociacionCuentaConceptoIngresoVario adminAsociacionCuentaConceptoIngresoVario = new AdminAsociacionCuentaConceptoIngresoVario(this.owner);
+//			adminAsociacionCuentaConceptoIngresoVario.open();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			AppManager.getInstance().showErrorMsg(this.owner, ex.getMessage());

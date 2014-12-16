@@ -15,7 +15,7 @@ public class AsociacionRefinanciacionBusquedaModel extends TAbstractBusquedaMode
 	@Override
 	public List<AsociacionRefinanciacion> buscar() throws Exception {
 		SystemAdministracionConsultaContable locSystem = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemAdministracionConsultaContable();
-		List<AsociacionRefinanciacion> locList = locSystem.findListaAsociacionRefinanciacion(this.getPeriodo());
+		List<AsociacionRefinanciacion> locList = locSystem.findListaAsociacionRefinanciacion(null);
 		return locList;
 	}
 

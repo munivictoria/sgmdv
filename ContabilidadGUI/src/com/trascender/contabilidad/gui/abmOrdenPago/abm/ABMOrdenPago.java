@@ -263,23 +263,23 @@ public abstract class ABMOrdenPago extends ABMController<OrdenPago>{
 			if (this.getAbmModel().getProveedor() != null && this.getAbmModel().getFechaEmision() != null) {
 					Calendar calendario= Calendar.getInstance();
 					calendario.setTime(this.getAbmModel().getFechaEmision());
-					Periodo periodo = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemRegistroValuado()
-					.getPeriodo(Periodicidad.MENSUAL, calendario.get(Calendar.MONTH)+1, calendario.get(Calendar.YEAR));
+//					Periodo periodo = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemRegistroValuado()
+//					.getPeriodo(Periodicidad.MENSUAL, calendario.get(Calendar.MONTH)+1, calendario.get(Calendar.YEAR));
 
 					Proveedor locProveedor = this.getAbmModel().getProveedor();
 					if (locProveedor != null) {
 						ConsultarRetencion consultarRetencion= new ConsultarRetencion(this.getView(), this.getAbmModel().getComprobanteRetencion());
 						consultarRetencion.getAbmModel().setProveedor(locProveedor);
-						consultarRetencion.getAbmModel().setPeriodo(periodo);
-						consultarRetencion.getView().getTfMes().setText(Integer.toString(periodo.getFechaInicio().get(Calendar.MONTH)+1));
-						consultarRetencion.getView().getTfAnio().setText(Integer.toString(periodo.getFechaInicio().get(Calendar.YEAR)));
+//						consultarRetencion.getAbmModel().setPeriodo(periodo);
+//						consultarRetencion.getView().getTfMes().setText(Integer.toString(periodo.getFechaInicio().get(Calendar.MONTH)+1));
+//						consultarRetencion.getView().getTfAnio().setText(Integer.toString(periodo.getFechaInicio().get(Calendar.YEAR)));
 						
 						consultarRetencion.actualizarView();
 						consultarRetencion.actualizarABMModel();
 						
 						consultarRetencion.getOrdenPagoBusquedaModel().setProveedor(locProveedor);
-						consultarRetencion.getOrdenPagoBusquedaModel().setFechaEmisionDesde(periodo.getFechaInicio().getTime());
-						consultarRetencion.getOrdenPagoBusquedaModel().setFechaEmisionHasta(periodo.getFechaFin().getTime());
+//						consultarRetencion.getOrdenPagoBusquedaModel().setFechaEmisionDesde(periodo.getFechaInicio().getTime());
+//						consultarRetencion.getOrdenPagoBusquedaModel().setFechaEmisionHasta(periodo.getFechaFin().getTime());
 						
 						consultarRetencion.actualizarView();
 						consultarRetencion.buscarOrdenesDePago();

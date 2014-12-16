@@ -1181,7 +1181,8 @@ public class AgregarRefinanciacion extends AbstractPageBean {
         if (persona != null) {
             try {
                 this.getCommunicationHabilitacionesBean().getRemoteSystemObligacion().setLlave(this.getSessionBean1().getLlave());
-                obligaciones = new ArrayList(this.getCommunicationHabilitacionesBean().getRemoteSystemObligacion().findListaObligaciones(persona, tipoObligacion, null));
+                obligaciones = new ArrayList(this.getCommunicationHabilitacionesBean().getRemoteSystemObligacion().findListaObligaciones(
+                		persona, tipoObligacion, null, null, null));
 //                obligaciones.addAll( this.getCommunicationHabilitacionesBean().getRemoteSystemObligacion().findListaObligaciones(persona, tipoObligacion, null) );
                 tablePhaseListener.clear();
                 tablePhaseListenerTabla2.clear();

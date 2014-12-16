@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro;
-import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro.Estado;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.gui.framework.component.TColumnField;
 import com.trascender.gui.framework.exception.GuiException;
@@ -28,7 +27,6 @@ public class SolicitudSuministroTableModel extends TAbstractTableModel<Solicitud
 			locListaColumnas.add(new TColumnField("Fecha Emisión", SolicitudSuministro.class.getDeclaredField("fechaEmision"), Date.class));
 			locListaColumnas.add(new TColumnField("Descripción", SolicitudSuministro.class.getDeclaredField("descripcion")));
 			locListaColumnas.add(new TColumnField("Productos Involucrados", SolicitudSuministro.class.getDeclaredField("bienes")));
-			locListaColumnas.add(new TColumnField("Estado", SolicitudSuministro.class.getDeclaredField("estado"), Estado.class));
 			locListaColumnas.add(new TColumnField("Usuario", SolicitudSuministro.class.getDeclaredField("usuario")));
 			
 			return locListaColumnas;

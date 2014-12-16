@@ -3,7 +3,6 @@
 <%@ taglib uri="https://ajax4jsf.dev.java.net/ajax" prefix="a4j"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 
-
 <ui:table augmentTitle="false"
 	binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.table}"
 	id="tableUsuarios" style="width: 100px;">

@@ -3,7 +3,6 @@
 <%@ taglib uri="https://ajax4jsf.dev.java.net/ajax" prefix="a4j"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 
-
 <ui:tree style="overflow : auto;  height: 400px"
 	binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.trProcedimiento}"
 	clientSide="true" id="trProcedimiento" styleClass="tablaInterna">

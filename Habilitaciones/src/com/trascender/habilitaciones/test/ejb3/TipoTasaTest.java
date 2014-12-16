@@ -148,20 +148,6 @@ public class TipoTasaTest extends JAserciones{
 	}
 	
 	@Test
-	public void testFindListaTipoParametro() throws Exception {
-		try {
-			List<TipoParametroGrupoZona> locListaParametros = this.systemFormula.findListaTipoParametroGrupoZona(null, null);
-			
-			for(TipoParametroGrupoZona cadaParam : locListaParametros){
-				System.out.println(cadaParam);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
 	public void testAddListaTipoParametro() throws Exception {
 		try {
 //			List<TipoParametroGrupoZona> locListaParametros = this.systemFormula.findListaTipoParametroGrupoZona(null, null);
@@ -186,9 +172,6 @@ public class TipoTasaTest extends JAserciones{
 //			}catch (Exception e) {
 //				e.printStackTrace();
 //			}
-			
-			System.out.println(systemFormula.findListaTipoParametroGrupoZona(null, locZinif));
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,8 +9,6 @@ package muni.catastro.ABMZonificacion;
 import java.util.ArrayList;
 import java.util.List;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.StaticText;
@@ -233,17 +231,6 @@ public class AdminZonificacion extends AdminPageBean {
 
 	public String btnConsultar_action() {
 		return toAbm(new ZonificacionModel().new ConsultarZonificacionController());
-	}
-
-	/**
-	 * <p>
-	 * Return a reference to the scoped data bean.
-	 * </p>
-	 * 
-	 * @return reference to the scoped data bean
-	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
 	}
 
 	@Override

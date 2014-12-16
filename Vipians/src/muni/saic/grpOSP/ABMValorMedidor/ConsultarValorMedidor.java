@@ -13,8 +13,6 @@ import java.util.Iterator;
 import javax.faces.FacesException;
 import javax.faces.event.ValueChangeEvent;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
@@ -1001,17 +999,6 @@ public class ConsultarValorMedidor extends AbstractPageBean {
 			retorno = this.prepararCaducidad();
 		}
 		return retorno;
-	}
-
-	/**
-	 * <p>
-	 * Return a reference to the scoped data bean.
-	 * </p>
-	 * 
-	 * @return reference to the scoped data bean
-	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
 	}
 
 	public void tfServicioOSP_processValueChange(ValueChangeEvent event) {

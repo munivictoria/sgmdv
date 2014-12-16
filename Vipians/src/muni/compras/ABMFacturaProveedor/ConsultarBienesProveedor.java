@@ -6,11 +6,18 @@
  */
 package muni.compras.ABMFacturaProveedor;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.faces.FacesException;
+
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
+import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Button;
+import com.sun.rave.web.ui.component.Checkbox;
 import com.sun.rave.web.ui.component.Form;
 import com.sun.rave.web.ui.component.Head;
 import com.sun.rave.web.ui.component.HiddenField;
@@ -19,25 +26,19 @@ import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.Link;
 import com.sun.rave.web.ui.component.MessageGroup;
 import com.sun.rave.web.ui.component.Page;
-import com.sun.rave.web.ui.component.StaticText;
-import com.sun.rave.web.ui.component.TextField;
-import com.trascender.compras.recurso.persistent.suministros.Proveedor;
-import com.trascender.presentacion.navegacion.ElementoPila;
-import javax.faces.FacesException;
-import com.sun.rave.web.ui.component.Table;
-import com.sun.rave.web.ui.component.TableRowGroup;
-import com.sun.rave.web.ui.component.TableColumn;
-import com.sun.rave.web.ui.component.RadioButton;
 import com.sun.rave.web.ui.component.PanelGroup;
-import com.sun.data.provider.impl.ObjectListDataProvider;
-import com.sun.rave.web.ui.component.Checkbox;
+import com.sun.rave.web.ui.component.RadioButton;
 import com.sun.rave.web.ui.component.Script;
+import com.sun.rave.web.ui.component.StaticText;
+import com.sun.rave.web.ui.component.Table;
+import com.sun.rave.web.ui.component.TableColumn;
+import com.sun.rave.web.ui.component.TableRowGroup;
+import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.event.TableSelectPhaseListener;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
+import com.trascender.compras.recurso.persistent.suministros.Proveedor;
+import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
-import java.util.ArrayList;
-import java.util.Iterator;
-import muni.CommunicationMesaEntradaBean;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -1045,13 +1046,5 @@ public class ConsultarBienesProveedor extends AbstractPageBean {
         }
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 }
 

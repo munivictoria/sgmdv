@@ -36,10 +36,10 @@ public class BusinessThreaderBean implements BusinessThreaderLocal{
 		while (hasta > 0) {
 			if (desde < 0) desde = 0;
 			List<LiquidacionTasaAgrupada> locSubLista = pListaLiquidaciones.subList(desde, hasta);
-			LiquidacionTasaAgrupadaDS dataSource = 
-				new LiquidacionTasaAgrupadaDS(locSubLista, pLogo, pTitulo, pSubtitulo, pBusinessZonificacion);
+//			LiquidacionTasaAgrupadaDS dataSource = 
+//				new LiquidacionTasaAgrupadaDS(locSubLista, pLogo, pTitulo, pSubtitulo, pBusinessZonificacion);
 			String nombre = "/opt/reportes/Liquidaciones_"+desde+"-"+hasta+".pdf";
-			Thread locThread = new Thread(new ImpresorAPDF(dataSource, nombre));
+			Thread locThread = new Thread(new ImpresorAPDF(null, nombre));
 			locThread.start();
 			hasta -= tamañoADividir;
 			desde -= tamañoADividir;

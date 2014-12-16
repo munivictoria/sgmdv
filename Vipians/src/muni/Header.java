@@ -193,13 +193,6 @@ public class Header extends AbstractPageBean {
     /** 
      * <p>Devolver una referencia al bean de datos con �mbito.</p>
      */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
-
-    /** 
-     * <p>Devolver una referencia al bean de datos con �mbito.</p>
-     */
     protected CommunicationSAICBean getCommunicationSAICBean() {
         return (CommunicationSAICBean) getBean("CommunicationSAICBean");
     }

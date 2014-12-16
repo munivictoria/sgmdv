@@ -98,13 +98,14 @@ public class SystemReportesCatastroBean implements SystemReportesCatastro{
 	}
 	
 	public JasperPrint getReporteInformacionParcelaria(long idParcela) throws Exception, RemoteException{
-		Parcela locParcela = this.systemParcela.getParcelaPorId(idParcela);
-		SystemAdministracionZonificacion locSystemZonificacion = this.getSystemZonificacion();
-		InformacionParcelariaDS locDS = new InformacionParcelariaDS(locParcela, locSystemZonificacion, this.systemParcela, "");
-		URL urlMaestro = this.getClass().getResource("/com/trascender/catastro/reporte/compilado/" + locDS.getNombreReporte());
-		JasperReport JR = (JasperReport) JRLoader.loadObject(urlMaestro);			
-		JasperPrint jasperPrint = JasperFillManager.fillReport(JR, locDS.getMapaParametros(), locDS);
-		return jasperPrint;
+//		Parcela locParcela = this.systemParcela.getParcelaPorId(idParcela);
+//		SystemAdministracionZonificacion locSystemZonificacion = this.getSystemZonificacion();
+//		InformacionParcelariaDS locDS = new InformacionParcelariaDS(locParcela, locSystemZonificacion, this.systemParcela, "");
+//		URL urlMaestro = this.getClass().getResource("/com/trascender/catastro/reporte/compilado/" + locDS.getNombreReporte());
+//		JasperReport JR = (JasperReport) JRLoader.loadObject(urlMaestro);			
+//		JasperPrint jasperPrint = JasperFillManager.fillReport(JR, locDS.getMapaParametros(), locDS);
+//		return jasperPrint;
+		return null;
 	}
 	
 	private SystemAdministracionZonificacion getSystemZonificacion() throws TrascenderException{

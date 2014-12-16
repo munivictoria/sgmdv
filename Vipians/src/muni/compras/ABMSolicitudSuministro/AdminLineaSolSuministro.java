@@ -12,8 +12,6 @@ import java.util.List;
 
 import javax.faces.FacesException;
 
-import muni.CommunicationMesaEntradaBean;
-
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
 import com.sun.data.provider.RowKey;
@@ -1451,15 +1449,6 @@ public class AdminLineaSolSuministro extends AbstractPageBean {
         // TODO: Replace with your code
         //mines
 
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
     }
 
     public String btnSeleccionar_action() {

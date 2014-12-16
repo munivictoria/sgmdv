@@ -215,7 +215,6 @@ public class BusinessExencionRegistroDeudaBean implements BusinessExencionRegist
 				.uniqueResult();
 		if(locExencion != null) {
 			locExencion.toString();
-			locExencion.getCuotaLiquidacion().toString();
 			if(locExencion.getListaRegistrosExencion() != null && !locExencion.getListaRegistrosExencion().isEmpty()) {
 				locExencion.getListaRegistrosExencion().toString();
 				for(RegistroExencionRegistroDeuda cadaRegistroExencionRegistroDeuda : locExencion.getListaRegistrosExencion()) {
@@ -252,7 +251,6 @@ public class BusinessExencionRegistroDeudaBean implements BusinessExencionRegist
 
 		for(ExencionRegistroDeuda cadaExencionRegistroDeuda : locLista) {
 			cadaExencionRegistroDeuda.toString();
-			cadaExencionRegistroDeuda.getCuotaLiquidacion().toString();
 		}
 
 		return locLista;

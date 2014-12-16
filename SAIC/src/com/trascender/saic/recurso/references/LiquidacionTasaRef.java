@@ -3,14 +3,9 @@ package com.trascender.saic.recurso.references;
 import java.util.Date;
 import java.util.TreeSet;
 
-import org.apache.commons.codec.language.RefinedSoundex;
-
 import com.trascender.framework.util.Util;
-import com.trascender.habilitaciones.recurso.persistent.Obligacion;
-import com.trascender.saic.recurso.interfaces.Pagable;
-import com.trascender.saic.recurso.persistent.Vencimiento;
-import com.trascender.saic.recurso.persistent.VencimientoLiquidacion;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
+import com.trascender.saic.recurso.persistent.Vencimiento;
 
 public class LiquidacionTasaRef {
 
@@ -18,7 +13,7 @@ public class LiquidacionTasaRef {
 	public EstadoRegistroDeuda estado;
 	private Boolean tieneRegCancelacion = false;
 	private Date fechaEmision;
-	private TreeSet<VencimientoLiquidacion> listaVencimientos;
+	private TreeSet<Vencimiento> listaVencimientos;
 	
 	public Character getEstadoChar() {
 		return estadoChar;
@@ -43,7 +38,7 @@ public class LiquidacionTasaRef {
 	
 	
 	public LiquidacionTasaRef(EstadoRegistroDeuda estado,
-			Boolean tieneRegCancelacion, Date fechaEmision, TreeSet<VencimientoLiquidacion> listaVencimientos) {
+			Boolean tieneRegCancelacion, Date fechaEmision, TreeSet<Vencimiento> listaVencimientos) {
 		this.estado = estado;
 		this.tieneRegCancelacion = tieneRegCancelacion;
 		this.fechaEmision = fechaEmision;
@@ -51,11 +46,11 @@ public class LiquidacionTasaRef {
 		this.cargarEstadoChar();
 	}
 	public LiquidacionTasaRef(EstadoRegistroDeuda estado,
-			Boolean tieneRegCancelacion, Date fechaEmision, VencimientoLiquidacion vencimiento) {
+			Boolean tieneRegCancelacion, Date fechaEmision, Vencimiento vencimiento) {
 		this.estado = estado;
 		this.tieneRegCancelacion = tieneRegCancelacion;
 		this.fechaEmision = fechaEmision;
-		this.listaVencimientos = new TreeSet<VencimientoLiquidacion>();
+		this.listaVencimientos = new TreeSet<Vencimiento>();
 		this.listaVencimientos.add(vencimiento);
 		this.cargarEstadoChar();
 		
@@ -66,10 +61,10 @@ public class LiquidacionTasaRef {
 	public void setFechaEmision(Date fecha) {
 		this.fechaEmision = fecha;
 	}
-	public TreeSet<VencimientoLiquidacion> getListaVencimientos() {
+	public TreeSet<Vencimiento> getListaVencimientos() {
 		return listaVencimientos;
 	}
-	public void setListaVencimientos(TreeSet<VencimientoLiquidacion> listaVencimientos) {
+	public void setListaVencimientos(TreeSet<Vencimiento> listaVencimientos) {
 		this.listaVencimientos = listaVencimientos;
 	}
 	@Override

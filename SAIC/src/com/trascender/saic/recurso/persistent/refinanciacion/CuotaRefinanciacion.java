@@ -46,8 +46,6 @@ public class CuotaRefinanciacion extends RegistroDeuda{
 		this.setTipoDeuda(TipoDeuda.REFINANCIACION);
 	}
 	
-	@Transient
-	@Override
 	public Double getValor(){
 		try{
 			Double total = this.getValorCuota();

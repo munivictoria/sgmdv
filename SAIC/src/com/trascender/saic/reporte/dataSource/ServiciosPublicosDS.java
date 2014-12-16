@@ -86,7 +86,7 @@ public class ServiciosPublicosDS extends TrascenderDataSource{
 			parametros.put("PAR_CUIT", Util.getFormatIfNull(locPersona.getCuim()));
 			parametros.put("PAR_CUENTA", Util.getFormatIfNull(null));
 			parametros.put("PAR_PERIODO_ANTICIPO", Util.getFormatIfNull(cadaLiquidacion.getCuotaLiquidacion().getNombre()));
-			parametros.put("PAR_AÑO", Util.getFormatIfNull(cadaLiquidacion.getCuotaLiquidacion().getFechaFin().YEAR));
+			parametros.put("PAR_AÑO", Util.getFormatIfNull(cadaLiquidacion.getCuotaLiquidacion().getAnio()));
 			
 			Parcela locParcela = locDocHabilitanteEspecializado.getParcela();
 			if (locParcela != null){
@@ -107,9 +107,9 @@ public class ServiciosPublicosDS extends TrascenderDataSource{
 				}
 				parametros.put("PAR_SECCION", Util.getFormatIfNull(locParcela.getNomenclaturaCatastral().getSeccion()));
 				parametros.put("PAR_PARTIDA", Util.getFormatIfNull(locParcela.getNroPartidaProvincial()));
-				Zona locZona = locParcela.getZona();
+				Zona locZona = locParcela.getListaAsociacionParcela().get(0).getZona();
 				if(locZona != null){
-					parametros.put("PAR_ZONA", Util.getFormatIfNull(locParcela.getZona().getNombre()));
+					parametros.put("PAR_ZONA", Util.getFormatIfNull(locZona.getNombre()));
 				}else{
 					parametros.put("PAR_ZONA", "---");
 				}
@@ -170,23 +170,6 @@ public class ServiciosPublicosDS extends TrascenderDataSource{
 			parametros.put("PAR_MODIFICADOR_PERIODOS_CAJA_DS", new InformacionDePeriodosDS(cadaLiquidacion));
 			parametros.put("PAR_MODIFICADOR_PERIODOS_CONTADURIA_DS", new InformacionDePeriodosDS(cadaLiquidacion));
 		}
-	}
-	
-	private String getTipoPago(LiquidacionTasa pLiquidacion){
-		String locTipoPago = "";
-		Tasa locTasa = (Tasa) pLiquidacion.getDocGeneradorDeuda();
-		Periodicidad locPeriodicidadCuotas = locTasa.getTipoTasa().getPeriodicidadCuotas();
-		Periodicidad locPeriodicidadLiquidacion = locTasa.getTipoTasa().getPeriodicidad();
-		if (locPeriodicidadLiquidacion.equals(Periodicidad.ANUAL)){
-			if (locPeriodicidadCuotas.equals(Periodicidad.ANUAL)){
-				locTipoPago = "PAGO ANUAL: "+pLiquidacion.getCuotaLiquidacion().toString();
-			} else if (locPeriodicidadCuotas.equals(Periodicidad.MENSUAL)){
-				locTipoPago = "PAGO EN TERCIOS: Mes " + pLiquidacion.getNumeroCuota()+ "/"+locTasa.getTipoTasa().getCantidadCuotas();
-			}
-		} else if (locPeriodicidadLiquidacion.equals(Periodicidad.BIMESTRAL)){
-			locTipoPago = "PAGO BIMESTRAL: Bimestre " + pLiquidacion.getCuotaLiquidacion().getNumero()+"/6";
-		}
-		return locTipoPago;
 	}
 	
 	@Override

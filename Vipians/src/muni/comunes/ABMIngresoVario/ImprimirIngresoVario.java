@@ -4,22 +4,22 @@
  */
 package muni.comunes.ABMIngresoVario;
 
-import com.sun.rave.web.ui.appbase.AbstractPageBean;
-import com.trascender.contabilidad.recurso.persistent.CuentaConceptoIngresoVario;
-import com.trascender.contabilidad.recurso.persistent.IngresoVario;
-import com.trascender.framework.recurso.persistent.Usuario;
-import com.trascender.presentacion.conversores.Conversor;
 import java.text.SimpleDateFormat;
+
 import javax.faces.FacesException;
+
+import muni.ApplicationBean1;
 import muni.CommunicationCajaBean;
-import muni.ComunicationBean;
+import muni.CommunicationComprasBean;
 import muni.CommunicationExcepcionesBean;
 import muni.CommunicationHabilitacionesBean;
-import muni.CommunicationMesaEntradaBean;
-import muni.ApplicationBean1;
 import muni.CommunicationSAICBean;
-import muni.CommunicationComprasBean;
+import muni.ComunicationBean;
 import muni.ComunicationCatastroBean;
+
+import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.trascender.contabilidad.recurso.persistent.IngresoVario;
+import com.trascender.framework.recurso.persistent.Usuario;
 
 /**
  *
@@ -319,14 +319,6 @@ public class ImprimirIngresoVario extends AbstractPageBean {
         return (CommunicationHabilitacionesBean) getBean("CommunicationHabilitacionesBean");
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 
     /**
      * <p>Return a reference to the scoped data bean.</p>

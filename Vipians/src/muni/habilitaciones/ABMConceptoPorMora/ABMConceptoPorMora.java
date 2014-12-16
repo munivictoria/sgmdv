@@ -9,8 +9,6 @@ package muni.habilitaciones.ABMConceptoPorMora;
 
 import java.util.ArrayList;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.Label;
@@ -472,17 +470,6 @@ public class ABMConceptoPorMora extends ABMPageBean {
 		 * this.getElementoPila().getObjetos().set(0, tipoModificador);
 		 */
 		return;
-	}
-
-	/**
-	 * <p>
-	 * Return a reference to the scoped data bean.
-	 * </p>
-	 * 
-	 * @return reference to the scoped data bean
-	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
 	}
 
 	@Override

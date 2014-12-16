@@ -12,10 +12,7 @@ import java.util.List;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 
-import muni.CommunicationMesaEntradaBean;
 import muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio;
-import muni.entrada.ABMTramite.AdminTramite;
-import muni.entrada.ABMTramite.AgregarTramite;
 
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
@@ -549,20 +546,8 @@ public class AdminFacturaServicio extends AdminPageBean {
         return null;
     }
 
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
-
     protected ABMFacturaSubsidio getcompras$ABMFacturaSubsidio$AgregarFacturaSubsidio() {
         return (ABMFacturaSubsidio) getBean("compras$ABMFacturaSubsidio$AgregarFacturaSubsidio");
-    }
-
-    protected AdminTramite getentrada$ABMTramite$AdminTramite() {
-        return (AdminTramite) getBean("entrada$ABMTramite$AdminTramite");
-    }
-
-    protected AgregarTramite getentrada$ABMTramite$AgregarTramite() {
-        return (AgregarTramite) getBean("entrada$ABMTramite$AgregarTramite");
     }
 
     public String btnSeleccionarBien_action() {

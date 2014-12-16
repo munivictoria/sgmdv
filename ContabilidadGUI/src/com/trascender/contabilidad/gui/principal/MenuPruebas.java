@@ -12,8 +12,6 @@ import com.trascender.contabilidad.gui.abmBien.AdminBien;
 import com.trascender.contabilidad.gui.abmCuenta.AdminCuenta;
 import com.trascender.contabilidad.gui.abmDigestoMunicipal.AdminDigestoMunicipal;
 import com.trascender.contabilidad.gui.abmFolioLibroDiario.AdminFolioLibroDiario;
-import com.trascender.contabilidad.gui.abmGrupoBien.AdminGrupoBien;
-import com.trascender.contabilidad.gui.abmGrupoProveedor.AdminGrupoProveedor;
 import com.trascender.contabilidad.gui.abmOrdenCompra.AdminOrdenCompra;
 import com.trascender.contabilidad.gui.abmPersonaFisica.AdminPersonaFisica;
 import com.trascender.contabilidad.gui.abmProveedor.AdminProveedor;
@@ -215,8 +213,8 @@ class AdminGrupoProveedorListener implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		try {
-			AdminGrupoProveedor adminGrupoProveedor = new AdminGrupoProveedor(this.owner);
-			adminGrupoProveedor.open();
+//			AdminGrupoProveedor adminGrupoProveedor = new AdminGrupoProveedor(this.owner);
+//			adminGrupoProveedor.open();
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -233,8 +231,8 @@ class AdminGrupoBienListener implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		try {
-			AdminGrupoBien adminGrupoBien = new AdminGrupoBien(this.owner);
-			adminGrupoBien.open();
+//			AdminGrupoBien adminGrupoBien = new AdminGrupoBien(this.owner);
+//			adminGrupoBien.open();
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();

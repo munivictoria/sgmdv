@@ -126,14 +126,14 @@ public class Util {
 		Periodo locPeriodo = new Periodo();
 		locPeriodo.setFechaFin(locFechaFin);
 		locPeriodo.setFechaInicio(locFechaInicio);
-		locPeriodo.setPorcentajePeriodo(locPorcentaje);
-		locPeriodo.setNombrePeriodo("Mes "
-				+ (new SimpleDateFormat("MMMM")).format(pFecha.getTime()));
-		
-		
-		locPeriodo.setNumeroPeriodo((locPeriodo.getFechaInicio().get(Calendar.MONTH)+1));
-		locPeriodo.setNombrePeriodoReducido("Mes "+locPeriodo.getNumeroPeriodo()+"/12 de "+locPeriodo.getFechaInicio().get(Calendar.YEAR));
-		locPeriodo.setPeriodicidad(Periodicidad.MENSUAL);
+//		locPeriodo.setPorcentajePeriodo(locPorcentaje);
+//		locPeriodo.setNombrePeriodo("Mes "
+//				+ (new SimpleDateFormat("MMMM")).format(pFecha.getTime()));
+//		
+//		
+//		locPeriodo.setNumeroPeriodo((locPeriodo.getFechaInicio().get(Calendar.MONTH)+1));
+//		locPeriodo.setNombrePeriodoReducido("Mes "+locPeriodo.getNumeroPeriodo()+"/12 de "+locPeriodo.getFechaInicio().get(Calendar.YEAR));
+//		locPeriodo.setPeriodicidad(Periodicidad.MENSUAL);
 		return locPeriodo;
 	}
 }

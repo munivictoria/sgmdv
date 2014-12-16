@@ -5,7 +5,6 @@
 package muni.compras.ABMLicitacion;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +12,6 @@ import java.util.Set;
 
 import javax.faces.FacesException;
 import javax.faces.convert.NumberConverter;
-
-import muni.CommunicationMesaEntradaBean;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
@@ -1330,15 +1327,6 @@ public class AgregarLineaContratacion extends AbstractPageBean{
         }
 
         return retorno;
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
     }
 
     public String btnAceptar_action() {

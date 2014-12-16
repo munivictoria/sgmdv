@@ -25,11 +25,12 @@ public class AsociacionCuentaLineaFacturaABMModel extends TAbstractABMModel<Cuen
 	}
 
 	public Periodo getPeriodo() {
-		return this.objetoABM.getPeriodo();
+//		return this.objetoABM.getPeriodo();
+		return null;
 	}
 
 	public void setPeriodo(Periodo periodo) {
-		this.objetoABM.setPeriodo(periodo);
+//		this.objetoABM.setPeriodo(periodo);
 	}
 
 	public Cuenta getCuenta() {

@@ -7,6 +7,10 @@
 package muni.habilitaciones.grpTasaMenor.ABMDocEspTasaMenor;
 
 
+import java.util.ArrayList;
+
+import javax.faces.FacesException;
+
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
@@ -23,19 +27,15 @@ import com.sun.rave.web.ui.component.Script;
 import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.TextField;
 import com.trascender.catastro.recurso.persistent.Parcela;
-import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
-import com.trascender.presentacion.conversores.Conversor;
-import com.trascender.presentacion.navegacion.ElementoPila;
-import javax.faces.FacesException;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Domicilio;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.habilitaciones.recurso.persistent.tasaMenor.DocumentoTasaMenor;
+import com.trascender.presentacion.conversores.Conversor;
+import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.utiles.PanelAtributoDinamico;
-import java.util.ArrayList;
-import muni.CommunicationMesaEntradaBean;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page. This class
@@ -879,12 +879,4 @@ public class EliminarDocEspTasaMenor extends AbstractPageBean {
         return retorno;
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 }

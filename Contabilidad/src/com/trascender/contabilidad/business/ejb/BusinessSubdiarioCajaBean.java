@@ -27,19 +27,15 @@ import com.trascender.compras.recurso.persistent.suministros.OrdenCompra;
 import com.trascender.contabilidad.business.interfaces.BusinessSubdiarioCajaLocal;
 import com.trascender.contabilidad.exception.TrascenderContabilidadException;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
-import com.trascender.contabilidad.recurso.persistent.LineaPresupuestoGastos;
 import com.trascender.contabilidad.recurso.persistent.LineaSubdiarioCaja;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCaja;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaEgreso;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
 import com.trascender.contabilidad.recurso.persistent.PlanDeCuenta;
-import com.trascender.contabilidad.recurso.persistent.Presupuesto;
 import com.trascender.contabilidad.recurso.persistent.SubdiarioCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.framework.recurso.transients.Grupo;
-import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.framework.recurso.transients.Recurso;
-import com.trascender.framework.util.Periodicidad;
 import com.trascender.framework.util.SecurityMgr;
 
 @Stateless(name = "ejb/BusinessSubdiarioCajaLocal")
@@ -368,71 +364,71 @@ public class BusinessSubdiarioCajaBean implements BusinessSubdiarioCajaLocal {
 			}
 		}
 
-		for(Long locLlave : mapaMontos.keySet()) {
-			Periodo locPeriodoTransient = SecurityMgr.getInstance().getPeriodo(SecurityMgr.getInstance().getFechaActual(), Periodicidad.ANUAL);
-			LineaPresupuestoGastos locLinea = Criterio.getInstance(entity, LineaPresupuestoGastos.class).add(Restriccion.IGUAL("cuenta.idCuenta", locLlave))
-					.crearAlias("presupuesto.periodo", "cadaPeriodo").add(Restriccion.IGUAL("cadaPeriodo.fechaInicio", locPeriodoTransient.getFechaInicio()))
-					.add(Restriccion.IGUAL("cadaPeriodo.periodicidad", locPeriodoTransient.getPeriodicidad()))
-					.add(Restriccion.IGUAL("cadaPresupuesto.estado", Presupuesto.Estado.ACTIVO)).setDistinct(true).uniqueResult();
-
-			if(locLinea == null) {
-				throw new TrascenderContabilidadException(762);
-			} else {
-				Double locMontoComprometido = locLinea.getMontoComprometido() + mapaMontos.get(locLlave);
-				if(locLinea.getMontoPresupuestado() < locMontoComprometido) {
-					resultado = false;
-					break;
-				}
-			}
-		}
+//		for(Long locLlave : mapaMontos.keySet()) {
+//			Periodo locPeriodoTransient = SecurityMgr.getInstance().getPeriodo(SecurityMgr.getInstance().getFechaActual(), Periodicidad.ANUAL);
+//			LineaPresupuestoGastos locLinea = Criterio.getInstance(entity, LineaPresupuestoGastos.class).add(Restriccion.IGUAL("cuenta.idCuenta", locLlave))
+//					.crearAlias("presupuesto.periodo", "cadaPeriodo").add(Restriccion.IGUAL("cadaPeriodo.fechaInicio", locPeriodoTransient.getFechaInicio()))
+//					.add(Restriccion.IGUAL("cadaPeriodo.periodicidad", locPeriodoTransient.getPeriodicidad()))
+//					.add(Restriccion.IGUAL("cadaPresupuesto.estado", Presupuesto.Estado.ACTIVO)).setDistinct(true).uniqueResult();
+//
+//			if(locLinea == null) {
+//				throw new TrascenderContabilidadException(762);
+//			} else {
+//				Double locMontoComprometido = locLinea.getMontoComprometido() + mapaMontos.get(locLlave);
+//				if(locLinea.getMontoPresupuestado() < locMontoComprometido) {
+//					resultado = false;
+//					break;
+//				}
+//			}
+//		}
 		return resultado;
 	}
 
 	public void aceptarOrdenCompra(com.trascender.compras.recurso.persistent.suministros.OrdenCompra pOrdenCompra) throws Exception {
-
-		OrdenCompra locOrden = entity.find(OrdenCompra.class, pOrdenCompra.getIdOrdenCompra());
-		if(locOrden.getEstado() != OrdenCompra.Estado.APROBADA) {
-			throw new TrascenderContabilidadException(760);
-		}
-
-		// Mapa para llevar la cuenta de los montos comprometidos de cada
-		// caja
-		Map<Long, Double> mapaMontos = new HashMap<Long, Double>();
-
-		for(LineaOrdenCompra locLineaOrden : pOrdenCompra.getListaLineaOrdenCompra()) {
-			// TODO No se recupera de esta manera.
-			// Long locIdCuenta = locLineaOrden.getLineaSolicitudSuministro().getCuentaRfr().getIdCuenta();
-			Long locIdCuenta = 0l;
-			Double locMonto = mapaMontos.get(locIdCuenta);
-			if(locMonto != null) {
-				locMonto += locLineaOrden.getMontoTotal();
-			} else {
-				mapaMontos.put(locIdCuenta, new Double(locLineaOrden.getMontoTotal()));
-			}
-		}
-
-		for(Long locLlave : mapaMontos.keySet()) {
-			Periodo locPeriodoTransient = SecurityMgr.getInstance().getPeriodo(SecurityMgr.getInstance().getFechaActual(), Periodicidad.ANUAL);
-
-			LineaPresupuestoGastos locLinea = Criterio.getInstance(entity, LineaPresupuestoGastos.class).add(Restriccion.IGUAL("cuenta.idCuenta", locLlave))
-					.crearAlias("presupuesto.periodo", "cadaPeriodo").add(Restriccion.IGUAL("cadaPeriodo.fechaInicio", locPeriodoTransient.getFechaInicio()))
-					.add(Restriccion.IGUAL("cadaPeriodo.periodicidad", locPeriodoTransient.getPeriodicidad()))
-					.add(Restriccion.IGUAL("cadaPresupuesto.estado", Presupuesto.Estado.ACTIVO)).setDistinct(true).uniqueResult();
-			if(locLinea == null) {
-				throw new TrascenderContabilidadException(762);
-			} else {
-				Double locMontoComprometido = locLinea.getMontoComprometido() + mapaMontos.get(locLlave);
-
-				// TODO No se sabe si deberia tirar excepcion o no, por ahora se puede usar el metodo
-				// validarAceptacionOrdenCompra de este mismo bean que avisa si el monto de la orden de
-				// compra supera el monto prespuestado de alguna de las cajas.
-
-				// if (locLinea.getMontoPresupuestado() < locMontoComprometido) {
-				// throw new TrascenderContabilidadException(761);
-				// }
-				locLinea.setMontoComprometido(locMontoComprometido);
-			}
-		}
+//
+//		OrdenCompra locOrden = entity.find(OrdenCompra.class, pOrdenCompra.getIdOrdenCompra());
+//		if(locOrden.getEstado() != OrdenCompra.Estado.APROBADA) {
+//			throw new TrascenderContabilidadException(760);
+//		}
+//
+//		// Mapa para llevar la cuenta de los montos comprometidos de cada
+//		// caja
+//		Map<Long, Double> mapaMontos = new HashMap<Long, Double>();
+//
+//		for(LineaOrdenCompra locLineaOrden : pOrdenCompra.getListaLineaOrdenCompra()) {
+//			// TODO No se recupera de esta manera.
+//			// Long locIdCuenta = locLineaOrden.getLineaSolicitudSuministro().getCuentaRfr().getIdCuenta();
+//			Long locIdCuenta = 0l;
+//			Double locMonto = mapaMontos.get(locIdCuenta);
+//			if(locMonto != null) {
+//				locMonto += locLineaOrden.getMontoTotal();
+//			} else {
+//				mapaMontos.put(locIdCuenta, new Double(locLineaOrden.getMontoTotal()));
+//			}
+//		}
+//
+//		for(Long locLlave : mapaMontos.keySet()) {
+//			Periodo locPeriodoTransient = SecurityMgr.getInstance().getPeriodo(SecurityMgr.getInstance().getFechaActual(), Periodicidad.ANUAL);
+//
+//			LineaPresupuestoGastos locLinea = Criterio.getInstance(entity, LineaPresupuestoGastos.class).add(Restriccion.IGUAL("cuenta.idCuenta", locLlave))
+//					.crearAlias("presupuesto.periodo", "cadaPeriodo").add(Restriccion.IGUAL("cadaPeriodo.fechaInicio", locPeriodoTransient.getFechaInicio()))
+//					.add(Restriccion.IGUAL("cadaPeriodo.periodicidad", locPeriodoTransient.getPeriodicidad()))
+//					.add(Restriccion.IGUAL("cadaPresupuesto.estado", Presupuesto.Estado.ACTIVO)).setDistinct(true).uniqueResult();
+//			if(locLinea == null) {
+//				throw new TrascenderContabilidadException(762);
+//			} else {
+//				Double locMontoComprometido = locLinea.getMontoComprometido() + mapaMontos.get(locLlave);
+//
+//				// TODO No se sabe si deberia tirar excepcion o no, por ahora se puede usar el metodo
+//				// validarAceptacionOrdenCompra de este mismo bean que avisa si el monto de la orden de
+//				// compra supera el monto prespuestado de alguna de las cajas.
+//
+//				// if (locLinea.getMontoPresupuestado() < locMontoComprometido) {
+//				// throw new TrascenderContabilidadException(761);
+//				// }
+//				locLinea.setMontoComprometido(locMontoComprometido);
+//			}
+//		}
 	}
 
 }

@@ -53,7 +53,6 @@ public class AdminSolicitudSuministro extends AdminController<SolicitudSuministr
 	private void setModels() {
 		this.getView().setBusquedaModel(this.getBusquedaModel());
 		this.getView().setTableModel(this.getTableModel());
-		this.getView().getCbEstado().setModel(new TDefaultComboBoxModel(SolicitudSuministro.Estado.values()));
 	}
 	
 	private void setListeners() {
@@ -71,8 +70,6 @@ public class AdminSolicitudSuministro extends AdminController<SolicitudSuministr
 		SolicitudSuministroBusquedaModel locModel = this.getBusquedaModel();
 		
 		Object locEstado = this.getView().getCbEstado().getSelectedItem();
-		if (locEstado != null) locModel.setEstado((SolicitudSuministro.Estado)locEstado);
-		else locModel.setEstado(null);
 		
 		locModel.fireActualizarDatos();
 	}
@@ -81,7 +78,6 @@ public class AdminSolicitudSuministro extends AdminController<SolicitudSuministr
 	protected void actualizarBusquedaView() {
 		this.getView().getTfproducto().setText(Conversor.getVacioSiNull(this.getBusquedaModel().getBienAsociado()));
 		this.getView().getTfArea().setText(Conversor.getVacioSiNull(this.getBusquedaModel().getArea()));
-		this.getView().getCbEstado().setSelectedItem(this.getBusquedaModel().getEstado());
 	}
 	
 	public void buscar() throws Exception {

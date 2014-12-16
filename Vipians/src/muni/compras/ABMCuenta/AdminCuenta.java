@@ -10,8 +10,6 @@ package muni.compras.ABMCuenta;
 
 import java.util.List;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.StaticText;
@@ -286,10 +284,6 @@ public class AdminCuenta extends AdminPageBean {
 	// }
 	// return retorno;
 	// }
-
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-	}
 
 	@Override
 	public PaginatedTable getPaginatedTable() {

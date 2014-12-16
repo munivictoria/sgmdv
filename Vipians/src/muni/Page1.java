@@ -132,13 +132,6 @@ public class Page1 extends AbstractPageBean {
     }
     
     /** 
-     * <p>Devolver una referencia al bean de datos con �mbito.</p>
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean)getBean("CommunicationMesaEntradaBean");
-    }
-
-    /** 
      * <p>Devolver una referencia al bean de datos con ámbito.</p>
      */
     protected ComunicationCatastroBean getComunicationCatastroBean() {

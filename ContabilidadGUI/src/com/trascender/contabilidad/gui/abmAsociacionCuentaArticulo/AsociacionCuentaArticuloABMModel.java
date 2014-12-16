@@ -33,11 +33,12 @@ public class AsociacionCuentaArticuloABMModel extends TAbstractABMModel<CuentaAr
 	}
 	
 	public void setPeriodo(Periodo pPeriodo){
-		this.objetoABM.setPeriodo(pPeriodo);
+//		this.objetoABM.setPeriodo(pPeriodo);
 	}
 	
 	public Periodo getPeriodo(){
-		return this.objetoABM.getPeriodo();
+//		return this.objetoABM.getPeriodo();
+		return null;
 	}
 	
 	public Articulo getArticulo(){

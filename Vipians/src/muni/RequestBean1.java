@@ -100,13 +100,6 @@ public class RequestBean1 extends AbstractRequestBean {
         return (ApplicationBean1)getBean("ApplicationBean1");
     }
     
-     /** 
-     * <p>Devolver una referencia al bean de datos con �mbito.</p>
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean)getBean("CommunicationMesaEntradaBean");
-    }
-
     /** 
      * <p>Devolver una referencia al bean de datos con �mbito.</p>
      */

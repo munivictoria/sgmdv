@@ -9,7 +9,6 @@ package muni.framework.ABMContrato;
 
 import java.rmi.RemoteException;
 
-import muni.CommunicationMesaEntradaBean;
 import muni.compras.ABMFacturaContrato.ABMFacturaContrato;
 import muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio;
 
@@ -307,10 +306,6 @@ public class ABMContrato extends ABMPageBean {
 
 	protected ABMFacturaContrato getcompras$ABMFacturaContrato$AgregarFacturaContrato() {
 		return (ABMFacturaContrato) getBean("compras$ABMFacturaContrato$AgregarFacturaContrato");
-	}
-
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
 	}
 
 	public String btnSeleccionarPersonaFisica_action() {

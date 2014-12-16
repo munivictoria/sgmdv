@@ -11,8 +11,6 @@ import java.util.Date;
 
 import javax.faces.FacesException;
 
-import muni.CommunicationMesaEntradaBean;
-
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Button;
@@ -1066,13 +1064,4 @@ public class ConsultarLiquidaciones extends AbstractPageBean {
 	//        this.getTfCodigoMedidor().setRendered(mostrar);
 	//        return;
 	//    }
-
-	/**
-	 * <p>Return a reference to the scoped data bean.</p>
-	 *
-	 * @return reference to the scoped data bean
-	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-	}
 }

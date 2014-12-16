@@ -4,19 +4,18 @@
  */
 package muni.saic.grpPFO.ABMLiquidacionPFO;
 
-import com.sun.rave.web.ui.appbase.AbstractPageBean;
-import com.trascender.compras.recurso.persistent.suministros.Proveedor;
-import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import javax.faces.FacesException;
+
+import muni.ApplicationBean1;
 import muni.CommunicationCajaBean;
-import muni.ComunicationBean;
+import muni.CommunicationComprasBean;
 import muni.CommunicationExcepcionesBean;
 import muni.CommunicationHabilitacionesBean;
-import muni.CommunicationMesaEntradaBean;
-import muni.ApplicationBean1;
 import muni.CommunicationSAICBean;
-import muni.CommunicationComprasBean;
+import muni.ComunicationBean;
 import muni.ComunicationCatastroBean;
+
+import com.sun.rave.web.ui.appbase.AbstractPageBean;
 
 /**
  *
@@ -175,15 +174,6 @@ public class ImprimirLiquidacionPFO extends AbstractPageBean {
      */
     protected CommunicationHabilitacionesBean getCommunicationHabilitacionesBean() {
         return (CommunicationHabilitacionesBean) getBean("CommunicationHabilitacionesBean");
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
     }
 
     /**

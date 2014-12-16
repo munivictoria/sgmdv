@@ -235,15 +235,6 @@ public class Nav2 extends AbstractPageBean {
 		return (ComunicationBean) getBean("ComunicationBean");
 	}
 
-	/**
-	 * <p>
-	 * Devolver una referencia al bean de datos con �mbito.
-	 * </p>
-	 */
-	protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-		return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-	}
-
 	protected ApplicationBean1 getApplicationBean1() {
 		return (ApplicationBean1) getBean("ApplicationBean1");
 	}

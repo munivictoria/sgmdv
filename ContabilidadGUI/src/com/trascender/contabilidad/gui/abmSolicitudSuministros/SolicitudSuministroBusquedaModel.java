@@ -5,7 +5,6 @@ import java.util.List;
 import com.trascender.compras.recurso.filtros.FiltroSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
 import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro;
-import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro.Estado;
 import com.trascender.compras.system.interfaces.SystemAdministracionSolicitudSuministro;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.framework.recurso.persistent.Area;
@@ -15,7 +14,6 @@ public class SolicitudSuministroBusquedaModel extends TAbstractBusquedaModel<Sol
 
 	private Area area;
 	private Bien bienAsociado;
-	private Estado estado;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -24,7 +22,7 @@ public class SolicitudSuministroBusquedaModel extends TAbstractBusquedaModel<Sol
 		FiltroSolicitudSuministro locFiltro = new FiltroSolicitudSuministro();
 		locFiltro.setArea(this.getArea());
 		locFiltro.setBien(this.getBienAsociado());
-		locFiltro.setEstado(this.getEstado());
+//		locFiltro.setEstado(this.getEstado());
 		List<SolicitudSuministro> locLista = locSystem.findListadoSolicitudSuministro(locFiltro).getListaResultados();
 		return locLista;
 	}
@@ -33,7 +31,7 @@ public class SolicitudSuministroBusquedaModel extends TAbstractBusquedaModel<Sol
 	public void reiniciar() {
 		this.setArea(null);
 		this.setBienAsociado(null);
-		this.setEstado(null);
+//		this.setEstado(null);
 		
 		fireActualizarDatos();
 	}
@@ -54,12 +52,12 @@ public class SolicitudSuministroBusquedaModel extends TAbstractBusquedaModel<Sol
 		this.bienAsociado = bienAsociado;
 	}
 
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
+//	public Estado getEstado() {
+//		return estado;
+//	}
+//
+//	public void setEstado(Estado estado) {
+//		this.estado = estado;
+//	}
 
 }

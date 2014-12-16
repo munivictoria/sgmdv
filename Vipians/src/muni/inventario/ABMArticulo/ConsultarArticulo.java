@@ -6,7 +6,11 @@
  */
 package muni.inventario.ABMArticulo;
 
-import muni.framework.ABMContrato.*;
+import javax.faces.FacesException;
+
+import muni.compras.ABMFacturaContrato.ABMFacturaContrato;
+import muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio;
+
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Button;
@@ -21,27 +25,18 @@ import com.sun.rave.web.ui.component.MessageGroup;
 import com.sun.rave.web.ui.component.Page;
 import com.sun.rave.web.ui.component.Script;
 import com.sun.rave.web.ui.component.StaticText;
-import com.sun.rave.web.ui.component.TextField;
-import com.trascender.presentacion.navegacion.ElementoPila;
-import com.trascender.presentacion.validadores.Validador;
-import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
 import com.sun.rave.web.ui.component.TextArea;
+import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.compras.recurso.persistent.inventario.Articulo;
 import com.trascender.compras.recurso.persistent.inventario.InformacionTecnica;
-import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Area;
-import com.trascender.framework.recurso.persistent.Contrato;
-import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.util.Util;
 import com.trascender.presentacion.conversores.Conversor;
+import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
-import muni.compras.ABMFacturaSubsidio.ABMFacturaSubsidio;
 //import muni.compras.ABMFacturaProveedor.ConsultarFacturaProveedor;
-import muni.compras.ABMFacturaContrato.ABMFacturaContrato;
-import muni.CommunicationMesaEntradaBean;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -1030,13 +1025,5 @@ public class ConsultarArticulo extends AbstractPageBean {
         return (ABMFacturaContrato) getBean("compras$ABMFacturaContrato$AgregarFacturaContrato");
     }
 
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected CommunicationMesaEntradaBean getCommunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean) getBean("CommunicationMesaEntradaBean");
-    }
 
 }

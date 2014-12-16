@@ -44,7 +44,6 @@ import com.trascender.catastro.business.interfaces.BusinessRegistroParcelarioLoc
 import com.trascender.catastro.business.interfaces.BusinessZonificacionLocal;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.catastro.recurso.persistent.Zonificacion;
-import com.trascender.catastro.recurso.rfr.DocHabEspecializadoRfr;
 import com.trascender.framework.business.interfaces.BusinessMunicipalidadLocal;
 import com.trascender.framework.business.interfaces.BusinessParametroLocal;
 import com.trascender.framework.business.interfaces.BusinessPersonaLocal;
@@ -104,7 +103,6 @@ import com.trascender.saic.reporte.dataSource.LiquidacionOspDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionPfoDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionShpsDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionTasaAgrupadaDS;
-import com.trascender.saic.reporte.dataSource.LiquidacionTgiDS;
 import com.trascender.saic.reporte.dataSource.ReconocimientoDeudaDS;
 import com.trascender.saic.reporte.dataSource.ReliquidacionDS;
 
@@ -335,10 +333,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			EstadoRegistroDeuda pEstadoRegistroDeuda, String pCuentaSubcuenta)
 					throws Exception {
 		List<LiquidacionTasa> listaLiquidacionesOSP = this.businessLiquidacionTasaLocal
-				.findListaLiquidacionesOSP(pPersona, pCuadra, pServicioOSP,
-						pServicioMedido, pCalle, pCuota,null,null,
-						pEstadoRegistroDeuda, TipoDeuda.LIQUIDACION,
-						pCuentaSubcuenta);
+				.findListaLiquidacionesOSP(null).getListaResultados();
 		List<LiquidacionDS> locListaDataSources = new ArrayList<LiquidacionDS>();
 		for (LiquidacionTasa cadaLiquidacion : listaLiquidacionesOSP) {
 			entityManager.merge(cadaLiquidacion);
@@ -361,7 +356,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 					}
 				}
 			}
-			locListaDataSources.add(new LiquidacionOspDS(cadaLiquidacion, null, this.getTituloReporte(), this.getSubtituloReporte()));
+//			locListaDataSources.add(new LiquidacionOspDS(cadaLiquidacion, null, this.getTituloReporte(), this.getSubtituloReporte()));
 		}
 		LiquidacionAgrupadaDS locLiquidacionAgrupadaDS = new LiquidacionAgrupadaDS(
 				locListaDataSources, getLogoMunicipalidad());
@@ -379,9 +374,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			EstadoRegistroDeuda pEstadoRegistroDeuda, TipoDeuda pTipoDeuda,
 			Integer pCuotaDesde, Integer pCuotaHasta) throws Exception {
 		List<LiquidacionTasa> listaLiquidacionesPFO = this.businessLiquidacionTasaLocal
-				.findListaLiquidacionesPFO(pPersona, pObra, pCuadra, pCalle,
-						pCuota,null,null, pEstadoRegistroDeuda, TipoDeuda.LIQUIDACION,
-						pCuotaDesde, pCuotaHasta);
+				.findListaLiquidacionesPFO(null).getListaResultados();
 		return this.getReportePFO(listaLiquidacionesPFO);
 	}
 
@@ -737,9 +730,9 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 					.keySet()) {
 				List<LiquidacionTasa> locListaLiquidacionesTasa = locListaLiquidacionesTasasOrdenadas
 						.get(locIndice);
-				LiquidacionTgiDS locDS = new LiquidacionTgiDS(
-						locListaLiquidacionesTasa, null, this.getTituloReporte(), this.getSubtituloReporte());
-				locListaDataSource.add(locDS);
+//				LiquidacionTgiDS locDS = new LiquidacionTgiDS(
+//						locListaLiquidacionesTasa, null, this.getTituloReporte(), this.getSubtituloReporte());
+//				locListaDataSource.add(locDS);
 			}
 			LiquidacionAgrupadaDS locLiquidacionAgrupadaDS = new LiquidacionAgrupadaDS(
 					locListaDataSource,this.getLogoMunicipalidad());

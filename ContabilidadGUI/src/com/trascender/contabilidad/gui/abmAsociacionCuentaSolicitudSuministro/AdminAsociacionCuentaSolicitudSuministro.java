@@ -78,7 +78,6 @@ public class AdminAsociacionCuentaSolicitudSuministro extends AdminController<So
 	private void setModels() {
 		this.getView().setBusquedaModel(this.getBusquedaModel());
 		this.getView().setTableModel(this.getTableModel());
-		this.getView().getCbEstado().setModel(new TDefaultComboBoxModel(SolicitudSuministro.Estado.values(), false));
 	}
 	
 	private void setListeners() {
@@ -102,8 +101,6 @@ public class AdminAsociacionCuentaSolicitudSuministro extends AdminController<So
 		SolicitudSuministroBusquedaModel locModel = this.getBusquedaModel();
 		
 		Object locEstado = this.getView().getCbEstado().getSelectedItem();
-		if (locEstado != null) locModel.setEstado((SolicitudSuministro.Estado)locEstado);
-		else locModel.setEstado(null);
 		
 		locModel.fireActualizarDatos();
 	}
@@ -140,7 +137,6 @@ public class AdminAsociacionCuentaSolicitudSuministro extends AdminController<So
 	@Override
 	protected void setBtnReiniciarListener() {
 		super.setBtnReiniciarListener();
-		this.getView().getCbEstado().setSelectedItem(SolicitudSuministro.Estado.CREADA);
 	}
 	
 	public void agregarAsociacion() throws RemoteException, TrascenderException, Exception {
@@ -393,27 +389,27 @@ class BtnBuscarListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			this.controller.buscar();
-			if (this.controller.getView().getCbEstado().getSelectedItem().equals(SolicitudSuministro.Estado.CREADA) 
-					|| this.controller.getView().getCbEstado().getSelectedItem().equals(SolicitudSuministro.Estado.ACEPTADA)) {
-				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(true);
-			}
-			else {
-				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(false);
-			}
+//			if (this.controller.getView().getCbEstado().getSelectedItem().equals(SolicitudSuministro.Estado.CREADA) 
+//					|| this.controller.getView().getCbEstado().getSelectedItem().equals(SolicitudSuministro.Estado.ACEPTADA)) {
+//				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(true);
+//			}
+//			else {
+//				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(false);
+//			}
 			
-			if (this.controller.getView().getCbEstado().getSelectedItem().equals(SolicitudSuministro.Estado.ACEPTADA)) {
-				this.controller.getView().getPnlPie().getBtnModificar().setEnabled(true);
-				this.controller.getView().getPnlPie().getBtnEliminar().setEnabled(true);
-				this.controller.getView().getPnlPie().getBtnConsultar().setEnabled(true);
-				
-				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(false);
-			}
-			else {
-				this.controller.getView().getPnlPie().getBtnModificar().setEnabled(false);
-				this.controller.getView().getPnlPie().getBtnEliminar().setEnabled(false);
-				this.controller.getView().getPnlPie().getBtnConsultar().setEnabled(true);
-				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(true);
-			}
+//			if (this.controller.getView().getCbEstado().getSelectedItem().equals(SolicitudSuministro.Estado.ACEPTADA)) {
+//				this.controller.getView().getPnlPie().getBtnModificar().setEnabled(true);
+//				this.controller.getView().getPnlPie().getBtnEliminar().setEnabled(true);
+//				this.controller.getView().getPnlPie().getBtnConsultar().setEnabled(true);
+//				
+//				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(false);
+//			}
+//			else {
+//				this.controller.getView().getPnlPie().getBtnModificar().setEnabled(false);
+//				this.controller.getView().getPnlPie().getBtnEliminar().setEnabled(false);
+//				this.controller.getView().getPnlPie().getBtnConsultar().setEnabled(true);
+//				this.controller.getView().getPnlPie().getBtnAgregar().setEnabled(true);
+//			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			AppManager.getInstance().showErrorMsg(this.controller.getView(), ex.getMessage());

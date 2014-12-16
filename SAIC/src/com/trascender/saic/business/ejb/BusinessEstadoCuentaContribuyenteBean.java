@@ -452,44 +452,47 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 					List<ParametroValuadoAlicuota> locListaParametrosAlicuotaVacias = new ArrayList<ParametroValuadoAlicuota>(0);
 					// Tomo la primer reliquidacion que se retorna
 					System.out.println("Liq: " + locLiquidacionTasa + " fecha: " + SecurityMgr.getInstance().getFechaActual().getTime());
-					List<Reliquidacion> locListaReliquidaciones = this.businessReliquidacion.reliquidarObligacion(locLiquidacionTasa, SecurityMgr.getInstance().getFechaActual()
-							.getTime(), locListaParametrosValuadosVacia, locListaParametrosAlicuotaVacias, null, true, false);
-					for(Reliquidacion cadaReliquidacion : locListaReliquidaciones) {
-						cadaReliquidacion.getLiquidacionTasa().toString();
-						cadaReliquidacion.getLiquidacionTasa().getTipoTasa().toString();
-
-						LiquidacionTasa locLiquidacionTasaDeReliq = cadaReliquidacion.getLiquidacionTasa();
-						locLiquidacionTasaDeReliq.toString();
-
-						// Me interesa que tenga igual id al del registro deuda que reliquido por controles agregados al refinanciar
-						locLiquidacionTasaDeReliq.setIdRegistroDeuda(locRegistroDeuda.getIdRegistroDeuda());
-						// En éste caso me importa que la fecha de emisión de la reliquidación sea la misma que la del registro deuda actual
-						locLiquidacionTasaDeReliq.setFechaEmision(locRegistroDeuda.getFechaEmision());
-						locLiquidacionTasaDeReliq.setInteres(cadaReliquidacion.getLiquidacionTasa().getInteres());
-						locLiquidacionTasaDeReliq.setRecargo(cadaReliquidacion.getLiquidacionTasa().getRecargo());
-						locLiquidacionTasaDeReliq.setTipoDeuda(TipoDeuda.LIQUIDACION);
-						// Si la deuda es 2do tercio por ejm tengo q devolver la reliquidada de ese periodo, sino se devuelve la correspondiente al bimestre
-						// if(locLiquidacionTasaDeReliq.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoTGI){
-						//
-						// if(locLiquidacionTasa.getTipoTasa().getPeriodicidad().equals(Periodicidad.ANUAL) &&
-						// locLiquidacionTasa.getTipoTasa().getPeriodicidadCuotas().equals(Periodicidad.MENSUAL)){
-						// if(locLiquidacionTasaDeReliq.getTipoTasa().getPeriodicidad().equals(Periodicidad.ANUAL) &&
-						// locLiquidacionTasaDeReliq.getTipoTasa().getPeriodicidadCuotas().equals(Periodicidad.MENSUAL)){
-						// if(locLiquidacionTasa.getNumeroCuota().equals(locLiquidacionTasaDeReliq.getNumeroCuota())){
-						// //Mi deuda es un tercio
-						// locListaRetorno.add(locLiquidacionTasaDeReliq);
-						// }
-						// }
-						// }
-						// else if(locLiquidacionTasaDeReliq.getTipoTasa().getPeriodicidad().equals(Periodicidad.BIMESTRAL) &&
-						// locLiquidacionTasa.getTipoTasa().getPeriodicidad().equals(Periodicidad.BIMESTRAL)){
-						// locListaRetorno.add(locLiquidacionTasaDeReliq);
-						// }
-						// }
-						// else{
-						locListaRetorno.add(locLiquidacionTasaDeReliq);
-						// }
-					}
+//					List<Reliquidacion> locListaReliquidaciones = this.businessReliquidacion.reliquidarObligacion(locLiquidacionTasa, 
+//							SecurityMgr.getInstance().getFechaActual()
+//							.getTime(), locListaParametrosValuadosVacia, 
+//							locListaParametrosAlicuotaVacias, 
+//							null, true, false);
+//					for(Reliquidacion cadaReliquidacion : locListaReliquidaciones) {
+//						cadaReliquidacion.getLiquidacionTasa().toString();
+//						cadaReliquidacion.getLiquidacionTasa().getTipoTasa().toString();
+//
+//						LiquidacionTasa locLiquidacionTasaDeReliq = cadaReliquidacion.getLiquidacionTasa();
+//						locLiquidacionTasaDeReliq.toString();
+//
+//						// Me interesa que tenga igual id al del registro deuda que reliquido por controles agregados al refinanciar
+//						locLiquidacionTasaDeReliq.setIdRegistroDeuda(locRegistroDeuda.getIdRegistroDeuda());
+//						// En éste caso me importa que la fecha de emisión de la reliquidación sea la misma que la del registro deuda actual
+//						locLiquidacionTasaDeReliq.setFechaEmision(locRegistroDeuda.getFechaEmision());
+//						locLiquidacionTasaDeReliq.setInteres(cadaReliquidacion.getLiquidacionTasa().getInteres());
+//						locLiquidacionTasaDeReliq.setRecargo(cadaReliquidacion.getLiquidacionTasa().getRecargo());
+//						locLiquidacionTasaDeReliq.setTipoDeuda(TipoDeuda.LIQUIDACION);
+//						// Si la deuda es 2do tercio por ejm tengo q devolver la reliquidada de ese periodo, sino se devuelve la correspondiente al bimestre
+//						// if(locLiquidacionTasaDeReliq.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoTGI){
+//						//
+//						// if(locLiquidacionTasa.getTipoTasa().getPeriodicidad().equals(Periodicidad.ANUAL) &&
+//						// locLiquidacionTasa.getTipoTasa().getPeriodicidadCuotas().equals(Periodicidad.MENSUAL)){
+//						// if(locLiquidacionTasaDeReliq.getTipoTasa().getPeriodicidad().equals(Periodicidad.ANUAL) &&
+//						// locLiquidacionTasaDeReliq.getTipoTasa().getPeriodicidadCuotas().equals(Periodicidad.MENSUAL)){
+//						// if(locLiquidacionTasa.getNumeroCuota().equals(locLiquidacionTasaDeReliq.getNumeroCuota())){
+//						// //Mi deuda es un tercio
+//						// locListaRetorno.add(locLiquidacionTasaDeReliq);
+//						// }
+//						// }
+//						// }
+//						// else if(locLiquidacionTasaDeReliq.getTipoTasa().getPeriodicidad().equals(Periodicidad.BIMESTRAL) &&
+//						// locLiquidacionTasa.getTipoTasa().getPeriodicidad().equals(Periodicidad.BIMESTRAL)){
+//						// locListaRetorno.add(locLiquidacionTasaDeReliq);
+//						// }
+//						// }
+//						// else{
+//						locListaRetorno.add(locLiquidacionTasaDeReliq);
+//						// }
+//					}
 
 				} else {
 					locRegistroDeuda.toString();

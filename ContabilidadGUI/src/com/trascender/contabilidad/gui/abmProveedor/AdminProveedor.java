@@ -7,11 +7,7 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import com.trascender.compras.recurso.persistent.suministros.Bien;
-import com.trascender.compras.recurso.persistent.suministros.GrupoProveedor;
 import com.trascender.compras.recurso.persistent.suministros.Proveedor;
-import com.trascender.contabilidad.gui.abmBien.AdminBien;
-import com.trascender.contabilidad.gui.abmGrupoProveedor.AdminGrupoProveedor;
 import com.trascender.gui.framework.abmStandard.AdminController;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.model.TDefaultComboBoxModel;

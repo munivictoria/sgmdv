@@ -141,13 +141,6 @@ public class Inicio extends AbstractPageBean {
     /** 
      * <p>Devolver una referencia al bean de datos con ámbito.</p>
      */
-    protected CommunicationMesaEntradaBean getComunicationMesaEntradaBean() {
-        return (CommunicationMesaEntradaBean)getBean("CommunicationMesaEntradaBean");
-    }
-    
-    /** 
-     * <p>Devolver una referencia al bean de datos con ámbito.</p>
-     */
     protected ComunicationCatastroBean getComunicationCatastroBean() {
         return (ComunicationCatastroBean)getBean("ComunicationCatastroBean");
     }
