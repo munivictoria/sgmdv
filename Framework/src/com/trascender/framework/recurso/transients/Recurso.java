@@ -14,7 +14,6 @@ import ar.trascender.util.ReflectionUtils;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Permiso.Accion;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
-import com.trascender.framework.util.Metaclase;
 
 /**
  * Representa un recurso del sistema
@@ -29,7 +28,6 @@ public class Recurso implements Serializable {
 	private long idRecurso;
 	private String nombre;
 	private Class clase;
-	private Class<? extends Metaclase> metaClase;
 	private List<String> listaPropiedadesClase;
 
 	private boolean insert = false;
@@ -126,14 +124,6 @@ public class Recurso implements Serializable {
 
 	public List<String> getListaPropiedadesClase() {
 		return listaPropiedadesClase;
-	}
-
-	public Class<? extends Metaclase> getMetaClase() {
-		return metaClase;
-	}
-
-	public void setMetaClase(Class<? extends Metaclase> pMetaClase) {
-		metaClase = pMetaClase;
 	}
 
 	/**
