@@ -187,7 +187,12 @@ public interface BusinessMunicipalidadLocal {
 	public Area getAreaById(Long pId) throws Exception;
 
 	public CodigoCiiu getCodigoCiiuById(Long pId) throws Exception;
-	//   public void addSeccionCiiu(SeccionCiiu pSeccion) throws Exception;
+	
+	public void addCodigoCiiu(CodigoCiiu pCodigo);
+	
+	public void updateCodigoCiiu(CodigoCiiu pCodigo);
+	
+	public void deleteCodigoCiiu(CodigoCiiu pCodigo);
 
 	public List <SeccionCiiu> findListaSeccionCiiu(String pCodigo, String pNombre) throws Exception;
 

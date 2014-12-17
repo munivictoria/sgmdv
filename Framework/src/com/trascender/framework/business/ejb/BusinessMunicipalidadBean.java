@@ -944,6 +944,7 @@ public class BusinessMunicipalidadBean implements BusinessMunicipalidadLocal {
 		if(locCodigoCiiu != null) {
 			locCodigoCiiu.toString();
 			locCodigoCiiu.getGrupoCiiu().toString();
+			locCodigoCiiu.getGrupoCiiu().getSeccionCiiu().toString();
 		}
 
 		return locCodigoCiiu;
@@ -959,6 +960,18 @@ public class BusinessMunicipalidadBean implements BusinessMunicipalidadLocal {
 		Criterio locCriterio = Criterio.getInstance(entity, GrupoCiiu.class).add(Restriccion.ILIKE("codigo", pCodigo)).add(Restriccion.ILIKE("nombre", pNombre))
 				.add(Restriccion.IGUAL("seccionCiiu", pSeccion)).add(Orden.ASC("codigo"));
 		return locCriterio.list();
+	}
+	
+	public void addCodigoCiiu(CodigoCiiu pCodigo) {
+		this.entity.merge(pCodigo);
+	}
+	
+	public void updateCodigoCiiu(CodigoCiiu pCodigo) {
+		this.entity.merge(pCodigo);
+	}
+	
+	public void deleteCodigoCiiu(CodigoCiiu pCodigo) {
+		this.entity.remove(this.entity.merge(pCodigo));
 	}
 
 	public FiltroDigestoMunicipal findListaDigestosMunicipales(FiltroDigestoMunicipal pFiltro) {

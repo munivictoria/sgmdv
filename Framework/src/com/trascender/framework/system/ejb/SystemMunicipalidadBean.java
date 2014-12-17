@@ -1122,4 +1122,46 @@ public class SystemMunicipalidadBean implements SystemMunicipalidad {
 		}
 	}
 
+	public void addCodigoCiiu(CodigoCiiu pCodigo) throws TrascenderException {
+		try {
+			if (SecurityMgr.getInstance().getPermiso(this.llave, CodigoCiiu.serialVersionUID, Permiso.Accion.INSERT)) {
+				this.municipalidadLocal.addCodigoCiiu(pCodigo);
+			} else
+				throw new TrascenderFrameworkException(805);
+		} catch (TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			throw new TrascenderFrameworkException(302);
+		}
+	}
+
+	public void updateCodigoCiiu(CodigoCiiu pCodigo) throws TrascenderException{
+		try {
+			if (SecurityMgr.getInstance().getPermiso(this.llave, CodigoCiiu.serialVersionUID, Permiso.Accion.UPDATE)) {
+				this.municipalidadLocal.updateCodigoCiiu(pCodigo);
+			} else
+				throw new TrascenderFrameworkException(805);
+		} catch (TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			throw new TrascenderFrameworkException(302);
+		}
+	}
+
+	public void deleteCodigoCiiu(CodigoCiiu pCodigo) throws TrascenderException{
+		try {
+			if (SecurityMgr.getInstance().getPermiso(this.llave, CodigoCiiu.serialVersionUID, Permiso.Accion.DELETE)) {
+				this.municipalidadLocal.deleteCodigoCiiu(pCodigo);
+			} else
+				throw new TrascenderFrameworkException(805);
+		} catch (TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			throw new TrascenderFrameworkException(302);
+		}
+	}
+
 }

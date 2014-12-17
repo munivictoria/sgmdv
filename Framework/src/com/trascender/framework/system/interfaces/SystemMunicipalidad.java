@@ -304,5 +304,11 @@ public interface SystemMunicipalidad {
 	
 	public Secretaria getSecretariaPorId(long idSecretaria) throws TrascenderException;
 	
+	public void addCodigoCiiu(CodigoCiiu pCodigo) throws TrascenderException;
+	
+	public void updateCodigoCiiu(CodigoCiiu pCodigo) throws TrascenderException;
+	
+	public void deleteCodigoCiiu(CodigoCiiu pCodigo) throws TrascenderException;
+	
 
 }
