@@ -90,9 +90,7 @@
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_CUIT_CONTRIBUYENTE}.equals("99-99999999-9") ?
-$F{F_ATDI_APELLIDO_Y_NOMBRE_DE_REFERENCIA} :
-$F{F_NOMBRE_CONTRIBUYENTE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_NOMBRE_CONTRIBUYENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="37" width="437" height="16"/>

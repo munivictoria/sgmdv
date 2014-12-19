@@ -182,6 +182,11 @@ public class LiquidacionTasaAgrupada extends LiquidacionTasa {
 	public Date getFechaVencimiento() {
 		return listaLiquidacionesTasa.get(0).getFechaVencimiento();
 	}
+	
+	@Override
+	public Date getFechaVencimientoMayor() {
+		return listaLiquidacionesTasa.get(0).getFechaVencimientoMayor();
+	}
 
 	@Override
 	public String getStringFormula() {

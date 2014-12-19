@@ -119,6 +119,15 @@
 														binding="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnSeleccionar}" id="btnSeleccionar" styleClass="button" text="Seleccionar" />
 													<ui:staticText binding="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.stSeparadorSeleccionar}" id="separador_1"
 														styleClass="barraSeparadoraVertical" />
+													<ui:button action="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnAgregar_action}" 
+														binding="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnAgregar}"
+														id="btnAgregar" styleClass="button" text="Agregar" />
+													<ui:button action="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnModificar_action}" 
+														binding="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnModificar}"
+														id="btnModificar" styleClass="button" text="Modificar" />
+													<ui:button action="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnEliminar_action}" 
+														binding="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnEliminar}"
+														id="btnEliminar" styleClass="button" text="Eliminar" />
 													<ui:button action="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnConsultar_action}"
 														binding="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.btnConsultar}" id="btnConsultar" styleClass="button" text="Consultar" />
 													<ui:staticText text="#{framework$ABMCodigoCiiu$AdminCodigoCiiu.textoSeparador}" id="separador_2"

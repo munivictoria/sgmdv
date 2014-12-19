@@ -281,7 +281,9 @@ public class RegistroDeuda implements Serializable, Pagable {
 					}
 				}
 				// si el estado de la obligacion asociada es anulada, el registro es anulado.
-				if(this.getDocGeneradorDeuda() != null && this.getDocGeneradorDeuda().getObligacion().getEstado().equals(Obligacion.Estado.ANULADO)) {
+				if(this.getDocGeneradorDeuda() != null 
+						&& this.getDocGeneradorDeuda().getObligacion().getEstado().equals(Obligacion.Estado.ANULADO)
+						&& this.estado != EstadoRegistroDeuda.PAGADA) {
 					estado = EstadoRegistroDeuda.ANULADA;
 				}
 			}

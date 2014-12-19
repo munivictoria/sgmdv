@@ -7,6 +7,7 @@
 
 package muni;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -380,25 +381,11 @@ public class ComunicationBean extends AbstractSessionBean {
 	private SystemMunicipalidad remoteSystemMunicipalidad = null;
 
 	public SystemMunicipalidad getRemoteSystemMunicipalidad() {
-
 		try {
-			// Context ctx = new InitialContext(props);
-		} catch(Exception e) {
+			remoteSystemMunicipalidad.setLlave(getSessionBean1().getLlave());
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		// try{
-		//
-		// if (this.remoteSystemMunicipalidad==null){
-		// Context ctx = new InitialContext(props);
-		// Object obj = ctx.lookup(SystemMunicipalidadHome.JNDI_NAME);
-		// SystemMunicipalidadHome locMunicipalidadHome =
-		// (SystemMunicipalidadHome) PortableRemoteObject.narrow(obj,
-		// SystemMunicipalidadHome.class);
-		// this.remoteSystemMunicipalidad = locMunicipalidadHome.create();
-		// }
-		// }catch(Exception e){
-		// e.printStackTrace();
-		// }
 		return this.remoteSystemMunicipalidad;
 	}
 

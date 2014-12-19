@@ -65,7 +65,6 @@ import com.trascender.saic.recurso.persistent.ParametroValuadoAlicuota;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
-import com.trascender.saic.recurso.persistent.Reliquidacion;
 import com.trascender.saic.recurso.persistent.TasaTGI;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
@@ -722,7 +721,7 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 					+ "sum(distinct case when interes is null then 0 else interes end) as suma, "
 					+ "doc_hab.id_parcela,"
 					+ "every(rd.id_registro_cancelacion is not null) as cancelada, "
-					+ "case when every(o.estado = 'ANULADO') then 'ANULADA' else rd.estado end, "
+					+ "case when every(o.estado = 'ANULADO') and every(rd.estado <> 'PAGADA') then 'ANULADA' else rd.estado end, "
 					+ "(select array_agg(distinct cast(rd.id_registro_deuda as numeric))) as ids_registros_deuda, "
 					+ "per.nombre, rd.tipo, cal.anio, "
 					+ "case when every(doc_hab.tipo_doc_hab_especializado = 'SHPS') then doc_hab.numero_inscripcion else par.nro_parcela end, "

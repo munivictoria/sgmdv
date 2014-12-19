@@ -480,6 +480,10 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 		Vencimiento locVencimientoActual = this.getVencimientoActual();
 		return locVencimientoActual != null ? locVencimientoActual.getFecha() : listaVencimientos.last().getFecha();
 	}
+	
+	public Date getFechaVencimientoMayor(){
+		return listaVencimientos.last().getFecha();
+	}
 
 	/**
 	 * @return Si la deuda esta vencida, null <br/>

@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.InitialContext;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -19,9 +21,12 @@ import com.trascender.catastro.recurso.persistent.Zona;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.framework.util.TrascenderDataSource;
+import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoTGILocal;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado;
 import com.trascender.habilitaciones.recurso.persistent.Exencion;
+import com.trascender.habilitaciones.recurso.persistent.FiltroObligacionTGI;
+import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -38,7 +43,8 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 	private Iterator<Map<String, Object>> iteradorActual;
 	
 	public LiquidacionTasaAgrupadaDS(List<LiquidacionTasaAgrupada> pListaLiquidacionesAgrupadas,
-			byte[] pLogo, String pTitulo, String pSubtitulo, BusinessZonificacionLocal pBusinessZonificacion, Usuario pUsuario ){
+			byte[] pLogo, String pTitulo, String pSubtitulo, 
+			BusinessZonificacionLocal pBusinessZonificacion, Usuario pUsuario){
 
 		mapaParametros.put("PAR_USUARIO", pUsuario.getUser());
 		mapaParametros.put("P_LOGO", JRImageRenderer.getInstance(pLogo));
@@ -63,8 +69,20 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 			if (locDocumento == null){
 				locDocumento = cadaLiquidacion.getDocHabilitanteEspecializado(DocumentoOSP.class);
 			}
-			String nombreContribuyente = primerLiquidacion
-					.getDocGeneradorDeuda().getObligacion().getPersona().getDenominacion();
+			String nombreContribuyente = "";
+			if (primerLiquidacion.getDocGeneradorDeuda().getObligacion().getPersona().getCuim().equals("99-99999999-9")) {
+				//Tenemos que recuperar el valor del atri dinamico "Apellido y nom de referencia".
+				if (locDocumento instanceof DocumentoOSP) {
+					//Si el Documento es OSP, debemos buscar la obligacion TGI asociada a la parcela.
+					Obligacion obligacionTGI = getObligacionTGIAsociado(locDocumento.getParcela());
+					nombreContribuyente = getValorDinamicoDeDocumento(obligacionTGI.getDocumentoEspecializado(), "APELLIDO_Y_NOMBRE_DE_REFERENCIA").toString();
+				} else {
+					nombreContribuyente = getValorDinamicoDeDocumento(locDocumento, "APELLIDO_Y_NOMBRE_DE_REFERENCIA").toString();
+				}
+			}else {
+				nombreContribuyente = primerLiquidacion
+						.getDocGeneradorDeuda().getObligacion().getPersona().getDenominacion();
+			}
 					TituloPropiedad locTitulo = locDocumento.getParcela().getTituloPropiedad();
 					if (locTitulo.getListaRegistrosPropietarios().size() == 2){
 //						nombreContribuyente = locTitulo.getListaRegistrosPropietarios().get(0).getPersona().getDenominacion();
@@ -95,7 +113,6 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 							primerLiquidacion.getCuotaLiquidacion().getNumero());
 					locMapa.put("F_ANIO_PERIODO",
 							primerLiquidacion.getCuotaLiquidacion().getPeriodo().getCalendario().getAnio());
-					//					primerLiquidacion.getCuotaLiquidacion().getFechaInicio().get(Calendar.YEAR));
 					locMapa.put("F_NOMBRE_PERIODO", primerLiquidacion.getCuotaLiquidacion().getPeriodo().getNombre());
 					locMapa.put("F_DOMICILIO_PARCELARIO",
 							locDocumento.getParcela().getDomicilioParcelario().toString());
@@ -104,12 +121,8 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 					locMapa.put("F_NRO_PARTIDA",
 							locDocumento.getParcela().getNroPartidaProvincial());
 					locMapa.put("F_ZONA", getZona(cadaLiquidacion));
-//					locMapa.put("F_METROS_FRENTE",
-//							locDocumento.getParcela().getMetrosFrenteTotal());
 					locMapa.put("F_SUPERFICIE_TERRENO",
 							locDocumento.getParcela().getSuperficie());
-//					locMapa.put("F_SUPERFICIE_MEJORAS",
-//							locDocumento.getParcela().getSuperficieMejoras());
 					locMapa.put("F_AVALUO_TERRENOS",
 							locDocumento.getParcela().getAvaluoTerreno());
 					locMapa.put("F_AVALUO_MEJORAS",
@@ -132,18 +145,12 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 							locMapa.put("F_AVALUO_MEJORAS",
 									locDocumento.getParcela().getAvaluoPorMejoras());
 							DocumentoOSP locDocumentoOSP = cadaLiquidacion.getDocHabilitanteEspecializado(DocumentoOSP.class);
-//							locMapa.put("F_CODIGO_SERVICIO",
-//									locDocumentoOSP != null && !locDocumentoOSP.getListaRegAlicuotas().isEmpty()?
-//											locDocumentoOSP.getListaRegAlicuotas().iterator().next().getCodigo() : "");
-//							locMapa.put("F_TIPO_SERV_OSM",
-//									locDocumentoOSP != null && locDocumentoOSP.getRegistroAlicuota() != null ? 
-//											locDocumentoOSP.getRegistroAlicuota().getNombre() : "");
 							locMapa.put("F_NRO_MEDIDOR",
 									locDocumentoOSP != null ? locDocumentoOSP.getCodigoMedidor() : "");
 							locMapa.put("F_MODIFICADOR_DS",
 									new DetalleLiquidacionDS(cadaLiquidacion));
 							locMapa.put("F_VENCIMIENTO",
-									cadaLiquidacion.getFechaVencimiento());
+									cadaLiquidacion.getFechaVencimientoMayor());
 							locMapa.put("F_TOTAL",
 									cadaLiquidacion.getMonto());
 							locMapa.put("F_LECTURA_ANTERIOR", new Double(0));
@@ -195,15 +202,37 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 			for (LiquidacionTasa cadaLiquidacion : 
 				locLiquidacionAgrupada.getListaLiquidacionesTasa()){
 				DocHabilitanteEspecializado locDoc = cadaLiquidacion.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
-				for (AtributoDinamico<?> cadaAtributo : locDoc.getListaAtributosDinamicos()){
-					if (cadaAtributo.getNombre().replace(" ", "_").toUpperCase()
-							.equals(locNombre)){
-						return cadaAtributo.getValorString();
-					}
-				}
+				Object valor = getValorDinamicoDeDocumento(locDoc, locNombre);
+				if (valor != null) return valor;
 			}
 		}
 		return mapaActual.get(field.getName());
+	}
+	
+	private Object getValorDinamicoDeDocumento(DocHabilitanteEspecializado pDoc, String pNombreAtributo) {
+		for (AtributoDinamico<?> cadaAtributo : pDoc.getListaAtributosDinamicos()){
+			if (cadaAtributo.getNombre().replace(" ", "_").toUpperCase().equals(pNombreAtributo)){
+				return cadaAtributo.getValorString();
+			}
+		}
+		return null;
+	}
+	
+	private Obligacion getObligacionTGIAsociado(Parcela pParcela) {
+		Obligacion locObligacion = null;
+		try {
+			BusinessDocumentoTGILocal locBean = 
+					(BusinessDocumentoTGILocal) new InitialContext().lookup(BusinessDocumentoTGILocal.JNDI_NAME);
+			FiltroObligacionTGI locFiltro = new FiltroObligacionTGI();
+			locFiltro.setParcela(pParcela);
+			locFiltro = locBean.findListaObligacionesTGI(locFiltro);
+			if (!locFiltro.getListaResultados().isEmpty()) {
+				locObligacion = locFiltro.getListaResultados().get(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return locObligacion;
 	}
 
 	@Override

@@ -195,6 +195,18 @@ public class AdminCodigoCiiu extends AdminPageBean {
 	public String btnConsultar_action() {
 		return toAbm(new CodigoCiiuModel().new ConsultarController());
 	}
+	
+	public String btnAgregar_action() {
+		return toAbm(new CodigoCiiuModel().new AgregarController());
+	}
+	
+	public String btnModificar_action() {
+		return toAbm(new CodigoCiiuModel().new ModificarController());
+	}
+	
+	public String btnEliminar_action() {
+		return toAbm(new CodigoCiiuModel().new EliminarController());
+	}
 
 	@Override
 	public ObjectListDataProvider getObjectListDataProvider() {
@@ -250,7 +262,9 @@ public class AdminCodigoCiiu extends AdminPageBean {
 
 	@Override
 	protected Object getObjectPorId(Object pObject) throws Exception {
-		return pObject;
+		CodigoCiiu locCodigo = (CodigoCiiu) pObject;
+		locCodigo = this.getComunicationBean().getRemoteSystemMunicipalidad().getCodigoCiiuById(locCodigo.getIdCodigoCiiu());
+		return locCodigo;
 	}
 
 	@Override

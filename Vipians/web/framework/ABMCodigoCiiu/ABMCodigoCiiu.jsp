@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui">
+	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
 	<f:view>
 		<ui:page binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.page1}" id="page1">
@@ -19,8 +19,24 @@
 							</caption>
 							<tbody>
 								<tr>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="ddSeccion" id="lblSeccion" styleClass="label" text="Sección" />
+									</td>
 									<td>
-										<br />
+										<ui:dropDown binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.ddSeccion}" id="ddSeccion"
+											items="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.ddSeccionDefaultOptions.options}" styleClass="textField"
+											valueChangeListener="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.valueChangeEvent(event)}">
+											<a4j:support event="onChange" reRender="form1:ddGrupo" />
+										</ui:dropDown>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="ddGrupo" id="lblGrupo" styleClass="label" text="Grupo" />
+									</td>
+									<td>
+										<ui:dropDown binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.ddGrupo}" id="ddGrupo"
+											items="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.ddGrupoDefaultOptions.options}" styleClass="textField" />
 									</td>
 								</tr>
 								<tr>
@@ -29,16 +45,18 @@
 											text="Código" />
 									</td>
 									<td>
-										<ui:textField binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.tfCodigo}" columns="40" disabled="true" id="tfCodigo"
-											styleClass="textFieldDisabled" />
+										<ui:textField binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.tfCodigo}" columns="40" id="tfCodigo"
+											styleClass="textField" />
 									</td>
+								</tr>
+								<tr>
 									<td align="right" nowrap="nowrap">
 										<ui:label binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.lblDescripcion}" for="tfDescripcion" id="lblDescripcion"
 											styleClass="label" text="Descripción" />
 									</td>
 									<td nowrap="nowrap">
-										<ui:textField binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.tfDescripcion}" columns="40" disabled="true" id="tfDescripcion"
-											styleClass="textFieldDisabled" />
+										<ui:textField binding="#{framework$ABMCodigoCiiu$ABMCodigoCiiu.tfDescripcion}" columns="40" id="tfDescripcion"
+											styleClass="textField" />
 									</td>
 								</tr>
 								<tr>
