@@ -38,6 +38,7 @@ import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Orden;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
+import ar.trascender.criterio.enums.TipoSubconsulta;
 
 import com.trascender.catastro.business.interfaces.BusinessRegistroGeograficoLocal;
 import com.trascender.catastro.business.interfaces.BusinessRegistroParcelarioLocal;
@@ -4051,7 +4052,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		Criterio crit = Criterio.getInstance(this.entityManager, LiquidacionTasa.class)
 				.setModoDebug(true)
 				.crearAlias("docGeneradorDeuda.obligacion.documentoEspecializado", "locDocEsp")
-				.add(Restriccion.SUBCONSULTA("locDocEsp", locCritDocumento))
+				.add(Restriccion.SUBCONSULTA("locDocEsp", TipoSubconsulta.SOME ,locCritDocumento))
 				.add(Restriccion.IGUAL("cuotaLiquidacion", pFiltro.getCuota()))
 				.add(Restriccion.IGUAL("cuotaLiquidacion.periodo", pFiltro.getPeriodo()))
 				.add(Restriccion.IGUAL("cuotaLiquidacion.periodo.calendario", pFiltro.getCalendario()))
