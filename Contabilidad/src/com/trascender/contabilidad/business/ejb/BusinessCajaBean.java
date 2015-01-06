@@ -475,7 +475,6 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				locDeuda.setRegistroCancelacion(locDetalle);
 				locDeuda.setEstado(IngresoVario.Estado.PAGADO);
 				locDetalle.setDeuda(locDeuda);
-
 				this.entity.merge(locDeuda);
 			}
 
@@ -1460,6 +1459,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			locDetalle.addAll(listaMovimientos);
 			locDetalle.setFechaCancelacion(SecurityMgr.getInstance().getFechaActual().getTime());
 			locDetalle.setDeuda(cadaPagable);
+			locDetalle.setIdRegistroDeuda(cadaPagable.getId());
 			locDetalle.setImporte(cadaPagable.getMonto());
 			locDetalle.getDeuda().getNombre();
 			locListaDetalles.add(locDetalle);
@@ -1605,8 +1605,11 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	public ResumenActualCajaDataSource generarReporteCajaPorTasa(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) {
 		// this.abrirSession();
 		ResumenActualCajaDataSource dataSource = null;
-		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class).setDistinct(true).setModoDebug(true).add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
-				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja)).add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
+		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class)
+				.setDistinct(true).setModoDebug(true)
+				.add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
+				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja))
+				.add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
 				.add(Restriccion.MENOR("detalles.fechaCancelacion", pFechaHasta));
 		// .add(Restriccion.OR(
 		// Restriccion.LIKE("codigoBarras", "1", false, Posicion.AL_PRINCIPIO),
@@ -1659,10 +1662,20 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	}
 
 	private void setLiquidacionAlTicket(DetalleTicketCaja locDetalle) {
-		LiquidacionTasa locLiquidacion = Criterio.getInstance(entity, LiquidacionTasa.class).add(Restriccion.IGUAL("registroCancelacion", locDetalle)).uniqueResult();
-		if(locLiquidacion != null) {
-			locDetalle.setDeuda(locLiquidacion);
+		LiquidacionTasa locLiquidacion = Criterio.getInstance(entity, LiquidacionTasa.class)
+				.add(Restriccion.IGUAL("registroCancelacion", locDetalle))
+				.uniqueResult();
+		if(locLiquidacion == null && locDetalle.getTicketCaja().getEstado() == TicketCaja.Estado.ACTIVO) {
+			//Si la liquidacion es nula pero el ticket esta ACTIVO, hubo algún problema,
+			//recuperamos la deuda de nuevo.
+			locLiquidacion = Criterio.getInstance(entity, LiquidacionTasa.class)
+					.add(Restriccion.IGUAL("idRegistroDeuda", locDetalle.getIdRegistroDeuda()))
+					.uniqueResult();
+			//TODO Volver a marcar pagada la deuda
+			//TODO Poner un estado especial al ticket, para poder señalarlo luego en el reporte, con un 
+			//asterisco o simil.
 		}
+		locDetalle.setDeuda(locLiquidacion);
 	}
 
 	private void setIngresoAlTicket(DetalleTicketCaja locDetalle) {
@@ -1678,6 +1691,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	}
 
 	@Override
+	@Deprecated
 	public ResumenActualCajaDataSource generarReporteCajaPorTasa(List<TicketCaja> pListaTickets) {
 		return null;
 	}

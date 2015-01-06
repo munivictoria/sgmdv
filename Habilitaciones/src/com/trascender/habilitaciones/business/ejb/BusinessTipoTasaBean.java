@@ -139,6 +139,7 @@ import com.trascender.habilitaciones.recurso.persistent.transito.Marca;
 import com.trascender.habilitaciones.recurso.persistent.transito.Modelo;
 import com.trascender.habilitaciones.recurso.persistent.transito.TipoVehiculo;
 import com.trascender.habilitaciones.recurso.persistent.transito.Vehiculo;
+import com.trascender.habilitaciones.util.FuncionBoba;
 import com.trascender.habilitaciones.util.GrillaFunction;
 import com.trascender.habilitaciones.util.MotorFormulas;
 
@@ -605,6 +606,8 @@ public class BusinessTipoTasaBean implements BusinessTipoTasaLocal {
 
 		// Valido el interés y el recargo
 		jep.addVariable(TipoParametroInteres.IMPORTE_INTERES.getNombreVariable(), 0f);
+		//Se agrega la funcion VALOR_MODIFICADOR del modulo SAIC con una funcion boba.
+		jep.addFunction("VALOR_MODIFICADOR", new FuncionBoba());
 		if(pTipoTasa.getInteres() != null && pTipoTasa.getInteres().getFormula() != null) {
 			jep.parseExpression(pTipoTasa.getInteres().getFormula());
 			jep.getValue();

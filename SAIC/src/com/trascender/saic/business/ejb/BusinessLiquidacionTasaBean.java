@@ -157,6 +157,7 @@ import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 import com.trascender.saic.recurso.transients.pagoFacil.ArchivoTransmisionPagoFacil;
 import com.trascender.saic.recurso.transients.pagoFacil.LoteArchivoPF;
 import com.trascender.saic.recurso.transients.pagoFacil.RegistroDetallePF;
+import com.trascender.saic.util.ValorModificadorFuncion;
 
 @Stateless(name = "BusinessLiquidacionTasaLocal")
 @TransactionTimeout(86400)
@@ -602,6 +603,10 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 					locLiquidacionTasa.getListaModificadoresLiquidacion().add(locModificadorLiquidacion);
 				}
+				
+				//Ya teniendo los vencimientos, creo la funcion para poder llamar a sus valores
+				ValorModificadorFuncion locFuncion = new ValorModificadorFuncion(locLiquidacionTasa);
+				jep.addFunction(ValorModificadorFuncion.VALOR_MODIFICADOR, locFuncion);
 
 				System.out.println("Tiempo en obtener modificadores liquidacion= " + ((System.currentTimeMillis() - tiempoInicial) / 1000));
 

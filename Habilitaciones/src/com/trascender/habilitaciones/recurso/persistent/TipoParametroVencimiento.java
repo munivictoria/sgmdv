@@ -15,6 +15,7 @@ public class TipoParametroVencimiento extends TipoParametro {
 
 	public enum TipoAtributoVencimiento{
 		IMPORTE_PRIMER_VENCIMIENTO,
+		IMPORTE_BASICO_PRIMER_VENCIMIENTO,
 		MESES_DESDE_INICIO_PERIODO,
 		DIAS_DESDE_INICIO_PERIODO,
 		MESES_DESDE_PRIMER_VENCIMIENTO,

@@ -79,6 +79,7 @@ import com.trascender.saic.recurso.persistent.Tasa;
 import com.trascender.saic.recurso.persistent.TasaTGI;
 import com.trascender.saic.recurso.persistent.Vencimiento;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
+import com.trascender.saic.util.ValorModificadorFuncion;
 
 /**
  * @ejb.bean name="BusinessReLiquidacion" display-name="Name for BusinessReLiquidacion" description="Description for BusinessReLiquidacion"
@@ -1247,6 +1248,11 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 		locLiquidacionTasa.getListaModificadoresLiquidacion().clear();
 		locLiquidacionTasa.getListaModificadoresLiquidacion().addAll(
 				this.businessLiquidacionTasaLocal.calcularValoresModificadoresLiquidacion(locLiquidacionTasa, locCalendarFechaLiquidacion, this.jep));
+		
+
+		//Ya teniendo los modificadores, creo la funcion para poder llamar a sus valores
+		ValorModificadorFuncion locFuncion = new ValorModificadorFuncion(locLiquidacionTasa);
+		jep.addFunction(ValorModificadorFuncion.VALOR_MODIFICADOR, locFuncion);
 
 		for(Vencimiento locNuevoVencimiento : this.crearNuevosVencimientos(pLiquidacionTasa, this.fechaNuevoVencimiento)) {
 			locLiquidacionTasa.getListaVencimientos().add(locNuevoVencimiento);
@@ -1469,6 +1475,7 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 		List<ParametroValuado> locListaNuevosParametrosVencimiento = new ArrayList<ParametroValuado>();
 
 		locListaNuevosParametrosVencimiento.add(this.getParametroImportePrimerVencimiento(pLiquidacionTasa));
+		locListaNuevosParametrosVencimiento.add(this.getParametroImporteBasicoPrimerVencimiento(pLiquidacionTasa));
 		locListaNuevosParametrosVencimiento.add(this.getParametroDiasDesdePrimerVencimiento(pLiquidacionTasa));
 		locListaNuevosParametrosVencimiento.add(this.getParametroMesesDesdePrimerVencimiento(pLiquidacionTasa));
 		locListaNuevosParametrosVencimiento.add(this.getParametroDiasDesdeInicioPeriodo(pLiquidacionTasa));
@@ -1558,6 +1565,18 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.IMPORTE_PRIMER_VENCIMIENTO.toString()));
 		return locParametroValuado;
 	}
+	
+	/**
+	 * @return el valor básico de la tasa.
+	 */
+	private ParametroValuado getParametroImporteBasicoPrimerVencimiento(LiquidacionTasa pLiquidacionTasa) {
+		ParametroValuadoDouble locParametroValuado = new ParametroValuadoDouble();
+		// El valor de los vencimientos es 0, se debe tomar de las liquidaciones
+		// locParametroValuado.setValorParametro(pLiquidacionTasa.getListaVencimientos().first().getValor().doubleValue());
+		locParametroValuado.setValorParametro(pLiquidacionTasa.getValor());
+		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.IMPORTE_BASICO_PRIMER_VENCIMIENTO.toString()));
+		return locParametroValuado;
+	}
 
 	/**
 	 * Valida las pre condiciones del método reliquidar
@@ -1609,6 +1628,9 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 		// El motor JEP ya fue inicializado por el proceso de la reliquidacion
 		if(!duranteReliquidacion) {
 			this.jep = MotorFormulas.initializeJEP();
+			//Ya teniendo los modificadores, creo la funcion para poder llamar a sus valores
+			ValorModificadorFuncion locFuncion = new ValorModificadorFuncion(pLiquidacionTasa);
+			jep.addFunction(ValorModificadorFuncion.VALOR_MODIFICADOR, locFuncion);
 		}
 		// Agregamos a JEP los parametros valuados de la liquidacion.
 		for(ParametroValuado cadaParametroValuado : pLiquidacionTasa.getListaParametrosValuados()) {

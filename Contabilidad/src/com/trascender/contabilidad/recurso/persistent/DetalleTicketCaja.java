@@ -32,7 +32,21 @@ public class DetalleTicketCaja extends RegistroCancelacion{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_TICKET_CAJA")
 	private TicketCaja ticketCaja;
+
+	/**
+	 * Es el ID del registro deuda que cancela este detalle.
+	 */
+	@Column(name = "ID_REGISTRO_DEUDA")
+	private Long idRegistroDeuda;
 	
+	public Long getIdRegistroDeuda() {
+		return idRegistroDeuda;
+	}
+
+	public void setIdRegistroDeuda(Long idRegistroDeuda) {
+		this.idRegistroDeuda = idRegistroDeuda;
+	}
+
 	public boolean addAll(Collection<? extends MovimientoCajaIngreso> c) {
 		for (MovimientoCajaIngreso locMovimiento: c){
 			locMovimiento.setDetalleTicket(this);
