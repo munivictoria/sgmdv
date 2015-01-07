@@ -130,7 +130,7 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 					boolean tieneInteres = cadaLiquidacion.getInteres() != null
 							&& cadaLiquidacion.getInteres() > 0d;
 							if (tieneInteres){
-								locMapa.put("F_TEXTO_PAGO", "Pago fuera de témino");
+								locMapa.put("F_TEXTO_PAGO", "Pago fuera de término");
 							} else {
 								String textoPago;
 								if (cadaLiquidacion
