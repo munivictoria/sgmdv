@@ -75,6 +75,15 @@ public class TicketCaja implements Serializable{
 	@OneToMany(mappedBy = "ticketCaja", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PagoTicket> listaPagosTicket = new ArrayList<PagoTicket>();
 	
+	public boolean tieneDetallesConDeudaReatachada() {
+		for (DetalleTicketCaja cadaDetalle : detalles) {
+			if (cadaDetalle.getRegistroDeudaReatachado()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public List<PagoTicket> getListaPagosTicket() {
 		return listaPagosTicket;
 	}

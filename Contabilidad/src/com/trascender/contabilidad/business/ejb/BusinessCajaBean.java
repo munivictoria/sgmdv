@@ -1671,9 +1671,17 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			locLiquidacion = Criterio.getInstance(entity, LiquidacionTasa.class)
 					.add(Restriccion.IGUAL("idRegistroDeuda", locDetalle.getIdRegistroDeuda()))
 					.uniqueResult();
-			//TODO Volver a marcar pagada la deuda
-			//TODO Poner un estado especial al ticket, para poder señalarlo luego en el reporte, con un 
-			//asterisco o simil.
+			if (locLiquidacion != null) {
+				locDetalle.setRegistroDeudaReatachado(true);
+				//Marcar paga de nuevo
+				this.actualizarPlanes(locLiquidacion, locDetalle.getTicketCaja().getUsuario());
+				businessLiquidacionTasa.generarLogLiquidacion(locLiquidacion, 
+						locDetalle.getTicketCaja().getUsuario(), LogLiquidacion.Evento.PAGO_CAJA, null);
+				locLiquidacion.setRegistroCancelacion(locDetalle);
+				locLiquidacion.setEstado(EstadoRegistroDeuda.PAGADA);
+				
+				entity.merge(locDetalle);
+			}
 		}
 		locDetalle.setDeuda(locLiquidacion);
 	}

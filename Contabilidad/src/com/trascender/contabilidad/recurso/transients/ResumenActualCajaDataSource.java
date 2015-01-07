@@ -67,7 +67,11 @@ public class ResumenActualCajaDataSource implements JRDataSource, Serializable{
 			DetalleTicketCaja detalleEjemplo = cadaTicketCaja.getDetalles().iterator().next();
 			LiquidacionTasa liquidacionEjemplo = (LiquidacionTasa) detalleEjemplo.getDeuda();
 			HashMap<String, Object> locLineaLiquidacion = new HashMap<String, Object>();
-			locLineaLiquidacion.put("NRO_TICKET", cadaTicketCaja.getNumero());
+			String numeroTicket = cadaTicketCaja.getNumero().toString();
+			if (cadaTicketCaja.tieneDetallesConDeudaReatachada()) {
+				numeroTicket = "*"+numeroTicket;
+			}
+			locLineaLiquidacion.put("NRO_TICKET", numeroTicket);
 			locLineaLiquidacion.put("TICKET_IMPORTE", cadaTicketCaja.getImporteTotal());
 			locLineaLiquidacion.put("CUIT", detalleEjemplo.getDeuda().getPersona().getCuim());
 			locLineaLiquidacion.put("NOMBRE", detalleEjemplo.getDeuda().getPersona().getDenominacion());

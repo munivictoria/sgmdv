@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_Totales_Caja" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="820" leftMargin="11" rightMargin="11" topMargin="11" bottomMargin="11" isSummaryNewPage="true" isSummaryWithPageHeaderAndFooter="true">
 	<property name="ireport.zoom" value="1.0000000000000047"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="250"/>
+	<property name="ireport.y" value="97"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
 		<box>
@@ -141,7 +141,7 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="TIPO_OBLIGACION" class="java.lang.String"/>
-	<field name="NRO_TICKET" class="java.lang.Integer"/>
+	<field name="NRO_TICKET" class="java.lang.String"/>
 	<field name="INTERES_TASA" class="java.lang.Double"/>
 	<field name="MODIFICADORES_TASA" class="java.lang.Double"/>
 	<field name="TICKET_IMPORTE" class="java.lang.Double"/>

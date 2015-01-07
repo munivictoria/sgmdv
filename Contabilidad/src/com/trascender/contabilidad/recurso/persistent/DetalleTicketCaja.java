@@ -39,6 +39,21 @@ public class DetalleTicketCaja extends RegistroCancelacion{
 	@Column(name = "ID_REGISTRO_DEUDA")
 	private Long idRegistroDeuda;
 	
+	/**
+	 * Bandera que indica que se reatacho la deuda en un momento 
+	 * posterior al cobro de la misma.
+	 */
+	@Column(name = "REGISTRO_DEUDA_REATACHADO")
+	private Boolean registroDeudaReatachado = false;
+
+	public Boolean getRegistroDeudaReatachado() {
+		return registroDeudaReatachado;
+	}
+
+	public void setRegistroDeudaReatachado(Boolean registroDeudaReatachado) {
+		this.registroDeudaReatachado = registroDeudaReatachado;
+	}
+
 	public Long getIdRegistroDeuda() {
 		return idRegistroDeuda;
 	}
