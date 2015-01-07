@@ -5,6 +5,7 @@
 package com.trascender.catastro.business.interfaces;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Local;
 
@@ -15,6 +16,7 @@ import com.trascender.catastro.recurso.filtros.FiltroPlanoMensura;
 import com.trascender.catastro.recurso.filtros.FiltroSubParcela;
 import com.trascender.catastro.recurso.persistent.Calle;
 import com.trascender.catastro.recurso.persistent.Parcela;
+import com.trascender.catastro.recurso.persistent.ParcelaPorCuadra;
 import com.trascender.catastro.recurso.persistent.PlanoMensura;
 import com.trascender.catastro.recurso.persistent.SubParcela;
 import com.trascender.framework.recurso.transients.AuxIdEntidad;
@@ -265,7 +267,7 @@ public interface BusinessRegistroParcelarioLocal
 	public void deletePlanoConstruccion(com.trascender.catastro.recurso.persistent.PlanoConstruccion pPlanoConstruccion) throws java.lang.Exception;
 
 	@SuppressWarnings("unchecked")
-	public java.util.List getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws java.lang.Exception;
+	public Set<ParcelaPorCuadra> getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws java.lang.Exception;
 
 	@SuppressWarnings("unchecked")
 	public java.util.List findListaParcelasPorCuadra(long pIdParcela) throws java.lang.Exception;

@@ -3,6 +3,7 @@ package com.trascender.catastro.system.ejb;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
@@ -19,6 +20,7 @@ import com.trascender.catastro.recurso.filtros.FiltroPlanoMensura;
 import com.trascender.catastro.recurso.filtros.FiltroSubParcela;
 import com.trascender.catastro.recurso.persistent.DeclaracionJurada;
 import com.trascender.catastro.recurso.persistent.Parcela;
+import com.trascender.catastro.recurso.persistent.ParcelaPorCuadra;
 import com.trascender.catastro.recurso.persistent.PlanoConstruccion;
 import com.trascender.catastro.recurso.persistent.PlanoMensura;
 import com.trascender.catastro.recurso.persistent.RegistroMejora;
@@ -616,7 +618,7 @@ public class SystemInformacionParcelariaBean implements SystemInformacionParcela
 	 * @ejb.interface-method view-type = "remote"
 	 */
 	@SuppressWarnings("unchecked")
-	public java.util.List getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws TrascenderException {
+	public Set<ParcelaPorCuadra> getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws TrascenderException {
 		try {
 			if(SecurityMgr.getInstance().getPermiso(this.llave, Parcela.serialVersionUID, Permiso.Accion.SELECT)) {
 				return this.registroParcelario.getListaCuadrasPorParcela(pParcela);

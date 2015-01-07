@@ -3,6 +3,7 @@ package com.trascender.catastro.test.testEjb3;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.InitialContext;
 import javax.persistence.Column;
@@ -76,7 +77,7 @@ public class RegistroParcelarioTest extends com.trascender.framework.util.JAserc
 		Parcela locParcela = this.systemInformacionParcelaria.getParcelaPorId(1L);
 		assertNotNull("no hay parcela",locParcela);
 		
-		List locListaResultado = this.systemInformacionParcelaria.getListaCuadrasPorParcela(locParcela);
+		Set locListaResultado = this.systemInformacionParcelaria.getListaCuadrasPorParcela(locParcela);
 		assertNotNull("la lista quedo null",locListaResultado);
 		assertIsEmpty(locListaResultado);
 		

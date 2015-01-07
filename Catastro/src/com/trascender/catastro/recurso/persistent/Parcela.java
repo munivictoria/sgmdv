@@ -105,7 +105,7 @@ public class Parcela implements Serializable, Cloneable, EntidadTrascender {
 	private Estado estado=Estado.ACTIVO;
 
 	@OneToMany(mappedBy = "parcela", cascade = {CascadeType.ALL, CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval=true)
-	private List<ParcelaPorCuadra> listaParcelasPorCuadra = new ArrayList<ParcelaPorCuadra>();
+	private Set<ParcelaPorCuadra> listaParcelasPorCuadra = new HashSet<ParcelaPorCuadra>();
 
 	@OneToMany(mappedBy = "parcela", cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<RegistroMejora> listaRegistrosMejora = new HashSet<RegistroMejora>();
@@ -416,12 +416,12 @@ public class Parcela implements Serializable, Cloneable, EntidadTrascender {
 		this.manzana = manzana;
 	}
 
-	public List<ParcelaPorCuadra> getListaParcelasPorCuadra() {
+	public Set<ParcelaPorCuadra> getListaParcelasPorCuadra() {
 		return listaParcelasPorCuadra;
 	}
 
 	public void setListaParcelasPorCuadra(
-			List<ParcelaPorCuadra> listaParcelasPorCuadra) {
+			Set<ParcelaPorCuadra> listaParcelasPorCuadra) {
 		this.listaParcelasPorCuadra = listaParcelasPorCuadra;
 	}
 

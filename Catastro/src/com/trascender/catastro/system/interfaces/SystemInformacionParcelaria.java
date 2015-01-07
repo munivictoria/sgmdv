@@ -2,6 +2,7 @@
 package com.trascender.catastro.system.interfaces;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 
@@ -11,6 +12,7 @@ import com.trascender.catastro.recurso.filtros.FiltroPlanoConstruccion;
 import com.trascender.catastro.recurso.filtros.FiltroPlanoMensura;
 import com.trascender.catastro.recurso.filtros.FiltroSubParcela;
 import com.trascender.catastro.recurso.persistent.Parcela;
+import com.trascender.catastro.recurso.persistent.ParcelaPorCuadra;
 import com.trascender.catastro.recurso.persistent.PlanoMensura;
 import com.trascender.catastro.recurso.persistent.SubParcela;
 import com.trascender.framework.exception.TrascenderException;
@@ -206,7 +208,7 @@ public interface SystemInformacionParcelaria {
 	 * @return listado de ParcelaPorCuadra
 	 */
 	@SuppressWarnings("unchecked")
-	public java.util.List getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws com.trascender.framework.exception.TrascenderException,
+	public Set<ParcelaPorCuadra> getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws com.trascender.framework.exception.TrascenderException,
 			java.rmi.RemoteException;
 
 	/**

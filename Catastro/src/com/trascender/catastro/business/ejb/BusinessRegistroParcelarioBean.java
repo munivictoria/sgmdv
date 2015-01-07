@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
@@ -1242,7 +1243,7 @@ public class BusinessRegistroParcelarioBean implements BusinessRegistroParcelari
 	 * @ejb.interface-method view-type = "local"
 	 */
 	@SuppressWarnings("unchecked")
-	public java.util.List getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws Exception {
+	public Set<ParcelaPorCuadra> getListaCuadrasPorParcela(com.trascender.catastro.recurso.persistent.Parcela pParcela) throws Exception {
 
 		if(pParcela == null) {
 			throw new CatastroException(43);
@@ -1264,7 +1265,7 @@ public class BusinessRegistroParcelarioBean implements BusinessRegistroParcelari
 			}
 		}
 
-		List<ParcelaPorCuadra> locListaRetorno = pParcela.getListaParcelasPorCuadra();
+		Set<ParcelaPorCuadra> locListaRetorno = pParcela.getListaParcelasPorCuadra();
 
 		for(Cuadra cadaCuadra : locManzana.getListaCuadrasDelimitantes()) {
 			boolean existe = false;

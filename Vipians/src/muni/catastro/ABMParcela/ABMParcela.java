@@ -56,6 +56,7 @@ import com.trascender.catastro.recurso.persistent.Manzana;
 import com.trascender.catastro.recurso.persistent.NomenclaturaCatastral;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.catastro.recurso.persistent.Parcela.TipoParcela;
+import com.trascender.catastro.recurso.persistent.ParcelaPorCuadra;
 import com.trascender.catastro.recurso.persistent.PlanoConstruccion;
 import com.trascender.catastro.recurso.persistent.PlanoMensura;
 import com.trascender.catastro.recurso.persistent.Planta;
@@ -3237,7 +3238,7 @@ public class ABMParcela extends ABMPageBean {
 		this.getLdpParcelaCuadras().commitChanges();
 
 		cuadras = this.getLdpParcelaCuadras().getList();
-		parcela.setListaParcelasPorCuadra(cuadras);
+		parcela.setListaParcelasPorCuadra(new HashSet<ParcelaPorCuadra>(cuadras));
 		this.getComunicationCatastroBean().setListaParcelaPorCuadras(cuadras);
 
 		listaRegistroMejora = this.getLdpRegistroMejoraParcela().getList();
@@ -4763,7 +4764,8 @@ public class ABMParcela extends ABMPageBean {
 			List cuadras = null;
 			try {
 				this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().setLlave(this.getSessionBean1().getLlave());
-				cuadras = this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().getListaCuadrasPorParcela(parcela);
+				cuadras = new ArrayList<ParcelaPorCuadra>(
+						this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().getListaCuadrasPorParcela(parcela));
 			} catch(Exception ex) {
 				error("No se pudieron obtener las Cuadras de la Manzana: " + ex.getMessage());
 			}
@@ -4852,7 +4854,8 @@ public class ABMParcela extends ABMPageBean {
 
 		try {
 			this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().setLlave(this.getSessionBean1().getLlave());
-			cuadras = this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().getListaCuadrasPorParcela(parcela);
+			cuadras = new ArrayList<ParcelaPorCuadra>(
+					this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().getListaCuadrasPorParcela(parcela));
 		} catch(Exception ex) {
 			error("No se pudieron obtener las Cuadras de la Manzana: " + ex.getMessage());
 		}
