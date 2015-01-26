@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
@@ -358,6 +359,25 @@ public class Util {
 		}
 
 		return listaCasteada;
+	}
+	
+	public static <T, E> List<T> getListaPropiedad(Collection<E> pLista, String propiedad) {
+		if (pLista == null) return null;
+		List<T> listaRetorno = new ArrayList<T>();
+		try {
+			if (pLista.isEmpty()) return listaRetorno;
+			Method geter = null;
+			for (E objeto : pLista) {
+				if (objeto == null) continue;
+				if (geter == null) {
+					geter = ReflectionUtils.getGeter(objeto.getClass(), propiedad);
+				}
+				listaRetorno.add((T) geter.invoke(objeto));
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return listaRetorno;
 	}
 
 	public static synchronized File crearArchivoTemporal(String pNombre, String pExtension) {
