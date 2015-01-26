@@ -191,14 +191,9 @@ public class Obligacion implements Serializable, AuditoriaIndirecta{
 	 * @return true si se activo
 	 */
 	public boolean reActivar(){
-		boolean reActivo = false;
-		if (this.estado.equals(Estado.ANULADO)){
-			reActivo=true;
-			reActivo=reActivo&& this.getDocumentoEspecializado().getEstado().equals(DocHabilitanteEspecializado.Estado.INACTIVO);
-		}
-
-		if (reActivo) this.setEstado(Estado.CREADO);
-		return reActivo;
+		this.setEstado(Estado.CREADO);
+		this.getDocumentoEspecializado().setEstado(DocHabilitanteEspecializado.Estado.ACTIVO);
+		return true;
 	}
 
 	public boolean ratificar(){

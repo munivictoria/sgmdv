@@ -24,5 +24,7 @@ public interface SystemPeriodo {
 	
 	public CuotaLiquidacion getCuotaPorId(Long pId) throws TrascenderException;
 	
+	public void deleteCalendarioMunicipal(CalendarioMunicipal pCalendario) throws TrascenderException;
+	
 	public void setLlave(long pLlave);
 }

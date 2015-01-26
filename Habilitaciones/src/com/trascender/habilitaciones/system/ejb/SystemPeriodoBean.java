@@ -175,4 +175,23 @@ public class SystemPeriodoBean implements SystemPeriodo{
 			throw new TrascenderFrameworkException(999);
 		}
 	}
+
+	@Override
+	public void deleteCalendarioMunicipal(CalendarioMunicipal pCalendario)
+			throws TrascenderException {
+		try{
+			if(SecurityMgr.getInstance().getPermiso(this.llave, 
+					CalendarioMunicipal.serialVersionUID, Accion.DELETE )){
+				this.businessPeriodo.deleteCalendarioMunicipal(pCalendario);
+			}else{
+				throw new TrascenderFrameworkException(805);
+			}
+		}catch (TrascenderException locE) {
+			locE.printStackTrace();
+			throw new TrascenderFrameworkException(853);
+		}catch (Exception locE2) {
+			locE2.printStackTrace();
+			throw new TrascenderFrameworkException(999);
+		}
+	}
 }

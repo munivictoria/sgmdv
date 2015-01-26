@@ -374,4 +374,9 @@ public class BusinessPeriodoBean implements BusinessPeriodoLocal {
 		return locCuota;
 	}
 
+	@Override
+	public void deleteCalendarioMunicipal(CalendarioMunicipal pCalendario) {
+		entityManager.remove(entityManager.merge(pCalendario));
+	}
+
 }

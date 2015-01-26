@@ -24,4 +24,6 @@ public interface BusinessPeriodoLocal {
 	public CalendarioMunicipal updateCalendarioMunicipal(CalendarioMunicipal pCalendario) throws Exception;
 	
 	public CuotaLiquidacion getCuotaPorId(Long pId) throws TrascenderException;
+
+	public void deleteCalendarioMunicipal(CalendarioMunicipal pCalendario);
 }
