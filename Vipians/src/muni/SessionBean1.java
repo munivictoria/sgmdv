@@ -27,6 +27,8 @@ import ar.trascender.util.ReflectionUtils;
 
 import com.sun.rave.web.ui.appbase.AbstractSessionBean;
 import com.trascender.catastro.recurso.persistent.Parcela;
+import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionAtributoTabla;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ConjuntoAtributoTabla;
@@ -530,7 +532,7 @@ public class SessionBean1 extends AbstractSessionBean {
 		} catch(NamingException e) {
 			e.printStackTrace();
 		}
-
+		remoteSystemParametro.setLlave(llave);
 		return remoteSystemParametro;
 	}
 
@@ -584,4 +586,29 @@ public class SessionBean1 extends AbstractSessionBean {
 	public void setListaIdCodigoCiiu(List<Long> listaIdCodigoCiiu) {
 		this.listaIdCodigoCiiu = listaIdCodigoCiiu;
 	}
+	
+	private ConfiguracionAccesosDirectos configuracionAccesosDirectos;
+
+	public ConfiguracionAccesosDirectos getConfiguracionAccesosDirectos() {
+		if (configuracionAccesosDirectos == null) {
+			levantarConfiguracionAccesoDirecto();
+		}
+		return configuracionAccesosDirectos;
+	}
+	
+	public void levantarConfiguracionAccesoDirecto(){
+		try {
+			configuracionAccesosDirectos = getRemoteSystemParametro().getConfiguracionPorUsuario(this.usuario.getIdUsuario());
+		} catch (TrascenderException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setConfiguracionAccesosDirectos(
+			ConfiguracionAccesosDirectos locConfiguracionAccesosDirectos) {
+		this.configuracionAccesosDirectos = locConfiguracionAccesosDirectos;
+	}
+	
+	
+	
 }

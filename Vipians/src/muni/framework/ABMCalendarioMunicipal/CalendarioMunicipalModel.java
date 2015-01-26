@@ -178,7 +178,7 @@ public class CalendarioMunicipalModel extends ABMModel{
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			CalendarioMunicipal locCalendario = (CalendarioMunicipal) pObject;
 			getComunicationBean().getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-			//			getComunicationBean().getRemoteSystemPeriodo().CalendarioMunicipal(locCalendario);
+			getComunicationBean().getRemoteSystemPeriodo().deleteCalendarioMunicipal(locCalendario);
 			return "El Calendario Municipal se elimin\363 exitosamente";
 		}
 

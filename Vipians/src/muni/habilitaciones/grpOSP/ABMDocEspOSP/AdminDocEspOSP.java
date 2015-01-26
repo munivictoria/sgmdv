@@ -57,6 +57,15 @@ public class AdminDocEspOSP extends AdminPageBean {
 	private Label lblExenciones = new Label();
 	private DropDown ddExenciones = new DropDown();
 	private SingleSelectOptionsList ddExencionesDefaultOptions = new SingleSelectOptionsList();
+	private Button btnReactivar = new Button();
+	
+	public Button getBtnReactivar() {
+		return btnReactivar;
+	}
+
+	public void setBtnReactivar(Button btnReactivar) {
+		this.btnReactivar = btnReactivar;
+	}
 
 	public DropDown getDdExenciones() {
 		return ddExenciones;
@@ -706,6 +715,15 @@ public class AdminDocEspOSP extends AdminPageBean {
 
 	public String btnEliminar_action() {
 		return toAbm(new DocEspOSPModel().new EliminarDocEspOSPController());
+	}
+	
+	public String btnReactivar_action() {
+		Obligacion locObligacion = (Obligacion) getObjetoSeleccionado();
+		if (!locObligacion.getEstado().equals(Obligacion.Estado.ANULADO)) {
+			warn("Solo se pueden Reactivar Documentos Anulados");
+			return null;
+		}
+		return toAbm(new DocEspOSPModel().new ReactivarDocEspOSPController());
 	}
 
 	@Override

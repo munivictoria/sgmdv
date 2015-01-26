@@ -38,6 +38,7 @@ import com.trascender.framework.recurso.filtros.FiltroPais;
 import com.trascender.framework.recurso.filtros.FiltroPersonaFisica;
 import com.trascender.framework.recurso.filtros.FiltroPersonaJuridica;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
+import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroProvincia;
 import com.trascender.framework.recurso.filtros.FiltroRol;
 import com.trascender.framework.recurso.filtros.FiltroSecretaria;
@@ -54,6 +55,7 @@ import com.trascender.framework.recurso.persistent.Municipalidad;
 import com.trascender.framework.recurso.persistent.Pais;
 import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.recurso.persistent.PersonaJuridica;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.Provincia;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.SeccionCiiu;
@@ -230,6 +232,11 @@ public class ComunicationBean extends AbstractSessionBean {
 			// locFiltroReporteJasper.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			// this.tablaReporteJasper = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(ReportesJasper.serialVersionUID),
 			// "#{framework$ABMReporteJasper$AdminReporteJasper}", locFiltroReporteJasper);
+			
+			FiltroProcesoDB locFiltroDB = new FiltroProcesoDB();
+			locFiltroDB.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
+			this.tablaProcesoDB = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(ProcesoDB.serialVersionUID)
+					, "#{framework$ABMProcesoDB$AdminProcesoDB}", locFiltroDB);
 
 		} catch(Exception ex) {
 			// Logger.getLogger(ComunicationBean.class.getName()).log(Level.SEVERE,
@@ -547,6 +554,16 @@ public class ComunicationBean extends AbstractSessionBean {
 
 	public void setListaLogs(List listaLogs) {
 		this.listaLogs = listaLogs;
+	}
+	
+	private List listaProcesosDB = null;
+	
+	public List getListaProcesosDB() {
+		return listaProcesosDB;
+	}
+
+	public void setListaProcesosDB(List listaProcesosDB) {
+		this.listaProcesosDB = listaProcesosDB;
 	}
 
 	/**
@@ -1130,6 +1147,15 @@ public class ComunicationBean extends AbstractSessionBean {
 	private PaginatedTable tablaUsuario;
 	private PaginatedTable tablaCalendarioMunicipal;
 	private PaginatedTable tablaReporteJasper;
+	private PaginatedTable tablaProcesoDB;
+	
+	public PaginatedTable getTablaProcesoDB() {
+		return tablaProcesoDB;
+	}
+
+	public void setTablaProcesoDB(PaginatedTable tablaProcesoDB) {
+		this.tablaProcesoDB = tablaProcesoDB;
+	}
 
 	public PaginatedTable getTablaReporteJasper() {
 		return tablaReporteJasper;

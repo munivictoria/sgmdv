@@ -1288,6 +1288,17 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	public void setSeleccionMultipleImprimirLiquidaciones(boolean seleccionMultipleImprimirLiquidaciones) {
 		this.seleccionMultipleImprimirLiquidaciones = seleccionMultipleImprimirLiquidaciones;
 	}
+	
+	private Set seleccionadosSeleccionMultipleNotificacion = new HashSet();
+	
+	public Set getSeleccionadosSeleccionMultipleNotificacion() {
+		return seleccionadosSeleccionMultipleNotificacion;
+	}
+
+	public void setSeleccionadosSeleccionMultipleNotificacion(
+			Set seleccionadosSeleccionMultipleNotificacion) {
+		this.seleccionadosSeleccionMultipleNotificacion = seleccionadosSeleccionMultipleNotificacion;
+	}
 
 	private Set seleccionadosSeleccionMultipleImprimirLiquidaciones = new HashSet();
 
@@ -1317,6 +1328,16 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public void setListaLiquidacionesActualizarDeuda(List listaLiquidacionesActualizarDeuda) {
 		this.listaLiquidacionesActualizarDeuda = listaLiquidacionesActualizarDeuda;
+	}
+	
+	private List listaLiquidacionesNotificar = new ArrayList();
+	
+	public List getListaLiquidacionesNotificar() {
+		return listaLiquidacionesNotificar;
+	}
+
+	public void setListaLiquidacionesNotificar(List listaLiquidacionesNotificar) {
+		this.listaLiquidacionesNotificar = listaLiquidacionesNotificar;
 	}
 
 	private muni.SessionBean1 getSessionBean1() {

@@ -193,6 +193,41 @@ public class DocEspTGIModel extends ABMModel {
 			return DocEspTGIModel.this;
 		}
 	}
+	public class RectivarDocEspTGIController extends ModificarAbstractController{
+		
+		@Override
+		public String getTituloPagina() {
+			return "Reactivar " + this.getModel().getNombreEntidad();
+		}
+		
+		@Override
+		public String getTextoBotonAceptar() {
+			return "Reactivar";
+		}
+
+		@Override
+		public Validador getValidador() {
+			return null;
+		}
+
+		@Override
+		public String accionBotonAceptar(Object pObject) throws Exception {
+			Obligacion locObligacion = (Obligacion) pObject;
+			locObligacion.reActivar();
+			getCommunicationHabilitacionesBean().getRemoteSystemObligacion().updateObligacion(locObligacion);
+			return "El Documento TGI se reactiv\363 exitosamente";
+		}
+
+		@Override
+		public void ocultarDeshabilitarEnVista() {
+			deshabilitarElementosConsultarEliminar();
+		}
+
+		@Override
+		public ABMModel getModel() {
+			return DocEspTGIModel.this;
+		}
+	}
 	@Override
 	public String getReglaNavegacion() {
 		return "ABMDocEspTGI";

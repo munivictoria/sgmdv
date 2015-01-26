@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import muni.habilitaciones.grpOSP.ABMDocEspOSP.DocEspOSPModel;
+import muni.habilitaciones.grpOSP.ABMDocEspOSP.DocEspOSPModel.ReactivarDocEspOSPController;
+
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
 import com.sun.data.provider.RowKey;
@@ -58,6 +61,15 @@ public class AdminDocEspSHPS extends AdminPageBean {
 	private TextField tfCuim = new TextField();
 	private Label label17 = new Label();
 	private TextField tfContador = new TextField();
+	private Button btnReactivar = new Button();
+	
+	public Button getBtnReactivar() {
+		return btnReactivar;
+	}
+
+	public void setBtnReactivar(Button btnReactivar) {
+		this.btnReactivar = btnReactivar;
+	}
 
 	public Label getLabel17() {
 		return label17;
@@ -700,6 +712,15 @@ public class AdminDocEspSHPS extends AdminPageBean {
 			return toAbm(new DocEspSHPSModel().new ModificarController());
 		}
 		return null;
+	}
+	
+	public String btnReactivar_action() {
+		Obligacion locObligacion = (Obligacion) getObjetoSeleccionado();
+		if (!locObligacion.getEstado().equals(Obligacion.Estado.ANULADO)) {
+			warn("Solo se pueden Reactivar Documentos Anulados");
+			return null;
+		}
+		return toAbm(new DocEspSHPSModel().new ReactivarController());
 	}
 
 	public String btnEliminar_action() {

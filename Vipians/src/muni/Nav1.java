@@ -94,8 +94,8 @@ import com.trascender.framework.recurso.persistent.Pais;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.recurso.persistent.PersonaJuridica;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.Provincia;
-import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Secretaria;
 import com.trascender.framework.recurso.persistent.Usuario;
@@ -300,7 +300,7 @@ public class Nav1 extends AbstractPageBean {
 			new Enlace(Usuario.serialVersionUID, "/faces/framework/ABMUsuario/AdminUsuario.jsp"),
 			new Enlace(DigestoMunicipal.serialVersionUID, "/faces/framework/ABMDigestoMunicipal/AdminDigestoMunicipal.jsp"),
 			new Enlace(PlantillaAtributoDinamico.serialVersionUID, "/faces/framework/ABMAtributoDinamico/AdminAtributoDinamico.jsp"),
-			new Enlace(ReportesJasper.serialVersionUID, "/faces/framework/ABMReporteJasper/AdminReporteJasper.jsp"),
+			new Enlace(ProcesoDB.serialVersionUID, "/faces/framework/ABMProcesoDB/AdminProcesoDB.jsp"),
 
 			// Catastro
 			new Enlace(Calle.serialVersionUID, "/faces/catastro/ABMCalle/AdminCalle.jsp"),
@@ -682,7 +682,7 @@ public class Nav1 extends AbstractPageBean {
 	public void destroy() {
 	}
 
-	private String getLinkRecurso(long serialVersionUIDRecurso) {
+	public String getLinkRecurso(long serialVersionUIDRecurso) {
 
 		String link = null;
 
@@ -742,10 +742,6 @@ public class Nav1 extends AbstractPageBean {
 		// GRUPOS
 		for(int i = 0; i < grupos.size(); i++) {
 			Grupo grupo = (Grupo) grupos.get(i);
-
-			if(grupo.getId() == -503058017218512453L) {
-				System.out.println("ACA");
-			}
 
 			tnGrupo = new TreeNode();
 			tnGrupo.setId("g" + i);// grupo.getNombre().replace(" ", "").replace("/", ""));

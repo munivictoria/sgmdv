@@ -14,11 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
 import javax.faces.FacesException;
+import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.MethodExpressionActionListener;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
@@ -30,6 +36,7 @@ import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Button;
 import com.sun.rave.web.ui.component.Checkbox;
+import com.sun.rave.web.ui.component.Hyperlink;
 import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.PanelGroup;
 import com.sun.rave.web.ui.component.RadioButton;
@@ -45,6 +52,7 @@ import com.sun.rave.web.ui.event.TableSelectPhaseListener;
 import com.sun.rave.web.ui.model.Option;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
+import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.CodigoCiiu;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Permiso.Accion;
@@ -1721,6 +1729,43 @@ public abstract class AdminPageBean extends TrascenderAbstractPageBean {
 	protected void borrarListIdAuxCodigosCiiu(TextField tf, CodigoCiiu pCodigoCiiu) {
 		if(tf.getText() == null || tf.getText().toString().length() < 3 || pCodigoCiiu != null && pCodigoCiiu.getIdCodigoCiiu() != -1) {
 			this.getSessionBean1().getListaIdCodigoCiiu().clear();
+		}
+	}
+	
+	private MethodExpressionActionListener getActionListener(String pValor) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ELContext elContext = context.getELContext();
+		ExpressionFactory elFactory = context.getApplication().getExpressionFactory();
+		Class[] args = new Class[] {javax.faces.event.ActionEvent.class};
+		MethodExpression methodExpression = elFactory.createMethodExpression(elContext, pValor, null, args);
+		MethodExpressionActionListener listener = new MethodExpressionActionListener(methodExpression);
+		return listener;
+	}
+	
+	private MethodExpressionActionListener getActionListenerEnBean(String pValor) {
+		return this.getActionListener(this.armarExpressionEnBean(pValor));
+	}
+
+	public Hyperlink getHpAgregarPaginaAccesoDirecto() {
+		Hyperlink hp = new Hyperlink();
+		hp.setText("Agregar esta página como acceso directo");
+		hp.addActionListener(getActionListenerEnBean("agregarPaginaComoAccesoDirecto"));
+		return hp;
+	}
+	
+	public void setHpAgregarPaginaAccesoDirecto(Hyperlink hp){}
+	
+	public void agregarPaginaComoAccesoDirecto(ActionEvent evento) {
+		Long idRecurso = getSerialVersionUID();
+		if (idRecurso != null && idRecurso != 0) {
+			try {
+				this.getComunicationBean().getRemoteSystemParametro().addAccesoDirecto(idRecurso);
+				this.getSessionBean1().levantarConfiguracionAccesoDirecto();
+				info("Página agregada como acceso directo");
+			} catch (TrascenderFrameworkException e) {
+				e.printStackTrace();
+				error(e.getMessage());
+			}
 		}
 	}
 }

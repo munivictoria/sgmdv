@@ -240,6 +240,51 @@ public class DocEspSHPSModel extends ABMModel {
 			return DocEspSHPSModel.this;
 		}
 	}
+	
+	public class ReactivarController extends ModificarAbstractController {
+		
+		@Override
+		public String getTituloPagina() {
+			return "Reactivar " + this.getModel().getNombreEntidad();
+		}
+		
+		@Override
+		public String getTextoBotonAceptar() {
+			return "Reactivar";
+		}
+
+		@Override
+		public Validador getValidador() {
+			return null;
+		}
+
+		@Override
+		public String accionBotonAceptar(Object pObject) throws Exception {
+			DocumentoSHPS documentoSHPS = (DocumentoSHPS) pObject;
+			Obligacion obligacion = documentoSHPS.getObligacion();
+			// Guardo los valores de auditoria que tenia el objeto actual
+			String comentario = documentoSHPS.getComentarioAuditoria();
+			long llave = documentoSHPS.getLlaveUsuarioAuditoria();
+			obligacion = getCommunicationHabilitacionesBean().getRemoteSystemObligacion().getObligacionPorId(obligacion.getIdObligacion());
+			documentoSHPS = getCommunicationHabilitacionesBean().getRemoteSystemBromatologia().getDocumentoHabilitanteSHPS(obligacion);
+			obligacion.setDocumentoEspecializado(documentoSHPS);
+			obligacion.reActivar();
+			obligacion.getDocumentoEspecializado().setComentarioAuditoria(comentario);
+			obligacion.getDocumentoEspecializado().setLlaveUsuarioAuditoria(llave);
+			getCommunicationHabilitacionesBean().getRemoteSystemObligacion().updateObligacion(obligacion);
+			return "La Obligaci\363n de SHPS se reactiv\363 exitosamente.";
+		}
+
+		@Override
+		public void ocultarDeshabilitarEnVista() {
+			deshabilitarOcultarElementos();
+		}
+
+		@Override
+		public ABMModel getModel() {
+			return DocEspSHPSModel.this;
+		}
+	}
 
 	@Override
 	public String getReglaNavegacion() {

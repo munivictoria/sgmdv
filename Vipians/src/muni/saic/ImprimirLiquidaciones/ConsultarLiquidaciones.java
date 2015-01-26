@@ -136,6 +136,22 @@ public class ConsultarLiquidaciones extends AbstractPageBean {
 	public void setLink1(Link l) {
 		this.link1 = l;
 	}
+	
+	private TextField tfFechaNotificacion = new TextField();
+	private TextField tfFechaApremio = new TextField();
+	
+	public TextField getTfFechaNotificacion() {
+		return tfFechaNotificacion;
+	}
+	public void setTfFechaNotificacion(TextField tfFechaNotificacion) {
+		this.tfFechaNotificacion = tfFechaNotificacion;
+	}
+	public TextField getTfFechaApremio() {
+		return tfFechaApremio;
+	}
+	public void setTfFechaApremio(TextField tfFechaApremio) {
+		this.tfFechaApremio = tfFechaApremio;
+	}
 
 	private Body body1 = new Body();
 
@@ -919,6 +935,8 @@ public class ConsultarLiquidaciones extends AbstractPageBean {
 			this.getTfEstado().setText(liquidacion.getEstado().toString());
 			this.getTfMonto().setText(Conversor.getStringDeDouble(Util.redondear(liquidacion.getMonto(), 2)));
 			this.getTfFechaCancelacion().setText(liquidacion.getFechaCancelacion());
+			this.getTfFechaApremio().setText(Util.getString(liquidacion.getFechaApremio()));
+			this.getTfFechaNotificacion().setText(Util.getString(liquidacion.getFechaNotificacion()));
 
 
 			if(registroCancelacion != null){

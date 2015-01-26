@@ -27,6 +27,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import muni.saic.ABMReliquidacion.ActualizarDeudaModel;
+import muni.saic.ABMReliquidacion.NotificacionModel;
 import muni.saic.ABMReliquidacion.ReliquidarVariasModel;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
@@ -126,7 +127,8 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 		Option[] opEstado = null;
 		RegistroDeuda.EstadoRegistroDeuda[] estados = new RegistroDeuda.EstadoRegistroDeuda[] {RegistroDeuda.EstadoRegistroDeuda.PAGADA, RegistroDeuda.EstadoRegistroDeuda.VENCIDA,
 				RegistroDeuda.EstadoRegistroDeuda.VIGENTE, RegistroDeuda.EstadoRegistroDeuda.ANULADA, RegistroDeuda.EstadoRegistroDeuda.RELIQUIDADA,
-				RegistroDeuda.EstadoRegistroDeuda.REFINANCIADA, RegistroDeuda.EstadoRegistroDeuda.NO_OPTADA};
+				RegistroDeuda.EstadoRegistroDeuda.REFINANCIADA, RegistroDeuda.EstadoRegistroDeuda.NO_OPTADA, 
+				RegistroDeuda.EstadoRegistroDeuda.PRESCRITA};
 		opEstado = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(estados, "cap");
 
 		Option[] opTipo = null;
@@ -346,6 +348,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 	private SingleSelectOptionsList ddTipoDefaultOptions = new SingleSelectOptionsList();
 	private Button btnMarcarPagada = new Button();
 	private Button btnMarcarImpaga = new Button();
+	private Button btnNotificar = new Button();
 	private Button btnEliminarLiquidacion = new Button();
 	private Button btnModificarLiquidacion = new Button();
 	private Button btnModificarVarias = new Button();
@@ -358,6 +361,14 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 	private Set listaSeleccionados = new HashSet();
 	private TextArea taPersona = new TextArea();
 
+	public Button getBtnNotificar() {
+		return btnNotificar;
+	}
+
+	public void setBtnNotificar(Button btnNotificar) {
+		this.btnNotificar = btnNotificar;
+	}
+
 	public TextArea getTaPersona() {
 		return taPersona;
 	}
@@ -368,6 +379,16 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 
 	public Label getLblOmitir() {
 		return lblOmitir;
+	}
+	
+	private Checkbox cbOmitirMostrador = new Checkbox();
+	
+	public Checkbox getCbOmitirMostrador() {
+		return cbOmitirMostrador;
+	}
+
+	public void setCbOmitirMostrador(Checkbox cbOmitirMostrador) {
+		this.cbOmitirMostrador = cbOmitirMostrador;
 	}
 
 	public void setLblOmitir(Label lblOmitir) {
@@ -1213,6 +1234,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 
 		locFiltro.setNoCero((Boolean) this.getChkOmitir().getSelected());
 		locFiltro.setNoAgrupar(this.getCbNoAgruparLiquidaciones().isChecked());
+		locFiltro.setOmitirMostrador(this.getCbOmitirMostrador().isChecked());
 
 		locFiltro.setDni(dni);
 		this.getSessionBean1().setNroDocumento(dni);
@@ -1382,6 +1404,9 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 		this.getDdTipo().setSelected(null);
 		this.getDdTipoDefaultOptions().setSelectedValue(null);
 		this.stTotal.setText("");
+		
+		this.getCbOmitirMostrador().setSelected(false);
+		this.getChkOmitir().setSelected(false);
 
 		this.rbgTipoObligacion.setSelected("Servicios Municipales");
 		this.getElementoPila().getObjetos().set(1, "Servicios Municipales");
@@ -1624,6 +1649,42 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				warn("Debe seleccionar una liquidación");
 				return null;
 			}
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+		return retorno;
+	}
+	
+	public String btnNotificar_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		this.guardarEstadoObjetosUsados();
+		
+		if(ultimo) {
+			List<LiquidacionTasaRefer> listaLiquidacionesRefer = Util.castearLista(this.getObjectListDataProvider().getList());
+			List<LiquidacionTasaAgrupada> listaLiquidacionesAgrupadas = new ArrayList<LiquidacionTasaAgrupada>();
+
+			for(Iterator<LiquidacionTasaRefer> iterator = listaLiquidacionesRefer.iterator(); iterator.hasNext();) {
+				LiquidacionTasaRefer cadaLiquidacionRefer = iterator.next();
+				if(!cadaLiquidacionRefer.getEstado().equals("VIGENTE") && !cadaLiquidacionRefer.getEstado().equals("VENCIDA")) {
+					iterator.remove();
+					continue;
+				}
+				try {
+					this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
+					listaLiquidacionesAgrupadas.add(this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(cadaLiquidacionRefer));
+				} catch(RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+//			this.getCommunicationSAICBean().setSeleccionadosSeleccionMultipleActualizarDeuda(new HashSet());
+
+			this.getRequestBean1().setObjetoABM(listaLiquidacionesAgrupadas);
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+			this.getRequestBean1().setAbmController(new NotificacionModel().new NotificarController());
+
+			retorno = "ABMNotificacion";
 		} else {
 			retorno = this.prepararCaducidad();
 		}

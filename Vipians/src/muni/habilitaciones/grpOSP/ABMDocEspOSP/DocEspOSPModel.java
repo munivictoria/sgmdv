@@ -316,6 +316,50 @@ public class DocEspOSPModel extends ABMModel {
 			return DocEspOSPModel.this;
 		}
 	}
+	
+	public class ReactivarDocEspOSPController extends ModificarAbstractController {
+		
+		@Override
+		public String getTituloPagina() {
+			return "Reactivar " + this.getModel().getNombreEntidad();
+		}
+		
+		@Override
+		public String getTextoBotonAceptar() {
+			return "Reactivar";
+		}
+
+		@Override
+		public Validador getValidador() {
+			return null;
+		}
+
+		@Override
+		public String accionBotonAceptar(Object pObject) throws Exception {
+			Obligacion locObligacion = (Obligacion) pObject;
+			DocumentoOSP locDocumento = getBeanDocEspOSP().obtenerObjetoDelElementoPila(1, DocumentoOSP.class);
+			locDocumento.setComentarioAuditoria(locObligacion.getComentarioAuditoria());
+			locDocumento.setLlaveUsuarioAuditoria(locObligacion.getLlaveUsuarioAuditoria());
+			locObligacion.setDocumentoEspecializado(locDocumento);
+			locObligacion.reActivar();
+			getCommunicationHabilitacionesBean().getRemoteSystemObligacion().updateObligacion(locObligacion);
+			return "El documento OSP se reactiv\363 exitosamente";
+		}
+
+		@Override
+		public void ocultarDeshabilitarEnVista() {
+			getBeanDocEspOSP().getTable1().setVisible(false);
+			getBeanDocEspOSP().getTable1().setRendered(false);
+			deshabilitarElementosConsultarEliminar();
+
+			alternarServiciosOSP();
+		}
+
+		@Override
+		public ABMModel getModel() {
+			return DocEspOSPModel.this;
+		}
+	}
 
 	public void alternarServiciosOSP() {
 		ABMDocEspOSP abmDocEspOSP = getBeanDocEspOSP();

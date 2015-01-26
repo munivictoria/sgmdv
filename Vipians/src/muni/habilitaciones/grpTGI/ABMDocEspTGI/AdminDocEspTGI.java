@@ -16,6 +16,9 @@ import java.util.Set;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import muni.habilitaciones.grpOSP.ABMDocEspOSP.DocEspOSPModel;
+import muni.habilitaciones.grpOSP.ABMDocEspOSP.DocEspOSPModel.ReactivarDocEspOSPController;
+
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Button;
@@ -89,6 +92,15 @@ public class AdminDocEspTGI extends AdminPageBean {
 	private Label lblExenciones = new Label();
 	private DropDown ddExenciones = new DropDown();
 	private SingleSelectOptionsList ddExencionesDefaultOptions = new SingleSelectOptionsList();
+	private Button btnReactivar = new Button();
+	
+	public Button getBtnReactivar() {
+		return btnReactivar;
+	}
+
+	public void setBtnReactivar(Button btnReactivar) {
+		this.btnReactivar = btnReactivar;
+	}
 
 	public DropDown getDdExenciones() {
 		return ddExenciones;
@@ -724,6 +736,15 @@ public class AdminDocEspTGI extends AdminPageBean {
 			retorno = this.prepararCaducidad();
 		}
 		return retorno;
+	}
+	
+	public String btnReactivar_action() {
+		Obligacion locObligacion = (Obligacion) getObjetoSeleccionado();
+		if (!locObligacion.getEstado().equals(Obligacion.Estado.ANULADO)) {
+			warn("Solo se pueden Reactivar Documentos Anulados");
+			return null;
+		}
+		return toAbm(new DocEspTGIModel().new RectivarDocEspTGIController());
 	}
 
 	public String btnEliminar_action() {

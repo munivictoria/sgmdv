@@ -6,15 +6,31 @@
  */
 package muni;
 
+import java.rmi.RemoteException;
+
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Form;
 import com.sun.rave.web.ui.component.Head;
 import com.sun.rave.web.ui.component.Html;
+import com.sun.rave.web.ui.component.Hyperlink;
+import com.sun.rave.web.ui.component.ImageHyperlink;
+import com.sun.rave.web.ui.component.ImageHyperlinkBase;
+import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.Link;
 import com.sun.rave.web.ui.component.Page;
+import com.sun.rave.web.ui.component.PanelGroup;
+
 import javax.faces.FacesException;
+import javax.faces.component.html.HtmlPanelGrid;
+
 import com.sun.rave.web.ui.component.Script;
+import com.sun.rave.web.ui.component.util.factories.ImageHyperlinkFactory;
+import com.trascender.framework.recurso.persistent.AccesoDirecto;
+import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
+import com.trascender.framework.recurso.persistent.Permiso;
+import com.trascender.framework.recurso.transients.Recurso;
+import com.trascender.framework.util.SecurityMgr;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -256,6 +272,55 @@ public class Main extends AbstractPageBean {
      * durante la ejecuci�n de un controlador de eventos).</p>
      */
     public void destroy() {
+    }
+    
+    private boolean tienePermisos(AccesoDirecto pAcceso) {
+    	try {
+			return SecurityMgr.getInstance().getPermiso(getSessionBean1().getLlave(), 
+						pAcceso.getIdRecurso(), Permiso.Accion.SELECT); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
+    public PanelGroup getPanelAccesos() {
+    	PanelGroup locPanel = new PanelGroup();
+    	locPanel.setStyle("margin-left: 50px");
+    	
+    	ConfiguracionAccesosDirectos locConfiguracion = getSessionBean1().getConfiguracionAccesosDirectos();
+    	
+    	if (locConfiguracion != null) {
+    		for (AccesoDirecto cadaAcceso : locConfiguracion.getListaAccesosDirecto()) {
+    			if (!tienePermisos(cadaAcceso)) continue;
+	    		ImageHyperlink ihp = new ImageHyperlink();
+	        	ihp.setTarget("main");
+	        	ihp.setImageURL("/resources/imagenes/arboles/recurso.png");
+	        	ihp.setUrl(getNav1().getLinkRecurso(cadaAcceso.getIdRecurso()));
+	        	ihp.setWidth(25);
+	        	ihp.setHeight(25);
+	        	Recurso locRecurso = (Recurso) SecurityMgr.getInstance().getRecursoBySerial(cadaAcceso.getIdRecurso());
+	        	
+	        	HtmlPanelGrid panelGrid = new HtmlPanelGrid();
+	        	panelGrid.setStyle("text-align: center;margin-left:20px;");
+	        	panelGrid.getChildren().add(ihp);
+	        	
+	        	Hyperlink link = new Hyperlink();
+	        	link.setUrl(getNav1().getLinkRecurso(cadaAcceso.getIdRecurso()));
+	        	link.setText(locRecurso.getNombre());
+	        	panelGrid.getChildren().add(link);
+	        	
+	        	locPanel.getChildren().add(panelGrid);
+	        	
+    		}
+    	}
+    	return locPanel;
+    }
+    
+    public void setPanelAccesos(PanelGroup panel) {}
+    
+    public Nav1 getNav1() {
+    	return (Nav1) getBean("Nav1");
     }
 
 }
