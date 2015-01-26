@@ -129,6 +129,9 @@
 										<ui:staticText binding="#{catastro$ABMTipoCalle$AdminTipoCalle.stCantidadRegistros}" id="stCantidadRegistros"
 											styleClass="staticText" />
 									</td>
+									<td align="right">
+										<ui:hyperlink binding="#{catastro$ABMTipoCalle$AdminTipoCalle.hpAgregarPaginaAccesoDirecto}"/>
+									</td>
 								</tr>
 							</table>
 						</div>

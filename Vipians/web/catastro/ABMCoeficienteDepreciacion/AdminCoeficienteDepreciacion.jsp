@@ -169,6 +169,9 @@
 										<ui:staticText binding="#{catastro$ABMCoeficienteDepreciacion$AdminCoeficienteDepreciacion.stCantidadRegistros}"
 											id="stCantidadRegistros" styleClass="staticText" />
 									</td>
+									<td align="right">
+										<ui:hyperlink binding="#{catastro$ABMCoeficienteDepreciacion$AdminCoeficienteDepreciacion.hpAgregarPaginaAccesoDirecto}"/>
+									</td>
 								</tr>
 							</table>
 						</div>

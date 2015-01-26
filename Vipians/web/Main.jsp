@@ -29,6 +29,7 @@
                                 </div>
                             </div>
                         </div>
+                        <ui:panelGroup binding="#{Main.panelAccesos}"/>
                         <ui:script binding="#{Main.scriptFinal1}" id="scriptFinal1" url="/resources/javascript/pageGreyXlib.js"/>
                     </ui:form>
                 </ui:body>

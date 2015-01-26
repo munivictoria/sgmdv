@@ -120,6 +120,24 @@
                                         </td>
                                     </tr>
                                     <tr>
+	                                    <td align="right" >
+	                                    	<ui:label styleClass="label2" text="Fecha de notificación"/>
+	                                    </td>
+                                    	<td>
+                                    		<ui:textField disabled="true" id="tfFechaNotificacion" styleClass="textFieldDisabled"
+                                    			binding="#{saic$ImprimirLiquidaciones$ConsultarLiquidaciones.tfFechaNotificacion}"/>
+                                    	</td>
+                                    </tr>
+                                    <tr>
+                                    	<td align="right" >
+	                                    	<ui:label styleClass="label2" text="Fecha de apremio"/>
+	                                    </td>
+                                    	<td>
+                                    		<ui:textField disabled="true" id="tfFechaApremio" styleClass="textFieldDisabled"
+                                    			binding="#{saic$ImprimirLiquidaciones$ConsultarLiquidaciones.tfFechaApremio}"/>
+                                    	</td>
+                                    </tr>
+                                    <tr>
                                         <td></td>
                                     </tr>                                   
                                     <tr>

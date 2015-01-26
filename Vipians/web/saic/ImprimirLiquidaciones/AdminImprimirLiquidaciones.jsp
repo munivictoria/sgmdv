@@ -202,6 +202,11 @@
 																				text="Omitir monto en cero" />
 																			<ui:checkbox binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.chkOmitir}" id="chkOmitir" selected="false" />
 																		</td>
+																		<td nowrap="nowrap">
+																			<ui:label id="lblOmitirMostrador" styleClass="label"
+																				text="Omitir mostrador" for="cbOmitirMostrador"/>
+																			<ui:checkbox binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.cbOmitirMostrador}" id="cbOmitirMostrador" selected="false" />
+																		</td>
 																	</tr>
 																</tbody>
 															</table>
@@ -401,6 +406,9 @@
 														<ui:button action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnActualizarDeuda_action}"
 															binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnActualizarDeuda}" id="btnActualizarDeuda"
 															styleClass="button" text="Actualizar Deuda" />
+														<ui:button action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnNotificar_action}"
+															binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnNotificar}" id="btnNotificar"
+															styleClass="button" text="Notificar" />
 														<ui:staticText text="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.textoSeparador}" id="stSeparadorExportal"
 															styleClass="barraSeparadoraVertical" />
 														<ui:button action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnExportar_action}"

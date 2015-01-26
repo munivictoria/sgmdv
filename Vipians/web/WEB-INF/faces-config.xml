@@ -94,11 +94,6 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>CommunicationInventarioBean</managed-bean-name>
-		<managed-bean-class>muni.CommunicationInventarioBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
 		<managed-bean-name>CommunicationSAICBean</managed-bean-name>
 		<managed-bean-class>muni.CommunicationSAICBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
@@ -804,16 +799,6 @@
 
 	<!-- Atributo Dinamico -->
 	<managed-bean>
-		<managed-bean-name>framework$ABMAtributoDinamico$AdminAtributoDinamico</managed-bean-name>
-		<managed-bean-class>muni.framework.ABMAtributoDinamico.AdminAtributoDinamico</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>framework$ABMAtributoDinamico$ABMAtributoDinamico</managed-bean-name>
-		<managed-bean-class>muni.framework.ABMAtributoDinamico.ABMAtributoDinamico</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
 		<managed-bean-name>framework$ABMAtributoDinamico$SeleccionarRecurso</managed-bean-name>
 		<managed-bean-class>muni.framework.ABMAtributoDinamico.SeleccionarRecurso</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
@@ -975,7 +960,18 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /PersonaJuridica -->
-
+	
+	<!-- Proceso DB -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMProcesoDB$AdminProcesoDB</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMProcesoDB.AdminProcesoDB</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMProcesoDB$ABMProcesoDB</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMProcesoDB.ABMProcesoDB</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 	<!--Provincia -->
 	<managed-bean>
 		<managed-bean-name>framework$ABMProvincia$AdminProvincia</managed-bean-name>
@@ -1139,19 +1135,6 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Plantilla Obligacion -->
-
-	<!-- Plantilla Obligacion Tasa Menor -->
-	<managed-bean>
-		<managed-bean-name>habilitaciones$ABMPlantillaObligacionTasaMenor$AdminPlantillaObligacionTasaMenor</managed-bean-name>
-		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacionTasaMenor.AdminPlantillaObligacionTasaMenor</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>habilitaciones$ABMPlantillaObligacionTasaMenor$ABMPlantillaObligacionTasaMenor</managed-bean-name>
-		<managed-bean-class>muni.habilitaciones.ABMPlantillaObligacionTasaMenor.ABMPlantillaObligacionTasaMenor</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<!-- /Plantilla Obligacion Menor -->
 
 	<!-- Plantilla Obligacion Tasa Menor -->
 	<managed-bean>
@@ -1589,15 +1572,6 @@
 	</managed-bean>
 	<!-- /Tipo Parametro Constante -->
 
-	<!-- Tipo Parametro Constante -->
-	<managed-bean>
-		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroDinamico$AdminTipoParametroDinamico</managed-bean-name>
-		<managed-bean-class>muni.habilitaciones.grpTipoParametro.ABMTipoParametroDinamico.AdminTipoParametroDinamico</managed-bean-class>
-
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<!-- /Tipo Parametro Constante -->
-
 	<!-- Tipo Parametro Dinamico -->
 	<managed-bean>
 		<managed-bean-name>habilitaciones$grpTipoParametro$ABMTipoParametroDinamico$AdminTipoParametroDinamico</managed-bean-name>
@@ -1826,32 +1800,6 @@
 	</managed-bean>
 	<!-- /Movimiento Mercaderia -->
 
-	<!-- Stock -->
-	<managed-bean>
-		<managed-bean-name>inventario$ABMStock$AdminStock</managed-bean-name>
-		<managed-bean-class>muni.inventario.ABMStock.AdminStock</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>inventario$ABMStock$AgregarStock</managed-bean-name>
-		<managed-bean-class>muni.inventario.ABMStock.AgregarStock</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>inventario$ABMStock$ModificarStock</managed-bean-name>
-		<managed-bean-class>muni.inventario.ABMStock.ModificarStock</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>inventario$ABMStock$EliminarStock</managed-bean-name>
-		<managed-bean-class>muni.inventario.ABMStock.EliminarStock</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>inventario$ABMStock$ConsultarStock</managed-bean-name>
-		<managed-bean-class>muni.inventario.ABMStock.ConsultarStock</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
 	<!-- /Stock -->
 
 	<!-- SAIC -->
@@ -1937,42 +1885,12 @@
 		<managed-bean-class>muni.saic.ABMExencionObligacion.ABMExencionObligacion</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>saic$ABMExencionObligacion$AutorizarExencionObligacion</managed-bean-name>
-		<managed-bean-class>muni.saic.ABMExencionObligacion.AutorizarExencionObligacion</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
 	<!-- /Exencion Obligacion -->
 
 	<!-- Exencion Registro Deuda -->
 	<managed-bean>
 		<managed-bean-name>saic$ABMExencionRegistroDeuda$AdminExencionRegistroDeuda</managed-bean-name>
 		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.AdminExencionRegistroDeuda</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>saic$ABMExencionRegistroDeuda$AgregarExencionRegistroDeuda</managed-bean-name>
-		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.AgregarExencionRegistroDeuda</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>saic$ABMExencionRegistroDeuda$ModificarExencionRegistroDeuda</managed-bean-name>
-		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.ModificarExencionRegistroDeuda</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>saic$ABMExencionRegistroDeuda$EliminarExencionRegistroDeuda</managed-bean-name>
-		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.EliminarExencionRegistroDeuda</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>saic$ABMExencionRegistroDeuda$ConsultarExencionRegistroDeuda</managed-bean-name>
-		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.ConsultarExencionRegistroDeuda</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>saic$ABMExencionRegistroDeuda$AutorizarExencionRegistroDeuda</managed-bean-name>
-		<managed-bean-class>muni.saic.ABMExencionRegistroDeuda.AutorizarExencionRegistroDeuda</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Exencion Registro Deuda -->
@@ -1994,6 +1912,13 @@
 	<managed-bean>
 		<managed-bean-name>saic$ABMReliquidacion$ABMActualizarDeuda</managed-bean-name>
 		<managed-bean-class>muni.saic.ABMReliquidacion.ABMActualizarDeuda</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<!-- Notificacion Deuda -->
+	<managed-bean>
+		<managed-bean-name>saic$ABMReliquidacion$ABMNotificacion</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMReliquidacion.ABMNotificacion</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- Actualizar Deuda Liquidacion -->
@@ -2328,11 +2253,6 @@
 
 	<!-- Beneficiario -->
 	<managed-bean>
-		<managed-bean-name>accionsocial$ABMBeneficiario$AdminBeneficiario</managed-bean-name>
-		<managed-bean-class>muni.accionsocial.ABMBeneficiario.AdminBeneficiario</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
 		<managed-bean-name>accionsocial$ABMBeneficiario$AgregarBeneficiario</managed-bean-name>
 		<managed-bean-class>muni.accionsocial.ABMBeneficiario.AgregarBeneficiario</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
@@ -2345,11 +2265,6 @@
 	<managed-bean>
 		<managed-bean-name>accionsocial$ABMBeneficiario$EliminarBeneficiario</managed-bean-name>
 		<managed-bean-class>muni.accionsocial.ABMBeneficiario.EliminarBeneficiario</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>accionsocial$ABMBeneficiario$ConsultarBeneficiario</managed-bean-name>
-		<managed-bean-class>muni.accionsocial.ABMBeneficiario.ConsultarBeneficiario</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Beneficiario -->
@@ -2467,11 +2382,6 @@
 	<managed-bean>
 		<managed-bean-name>expedientes$ABMExpediente$ABMTramite</managed-bean-name>
 		<managed-bean-class>muni.expedientes.ABMExpediente.ABMTramite.ABMTramite</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>expedientes$ABMExpediente$ABMDocumento</managed-bean-name>
-		<managed-bean-class>muni.expedientes.ABMExpediente.ABMDocumento</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>

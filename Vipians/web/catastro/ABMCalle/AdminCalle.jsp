@@ -161,6 +161,9 @@
 											text="Registros Encontrados: " />
 										<ui:staticText binding="#{catastro$ABMCalle$AdminCalle.stCantidadRegistros}" id="stCantidadRegistros" styleClass="staticText" />
 									</td>
+									<td align="right">
+										<ui:hyperlink binding="#{catastro$ABMCalle$AdminCalle.hpAgregarPaginaAccesoDirecto}"/>
+									</td>
 								</tr>
 							</table>
 						</div>

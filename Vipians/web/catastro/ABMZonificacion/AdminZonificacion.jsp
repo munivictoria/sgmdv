@@ -133,6 +133,9 @@
 										<ui:staticText binding="#{catastro$ABMZonificacion$AdminZonificacion.stCantidadRegistros}" id="stCantidadRegistros"
 											styleClass="staticText" />
 									</td>
+									<td align="right">
+										<ui:hyperlink binding="#{catastro$ABMZonificacion$AdminZonificacion.hpAgregarPaginaAccesoDirecto}"/>
+									</td>
 								</tr>
 							</table>
 						</div>

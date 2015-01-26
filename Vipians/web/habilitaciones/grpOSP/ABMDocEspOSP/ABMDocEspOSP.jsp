@@ -595,8 +595,8 @@
 												</ui:tableColumn>
 												<ui:tableColumn binding="#{habilitaciones$grpOSP$ABMDocEspOSP$ABMDocEspOSP.tableColumn25}" id="tableColumn25"
 													headerText="Comentario">
-													<ui:textArea binding="#{habilitaciones$grpOSP$ABMDocEspOSP$ABMDocEspOSP.staticText25}" id="staticText25"
-														text="#{currentRow.value['comentario']}" />
+													<ui:textArea id="taComentario" disabled="true" styleClass="textFieldDisabled"
+		 												text="#{currentRow.value['comentario']}" rows="1" columns="40" />
 												</ui:tableColumn>
 											</ui:tableRowGroup>
 											<f:facet name="filter">

@@ -221,6 +221,9 @@
 														<ui:button action="#{habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI.btnEliminar_action}"
 															binding="#{habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI.btnEliminar}" id="btnEliminar" styleClass="button"
 															text="Eliminar" />
+														<ui:button action="#{habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI.btnReactivar_action}"
+															binding="#{habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI.btnReactivar}" id="btnReactivar" styleClass="button"
+															text="Reactivar" />
 														<ui:staticText binding="#{habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI.stSeparadorAccion}" escape="false"
 															id="staticText8" />
 														<ui:button action="#{habilitaciones$grpTGI$ABMDocEspTGI$AdminDocEspTGI.btnDardeAlta_action}"

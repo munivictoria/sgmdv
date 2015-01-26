@@ -144,6 +144,9 @@
 										<ui:staticText binding="#{catastro$ABMValorBasicoMejora$AdminValorBasicoMejora.stCantidadRegistros}" id="stCantidadRegistros"
 											styleClass="staticText" />
 									</td>
+									<td align="right">
+										<ui:hyperlink binding="#{catastro$ABMValorBasicoMejora$AdminValorBasicoMejora.hpAgregarPaginaAccesoDirecto}"/>
+									</td>
 								</tr>
 							</table>
 						</div>

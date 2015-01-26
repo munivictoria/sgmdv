@@ -144,6 +144,9 @@
 											text="Registros Encontrados: " />
 										<ui:staticText binding="#{catastro$ABMZona$AdminZona.stCantidadRegistros}" id="stCantidadRegistros" styleClass="staticText" />
 									</td>
+									<td align="right">
+										<ui:hyperlink binding="#{catastro$ABMZona$AdminZona.hpAgregarPaginaAccesoDirecto}"/>
+									</td>
 								</tr>
 							</table>
 						</div>

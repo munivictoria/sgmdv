@@ -233,6 +233,9 @@
 														<ui:button action="#{habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP.btnEliminar_action}"
 															binding="#{habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP.btnEliminar}" id="btnEliminar" styleClass="button"
 															text="Eliminar" />
+														<ui:button action="#{habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP.btnReactivar_action}"
+															binding="#{habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP.btnReactivar}" id="btnReactivar" styleClass="button"
+															text="Reactivar" />
 														<ui:staticText binding="#{habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP.stSeparadorAccion}" escape="false"
 															id="staticText8" />
 														<ui:button action="#{habilitaciones$grpOSP$ABMDocEspOSP$AdminDocEspOSP.btnConsultar_action}"

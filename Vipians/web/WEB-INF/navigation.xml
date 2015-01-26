@@ -501,6 +501,18 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
+			<from-outcome>AdminProcesoDB</from-outcome>
+			<to-view-id>/framework/ABMProcesoDB/AdminProcesoDB.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ABMProcesoDB</from-outcome>
+			<to-view-id>/framework/ABMProcesoDB/ABMProcesoDB.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!-- Framework - Provincia -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
 			<from-outcome>AdminProvincia</from-outcome>
 			<to-view-id>/framework/ABMProvincia/AdminProvincia.jsp</to-view-id>
 		</navigation-case>
@@ -1460,6 +1472,10 @@
 		<navigation-case>
 			<from-outcome>ABMActualizarDeuda</from-outcome>
 			<to-view-id>/saic/ABMReliquidacion/ABMActualizarDeuda.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ABMNotificacion</from-outcome>
+			<to-view-id>/saic/ABMReliquidacion/ABMNotificacion.jsp</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>ReliquidarVarias</from-outcome>

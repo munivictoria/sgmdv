@@ -239,6 +239,9 @@
 														<ui:button action="#{habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS.btnEliminar_action}"
 															binding="#{habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS.btnEliminar}" id="btnEliminar" styleClass="button"
 															text="Eliminar" />
+														<ui:button action="#{habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS.btnReactivar_action}"
+															binding="#{habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS.btnReactivar}" id="btnReactivar" styleClass="button"
+															text="Reactivar" />
 														<ui:staticText binding="#{habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS.stSeparadorAccion}" escape="false"
 															id="staticText8" />
 														<ui:button action="#{habilitaciones$grpSHPS$ABMDocEspSHPS$AdminDocEspSHPS.btnConsultar_action}"
