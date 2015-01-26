@@ -300,5 +300,15 @@ public class LiquidacionTasaAgrupada extends LiquidacionTasa {
 		locCodigoTotal = "3" + locCodigoTotal;
 		return locCodigoTotal.toUpperCase();
 	}
+
+	@Override
+	public Date getFechaNotificacion() {
+		return listaLiquidacionesTasa.iterator().next().getFechaNotificacion();
+	}
+
+	@Override
+	public Date getFechaApremio() {
+		return listaLiquidacionesTasa.iterator().next().getFechaApremio();
+	}
 	
 }

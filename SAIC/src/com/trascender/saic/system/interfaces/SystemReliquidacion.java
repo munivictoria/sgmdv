@@ -9,7 +9,9 @@ import java.util.Map;
 
 import javax.ejb.Remote;
 
+import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -68,5 +70,11 @@ public interface SystemReliquidacion
    public LiquidacionTasa calcularIntereses(LiquidacionTasa pLiquidacionTasa, 
 			Date pFecha, boolean pAplicarInteres, 
 			boolean guardarCambios) throws Exception;
+   
+   public LiquidacionTasa notificar(LiquidacionTasa pLiquidacionTasa, Date fechaNotificacion,
+		   Date fechaApremio, String comentario) throws TrascenderException;
+   
+	public void notificar(List<LiquidacionTasa> listaLiquidaciones,
+			Date fechaNotificacion, Date fechaApremio, String comentario) throws TrascenderException;
 
 }

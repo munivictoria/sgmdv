@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -79,5 +80,11 @@ public interface BusinessReLiquidacionLocal
 			boolean guardarCambios, boolean duranteReliquidacion) throws Exception;
    
    public void setLlave(long llave);
+
+public LiquidacionTasa notificar(LiquidacionTasa pLiquidacionTasa,
+		Date fechaNotificacion, Date fechaApremio, Usuario pUsuario, String comentario);
+
+public void notificar(List<LiquidacionTasa> listaLiquidaciones,
+		Date fechaNotificacion, Date fechaApremio, Usuario pUsuario, String comentario);
    
 }

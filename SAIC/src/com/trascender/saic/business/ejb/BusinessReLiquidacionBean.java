@@ -19,8 +19,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import org.jboss.resteasy.logging.Logger.LoggerType;
 import org.nfunk.jep.JEP;
 import org.nfunk.jep.Variable;
 
@@ -33,6 +33,7 @@ import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.filtros.FiltroDiaFeriado;
 import com.trascender.framework.recurso.persistent.DiaFeriado;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.framework.recurso.transients.Recurso;
@@ -1676,6 +1677,57 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 
 	public void setLlave(long llave) {
 		this.llave = llave;
+	}
+
+	@Override
+	public LiquidacionTasa notificar(LiquidacionTasa pLiquidacionTasa,
+			Date fechaNotificacion, Date fechaApremio, Usuario pUsuario, String comentario) {
+		
+		if (fechaNotificacion != null) {
+			pLiquidacionTasa.setFechaNotificacion(fechaNotificacion);
+			businessLiquidacionTasaLocal.generarLogLiquidacion(pLiquidacionTasa, pUsuario, 
+					LogLiquidacion.Evento.NOTIFICO, comentario);
+		}
+		if (fechaApremio != null) {
+			pLiquidacionTasa.setFechaApremio(fechaApremio);
+			businessLiquidacionTasaLocal.generarLogLiquidacion(pLiquidacionTasa, pUsuario, 
+					LogLiquidacion.Evento.APREMIO, comentario);
+		}
+		//Porque a veces lo pasa a VENCIDA y no da.
+		if (pLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.VENCIDA)) {
+			pLiquidacionTasa.setEstado(EstadoRegistroDeuda.VIGENTE);
+		}
+		return this.entityManager.merge(pLiquidacionTasa);
+	}
+	
+	@Override
+	public void notificar(List<LiquidacionTasa> listaLiquidaciones,
+			Date fechaNotificacion, Date fechaApremio, Usuario pUsuario, String comentario) {
+		if (fechaNotificacion != null) {
+			Query locQuery = entityManager
+					.createQuery("UPDATE LiquidacionTasa liq SET liq.fechaNotificacion = :fecha " +
+							"WHERE liq.idRegistroDeuda IN (:lista)");
+			locQuery.setParameter("fecha", fechaNotificacion);
+			List<Long> listaIds = Util.getListaPropiedad(listaLiquidaciones, "idRegistroDeuda");
+			locQuery.setParameter("lista", listaIds);
+			locQuery.executeUpdate();
+			for (LiquidacionTasa cadaLiquidacion : listaLiquidaciones) {
+				businessLiquidacionTasaLocal.generarLogLiquidacion(cadaLiquidacion, pUsuario, 
+						LogLiquidacion.Evento.NOTIFICO, comentario);
+			}
+		}
+		if (fechaApremio != null) {
+			Query locQuery = entityManager
+					.createQuery("UPDATE LiquidacionTasa liq SET fechaApremio = :fecha " +
+							"WHERE liq IN (:lista)");
+			locQuery.setParameter("fecha", fechaNotificacion);
+			locQuery.setParameter("lista", listaLiquidaciones);
+			locQuery.executeUpdate();
+			for (LiquidacionTasa cadaLiquidacion : listaLiquidaciones) {
+				businessLiquidacionTasaLocal.generarLogLiquidacion(cadaLiquidacion, pUsuario, 
+						LogLiquidacion.Evento.APREMIO, comentario);
+			}
+		}
 	}
 
 }

@@ -61,7 +61,8 @@ public class LogLiquidacion implements Serializable {
 	private String comentario;
 	
 	public enum Evento {
-		LIQUIDO, RELIQUIDO, MODIFICO, ELIMINO, MARCO_PAGA, MARCO_IMPAGA, PAGO_CAJA, ANULO_PAGO_CAJA, ACTUALIZO
+		LIQUIDO, RELIQUIDO, MODIFICO, ELIMINO, MARCO_PAGA, MARCO_IMPAGA, PAGO_CAJA, ANULO_PAGO_CAJA, ACTUALIZO,
+		NOTIFICO, APREMIO
 	}
 		
 	public long getIdLogLiquidacion() {

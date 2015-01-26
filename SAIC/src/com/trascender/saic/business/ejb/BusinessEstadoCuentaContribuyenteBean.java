@@ -680,12 +680,6 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 
 	@Override
 	public FiltroLiquidacionTasaRefer findListaLiquidacionTasaRefer(FiltroLiquidacionTasaRefer pFiltro) throws Exception {
-		// if (pFiltro.getAnio().equals(0)) pFiltro.setAnio(null);
-
-		ParametroSistemaString locParametroOmitirCeros = this.getParametroSistemaString("OMITIR_CEROS");
-		if(locParametroOmitirCeros != null && locParametroOmitirCeros.getCadena().equals("SI")) {
-			pFiltro.setNoCero(true);
-		}
 
 		// Levantamos las parcelas
 		Map<Long, Parcela> locMapaParcelas = new HashMap<Long, Parcela>();
@@ -717,8 +711,8 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 		}
 
 		try {
-			String consulta = "select sum(distinct lt.valor)+"
-					+ "sum(distinct case when interes is null then 0 else interes end) as suma, "
+//			String consulta = "select p_sumar_distintos(array_agg(rd.id_registro_deuda::numeric), array_agg(monto_calculado::numeric)) as suma, "
+			String consulta = "select sum(monto_calculado) as suma, "
 					+ "doc_hab.id_parcela,"
 					+ "every(rd.id_registro_cancelacion is not null) as cancelada, "
 					+ "case when every(o.estado = 'ANULADO') and every(rd.estado <> 'PAGADA') then 'ANULADA' else rd.estado end, "
@@ -736,8 +730,8 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 					+ "left join persona_juridica pj on p.id_persona = pj.id_persona ";
 
 			// /////////
-			ParametroSistemaString locParametroMostrador = this.getParametroSistemaString("OMITIR_MOSTRADOR");
-			if(locParametroMostrador != null && locParametroMostrador.getCadena().equals("SI")) {
+//			ParametroSistemaString locParametroMostrador = this.getParametroSistemaString("OMITIR_MOSTRADOR");
+			if(pFiltro.isOmitirMostrador()) {
 				consulta += "left join atributo_dinamico atri on atri.id_entidad = par.id_parcela "
 						+ "left join opcion_atri_dinam_listado opcion on opcion.id_opcion_atri_listado = atri.id_opcion "
 						+ "where atri.id_recurso = -1724036473956407989 and opcion.valor = 'Calle' and (";
@@ -822,7 +816,8 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 				consulta += "and rd.estado in ('PAGADA', 'VIGENTE', 'VENCIDA') ";
 			}
 
-			consulta += " group by rd.estado,per.nombre, rd.tipo, par.nro_parcela, " + "doc_hab.id_parcela, cal.anio, cal.nombre, per.numero, "
+			consulta += " group by rd.estado,per.nombre, cuota.nombre, rd.tipo, par.nro_parcela, " 
+					+ "doc_hab.id_parcela, cal.anio, cal.nombre, per.numero, "
 					+ "p.cuim, pf.apellido, pf.nombre, pj.razon_social, doc_hab.numero_inscripcion ";
 
 			if(pFiltro.isNoAgrupar()) {
@@ -865,16 +860,18 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 				listadoIds = listadoIds.substring(0, listadoIds.length() - 1);
 
 				// Calculamos los modificadores.
-				PreparedStatement psGetSumaModificadores = con.prepareStatement("select id_registro_deuda, sum(valor) from RELA_MODIF_LIQ_LIQ_T rela_mod "
-						+ "left join modificador_liquidacion mod_liq on mod_liq.id_modificador_liquidacion = rela_mod.id_modificador_liquidacion "
-						+ "where rela_mod.id_registro_deuda in (" + listadoIds + ") " + "group by id_registro_deuda");
-				Map<Long, Double> mapaValores = new HashMap<Long, Double>();
-				ResultSet rsValores = psGetSumaModificadores.executeQuery();
-				while(rsValores.next()) {
-					mapaValores.put(rsValores.getLong(1), rsValores.getDouble(2));
-				}
-				PreparedStatement psGetFechaVencimientos = con.prepareStatement("select id_registro_deuda, max(fecha) from rela_venc_liq_t rela_venc "
-						+ "left join vencimiento venc on venc.id_vencimiento = rela_venc.id_vencimiento " + "where rela_venc.id_registro_deuda in (" + listadoIds + ") "
+//				PreparedStatement psGetSumaModificadores = con.prepareStatement("select id_registro_deuda, sum(valor) from RELA_MODIF_LIQ_LIQ_T rela_mod "
+//						+ "left join modificador_liquidacion mod_liq on mod_liq.id_modificador_liquidacion = rela_mod.id_modificador_liquidacion "
+//						+ "where rela_mod.id_registro_deuda in (" + listadoIds + ") " + "group by id_registro_deuda");
+//				Map<Long, Double> mapaValores = new HashMap<Long, Double>();
+//				ResultSet rsValores = psGetSumaModificadores.executeQuery();
+//				while(rsValores.next()) {
+//					mapaValores.put(rsValores.getLong(1), rsValores.getDouble(2));
+//				}
+				PreparedStatement psGetFechaVencimientos = 
+						con.prepareStatement("select id_registro_deuda, max(fecha) from rela_venc_liq_t rela_venc "
+						+ "left join vencimiento venc on venc.id_vencimiento = rela_venc.id_vencimiento " 
+						+ "where rela_venc.id_registro_deuda in (" + listadoIds + ") "
 						+ "group by id_registro_deuda");
 				Map<Long, Date> mapaFechas = new HashMap<Long, Date>();
 				ResultSet rsFechas = psGetFechaVencimientos.executeQuery();
@@ -883,14 +880,14 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 				}
 				for(Iterator<LiquidacionTasaRefer> iterator = locListaResultado.iterator(); iterator.hasNext();) {
 					LiquidacionTasaRefer cadaLiquidacionTasaRefer = iterator.next();
-					Double valorModificadores = 0D;
-					for(Long idRegDeuda : cadaLiquidacionTasaRefer.getIdsRegistrosDeuda()) {
-						Double locValor = mapaValores.get(idRegDeuda);
-						if(locValor != null) {
-							valorModificadores += locValor;
-						}
-					}
-					cadaLiquidacionTasaRefer.setTotal(cadaLiquidacionTasaRefer.getTotal() + valorModificadores);
+//					Double valorModificadores = 0D;
+//					for(Long idRegDeuda : cadaLiquidacionTasaRefer.getIdsRegistrosDeuda()) {
+//						Double locValor = mapaValores.get(idRegDeuda);
+//						if(locValor != null) {
+//							valorModificadores += locValor;
+//						}
+//					}
+//					cadaLiquidacionTasaRefer.setTotal(cadaLiquidacionTasaRefer.getTotal() + valorModificadores);
 					// Quitamos no ceros
 					if(pFiltro.isNoCero()) {
 						if(cadaLiquidacionTasaRefer.getTotal().equals(0D)) {
@@ -964,183 +961,6 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			locLiquidacion.setAnio(rs.getInt(8));
 			locLiquidacion.setParcela(rs.getString(9));
 			locLiquidacion.setStringPersona(rs.getString(10));
-			locListaResultado.add(locLiquidacion);
-		}
-		return locListaResultado;
-	}
-
-	public FiltroLiquidacionTasaRefer findListaLiquidacionTasaRefer2(FiltroLiquidacionTasaRefer pFiltro) throws Exception {
-		try {
-			ParametroSistemaString locParametroOmitirCeros = this.getParametroSistemaString("OMITIR_CEROS");
-			if(locParametroOmitirCeros != null && locParametroOmitirCeros.getCadena().equals("SI")) {
-				pFiltro.setNoCero(true);
-			}
-			String consulta = "select sum(distinct lt.valor)+sum(mod_liq.valor)+" + "sum(distinct case when interes is null then 0 else interes end) as suma, "
-					+ "case when pf.apellido is not null then (pf.apellido || ', ' ||pf.nombre) " + "else pj.razon_social end ||' ['||p.cuim||']' as persona, doc_hab.id_parcela, "
-					+ "every(rd.id_registro_cancelacion is not null) as cancelada, " + "max(venc.fecha),case when every(o.estado = 'ANULADO') then 'ANULADA' else rd.estado end, "
-					+ "(select array_agg(distinct cast(rd.id_registro_deuda as numeric))) as ids_registros_deuda, " + "per.nombre_reducido, rd.tipo, 'Nº '||par.nro_parcela, cal.anio "
-					+ "from registro_deuda rd join liquidacion_tasa lt on lt.id_registro_deuda = rd.id_registro_deuda "
-					+ "join doc_generador_deuda doc on rd.id_doc_generador_deuda = doc.id_doc_generador_deuda " + "join obligacion o on doc.id_obligacion = o.id_obligacion "
-					+ "join persona p on p.id_persona = o.id_persona " + "left join persona_fisica pf on p.id_persona = pf.id_persona "
-					+ "left join persona_juridica pj on p.id_persona = pj.id_persona " + "join RELA_MODIF_LIQ_LIQ_T rela_mod on rela_mod.id_registro_deuda = lt.id_registro_deuda "
-					+ "join modificador_liquidacion mod_liq on mod_liq.id_modificador_liquidacion = rela_mod.id_modificador_liquidacion "
-					+ "join doc_hab_especializado doc_hab on doc_hab.id_obligacion = o.id_obligacion " + "join parcela par on doc_hab.id_parcela = par.id_parcela "
-					+ "join rela_venc_liq_t rela_venc on rela_venc.id_registro_deuda = rd.id_registro_deuda "
-					+ "join vencimiento venc on venc.id_vencimiento = rela_venc.id_vencimiento "
-					+ "join cuota_liquidacion cuota on cuota.id_cuota_liquidacion = lt.id_cuota_liquidacion " + "join periodo per on per.id_periodo = cuota.id_periodo "
-					+ "join calendario cal on cal.id_calendario = per.id_calendario ";
-
-			// "left join atributo_dinamico atri on atri.id_entidad = par.id_parcela " +
-			// "left join opcion_atri_dinam_listado opcion on opcion.id_opcion_atri_listado = atri.id_opcion "+
-			// "where atri.id_recurso = -1724036473956407989 and opcion.valor = 'Calle' "+
-
-			ParametroSistemaString locParametroMostrador = this.getParametroSistemaString("OMITIR_MOSTRADOR");
-			if(locParametroMostrador != null && locParametroMostrador.getCadena().equals("SI")) {
-				consulta += "left join atributo_dinamico atri on atri.id_entidad = par.id_parcela "
-						+ "left join opcion_atri_dinam_listado opcion on opcion.id_opcion_atri_listado = atri.id_opcion "
-						+ "where atri.id_recurso = -1724036473956407989 and opcion.valor = 'Calle' and ";
-			} else {
-				consulta += "where (";
-			}
-
-			if(pFiltro.getListaTipoObligacion() != null) {
-				boolean flagOr = false;
-				for(TipoObligacion cadaTipo : pFiltro.getListaTipoObligacion()) {
-					consulta += (flagOr ? "or" : "") + " doc_hab.tipo_doc_hab_especializado like '" + (cadaTipo.getNombre().equals("OYSP") ? "OSP" : cadaTipo.getNombre()) + "' ";
-					flagOr = true;
-				}
-			}
-			consulta += ")";
-
-			int ind = 1;
-
-			if(pFiltro.getCuota() != null) {
-				consulta += "and cuota.numero = ? ";
-				ind++;
-			}
-
-			if(pFiltro.getPeriodo() != null) {
-				consulta += "and per.numero = ? ";
-				ind++;
-			}
-
-			if(pFiltro.getCalendario() != null) {
-				consulta += "and cal.nombre = ? ";
-				ind++;
-			}
-
-			if(pFiltro.getAnio() != null) {
-				consulta += "and cal.anio = ? ";
-				ind++;
-			}
-
-			if(pFiltro.getPersona() != null) {
-				consulta += "and p.id_persona = ? ";
-				ind++;
-			}
-			if(pFiltro.getParcela() != null) {
-				consulta += "and doc_hab.id_parcela = ? ";
-				ind++;
-			}
-			if(pFiltro.getTipoLiquidacion() != null) {
-				consulta += "and rd.tipo = ? ";
-				ind++;
-			}
-			if(pFiltro.getDni() != null && !pFiltro.getDni().trim().isEmpty()) {
-				pFiltro.setDni("('" + pFiltro.getDni().replace(",", "','").replace(" ", "','") + "')");
-				consulta += "and pf.numero_documento in " + pFiltro.getDni();
-			}
-			if(pFiltro.getNumeroParcela() != null && !pFiltro.getNumeroParcela().trim().isEmpty()) {
-				pFiltro.setNumeroParcela("('" + pFiltro.getNumeroParcela().replace(",", "','").replace(" ", "','") + "')");
-				consulta += "and par.nro_parcela in " + pFiltro.getNumeroParcela();
-			}
-			if(pFiltro.getEstadoLiquidacion() != null) {
-				if(pFiltro.getEstadoLiquidacion().name().contains("PAGADA")) {
-					consulta += "and rd.estado like 'PAGADA%' ";
-				} else if(pFiltro.getEstadoLiquidacion().name().equals("VENCIDA")) {
-					// aca va la parte del registro cancelacion != null, despues va el having
-					consulta += "and rd.id_registro_cancelacion is null and (rd.estado = 'VIGENTE' or rd.ESTADO = 'VENCIDA') ";
-				} else if(pFiltro.getEstadoLiquidacion().name().equals("ANULADA")) {
-					consulta += "and o.estado = 'ANULADO' ";
-				} else {
-					consulta += "and rd.estado = '" + pFiltro.getEstadoLiquidacion().name() + "'";
-				}
-			} else {
-				consulta += "and rd.estado in ('PAGADA', 'VIGENTE', 'VENCIDA') ";
-			}
-
-			consulta += " group by p.cuim, pf.apellido, pf.nombre,doc_hab.id_parcela, " + "pj.razon_social, rd.estado,per.nombre_reducido, rd.tipo, "
-					+ "par.nro_parcela, cal.anio, per.numero ";
-
-			if(pFiltro.isNoAgrupar()) {
-				consulta += ", rd.id_registro_deuda ";
-			}
-
-			if(pFiltro.isNoCero()) {
-				consulta += "having sum(distinct lt.valor) + sum(mod_liq.valor) > 0 ";
-			}
-			if(pFiltro.getEstadoLiquidacion() != null && pFiltro.getEstadoLiquidacion().equals("VENCIDA")) {
-				consulta += "having max(venc.fecha) < now() ";
-			}
-			consulta += " order by cal.anio desc, per.numero desc";
-
-			Connection con = datasource.getConnection();
-			CallableStatement cs = con.prepareCall(consulta);
-			if(pFiltro.getTipoLiquidacion() != null) {
-				cs.setString(--ind, pFiltro.getTipoLiquidacion().name());
-			}
-			if(pFiltro.getParcela() != null) {
-				cs.setLong(--ind, pFiltro.getParcela().getIdParcela());
-			}
-			if(pFiltro.getPersona() != null) {
-				cs.setLong(--ind, pFiltro.getPersona().getIdPersona());
-			}
-			if(pFiltro.getAnio() != null) {
-				cs.setInt(--ind, pFiltro.getAnio());
-			}
-			if(pFiltro.getCalendario() != null) {
-				cs.setString(--ind, pFiltro.getCalendario().getNombre());
-			}
-			if(pFiltro.getPeriodo() != null) {
-				cs.setInt(--ind, pFiltro.getPeriodo().getNumero());
-			}
-			if(pFiltro.getCuota() != null) {
-				cs.setInt(--ind, pFiltro.getCuota().getNumero());
-			}
-
-			ResultSet rs = cs.executeQuery();
-			List<LiquidacionTasaRefer> locListaResultado = getListaLiquidacionTasaRefer2(rs);
-			con.close();
-			pFiltro.setListaResultados(locListaResultado);
-			System.out.println("LISTA RESULTADOS");
-			System.out.println(locListaResultado);
-			return pFiltro;
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-
-	private List<LiquidacionTasaRefer> getListaLiquidacionTasaRefer2(ResultSet rs) throws Exception {
-		List<LiquidacionTasaRefer> locListaResultado = new ArrayList<LiquidacionTasaRefer>();
-		while(rs.next()) {
-			LiquidacionTasaRefer locLiquidacion = new LiquidacionTasaRefer();
-			locLiquidacion.setTotal(rs.getDouble(1));
-			locLiquidacion.setStringPersona(rs.getString(2));
-			locLiquidacion.setIdParcela(rs.getLong(3));
-			locLiquidacion.setCancelada(rs.getBoolean(4));
-			locLiquidacion.setMaxFechaVencimiento(rs.getDate(5));
-			locLiquidacion.setEstado(rs.getString(6));
-			Set<Long> listaIdsRegistroDeuda = new HashSet<Long>();
-			BigDecimal[] arrayBg = (BigDecimal[]) rs.getArray(7).getArray();
-			for(BigDecimal cadaBg : arrayBg) {
-				listaIdsRegistroDeuda.add(cadaBg.longValue());
-			}
-			locLiquidacion.setIdsRegistrosDeuda(listaIdsRegistroDeuda);
-			locLiquidacion.setPeriodo(rs.getString(8));
-			locLiquidacion.setTipo(rs.getString(9));
-			locLiquidacion.setParcela(rs.getString(10));
-			locLiquidacion.setAnio(rs.getInt(11));
 			locListaResultado.add(locLiquidacion);
 		}
 		return locListaResultado;

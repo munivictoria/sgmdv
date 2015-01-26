@@ -29,7 +29,14 @@ public class FiltroLiquidacionTasaRefer extends FiltroAbstracto<LiquidacionTasaR
 	private String dni;
 	private boolean noCero = false;
 	private boolean noAgrupar = false;
+	private boolean omitirMostrador = false;
 	
+	public boolean isOmitirMostrador() {
+		return omitirMostrador;
+	}
+	public void setOmitirMostrador(boolean omitirMostrador) {
+		this.omitirMostrador = omitirMostrador;
+	}
 	public boolean isNoAgrupar() {
 		return noAgrupar;
 	}

@@ -14,6 +14,7 @@ import javax.ejb.Stateful;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
@@ -299,5 +300,20 @@ public class SystemReliquidacionBean implements SystemReliquidacion {
 			e.printStackTrace();
 			throw new SaicException(360);
 		}
+	}
+
+	@Override
+	public LiquidacionTasa notificar(LiquidacionTasa pLiquidacionTasa,
+			Date fechaNotificacion, Date fechaApremio, String comentario) throws TrascenderException{
+		Usuario usuario = SecurityMgr.getInstance().getUsuario(llave);
+		return reliquidacionBean.notificar(pLiquidacionTasa, fechaNotificacion, fechaApremio, usuario, comentario);
+	}
+
+	@Override
+	public void notificar(List<LiquidacionTasa> listaLiquidaciones,
+			Date fechaNotificacion, Date fechaApremio,
+			String comentario) throws TrascenderException {
+		Usuario usuario = SecurityMgr.getInstance().getUsuario(llave);
+		reliquidacionBean.notificar(listaLiquidaciones, fechaNotificacion, fechaApremio, usuario, comentario);
 	}
 }

@@ -104,6 +104,36 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 	
 	@Column(name = "MONTO_CALCULADO")
 	private Double montoCalculado;
+	
+	@Column(name = "FECHA_NOTIFICACION")
+	private Date fechaNotificacion;
+	
+	@Column(name = "FECHA_APREMIO")
+	private Date fechaApremio;
+	
+	public boolean tieneNotificacion() {
+		return fechaNotificacion != null;
+	}
+	
+	public boolean tieneApremio() {
+		return fechaApremio != null;
+	}
+	
+	public Date getFechaNotificacion() {
+		return fechaNotificacion;
+	}
+
+	public void setFechaNotificacion(Date fechaNotificacion) {
+		this.fechaNotificacion = fechaNotificacion;
+	}
+
+	public Date getFechaApremio() {
+		return fechaApremio;
+	}
+
+	public void setFechaApremio(Date fechaApremio) {
+		this.fechaApremio = fechaApremio;
+	}
 
 	/**
 	 * Verifica si la liquidación está vencida para la fecha de la emisión
@@ -406,7 +436,6 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 	public static LiquidacionTasa getInstance(LiquidacionTasa pLiquidacionTasa) throws CloneNotSupportedException {
 		LiquidacionTasa locLiquidacionTasa = new LiquidacionTasa();
 
-		// Interesa clonar todo excepto lo siguiente
 		locLiquidacionTasa.setNumeroRegistroDeuda(pLiquidacionTasa.getNumeroRegistroDeuda());
 		locLiquidacionTasa.setNumeroCuota(pLiquidacionTasa.getNumeroCuota());
 
@@ -418,6 +447,10 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 		locLiquidacionTasa.setRecargo(pLiquidacionTasa.getRecargo());
 		locLiquidacionTasa.setDocGeneradorDeuda(pLiquidacionTasa.getDocGeneradorDeuda());
 		locLiquidacionTasa.getDocGeneradorDeuda().setObligacion(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion());
+		
+		//Fechas de Notificacion y Apremio
+		locLiquidacionTasa.setFechaNotificacion(pLiquidacionTasa.getFechaNotificacion());
+		locLiquidacionTasa.setFechaApremio(pLiquidacionTasa.getFechaApremio());
 
 		return locLiquidacionTasa;
 
