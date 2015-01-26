@@ -9,9 +9,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
@@ -71,6 +73,7 @@ import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacion;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacionFormula;
+import com.trascender.saic.recurso.persistent.RegistroCancelacion;
 import com.trascender.saic.recurso.persistent.RegistroCancelacionManual;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
@@ -1046,6 +1049,33 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		}
 		return locPagable;
 	}
+	
+	/**
+	 * Para minimizar la cantidad de consultas a la base.
+	 * @param listaTickets
+	 */
+	private void setDeudasPorParche(List<TicketCaja> listaTickets) {
+		Set<Long> listaIdsRegCancelacion = new HashSet<Long>();
+		for (TicketCaja cadaTicketCaja : listaTickets) {
+			for (DetalleTicketCaja cadaDetalle : cadaTicketCaja.getDetalles()) {
+				listaIdsRegCancelacion.add(cadaDetalle.getIdRegistroCancelacion());
+			}
+		}
+		
+		Criterio locCriterio = Criterio.getInstance(entity, LiquidacionTasa.class)
+				.add(Restriccion.EN("registroCancelacion.idRegistroCancelacion", listaIdsRegCancelacion))
+				.crearFetchAlias("docGeneradorDeuda.obligacion", "cadaObligacion")
+				.setProyeccion(Proyeccion.MAP("registroCancelacion.idRegistroCancelacion", "e"));
+
+		Map<Long, Pagable> locMapa = locCriterio.mapList();
+		
+		for (TicketCaja cadaTicketCaja : listaTickets) {
+			for (DetalleTicketCaja cadaDetalle : cadaTicketCaja.getDetalles()) {
+				cadaDetalle.setDeuda(locMapa.get(cadaDetalle.getIdRegistroCancelacion()));
+			}
+		} 
+		
+	}
 
 	/**
 	 * Obtiene un ticket de caja por número Business method
@@ -1078,9 +1108,17 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	}
 
 	public java.util.List findListaTicketCaja(java.util.Date pFechaDesde, java.util.Date pFechaHasta, Integer pNumero, Usuario pUsuario, Caja pCaja) throws java.lang.Exception {
-		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class).add(Restriccion.IGUAL("numero", pNumero)).add(Restriccion.MAYOR("fecha", pFechaDesde))
-				.add(Restriccion.MENOR("fecha", pFechaHasta)).add(Restriccion.IGUAL("usuario", pUsuario)).add(Restriccion.IGUAL("caja", pCaja)).setModoDebug(true);
-		List listaTickets = locCriterio.list();
+		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class)
+				.add(Restriccion.IGUAL("numero", pNumero))
+				.add(Restriccion.MAYOR("fecha", pFechaDesde))
+				.add(Restriccion.MENOR("fecha", pFechaHasta))
+				.add(Restriccion.IGUAL("usuario", pUsuario))
+				.add(Restriccion.IGUAL("caja", pCaja))
+				.setModoDebug(true);
+		List<TicketCaja> listaTickets = locCriterio.list();
+		
+		this.setDeudasPorParche(listaTickets);
+		
 		for(Object obj : listaTickets) {
 			TicketCaja locTicketCaja = (TicketCaja) obj;
 			locTicketCaja.toString();
@@ -1088,7 +1126,6 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			locTicketCaja.getUsuario().toString();
 			for(DetalleTicketCaja cadaDetalle : locTicketCaja.getDetalles()) {
 				if(locTicketCaja.getEstado().equals(TicketCaja.Estado.ACTIVO)) {
-					cadaDetalle.setDeuda(this.getDeudaPorParche(cadaDetalle));
 					cadaDetalle.getTicketCaja().getStringPersona();
 					cadaDetalle.getTicketCaja().getNroParcela();
 				}
