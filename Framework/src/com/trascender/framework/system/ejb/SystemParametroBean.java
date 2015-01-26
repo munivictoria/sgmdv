@@ -15,9 +15,12 @@ import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
+import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
+import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.Permiso.Accion;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Usuario;
@@ -459,7 +462,6 @@ public class SystemParametroBean implements SystemParametro {
 			locE.printStackTrace();
 			throw new TrascenderFrameworkException(999);
 		}
-
 	}
 
 	public ReportesJasper updateReporteJasper(ReportesJasper pReporteJasper) throws TrascenderException {
@@ -477,6 +479,42 @@ public class SystemParametroBean implements SystemParametro {
 			throw new TrascenderFrameworkException(941);
 		}
 
+	}
+	
+	public FiltroProcesoDB findListaProcesosDB(FiltroProcesoDB pFiltro) throws TrascenderException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, ProcesoDB.serialVersionUID, Accion.SELECT)) {
+				return parametroLocal.findListaProcesosDB(pFiltro);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(Exception locE) {
+			locE.printStackTrace();
+			throw new TrascenderFrameworkException(999);
+		}
+	}
+	
+	public String ejecutarProcesoDB(Long idProceso, String parametros) throws TrascenderException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, ProcesoDB.serialVersionUID, Accion.UPDATE)) {
+				return parametroLocal.ejecutarProcesoDB(idProceso, parametros);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(Exception locE) {
+			locE.printStackTrace();
+			throw new TrascenderFrameworkException(999);
+		}
+	}
+
+	public ConfiguracionAccesosDirectos getConfiguracionPorUsuario(
+			Long pIdUsuario) throws TrascenderException {
+		return parametroLocal.getConfiguracionPorUsuario(pIdUsuario);
+	}
+
+	public void addAccesoDirecto(Long pIdRecurso) throws TrascenderFrameworkException{
+		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(llave);
+		parametroLocal.addAccesoDirecto(pIdRecurso, locUsuario);
 	}
 
 }

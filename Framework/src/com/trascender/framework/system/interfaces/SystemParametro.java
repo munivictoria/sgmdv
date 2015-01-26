@@ -9,9 +9,12 @@ import java.util.Set;
 import javax.ejb.Remote;
 
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
+import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
+import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
@@ -84,4 +87,11 @@ public interface SystemParametro {
 	public ReportesJasper updateReporteJasper(ReportesJasper pReporteJasper) throws TrascenderException;
 	public ReportesJasper getReporteJasperPorId(long pIdReporte) throws java.lang.Exception;
 	public FiltroReportesJasper findListaReportesJasper(FiltroReportesJasper filtro) throws TrascenderException;
+	
+	public FiltroProcesoDB findListaProcesosDB(FiltroProcesoDB pFiltro) throws TrascenderException;
+	public String ejecutarProcesoDB(Long idProceso, String parametros) throws TrascenderException;
+	
+	public ConfiguracionAccesosDirectos getConfiguracionPorUsuario(Long idUsuario) throws TrascenderException;
+
+	public void addAccesoDirecto(Long pIdRecurso) throws TrascenderFrameworkException;
 }

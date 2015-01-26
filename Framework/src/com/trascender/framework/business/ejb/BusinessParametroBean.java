@@ -26,11 +26,14 @@ import com.trascender.framework.business.interfaces.BusinessParametroLocal;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
+import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
+import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionAtributoTabla;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ConjuntoAtributoTabla;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
@@ -65,6 +68,12 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 		recursoConfiguracionRec.setNombre("Configuración de Recursos.");
 		recursoConfiguracionRec.setAtributosConsultables("Recurso", "nombreRecurso", "Alias", "nombreAlias");
 		recursoConfiguracionRec.setClase(ConfiguracionRecurso.class);
+		
+		Recurso recursoProcesoDB = new Recurso();
+		recursoProcesoDB.setIdRecurso(ProcesoDB.serialVersionUID);
+		recursoProcesoDB.setNombre("Procesos DB");
+		recursoProcesoDB.setAtributosConsultables("Nombre", "nombre", "Nombre Proceso", "nombreProceso");
+		recursoProcesoDB.setClase(ProcesoDB.class);
 
 		// Recurso recursoReporte = new Recurso();
 		// recursoReporte.setIdRecurso(ReportesJasper.serialVersionUID);
@@ -73,6 +82,7 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 
 		grupo.getListaRecursos().add(recursoConfiguracionRec);
 		grupo.getListaRecursos().add(recursoAtributos);
+		grupo.getListaRecursos().add(recursoProcesoDB);
 		// grupo.getListaRecursos().add(recursoReporte);
 		SecurityMgr.getInstance().addGrupo(grupo);
 	}
@@ -549,5 +559,53 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 
 		filtro.procesarYListar(locCriterio);
 		return filtro;
+	}
+	
+	public FiltroProcesoDB findListaProcesosDB(FiltroProcesoDB pFiltro) {
+		Criterio locCriterio = Criterio.getInstance(entity, ProcesoDB.class)
+				.add(Restriccion.ILIKE("nombre", pFiltro.getNombre()))
+				.add(Restriccion.ILIKE("nombreProceso", pFiltro.getNombreProceso()));
+		
+		pFiltro.procesarYListar(locCriterio);
+		
+		return pFiltro;
+	}
+	
+	public String ejecutarProcesoDB(Long idProceso, String parametros) {
+		ProcesoDB locProceso = entity.find(ProcesoDB.class, idProceso);
+		
+		if (parametros == null) {
+			parametros = "";
+		}
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+		sql.append(locProceso.getNombreProceso());
+		sql.append("(").append(parametros).append(")");
+		
+		Query query = entity.createNativeQuery(sql.toString());
+		String mensaje = query.getSingleResult().toString();
+		return mensaje;
+	}
+	
+	public ConfiguracionAccesosDirectos getConfiguracionPorUsuario(Long idUsuario) {
+		Criterio locCriterio = Criterio.getInstance(entity, ConfiguracionAccesosDirectos.class)
+				.add(Restriccion.IGUAL("usuario.idUsuario", idUsuario));
+		ConfiguracionAccesosDirectos locConfiguracion = locCriterio.uniqueResult();
+		if (locConfiguracion != null) {
+			locConfiguracion.getListaAccesosDirecto().size();
+		}
+		return locConfiguracion;
+	}
+
+	public void addAccesoDirecto(Long pIdRecurso, Usuario pUsuario) {
+		ConfiguracionAccesosDirectos locConfiguracion = getConfiguracionPorUsuario(pUsuario.getIdUsuario());
+		if (locConfiguracion == null) {
+			locConfiguracion = new ConfiguracionAccesosDirectos();
+			locConfiguracion.setUsuario(pUsuario);
+		}
+		if (locConfiguracion.addAccesoDirecto(pIdRecurso)) {
+			entity.merge(locConfiguracion);
+		}
 	}
 }

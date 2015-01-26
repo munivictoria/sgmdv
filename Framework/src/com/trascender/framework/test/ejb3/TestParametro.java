@@ -11,8 +11,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
+import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.PersonaFisica;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ComponenteValidacion;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ComponenteValidacion.AlcanceValidacion;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ComponenteValidacion.Operadores;
@@ -37,7 +39,7 @@ public class TestParametro {
 			
 			systemUsuario = (SystemUsuario) initial.lookup(SystemUsuario.JNDI_NAME);
 			
-			long llave = systemUsuario.login("root", "Emilia15");
+			long llave = systemUsuario.login("root", "rootroot");
 			
 			systemParametro = (SystemParametro) initial.lookup(SystemParametro.JNDI_NAME);
 			systemParametro.setLlave(llave);
@@ -309,6 +311,30 @@ public class TestParametro {
 			for(ConfiguracionRecurso cadaConfig : locListaResultados){
 				System.out.println(cadaConfig);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void findListaProcesosDB() {
+		try {
+			FiltroProcesoDB locFiltro = new FiltroProcesoDB();
+			locFiltro = systemParametro.findListaProcesosDB(locFiltro);
+			System.out.println(locFiltro.getListaResultados().size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void ejecutarProcesoDB() {
+		try {
+			FiltroProcesoDB locFiltro = new FiltroProcesoDB();
+			locFiltro.setNombre("cuit");
+			ProcesoDB locProceso = systemParametro.findListaProcesosDB(locFiltro).getListaResultados().get(0);
+			System.out.println(systemParametro.ejecutarProcesoDB(locProceso.getIdProcesoDB(), "'20-34014173-4'"));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -5,12 +5,19 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Local;
+import javax.persistence.Query;
+
+import ar.trascender.criterio.clases.Criterio;
+import ar.trascender.criterio.clases.Restriccion;
 
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
+import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
+import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
@@ -71,4 +78,12 @@ public interface BusinessParametroLocal {
 	public ReportesJasper updateReporteJasper(ReportesJasper pReporteJasper) throws Exception;
 	public ReportesJasper getReporteJasperPorId(long pIdReporte) throws java.lang.Exception;
 	public FiltroReportesJasper findListaReportesJasper(FiltroReportesJasper filtro) throws Exception;
+	
+	public FiltroProcesoDB findListaProcesosDB(FiltroProcesoDB pFiltro);
+	
+	public String ejecutarProcesoDB(Long idProceso, String parametros);
+	
+	public ConfiguracionAccesosDirectos getConfiguracionPorUsuario(Long idUsuario);
+
+	public void addAccesoDirecto(Long pIdRecurso, Usuario pUsuario);
 }
