@@ -123,7 +123,7 @@
 							</div>
 							<table class="general">
 								<tr>
-									<td>
+									<td colspan="2">
 										<ui:table binding="#{catastro$ABMCoeficienteDepreciacion$AdminCoeficienteDepreciacion.paginatedTable}" styleClass="tablaPaginada"
 											id="table1">
 											<f:facet name="actionsTop">
@@ -163,7 +163,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td align="left" colspan="2">
+									<td align="left">
 										<ui:label binding="#{catastro$ABMCoeficienteDepreciacion$AdminCoeficienteDepreciacion.lblEncontrados}" id="lblEncontrados"
 											styleClass="label2" text="Registros Encontrados: " />
 										<ui:staticText binding="#{catastro$ABMCoeficienteDepreciacion$AdminCoeficienteDepreciacion.stCantidadRegistros}"

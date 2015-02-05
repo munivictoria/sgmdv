@@ -94,7 +94,7 @@
 							</div>
 							<table class="general">
 								<tr>
-									<td>
+									<td colspan="2">
 										<ui:table binding="#{catastro$ABMZonificacion$AdminZonificacion.paginatedTable}" id="table1">
 											<f:facet name="actionsTop">
 												<ui:panelGroup binding="#{catastro$ABMZonificacion$AdminZonificacion.groupPanel1}" id="groupPanel1" style="">
@@ -127,7 +127,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td align="left" colspan="2">
+									<td align="left">
 										<ui:label binding="#{catastro$ABMZonificacion$AdminZonificacion.lblEncontrados}" id="lblEncontrados" styleClass="label2"
 											text="Registros Encontrados: " />
 										<ui:staticText binding="#{catastro$ABMZonificacion$AdminZonificacion.stCantidadRegistros}" id="stCantidadRegistros"

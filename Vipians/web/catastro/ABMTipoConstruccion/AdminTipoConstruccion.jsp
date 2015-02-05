@@ -93,7 +93,7 @@
 							</div>
 							<table class="general">
 								<tr>
-									<td>
+									<td colspan="2">
 										<ui:table binding="#{catastro$ABMTipoConstruccion$AdminTipoConstruccion.paginatedTable}" styleClass="tablaPaginada" id="table1">
 											<f:facet name="actionsTop">
 												<ui:panelGroup binding="#{catastro$ABMTipoConstruccion$AdminTipoConstruccion.groupPanel1}" id="groupPanel1" style="">
@@ -129,7 +129,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td align="left" colspan="2">
+									<td align="left">
 										<ui:label binding="#{catastro$ABMTipoConstruccion$AdminTipoConstruccion.lblEncontrados}" id="lblEncontrados" styleClass="label2"
 											text="Registros Encontrados: " />
 										<ui:staticText binding="#{catastro$ABMTipoConstruccion$AdminTipoConstruccion.stCantidadRegistros}" id="stCantidadRegistros"
