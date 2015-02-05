@@ -200,3 +200,35 @@ alter sequence gen_id_acceso_directo owner to vipians;
 
 --Ponerle un numero
 insert into log_scripts_corridos values(108,108,now());
+
+
+
+-- Function: insertar_modificador_liquidacion(importe, clave, character varying, clave)
+
+-- DROP FUNCTION insertar_modificador_liquidacion(importe, clave, character varying, clave);
+
+CREATE OR REPLACE FUNCTION insertar_modificador_liquidacion(v_valor importe, v_id_registro_deuda clave, v_nombre character varying, v_id_tipo_modificador clave)
+  RETURNS clave AS
+$BODY$
+declare
+v_id_modificador_liquidacion clave;
+BEGIN
+	select id_modificador_liquidacion from modificador_liquidacion where valor = v_valor and
+	id_tipo_modificador = v_id_tipo_modificador into v_id_modificador_liquidacion;
+	if (v_id_modificador_liquidacion is null) then begin
+		select nextval('gen_id_modificador_liquidacion') into v_id_modificador_liquidacion;
+		insert into modificador_liquidacion (id_modificador_liquidacion, nombre, valor, id_tipo_modificador, tipo_modificador)
+		values( v_id_modificador_liquidacion, v_nombre, v_valor, v_id_tipo_modificador, 'F');
+	end;
+	end if;
+	insert into rela_modif_liq_liq_t(id_modificador_liquidacion, id_registro_deuda)
+		values (v_id_modificador_liquidacion, v_id_registro_deuda);
+	return v_id_modificador_liquidacion;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION insertar_modificador_liquidacion(importe, clave, character varying, clave)
+  OWNER TO vipians;
+
+insert into log_scripts_corridos values(109,109,now());
