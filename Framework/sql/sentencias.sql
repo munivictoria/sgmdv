@@ -1,11 +1,11 @@
 alter table detalle_ticket_caja add id_registro_deuda clave;
 
-insert into log_script_corridos(100,100,now());
+insert into log_scripts_corridos values(100,100,now());
 
 alter table detalle_ticket_caja add registro_deuda_reatachado boolean not null default false;
 
 --Ponerle numero
-insert into log_script_corridos(101,101,now());
+insert into log_scripts_corridos values(101,101,now());
 
 DROP FUNCTION IF EXISTS array_sort(anyarray);
 CREATE FUNCTION array_sort(array_vals_to_sort anyarray)
@@ -29,13 +29,13 @@ CREATE FUNCTION array_sort(array_vals_to_sort anyarray)
 LANGUAGE plpgsql;
 
 --Ponerle un numero.
-insert into log_script_corridos(102,102,now());
+insert into log_scripts_corridos values(102,102,now());
 
 alter table liquidacion_tasa add fecha_notificacion date;
 alter table liquidacion_tasa add fecha_apremio date;
 
 --Ponerle un numero
-insert into log_script_corridos(103,103,now());
+insert into log_scripts_corridos values(103,103,now());
 
 create table proceso_db(
 id_proceso_db clave not null primary key,
@@ -50,7 +50,7 @@ create sequence gen_id_proceso_db;
 alter sequence gen_id_proceso_db owner to vipians;
 
 --Ponerle un numero.
-insert into log_script_corridos(104,104,now());
+insert into log_scripts_corridos values(104,104,now());
 
 -- Function: select p_estado_cuenta();
 
@@ -94,7 +94,7 @@ ALTER FUNCTION p_estado_cuenta()
 
   
 --Ponerle un numero
-insert into log_script_corridos(105,105,now());
+insert into log_scripts_corridos values(105,105,now());
 
   CREATE OR REPLACE FUNCTION p_sumar_distintos(arreglo_id numeric[], arreglo_valor numeric[])
   RETURNS numeric AS
@@ -126,7 +126,7 @@ $BODY$
 alter function p_sumar_distintos(numeric[], numeric[]) owner to vipians;
 
 --ponerle un numero
-insert into log_script_corridos(106,106,now());
+insert into log_scripts_corridos values(106,106,now());
 
 -- Function: select actualizar_deudas_prescritas(2008);
 
@@ -173,7 +173,7 @@ ALTER FUNCTION actualizar_deudas_prescritas(integer)
   OWNER TO vipians;
   
   --Ponerle un numero
-  insert into log_script_corridos(107,107,now());
+  insert into log_scripts_corridos values(107,107,now());
   
   create table configuracion_accesos_directos(
 id_configuracion_accesos_directos clave not null primary key,
@@ -199,4 +199,4 @@ create sequence gen_id_acceso_directo;
 alter sequence gen_id_acceso_directo owner to vipians;
 
 --Ponerle un numero
-insert into log_script_corridos(108,108,now());
+insert into log_scripts_corridos values(108,108,now());
