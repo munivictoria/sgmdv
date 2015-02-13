@@ -69,9 +69,6 @@ public class TipoParametroAlicuotaSHPS extends TipoParametroAlicuota{
 				List<RegAlicuota> locListaAlicuotas = new ArrayList<RegAlicuota>(pAsocRegAlicuota.getDocHabilitanteEspecializado().getListaRegAlicuotas());
 				java.util.Collections.sort(locListaAlicuotas, new Comparator<RegAlicuota>() {
 					public int compare(RegAlicuota o1, RegAlicuota o2) {
-						//							if (o1.getMinimo().equals(o2.getMinimo())) return 0;
-						//							else if (o1.getMinimo() > o2.getMinimo()) return 1;
-						//							else return -1;
 						return o1.getMinimo().compareTo(o2.getMinimo());
 					}
 				});

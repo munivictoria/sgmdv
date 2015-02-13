@@ -114,8 +114,10 @@ public class BusinessDocumentoTGIBean implements BusinessDocumentoTGILocal {
 	 */
 	private void verificarDocumentoTGI(DocumentoTGI pDocumentoTGI) throws HabilitacionesException {
 
-		Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoTGI.class).add(Restriccion.NOT(Restriccion.IGUAL("obligacion.estado", Estado.ANULADO)))
-				.add(Restriccion.IGUAL("estado", DocHabilitanteEspecializado.Estado.ACTIVO)).add(Restriccion.IGUAL("obligacion.persona", pDocumentoTGI.getObligacion().getPersona()))
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoTGI.class)
+				.add(Restriccion.NOT(Restriccion.IGUAL("obligacion.estado", Estado.ANULADO)))
+				.add(Restriccion.IGUAL("estado", DocHabilitanteEspecializado.Estado.ACTIVO))
+				.add(Restriccion.IGUAL("obligacion.persona", pDocumentoTGI.getObligacion().getPersona()))
 				.add(Restriccion.IGUAL("parcela", pDocumentoTGI.getParcela())).setMaxResults(1);
 
 		DocumentoTGI locDocumentoTGI = (DocumentoTGI) locCriterio.uniqueResult();

@@ -49,7 +49,8 @@ public class RegistroValuado implements Serializable{
 	
 	@Transient
 	private Double lectura=0D;
-	private Date fecha;
+	
+	private Date fecha = new Date();
 	
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name = "ID_CUOTA_LIQUIDACION")

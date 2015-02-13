@@ -5,17 +5,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Stack;
 
+import javax.xml.crypto.Data;
+
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
+import com.trascender.framework.util.Util;
+
 public class FuncionesFecha {
 	
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	//Las fechas siempre se manejan como un String con formateo dd/MM/yyyy
+	private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	
-	private Calendar parsear(Object fecha) throws Exception{
-		Date locFecha = dateFormat.parse(fecha.toString());
+	private Calendar parsear(Object fecha) throws ParseException{
+		Date locDate;
+		try {
+			 locDate = format.parse(fecha.toString());
+		} catch (java.text.ParseException e) {
+			throw new ParseException(e.getMessage());
+		}
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(locFecha);
+		cal.setTime(locDate);
 		return cal;
 	}
 	
@@ -69,6 +79,67 @@ public class FuncionesFecha {
 			checkStack(stack);
 			Object param = stack.pop();
 			stack.push(getValorOCero(param, Calendar.YEAR));
+		}
+	}
+	
+	class HoyFunction extends PostfixMathCommand {
+		
+		public HoyFunction(){
+			numberOfParameters = 0;
+		}
+	
+		@Override
+		public void run(Stack stack) throws ParseException {
+			checkStack(stack);
+			stack.push(format.format(new Date()));
+		}
+	}
+	
+	class MenorFunction extends PostfixMathCommand {
+		
+		public MenorFunction(){
+			numberOfParameters = 2;
+		}
+	
+		@Override
+		public void run(Stack stack) throws ParseException {
+			checkStack(stack);
+			Date fecha1 = parsear(stack.pop()).getTime();
+			Date fecha2 = parsear(stack.pop()).getTime();
+			boolean menor = !Util.isFechaAfterNoTima(fecha1, fecha2);
+			stack.push(menor ? 1D : 0D);
+		}
+	}
+	
+	class MayorFunction extends PostfixMathCommand {
+		
+		public MayorFunction(){
+			numberOfParameters = 2;
+		}
+	
+		@Override
+		public void run(Stack stack) throws ParseException {
+			checkStack(stack);
+			Date fecha1 = parsear(stack.pop()).getTime();
+			Date fecha2 = parsear(stack.pop()).getTime();
+			boolean mayor = Util.isFechaAfterNoTima(fecha1, fecha2);
+			stack.push(mayor ? 1D : 0D);
+		}
+	}
+	
+	class IgualFunction extends PostfixMathCommand {
+		
+		public IgualFunction(){
+			numberOfParameters = 2;
+		}
+	
+		@Override
+		public void run(Stack stack) throws ParseException {
+			checkStack(stack);
+			Date fecha1 = parsear(stack.pop()).getTime();
+			Date fecha2 = parsear(stack.pop()).getTime();
+			boolean igual = Util.isFechaEqualsNoTima(fecha1, fecha2);
+			stack.push(igual ? 1D : 0D);
 		}
 	}
 

@@ -18,6 +18,7 @@ import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TrascenderEnverListener;
+import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoArrendamientoLocal;
 import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoAutomotorLocal;
 import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoCementerioLocal;
 import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoOSPLocal;
@@ -27,6 +28,7 @@ import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoTGILoc
 import com.trascender.habilitaciones.business.interfaces.BusinessDocumentoTasaMenorLocal;
 import com.trascender.habilitaciones.business.interfaces.BusinessObligacionLocal;
 import com.trascender.habilitaciones.exception.HabilitacionesException;
+import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionArrendamiento;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionAutomotor;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionCementerio;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionOSP;
@@ -37,6 +39,8 @@ import com.trascender.habilitaciones.recurso.persistent.FiltroObligacionTGI;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.habilitaciones.recurso.persistent.PermisoHab;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
+import com.trascender.habilitaciones.recurso.persistent.arrendamiento.DocumentoArrendamiento;
+import com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio;
 import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.pfo.Obra;
 import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
@@ -66,6 +70,8 @@ public class SystemObligacionBean implements SystemObligacion {
 	private BusinessDocumentoAutomotorLocal businessDocumentoAutomotor;
 	@EJB
 	private BusinessDocumentoCementerioLocal businessDocumentoCementerio;
+	@EJB
+	private BusinessDocumentoArrendamientoLocal businessDocumentoArrendamiento;
 	
 	/**
 	 * 
@@ -188,6 +194,8 @@ public class SystemObligacionBean implements SystemObligacion {
 			serialVersion = DocumentoOSP.serialVersionUID;
 		} else if (locDocumento instanceof DocumentoSHPS) {
 			serialVersion = DocumentoSHPS.serialVersionUID;
+		} else if (locDocumento instanceof DocumentoArrendamiento) {
+			serialVersion = DocumentoArrendamiento.serialVersionUID;
 		}
 		return SecurityMgr.getInstance().getPermiso(this.llave,serialVersion,pAccion);
 	}
@@ -578,6 +586,25 @@ public class SystemObligacionBean implements SystemObligacion {
 			e.printStackTrace();
 			throw new HabilitacionesException(373);
 		}
-		
+	}
+
+	@Override
+	public FiltroObligacionArrendamiento findListaObligacionesArrendamiento(
+			FiltroObligacionArrendamiento pFiltro) throws TrascenderException {
+		try{
+			if (SecurityMgr.getInstance().getPermiso(this.llave,DocumentoArrendamiento.serialVersionUID,Permiso.Accion.SELECT)){
+				return this.businessDocumentoArrendamiento.findListaObligacionesArrendamiento(pFiltro);
+			}
+			else{
+				throw new HabilitacionesException(799);
+			}
+		}
+		catch(TrascenderException e){
+			throw e;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new HabilitacionesException(373);
+		}
 	}
 }

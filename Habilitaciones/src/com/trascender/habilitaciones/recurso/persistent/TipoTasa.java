@@ -503,6 +503,14 @@ public class TipoTasa implements Serializable, Cloneable, EntidadTrascender{
 		}
 		this.listaVariables.addAll(listaVariablesSimpleAlicuota);
 	}
+	
+	public boolean tieneParametrosDeduda() {
+		for (TipoParametro cadaParametro : listaParametros) {
+			if (cadaParametro instanceof TipoParametroDeuda)
+				return true;
+		}
+		return false;
+	}
 
 	private void separarVariables(){
 		this.listaVariablesSimple.clear();

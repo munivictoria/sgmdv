@@ -77,4 +77,5 @@ public class DeclaracionJuradaSHPS extends RegistroValuado {
 		}
 		this.setMontoImponible(locMonto);
 	}
+	
 }

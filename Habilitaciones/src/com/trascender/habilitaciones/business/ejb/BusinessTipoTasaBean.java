@@ -543,14 +543,14 @@ public class BusinessTipoTasaBean implements BusinessTipoTasaLocal {
 			jep.addVariable(cadaVariable.getNombre(), cadaVariable.getValor());
 		}
 
-		List<TipoParametroVencimiento> listaParametrosVencimientos = null;
+//		List<TipoParametroVencimiento> listaParametrosVencimientos = null;
 		for(TipoParametro locTipoParametro : pTipoTasa.getListaParametros()) {
-			if(locTipoParametro instanceof TipoParametroVencimiento) {
-				if(listaParametrosVencimientos == null) {
-					listaParametrosVencimientos = new ArrayList<TipoParametroVencimiento>();
-				}
-				listaParametrosVencimientos.add((TipoParametroVencimiento) locTipoParametro);
-			} else if (locTipoParametro instanceof TipoParametroGrilla) {
+//			if(locTipoParametro instanceof TipoParametroVencimiento) {
+//				if(listaParametrosVencimientos == null) {
+//					listaParametrosVencimientos = new ArrayList<TipoParametroVencimiento>();
+//				}
+//				listaParametrosVencimientos.add((TipoParametroVencimiento) locTipoParametro);
+			if (locTipoParametro instanceof TipoParametroGrilla) {
 				TipoParametroGrilla locGrilla = (TipoParametroGrilla) locTipoParametro;
 				jep.addFunction(locGrilla.getNombreVariable(), new GrillaFunction(locGrilla));
 			} else {
@@ -585,11 +585,11 @@ public class BusinessTipoTasaBean implements BusinessTipoTasaLocal {
 			}
 		}
 
-		if(listaParametrosVencimientos != null) {
-			for(TipoParametro locTipoParametro : listaParametrosVencimientos) {
-				jep.addVariable(locTipoParametro.getNombreVariable(), 0d);
-			}
-		}
+//		if(listaParametrosVencimientos != null) {
+//			for(TipoParametro locTipoParametro : listaParametrosVencimientos) {
+//				jep.addVariable(locTipoParametro.getNombreVariable(), 0d);
+//			}
+//		}
 
 		for(TipoVencimiento locTipoVencimiento : pTipoTasa.getListaVencimientos()) {
 			if(locTipoVencimiento.getFormulaCalculo() != null && !locTipoVencimiento.getFormulaCalculo().equals("")) {

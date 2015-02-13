@@ -220,6 +220,16 @@ public class DocumentoSHPS extends DocHabilitanteEspecializado {
 	public void setNumeroInscripcion(String numeroInscripcion) {
 		this.numeroInscripcion = numeroInscripcion;
 	}
+	
+	public DeclaracionJuradaSHPS getDeclaracionJurada(CuotaLiquidacion pCuota) {
+		DeclaracionJuradaSHPS locDeclaracion = null;
+		List<RegistroValuado> locLista = this.getRegistroValuado(pCuota);
+		if (!locLista.isEmpty()) {
+			//Siempre hay solo una declaracion por cuota.
+			locDeclaracion = (DeclaracionJuradaSHPS) locLista.get(0);
+		}
+		return locDeclaracion;
+	}
 
 	private List<AsocRubro> getListaRubros(){
 		List<AsocRubro> locListaAsocRubro = new ArrayList<AsocRubro>();

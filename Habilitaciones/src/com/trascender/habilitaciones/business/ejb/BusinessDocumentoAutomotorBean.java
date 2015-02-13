@@ -694,7 +694,8 @@ public class BusinessDocumentoAutomotorBean implements BusinessDocumentoAutomoto
 	 * @ejb.interface-method view-type = "local"
 	 */
 	public DocumentoAutomotor getDocumentoAutomotor(Obligacion pObligacion) throws Exception {
-		DocumentoAutomotor locDocumentoAutomotor = (DocumentoAutomotor) Criterio.getInstance(this.entityManager, DocumentoAutomotor.class)
+		DocumentoAutomotor locDocumentoAutomotor = (DocumentoAutomotor) 
+				Criterio.getInstance(this.entityManager, DocumentoAutomotor.class)
 				.add(Restriccion.IGUAL("obligacion", pObligacion)).uniqueResult();
 
 		locDocumentoAutomotor.toString();
@@ -972,7 +973,9 @@ public class BusinessDocumentoAutomotorBean implements BusinessDocumentoAutomoto
 
 	public FiltroObligacionAutomotor findListaObligacionesAutomotor(FiltroObligacionAutomotor pFiltro) throws Exception {
 
-		Criterio locCriterio = Criterio.getInstance(this.entityManager, Obligacion.class).setModoDebug(true).crearAlias("documentoEspecializado", "locDocEsp")
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, Obligacion.class)
+				.setModoDebug(true)
+				.crearAlias("documentoEspecializado", "locDocEsp")
 				.add(Restriccion.JPQL("TYPE (locDocEsp) = ".concat(DocumentoAutomotor.class.getSimpleName())));
 
 		AtributoDinamico.addRestriccionesCriterio(locCriterio, DocumentoAutomotor.serialVersionUID, "idDocHabilitanteEspecializado", "locDocEsp", pFiltro.getListaAtributosDinamicos());

@@ -1,5 +1,7 @@
 package com.trascender.habilitaciones.recurso.persistent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.CreateException;
@@ -30,9 +32,8 @@ public class TipoParametroSHPS extends TipoParametro {
 		INGRESOS_DEVENGADOS_ANIO_ANTERIOR,
 		//Correspondientes a Multas:
 		PRESENTO_DDJJ, //Usado para las multas formales
-		//VALOR_MULTA_FORMAL,//Puede no ir
-		VALOR_MULTA_POR_OMISION,
-		DESCUENTO_POR_RETENCION;
+		DESCUENTO_POR_RETENCION,
+		FECHA_PRESENTACION_DJ;
 		@Override
 		public String toString() {
 			return com.trascender.framework.util.Util.capitalizeEnumName(super.toString());
@@ -53,7 +54,7 @@ public class TipoParametroSHPS extends TipoParametro {
 
 
 	@Override
-	public Double getValor(DocHabilitanteEspecializado pDocumentoHabilitanteEspecializado) throws Exception{
+	public Object getValor(DocHabilitanteEspecializado pDocumentoHabilitanteEspecializado) throws Exception{
 		
 		if (pDocumentoHabilitanteEspecializado instanceof DocumentoSHPS){
 			DocumentoSHPS locDocumentoSHPS = (DocumentoSHPS)pDocumentoHabilitanteEspecializado;
@@ -78,17 +79,19 @@ public class TipoParametroSHPS extends TipoParametro {
 				case DESCUENTO_POR_RETENCION: {
 					Double locDescuentoPorRetencion = 0d;
 					//Tomamos cualquier registro valuado, pues todos tienen el mismo valor de retencion.
-					 List<RegistroValuado> locListaRegistrosValuados = pDocumentoHabilitanteEspecializado.getRegistroValuado(getCuotaLiquidacion());
-					 if (!locListaRegistrosValuados.isEmpty()) {
-						 DeclaracionJuradaSHPS unaDeclaracion = (DeclaracionJuradaSHPS) locListaRegistrosValuados.get(0);
-						 if (unaDeclaracion.getDescuentoPorRetenciones() != null) {
-							 locDescuentoPorRetencion = unaDeclaracion.getDescuentoPorRetenciones();
-						 }
+					DeclaracionJuradaSHPS locDeclaracion = locDocumentoSHPS.getDeclaracionJurada(getCuotaLiquidacion());
+					 if (locDeclaracion != null && locDeclaracion.getDescuentoPorRetenciones() != null) {
+						 locDescuentoPorRetencion = locDeclaracion.getDescuentoPorRetenciones();
 					 }
 					return locDescuentoPorRetencion;
 				}
 				case PRESENTO_DDJJ: return pDocumentoHabilitanteEspecializado.getRegistroValuado(this.getCuotaLiquidacion()).isEmpty() ? 0d : 1d;
-				//case VALOR_MULTA : (())
+				case FECHA_PRESENTACION_DJ: {
+					DeclaracionJuradaSHPS locDeclaracion = locDocumentoSHPS.getDeclaracionJurada(getCuotaLiquidacion());
+					return locDeclaracion != null 
+							? new SimpleDateFormat("dd/MM/yyyy").format(locDeclaracion.getFecha()) 
+							: 0D;
+				}
 			}
 			return 0d;
 		}

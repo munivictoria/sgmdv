@@ -23,6 +23,10 @@ public class MotorFormulas {
 			jep.addFunction("DIA", new FuncionesFecha().new DiaFunction());
 			jep.addFunction("MES", new FuncionesFecha().new MesFunction());
 			jep.addFunction("AÑO", new FuncionesFecha().new AnioFunction());
+			jep.addFunction("HOY", new FuncionesFecha().new HoyFunction());
+			jep.addFunction("FECHA_MENOR", new FuncionesFecha().new MenorFunction());
+			jep.addFunction("FECHA_MAYOR", new FuncionesFecha().new MayorFunction());
+			jep.addFunction("FECHA_IGUAL", new FuncionesFecha().new IgualFunction());
 		}
 		catch (Exception e) {
 			e.printStackTrace();

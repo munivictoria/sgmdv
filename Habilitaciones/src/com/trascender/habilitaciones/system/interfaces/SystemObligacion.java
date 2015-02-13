@@ -12,6 +12,7 @@ import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionArrendamiento;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionAutomotor;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionCementerio;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionOSP;
@@ -122,6 +123,8 @@ public interface SystemObligacion {
    public FiltroObligacionAutomotor findListaObligacionesAutomotor(FiltroObligacionAutomotor pFiltro) throws TrascenderException, RemoteException;
    
    public FiltroObligacionCementerio findListaObligacionesCementerio(FiltroObligacionCementerio pFiltro) throws TrascenderException, RemoteException;
+   
+   public FiltroObligacionArrendamiento findListaObligacionesArrendamiento(FiltroObligacionArrendamiento pFiltro) throws TrascenderException;
    /**
     * Coloca el valor de la llave
     * @param pLlave
