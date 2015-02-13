@@ -8,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -55,7 +59,15 @@ public class Domicilio implements Serializable, Cloneable{
 	@JoinColumn(name="ID_LOCALIDAD")
 	private Localidad localidad;
 
-
+	@Column(name = "DOMICILIO_ARMADO")
+	private String domicilioArmado;
+	
+	public void setDomicilioArmado(String pDomicilioArmado) {
+		domicilioArmado = pDomicilioArmado;
+	}
+	public String getDomicilioArmado() {
+		return domicilioArmado;
+	}
 	public RfrCalle getRelacionCalleComienza() {
 		return relacionCalleComienza;
 	}
@@ -243,6 +255,12 @@ public class Domicilio implements Serializable, Cloneable{
 	public void setTorre(String pTorre) {
 		torre = pTorre;
 	}
+	
+	@PrePersist
+	@PreUpdate
+	public void beforeSaveUpdate() {
+		this.domicilioArmado = this.toString();
+	}
 
 	@Override
 	public String toString() {
@@ -251,6 +269,8 @@ public class Domicilio implements Serializable, Cloneable{
 		resultado += this.getAltura();
 		return resultado;
 	}
+	
+	
 
 	public String getDomicilioCompleto(){
 		String cadena= this.toString();
