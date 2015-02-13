@@ -1208,6 +1208,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				try {
 					listaTipoTasa.add(this.getCommunicationHabilitacionesBean().getRemoteSystemTipoTasa().findListaTipoObligacion("Tgi", null).get(0));
 					listaTipoTasa.add(this.getCommunicationHabilitacionesBean().getRemoteSystemTipoTasa().findListaTipoObligacion("Oysp", null).get(0));
+					listaTipoTasa.add(this.getCommunicationHabilitacionesBean().getRemoteSystemTipoTasa().findListaTipoObligacion("Arrendamiento", null).get(0));
 				} catch(TrascenderException e) {
 					e.printStackTrace();
 				}
@@ -2376,5 +2377,11 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public Label getLblNroParcela() {
+		lblNroParcela.setText("Nº de Parcela /\n Inscripción");
+		return lblNroParcela;
 	}
 }

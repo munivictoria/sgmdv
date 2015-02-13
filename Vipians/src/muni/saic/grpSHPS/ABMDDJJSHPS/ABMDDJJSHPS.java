@@ -7,6 +7,8 @@
 
 package muni.saic.grpSHPS.ABMDDJJSHPS;
 
+import jasper.ConstantesReportes;
+
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.Set;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.event.ValueChangeEvent;
+
+import net.sf.jasperreports.engine.JasperPrint;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
@@ -39,6 +43,8 @@ import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.util.AuditoriaIndirecta;
 import com.trascender.framework.util.EntidadTrascender;
+import com.trascender.framework.util.Util;
+import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionSHPS;
 import com.trascender.habilitaciones.recurso.persistent.CalendarioMunicipal;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.DeclaracionJuradaSHPS;
@@ -47,6 +53,9 @@ import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.validadores.Validador;
+import com.trascender.saic.exception.ResultadoLiquidacion;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionSHPS;
+import com.trascender.saic.recurso.persistent.RegistroDeuda;
 
 /**
  * <p>
@@ -102,7 +111,7 @@ public class ABMDDJJSHPS extends ABMPageBean {
 			actualizarOpcionesDDCalendario(pAnio);
 		}
 	}
-
+	
 	private void seleccionarCalendario(String pCalendario, boolean actualizar) {
 		this.ddCalendarios.setSelected(pCalendario);
 		if(actualizar) {
@@ -202,6 +211,15 @@ public class ABMDDJJSHPS extends ABMPageBean {
 
 	private Label lblNroInscripcion = new Label();
 	private TextField tfNroInscripcion = new TextField();
+	private TextField tfFecha = new TextField();
+	
+	public TextField getTfFecha() {
+		return tfFecha;
+	}
+
+	public void setTfFecha(TextField tfFecha) {
+		this.tfFecha = tfFecha;
+	}
 
 	public Label getLblNroInscripcion() {
 		return lblNroInscripcion;
@@ -673,17 +691,9 @@ public class ABMDDJJSHPS extends ABMPageBean {
 			montosImponiblesDeclarados = null;
 		this.setListaDelCommunication(montosImponiblesDeclarados);
 
-		if(this.getListaDelCommunication() != null) {
-			declaracionJuradaSHPS.setDescuentoPorRetenciones(this.getTextFieldValueDouble(this.getTfRetenciones()));
-		}
-
-		// if(this.getListaDelCommunication() != null) {
-		// for(Iterator iterator = this.getListaDelCommunication().iterator(); iterator.hasNext();) {
-		// LineaDeclaracionJuradaSHPS cadaLineaDeclaracionJurada = (LineaDeclaracionJuradaSHPS) iterator.next();
-		// declaracionJuradaSHPS.getListaLineasDDJJSHPS().add(cadaLineaDeclaracionJurada);
-		// }
-		// declaracionJuradaSHPS.setDescuentoPorRetenciones(this.getTextFieldValueDouble(this.getTfRetenciones()));
-		// }
+		declaracionJuradaSHPS.setDescuentoPorRetenciones(this.getTextFieldValueDouble(this.getTfRetenciones()));
+		
+		declaracionJuradaSHPS.setFecha(getTextFieldValueDate(this.getTfFecha()));
 
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, declaracionJuradaSHPS);
@@ -705,6 +715,8 @@ public class ABMDDJJSHPS extends ABMPageBean {
 		String anio = (String) this.obtenerObjetoDelElementoPila(ind++, String.class);
 		String nroInscripcion = (String) this.obtenerObjetoDelElementoPila(ind++);
 
+		this.getTfNroInscripcion().setText(nroInscripcion);
+		
 		if(persona != null) {
 			this.getTfPersona().setText(persona.toString());
 		}
@@ -720,6 +732,10 @@ public class ABMDDJJSHPS extends ABMPageBean {
 		}
 		if(cuota != null && !cuota.toString().isEmpty()) {
 			seleccionarCuota(cuota.toString());
+		}
+		
+		if (declaracionJuradaSHPS.getFecha() != null) {
+			this.getTfFecha().setValue(Util.getString(declaracionJuradaSHPS.getFecha()));
 		}
 
 		if(this.getListaDelCommunication() != null) {
@@ -910,18 +926,33 @@ public class ABMDDJJSHPS extends ABMPageBean {
 
 				getCommunicationSAICBean().getRemoteSystemRegistroValuado().setLlave(getSessionBean1().getLlave());
 				locDeclaracion = getCommunicationSAICBean().getRemoteSystemRegistroValuado().addDDJJSHPSParaLiquidar(locDeclaracion);
-
-				this.getRequestBean1().setObjetoABM(locDeclaracion);
-				this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-				retorno = "GenerarLiquidacionSHPS";
+				
+				DocumentoSHPS locDocumento = (DocumentoSHPS) locDeclaracion.getDocHabilitanteEspecializado();
+				FiltroObligacionSHPS locFiltro = new FiltroObligacionSHPS();
+				locFiltro.setNumeroInscripcion(locDocumento.getNumeroInscripcion());
+				CuotaLiquidacion[] cuotas = new CuotaLiquidacion[1];
+				cuotas[0] = locDeclaracion.getCuotaLiquidacion();
+				ResultadoLiquidacion locResultado = getCommunicationSAICBean().getRemoteSystemLiquidacionTasa()
+					.liquidarSHPS(locDocumento.getObligacion().getPersona(), cuotas, locFiltro, false);
+				if (locResultado.getCantidadLiquidadas() > 0) {
+					JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion()
+							.getReporteSHPS(locDocumento.getObligacion().getPersona(), null, null, 
+									null, null, locDeclaracion.getCuotaLiquidacion(), null, 
+									null);
+					subirReporteASesion("Liquidacion SHPS", ConstantesReportes.PDF, jp);
+				} else {
+					info("No se generaron liquidaciones." + locResultado.getMensajes());
+					subirErrorEnReporteASesion();
+				}
 			} catch(Exception ex) {
+				subirErrorEnReporteASesion();
 				log(getCasoNavegacion() + "_GuardarError:", ex);
 				error(ex.getMessage());
 			}
+			retorno = this.prepararParaVolver(this.getAccion());
 		} else {
 			retorno = this.prepararCaducidad();
 		}
-
 		return retorno;
 	}
 

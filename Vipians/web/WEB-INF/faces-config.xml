@@ -1525,6 +1525,18 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Renovacion Libreta Sanitaria -->
+	
+	<!--  Arrendamiento -->
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpArrendamiento$ABMDocEspArrendamiento$AdminDocEspArrendamiento</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpArrendamiento.ABMDocEspArrendamiento.AdminDocEspArrendamiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>habilitaciones$grpArrendamiento$ABMDocEspArrendamiento$ABMDocEspArrendamiento</managed-bean-name>
+		<managed-bean-class>muni.habilitaciones.grpArrendamiento.ABMDocEspArrendamiento.ABMDocEspArrendamiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 	<!-- Doc Esp TGI -->
 	<managed-bean>
@@ -2032,6 +2044,24 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Liquidacion SHPS -->
+	
+	<!--  Liquidacion Arrendamiento -->
+	
+	<managed-bean>
+		<managed-bean-name>saic$grpArrendamiento$ABMLiquidacionArrendamiento$AdminLiquidacionArrendamiento</managed-bean-name>
+		<managed-bean-class>muni.saic.grpArrendamiento.ABMLiquidacionArrendamiento.AdminLiquidacionArrendamiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpArrendamiento$ABMLiquidacionArrendamiento$ABMLiquidacionArrendamiento</managed-bean-name>
+		<managed-bean-class>muni.saic.grpArrendamiento.ABMLiquidacionArrendamiento.ABMLiquidacionArrendamiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$grpArrendamiento$ABMLiquidacionArrendamiento$GenerarLiquidacionArrendamiento</managed-bean-name>
+		<managed-bean-class>muni.saic.grpArrendamiento.ABMLiquidacionArrendamiento.GenerarLiquidacionArrendamiento</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 	<!-- Liquidacion TGI -->
 	<managed-bean>

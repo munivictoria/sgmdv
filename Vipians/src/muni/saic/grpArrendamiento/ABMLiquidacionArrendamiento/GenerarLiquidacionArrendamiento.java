@@ -1,10 +1,10 @@
 /*
- * GenerarLiquidacionTGI.java
+ * GenerarLiquidacionArrendamiento.java
  *
  * Created on 1 de noviembre de 2006, 14:27
  * Copyright Trascender SRL
  */
-package muni.saic.grpTGI.ABMLiquidacionTGI;
+package muni.saic.grpArrendamiento.ABMLiquidacionArrendamiento;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,7 +41,7 @@ import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
-import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
+import com.trascender.habilitaciones.recurso.persistent.arrendamiento.DocumentoArrendamiento;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.utiles.PanelAtributoDinamico;
@@ -55,7 +55,7 @@ import com.trascender.saic.exception.ResultadoLiquidacion;
  * lifecycle methods and event handlers where you may add behavior
  * to respond to incoming events.</p>
  */
-public class GenerarLiquidacionTGI extends AbstractPageBean {
+public class GenerarLiquidacionArrendamiento extends AbstractPageBean {
 
 	// <editor-fold defaultstate="collapsed" desc="Atributos de la pagina">
 	// Atributos propios de la pagina.
@@ -84,9 +84,9 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 	}
 	// CAMBIAR: Constantes que varian segun la pagina.
 	// nombre a mostrar en la ruta de la operacion.
-	private final String NOMBRE_PAGINA = "Generar Liquidaciones de TGI";
+	private final String NOMBRE_PAGINA = "Generar Liquidaciones de Arrendamiento";
 	// nombre del caso de navegacion para llegar a esta pagina.
-	private final String CASO_NAVEGACION = "GenerarLiquidacionTGI";
+	private final String CASO_NAVEGACION = "GenerarLiquidacionArrendamiento";
 	// nombre del caso de navegacion para llegar a la pagina de caducidad
 	private final String CASO_NAV_CADUCIDAD = "PaginaCaducidad";
 	// nombre del caso de navegacion para llegar a la pagina que se debe
@@ -105,10 +105,10 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 	 * here is subject to being replaced.</p>
 	 */
 	private void _init() throws Exception {
-		llenarDD(ddAniosOptions, this.getCommunicationSAICBean().getMapaAniosCalendarioMunicipalTGI().keySet());
-		llenarDD(ddCalendariosOptions, this.getCommunicationSAICBean().getMapaCalendariosTGI(null).keySet());
-		llenarDD(ddPeriodosOptions, this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalTGI(null).keySet());
-		llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalTGI(null).keySet());
+		llenarDD(ddAniosOptions, this.getCommunicationSAICBean().getMapaAniosCalendarioMunicipalArrendamiento().keySet());
+		llenarDD(ddCalendariosOptions, this.getCommunicationSAICBean().getMapaCalendariosArrendamiento(null).keySet());
+		llenarDD(ddPeriodosOptions, this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalArrendamiento(null).keySet());
+		llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalArrendamiento(null).keySet());
 	}
 
 	public void eventoSeleccionAnio(ValueChangeEvent event) {
@@ -152,17 +152,17 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 	}
 
 	private void actualizarOpcionesDDCalendario(String pAnio){
-		String opcion = llenarDD(ddCalendariosOptions, pAnio.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCalendariosTGI(pAnio).keySet());
+		String opcion = llenarDD(ddCalendariosOptions, pAnio.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCalendariosArrendamiento(pAnio).keySet());
 		seleccionarCalendario(opcion, true);
 	}
 
 	private void actualizarOpcionesDDPeriodo(String pCalendario){
-		String opcion = llenarDD(ddPeriodosOptions, pCalendario.isEmpty() ? null : this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalTGI(pCalendario).keySet());
+		String opcion = llenarDD(ddPeriodosOptions, pCalendario.isEmpty() ? null : this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalArrendamiento(pCalendario).keySet());
 		seleccionarPeriodo(opcion, true);
 	}
 
 	private void actualizarOpcionesDDCuotas(String pPeriodo){
-		String opcion = llenarDD(ddCuotasOptions, pPeriodo.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalTGI(pPeriodo).keySet());
+		String opcion = llenarDD(ddCuotasOptions, pPeriodo.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalArrendamiento(pPeriodo).keySet());
 		seleccionarCuota(opcion);
 	}
 
@@ -653,7 +653,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 	/** 
 	 * <p>Construir una instancia de bean de p�gina.</p>
 	 */
-	public GenerarLiquidacionTGI() {
+	public GenerarLiquidacionArrendamiento() {
 	}
 
 	/** 
@@ -752,7 +752,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 		try {
 			_init();
 		} catch (Exception e) {
-			log("GenerarLiquidacionTGI Initialization Failure", e);
+			log("GenerarLiquidacionArrendamiento Initialization Failure", e);
 			throw e instanceof FacesException ? (FacesException) e : new FacesException(e);
 		}
 		// </editor-fold>
@@ -972,7 +972,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 		if (listaAtributosDinamicos.isEmpty()) {
 			try {
 				listaAtributosDinamicos =  this.getComunicationBean()
-						.getRemoteSystemParametro().getAtributosPorRecurso(DocumentoTGI.serialVersionUID, null, true);
+						.getRemoteSystemParametro().getAtributosPorRecurso(DocumentoArrendamiento.serialVersionUID, null, true);
 				if ( listaAtributosDinamicos != null) {
 					this.getElementoPila().getObjetos().set(6, listaAtributosDinamicos);
 				}
@@ -980,7 +980,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 				ex.printStackTrace();
 			}
 		}
-		panelAtributoDinamico = new PanelAtributoDinamico(listaAtributosDinamicos,"#{saic$grpTGI$ABMLiquidacionTGI$GenerarLiquidacionTGI}");
+		panelAtributoDinamico = new PanelAtributoDinamico(listaAtributosDinamicos,"#{saic$grpArrendamiento$ABMLiquidacionArrendamiento$GenerarLiquidacionArrendamiento}");
 		panelAtributoDinamico.establecerListaAtributosDinamicos(listaAtributosDinamicos);
 
 		this.getCbIgnorarPlan().setValue(ignorarPlan);
@@ -1126,7 +1126,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 				//                Comentado
 				CuotaLiquidacion[] arregloCuotas = new CuotaLiquidacion[1];
 				arregloCuotas[0] = locCuota;
-				ResultadoLiquidacion locResultadoLiquidacion = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().liquidarTgi(arregloCuotas,persona, parcela, locIgnorarPlan);
+				ResultadoLiquidacion locResultadoLiquidacion = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().liquidarArrendamiento(arregloCuotas,persona, parcela, locIgnorarPlan);
 				totalGenerados = locResultadoLiquidacion.getCantidadLiquidadas();
 
 				this.getRequestBean1().setRespuestaABM(null);
@@ -1134,23 +1134,23 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 				String mensaje = "";
 				switch (totalGenerados) {
 				case 0:
-					mensaje = "No se generaron Liquidaciones de TGI.";
+					mensaje = "No se generaron Liquidaciones de Arrendamiento.";
 					break;
 				case 1:
-					mensaje = "Se gener\363 exitosamente 1 Liquidaci\363n de TGI.";
+					mensaje = "Se gener\363 exitosamente 1 Liquidaci\363n de Arrendamiento.";
 					break;
 				default:
-					mensaje = "Se generaron exitosamente " + totalGenerados + " Liquidaciones de TGI.";
+					mensaje = "Se generaron exitosamente " + totalGenerados + " Liquidaciones de Arrendamiento.";
 				}
 				mensaje += " " + locResultadoLiquidacion.getMensajes();
 				info(mensaje);
 				
 				//                if (totalGenerados > 0) {
-				//                    if (totalGenerados == 1) info("Se gener\363 exitosamente 1 Liquidaci\363n de TGI.");
-				//                    else info("Se generaron exitosamente "+ totalGenerados +" Liquidaciones de TGI.");
+				//                    if (totalGenerados == 1) info("Se gener\363 exitosamente 1 Liquidaci\363n de Arrendamiento.");
+				//                    else info("Se generaron exitosamente "+ totalGenerados +" Liquidaciones de Arrendamiento.");
 				//                }
 				//                else {
-				//                    info("No se generaron Liquidaciones de TGI.");
+				//                    info("No se generaron Liquidaciones de Arrendamiento.");
 				//                }
 
 				retorno = this.prepararParaVolver(Constantes.ACCION_MODIFICAR);
@@ -1195,110 +1195,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 	}
 
 	public String btnGenerarLiquidacionPrueba_action() {
-		/**Mines*/
-		String retorno = null;
-		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
-
-		if (ultimo) {
-
-			try {
-				this.guardarEstadoObjetosUsados();
-
-				Parcela parcela = null;
-				// CAMBIAR: Validar los campos necesarios.
-				Validador v = new Validador();
-				UIComponent[] noVacios = new UIComponent[3];
-				String[] nomNoVacios = new String[3];
-
-				int pos = 0;
-				noVacios[pos] = this.getDdCalendarios();
-				nomNoVacios[pos++] = "Calendario";
-				noVacios[pos] = this.getDdPeriodos();
-				nomNoVacios[pos++] = "Periodo";
-				noVacios[pos] = this.getDdCuotas();
-				nomNoVacios[pos++] = "Cuota";
-
-				v.noSonVacios(noVacios, nomNoVacios);
-
-				if (v.getErrores().size() > 0) {
-					error("Existen Errores:");
-					for (int i = 0; i < v.getErrores().size(); i++) {
-						warn(v.getErrores().toArray()[i].toString());
-					}
-					return null;
-				}
-
-				CuotaLiquidacion locCuota = null;
-				String cuota = (String) this.obtenerObjetoDelElementoPila(2, String.class);
-				if ((cuota != null) && (cuota.toString().length() > 0)) {
-					locCuota = this.getRecuperarCuotaPorPeriodo( cuota);
-				} else {
-					locCuota = null;
-				}
-				Persona persona = null;                  
-				persona = (Persona) this.obtenerObjetoDelElementoPila(3, Persona.class);
-
-				Parcela locParcela = (Parcela) this.obtenerObjetoDelElementoPila(4, Parcela.class);
-				if (locParcela != null && locParcela.getIdParcela() != -1) {
-					try {
-						this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().setLlave(this.getSessionBean1().getLlave());
-						parcela = this.getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().getParcelaPorId(locParcela.getIdParcela());
-					} catch (Exception ex) {
-						error("Error al Obtener Parcela: " + ex.getMessage());
-						return null;
-					}
-				}
-				int totalGenerados = 0;
-
-				// CAMBIAR: Utilizar el EJBClient adecuado.
-
-				this.getComunicationBean().getRemoteSystemPeriodo().setLlave(this.getSessionBean1().getLlave());
-				locCuota = this.getComunicationBean().getRemoteSystemPeriodo().getCuotaPorId(locCuota.getIdCuotaLiquidacion());
-				
-				this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
-				this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().generarLiquidacionPruebaTGI(locCuota, persona, parcela);
-
-				info("Finaliz\363 exitosamente la Liquidaci\363n de prueba TGI.");
-
-				//List liquidacionesGeneradas = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().generarLiquidacionPruebaTGI(periodo);
-				//if (liquidacionesGeneradas != null) totalGenerados = liquidacionesGeneradas.size();
-
-				this.getRequestBean1().setRespuestaABM(null);
-				/*
-                switch (totalGenerados) {
-                case 0:
-                info("No se generaron Liquidaciones de prueba TGI.");
-                break;
-                case 1:
-                info("Se gener\363 exitosamente 1 Liquidaci\363n de prueba TGI.");
-                break;
-                default:
-                info("Se generaron exitosamente " + totalGenerados + " Liquidaciones de prueba TGI.");
-
-                }
-				 */
-				this.getSessionBean1().setObjetoImpresion(new Integer(totalGenerados));
-
-
-				retorno = this.prepararParaVolver(Constantes.ACCION_MODIFICAR);
-
-			} catch (Exception ex) {
-				if (ex instanceof TrascenderException) {
-					int codigoError = ((TrascenderException) ex).getCodeTrascenderException();
-					if (this.getApplicationBean1().esErrorDeLogica(this.getExternalContext().getRequestPathInfo(), codigoError)) {
-						retorno = null;
-					} else {
-						retorno = this.prepararParaVolver(Constantes.ACCION_RSLT_ERROR);
-					}
-				}
-				log(CASO_NAVEGACION + "_GenerarLiquidacionesPruebaError:", ex);
-				error(NOMBRE_PAGINA + " - Generar Liquidaciones Prueba: " + ex.getMessage());
-			}
-
-		} else {
-			retorno = this.prepararCaducidad();
-		}
-		return retorno;
+		return null;
 	}
 
 	public String btnSeleccionarPersonaFisica_action() {
@@ -1394,7 +1291,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 	}
 
 	private CuotaLiquidacion getRecuperarCuotaPorPeriodo( String pCuota ){
-		CuotaLiquidacion locCuota = this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalTGI(null).get(pCuota);
+		CuotaLiquidacion locCuota = this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalArrendamiento(null).get(pCuota);
 		return locCuota;
 	}
 

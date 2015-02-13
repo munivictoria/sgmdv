@@ -31,6 +31,7 @@ import com.trascender.habilitaciones.recurso.filtros.FiltroLibretaSanitaria;
 import com.trascender.habilitaciones.recurso.filtros.FiltroLocalComercial;
 import com.trascender.habilitaciones.recurso.filtros.FiltroMarca;
 import com.trascender.habilitaciones.recurso.filtros.FiltroModelo;
+import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionArrendamiento;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionAutomotor;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionCementerio;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionOSP;
@@ -62,6 +63,7 @@ import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
 import com.trascender.habilitaciones.recurso.persistent.VariableFormula;
 import com.trascender.habilitaciones.recurso.persistent.VariableFormulaCompuesta;
 import com.trascender.habilitaciones.recurso.persistent.VariableFormulaSimple;
+import com.trascender.habilitaciones.recurso.persistent.arrendamiento.DocumentoArrendamiento;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.Difunto;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.ParcelaCementerio;
@@ -88,6 +90,7 @@ import com.trascender.habilitaciones.recurso.persistent.transito.TipoVehiculo;
 import com.trascender.habilitaciones.recurso.persistent.transito.ValuacionAcara;
 import com.trascender.habilitaciones.recurso.persistent.transito.Vehiculo;
 import com.trascender.habilitaciones.system.interfaces.SystemAlicuota;
+import com.trascender.habilitaciones.system.interfaces.SystemArrendamiento;
 import com.trascender.habilitaciones.system.interfaces.SystemBromatologia;
 import com.trascender.habilitaciones.system.interfaces.SystemDocumentoAutomotor;
 import com.trascender.habilitaciones.system.interfaces.SystemDocumentoCementerio;
@@ -161,6 +164,7 @@ public class CommunicationHabilitacionesBean extends AbstractSessionBean {
 			this.remoteSystemTipoTasa = (SystemTipoTasa) ctx.lookup(SystemTipoTasa.JNDI_NAME);
 			this.remoteSystemReportesHabilitaciones = (SystemReportesHabilitaciones) ctx.lookup(SystemReportesHabilitaciones.JNDI_NAME);
 			this.remoteSystemDocumentoCementerio = (SystemDocumentoCementerio) ctx.lookup(SystemDocumentoCementerio.JNDI_NAME);
+			this.remoteSystemArrendamientos = (SystemArrendamiento) ctx.lookup(SystemArrendamiento.JNDI_NAME);
 
 			System.out.println("CommunicationHabilitacionesBean");
 			FiltroValuacionAcara locFiltroValuacionAcara = new FiltroValuacionAcara();
@@ -296,12 +300,28 @@ public class CommunicationHabilitacionesBean extends AbstractSessionBean {
 			locTipoParametroGrilla.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaTipoParametroGrilla = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(TipoParametroGrilla.serialVersionUID),
 					"#{habilitaciones$grpTipoParametro$ABMTipoParametroGrilla$AdminTipoParametroGrilla}", locTipoParametroGrilla);
+			
+			FiltroObligacionArrendamiento locFiltroArrendamiento = new FiltroObligacionArrendamiento();
+			locFiltroArrendamiento.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
+			this.tablaDocumentoArrendamiento = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(DocumentoArrendamiento.serialVersionUID),
+					"#{habilitaciones$grpArrendamiento$ABMDocEspArrendamiento$AdminDocEspArrendamiento}", locFiltroArrendamiento);
 
 		} catch(Exception ex) {
 			// Logger.getLogger(ComunicationBean.class.getName()).log(Level.SEVERE,
 			// null, ex);
 			ex.printStackTrace();
 		}
+	}
+	
+	private PaginatedTable tablaDocumentoArrendamiento;
+	
+	public PaginatedTable getTablaDocumentoArrendamiento() {
+		return tablaDocumentoArrendamiento;
+	}
+
+	public void setTablaDocumentoArrendamiento(
+			PaginatedTable tablaDocumentoArrendamiento) {
+		this.tablaDocumentoArrendamiento = tablaDocumentoArrendamiento;
 	}
 
 	/**
@@ -408,15 +428,14 @@ public class CommunicationHabilitacionesBean extends AbstractSessionBean {
 	@Override
 	public void destroy() {
 	}
+	
+	private SystemArrendamiento remoteSystemArrendamientos= null;
 
-	//
-	// Interfaces
-	//
-	// <editor-fold defaultstate="collapsed" desc="SystemPlantillaObligaciones">
-	/**
-	 * Definicion de la interfaz remota SystemPlantillaObligaciones, para invocar la logica de negocio.
-	 */
-	// @EJB
+	public SystemArrendamiento getRemoteSystemArrendamientos() {
+		this.remoteSystemArrendamientos.setLlave(getSessionBean1().getLlave());
+		return this.remoteSystemArrendamientos;
+	}
+
 	private SystemPlantillaObligaciones remoteSystemPlantillaObligaciones = null;
 
 	public SystemPlantillaObligaciones getRemoteSystemPlantillaObligaciones() {
@@ -987,6 +1006,17 @@ public class CommunicationHabilitacionesBean extends AbstractSessionBean {
 	public void setListaAtributosDinamicosOSP(ArrayList listaAtributosDinamicosOSP) {
 		this.listaAtributosDinamicosOSP = listaAtributosDinamicosOSP;
 	}
+	
+	private List listaAtributosDinamicosArrendamiento;
+	
+	public List getListaAtributosDinamicosArrendamiento() {
+		return listaAtributosDinamicosArrendamiento;
+	}
+
+	public void setListaAtributosDinamicosArrendamiento(
+			List listaAtributosDinamicosArrendamiento) {
+		this.listaAtributosDinamicosArrendamiento = listaAtributosDinamicosArrendamiento;
+	}
 
 	/**
 	 * Conserva el valor de la propiedad listaAtributosDinamicosSHPS.
@@ -1551,30 +1581,24 @@ public class CommunicationHabilitacionesBean extends AbstractSessionBean {
 
 		this.listaDocEspPFO = listaDocEspPFO;
 	}
+	
+	private List listaDocEspArrendamiento;
+	
+	public List getListaDocEspArrendamiento() {
+		return listaDocEspArrendamiento;
+	}
 
-	/**
-	 * Conserva el valor de la propiedad listaDocEspTGI.
-	 */
+	public void setListaDocEspArrendamiento(List listaDocEspArrendamiento) {
+		this.listaDocEspArrendamiento = listaDocEspArrendamiento;
+	}
+
 	private ArrayList listaDocEspTGI;
 
-	/**
-	 * Getter para propiedad listaDocEspTGI.
-	 * 
-	 * @return Valor de la propiedad listaDocEspTGI.
-	 */
 	public ArrayList getListaDocEspTGI() {
-
 		return this.listaDocEspTGI;
 	}
 
-	/**
-	 * Setter para propiedad listaDocEspTGI.
-	 * 
-	 * @param listaDocEspTGI
-	 *            Nuevo valor de la propiedad listaDocEspTGI.
-	 */
 	public void setListaDocEspTGI(ArrayList listaDocEspTGI) {
-
 		this.listaDocEspTGI = listaDocEspTGI;
 	}
 

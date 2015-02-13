@@ -782,6 +782,36 @@ public class ApplicationBean1 extends AbstractApplicationBean {
 		return mapaPlantillaObligacionTGI;
 	}
 	
+	private Map<String, PlantillaObligacion> mapaPlantillaObligacionArrendamiento = null;
+
+	public Map<String, PlantillaObligacion> getMapaPlantillaObligacionArrendamiento() {
+		if (mapaPlantillaObligacionArrendamiento == null) {
+			try {
+				mapaPlantillaObligacionArrendamiento = new TreeMap<String, PlantillaObligacion>(new Comparator<String>() {
+					@Override
+					public int compare(String o1, String o2) {
+						String objeto1 = Util.reemplazarAcentos(o1);
+						String objeto2 = Util.reemplazarAcentos(o2);
+						return objeto1.compareToIgnoreCase(objeto2);
+					}
+				});
+				FiltroPlantillaObligacion locFiltro = new FiltroPlantillaObligacion();
+				TipoObligacion tipoObligacion = null;
+				tipoObligacion = getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("ARRENDAMIENTO");
+				locFiltro.setTipoObligacion(tipoObligacion);
+
+				List<PlantillaObligacion> lista = getCommunicationHabilitacionesBean().getRemoteSystemPlantillaObligaciones().findListaPlantillaObligaciones(locFiltro).getListaResultados();
+
+				for (PlantillaObligacion cadaPlantilla : lista) {
+					mapaPlantillaObligacionArrendamiento.put(cadaPlantilla.getNombre(), cadaPlantilla);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mapaPlantillaObligacionArrendamiento;
+	}
+	
 	private Map<String, PlantillaObligacion> mapaPlantillaObligacionTasaMenor = null;
 
 	public Map<String, PlantillaObligacion> getMapaPlantillaObligacionTasaMenor() {

@@ -103,7 +103,7 @@
 													<tr>
 														<td align="right" nowrap="nowrap">
 															<ui:label binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.lblNroParcela}" for="tfNroParcela"
-																id="lblNroParcela" styleClass="label" text="Nº de Parcela / Inscripción" />
+																id="lblNroParcela" styleClass="label" />
 														</td>
 														<td>
 															<ui:textField binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.tfNroParcela}" columns="20" id="tfNroParcela"
@@ -339,11 +339,6 @@
 														name="buttonGroupCB" onClick="checkUncheck(this)" selected="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.selected}"
 														selectedValue="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.currentRow}" />
 												</ui:tableColumn>
-												<ui:tableColumn binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.tcAnio}" headerText="Año" id="tcAnio"
-													sort="anio">
-													<ui:staticText binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.stAnio}" id="stAnio"
-														text="#{currentRow.value['anio']}" />
-												</ui:tableColumn>
 												<ui:tableColumn binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.tableColumn2}" headerText="Período"
 													id="tableColumn2" sort="periodo">
 													<ui:staticText binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.staticText3}" id="staticText3"
@@ -354,10 +349,26 @@
 													<ui:textArea binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.taPersona}" id="taPersona"
 														text="#{currentRow.value['stringPersona']}" disabled="true" styleClass="textFieldDisabled" rows="1" columns="40" />
 												</ui:tableColumn>
-												<ui:tableColumn binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.tcParcela}" headerText="Parcela/Inscripción" id="tcParcela"
+												<ui:tableColumn binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.tcParcela}"  id="tcParcela"
 													sort="parcela">
+													<f:facet name="header"> 
+														<h:panelGroup layout="block">
+															<span class="TblHdrTxt">Parcela/</span>
+															<span class="TblHdrTxt">Inscripción</span>
+														</h:panelGroup>
+													</f:facet>
 													<ui:staticText binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.stParcela}" id="stParcela"
 														text="#{currentRow.value['parcela']}" />
+												</ui:tableColumn>
+												<ui:tableColumn  id="tcDomParcelario" sort="parcela">
+													<f:facet name="header"> 
+														<h:panelGroup layout="block">
+															<span class="TblHdrTxt">Domicilio</span>
+															<span class="TblHdrTxt">Parcelario</span>
+														</h:panelGroup>
+													</f:facet>
+													<ui:textArea id="taDomParcelario" text="#{currentRow.value['domicilioParcelario']}" 
+													disabled="true" rows="1" columns="30" styleClass="textFieldDisabled"/>
 												</ui:tableColumn>
 												<ui:tableColumn binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.tableColumn3}" headerText="Monto"
 													id="tableColumn3" sort="total">
@@ -374,6 +385,10 @@
 													id="tableColumn7" sort="estado">
 													<ui:staticText binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.staticText13}" id="staticText13"
 														text="#{currentRow.value['estado']}" />
+												</ui:tableColumn>
+												<ui:tableColumn headerText="Avisos"
+													id="tcAviso" sort="aviso">
+													<ui:staticText id="stAviso" text="#{currentRow.value['aviso']}" />
 												</ui:tableColumn>
 											</ui:tableRowGroup>
 											<f:facet name="actionsTop">

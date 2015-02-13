@@ -113,6 +113,7 @@ import com.trascender.habilitaciones.recurso.persistent.TipoParametroConstante;
 import com.trascender.habilitaciones.recurso.persistent.TipoParametroGrupoZona;
 import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
 import com.trascender.habilitaciones.recurso.persistent.ValorMedidor;
+import com.trascender.habilitaciones.recurso.persistent.arrendamiento.DocumentoArrendamiento;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.ParcelaCementerio;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.TipoSepultura;
@@ -348,6 +349,10 @@ public class Nav1 extends AbstractPageBean {
 
 			// Habilitaciones: TGI
 			new Enlace(DocumentoTGI.serialVersionUID, "/faces/habilitaciones/grpTGI/ABMDocEspTGI/AdminDocEspTGI.jsp"),
+			
+			//Habilitaciones: Arrendamiento
+			
+			new Enlace(DocumentoArrendamiento.serialVersionUID, "/faces/habilitaciones/grpArrendamiento/ABMDocEspArrendamiento/AdminDocEspArrendamiento.jsp"),
 
 			// Habilitaciones: Automotor
 			new Enlace(Vehiculo.serialVersionUID, "/faces/habilitaciones/grpAutomotor/ABMVehiculo/AdminVehiculo.jsp"),
@@ -378,6 +383,7 @@ public class Nav1 extends AbstractPageBean {
 			new Enlace(LiquidacionTasa.codigoTGI, "/faces/saic/grpTGI/ABMLiquidacionTGI/AdminLiquidacionTGI.jsp"),
 			new Enlace(LiquidacionTasa.codigoOSP, "/faces/saic/grpOSP/ABMLiquidacionOSP/AdminLiquidacionOSP.jsp"),
 			new Enlace(LiquidacionTasa.codigoSHPS, "/faces/saic/grpSHPS/ABMLiquidacionSHPS/AdminLiquidacionSHPS.jsp"),
+			new Enlace(LiquidacionTasa.codigoArrendamiento, "/faces/saic/grpArrendamiento/ABMLiquidacionArrendamiento/AdminLiquidacionArrendamiento.jsp"),
 			new Enlace(LiquidacionTasa.codigoPFO, "/faces/saic/grpPFO/ABMLiquidacionPFO/AdminLiquidacionPFO.jsp"),
 			new Enlace(LiquidacionTasa.codigoAutomotor, "/faces/saic/grpAutomotor/ABMLiquidacionAutomotor/AdminLiquidacionAutomotor.jsp"),
 			new Enlace(LiquidacionTasa.codigoCementerio, "/faces/saic/grpCementerio/ABMLiquidacionCementerio/AdminLiquidacionCementerio.jsp"),

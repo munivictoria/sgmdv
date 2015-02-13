@@ -13,6 +13,7 @@
 	
 						function cargarComportamientoJQuery() {
 							autoCompletarEnTextField("#form1:tfPersona", "persona", nombreBean, "setPersonaAutocompletar");
+							calendarioEnTextField("#form1:tfFecha");
 						}
 	
 						function focusearTfPersona() {
@@ -21,6 +22,7 @@
 	
 						$(document).ready(function() {
 							cargarComportamientoJQuery();
+							calcularMonto();
 						});
 
 						function calcularMonto() {
@@ -29,7 +31,8 @@
 							for(var i = 1; i < $filas.length; i++) {
 								var monto = $filas.eq(i).find("input[id *= 'textField2']").val();
 								var alicuota = $filas.eq(i).find("span[id *= 'staticText4']").text();
-								$filas.eq(i).find("span[id *= 'staticText5']").text(monto*alicuota);
+								var valor = (monto * alicuota / 100).toFixed(2);
+								$filas.eq(i).find("span[id *= 'staticText5']").text(valor);
 							}
 						}
 					]]>
@@ -82,6 +85,17 @@
 												</td>
 												<td>
 													<ui:textField binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.tfNroInscripcion}" id="tfNroInscripcion" styleClass="textField"
+														columns="10">
+													</ui:textField>
+												</td>
+											</tr>
+											<tr>
+												<td nowrap="nowrap" style="padding-left: 200px">
+													<ui:label id="lblFecha" styleClass="label" text="Fecha declaración" for="form1:tfFecha">
+													</ui:label>
+												</td>
+												<td>
+													<ui:textField binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.tfFecha}" id="tfFecha" styleClass="textField"
 														columns="10">
 													</ui:textField>
 												</td>
@@ -243,7 +257,7 @@
 													<ui:staticText binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.staticText3}" escape="false" id="staticText3" styleClass="label"
 														text="&amp;nbsp;[$]" style="margin-right: 5px" />
 													<ui:textField binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.textField2}" id="textField2"
-														text="#{currentRow.value['importe']}" onKeyPress="return ValidarFloat(event,this)" onBlur="calcularMonto(this);" columns="10" />
+														text="#{currentRow.value['importe']}" onKeyPress="return ValidarFloat(event,this)" onChange="calcularMonto();" columns="10" />
 													<ui:message binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.message2}" for="textField2" id="message2" showDetail="false"
 														showSummary="true" />
 												</ui:tableColumn>
@@ -288,7 +302,7 @@
 											binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.btnGuardar}" id="btnGuardar" styleClass="button" />
 										<ui:button action="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.btnGuardarYLiquidar_action}"
 											binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.btnGuardarYLiquidar}" id="btnGuardarYLiquidar" text="Guardar y Liquidar"
-											styleClass="button" />
+											styleClass="button" onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')"/>
 										<ui:staticText binding="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.stSeparador}" escape="false" id="stSeparador"
 											text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
 										<ui:button action="#{saic$grpSHPS$ABMDDJJSHPS$ABMDDJJSHPS.btnCancelar_action}"

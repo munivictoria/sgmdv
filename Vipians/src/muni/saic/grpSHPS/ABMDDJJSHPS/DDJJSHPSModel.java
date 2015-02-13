@@ -1,5 +1,7 @@
 package muni.saic.grpSHPS.ABMDDJJSHPS;
 
+import javax.faces.component.UIComponent;
+
 import com.trascender.habilitaciones.recurso.persistent.DeclaracionJuradaSHPS;
 import com.trascender.presentacion.abstracts.controller.ABMModel;
 import com.trascender.presentacion.abstracts.controller.AgregarAbstractController;
@@ -25,6 +27,13 @@ public class DDJJSHPSModel extends ABMModel {
 
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
+		
+		UIComponent[] noVacios = new UIComponent[1];
+		String[] nomNoVacios = new String[1];
+		int pos = 0;
+		noVacios[pos] = getBeanDeclaracionJuradaSHPS().getTfFecha();
+		nomNoVacios[pos++] = "Fecha";
+		v.noSonVacios(noVacios, nomNoVacios);
 
 		if(getCommunicationSAICBean().getListaMontosImponiblesDeclarados() == null || getCommunicationSAICBean().getListaMontosImponiblesDeclarados().size() == 0) {
 			v.getErrores().add("Deben existir Montos Imponibles Declarados.");
@@ -47,8 +56,9 @@ public class DDJJSHPSModel extends ABMModel {
 		bean.getTextField2().setDisabled(true);
 		bean.getTextField2().setStyleClass("textFieldDisabled");
 		bean.getTfRetenciones().setDisabled(true);
-		bean.getLblNroInscripcion().setRendered(false);
-		bean.getTfNroInscripcion().setRendered(false);
+		bean.getTfFecha().setDisabled(true);
+		bean.getTfNroInscripcion().setDisabled(true);
+		bean.getTfNroInscripcion().setStyle("textFieldDisabled");
 		bean.getBtnSeleccionarPersonaFisica().setRendered(false);
 		bean.getBtnSeleccionarPersonaJuridica().setRendered(false);
 		bean.getBtnLimpiarPersona().setRendered(false);
@@ -109,8 +119,7 @@ public class DDJJSHPSModel extends ABMModel {
 			bean.getDdCalendarios().setDisabled(true);
 			bean.getDdPeriodos().setDisabled(true);
 			bean.getDdCuotas().setDisabled(true);
-			bean.getLblNroInscripcion().setRendered(false);
-			bean.getTfNroInscripcion().setRendered(false);
+			bean.getTfNroInscripcion().setDisabled(true);
 			bean.getBtnSeleccionarPersonaFisica().setRendered(false);
 			bean.getBtnSeleccionarPersonaJuridica().setRendered(false);
 			bean.getBtnLimpiarPersona().setRendered(false);

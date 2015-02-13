@@ -8,13 +8,12 @@
 			<ui:head binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.head1}" id="head1">
 				<ui:link binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.link1}" id="link1" url="/resources/stylesheet.css" />
 				<script>
-					function cambiarServletImpresion(valor) {
-						var $btnImprimir = $("#form1\\:btnImprimir");
-						$btnImprimir.unbind('click');
+					function abrirVentanaSegunSeleccion() {
+						valor = $("#form1\\:rbgTipoImpresionOptions_0:checked").val();
 						if(valor === "Un PDF") {
-							$btnImprimir.attr("onclick", "newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')");
-						} else if(valor === "Un PDF por Contador") {
-							$btnImprimir.attr("onclick", "newWindow = window.open('/Vipians/faces/DescargarArchivoServlet', 'Reporte')");
+							newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte');
+						} else {
+							newWindow = window.open('/Vipians/faces/DescargarArchivoServlet', 'Reporte');
 						}
 					}
 				</script>
@@ -235,17 +234,17 @@
 												<ui:tableColumn binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.tableColumn6}" headerText="Rubro" id="tableColumn6"
 													width="40">
 													<ui:staticText binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.textField2}" id="textField2"
-														text="#{currentRow.value['persona']}" />
+														text="#{currentRow.value['documentoEspecializado'].listaRegAlicuotas}" />
 												</ui:tableColumn>
 												<ui:tableColumn binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.tableColumn7}" headerText="Calle" id="tableColumn7"
 													width="40">
 													<ui:staticText binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.textField4}" id="textField4"
-														text="#{currentRow.value['persona']}" />
+														text="#{currentRow.value['documentoEspecializado'].domicilio.calle}" />
 												</ui:tableColumn>
 												<ui:tableColumn binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.tableColumn8}" headerText="Altura" id="tableColumn8"
 													width="40">
 													<ui:staticText binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.textField5}" id="textField5"
-														text="#{currentRow.value['persona']}" />
+														text="#{currentRow.value['documentoEspecializado'].domicilio.altura}" />
 												</ui:tableColumn>
 											</ui:tableRowGroup>
 											<f:facet name="actionsTop" />
@@ -260,13 +259,14 @@
 													<td colspan="4" style="padding-left: 1px; padding-right: 1px;">
 														<ui:radioButtonGroup styleClass="optgroup" binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.rbgTipoImpresion}"
 															items="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.rbgTipoImpresionOptions.options}" id="rbgTipoImpresionOptions" columns="3"
-															labelLevel="2" onClick="cambiarServletImpresion(this.value);">
+															labelLevel="2">
 														</ui:radioButtonGroup>
 													</td>
 													<td nowrap="nowrap">
 														<ui:button action="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.btnImprimir_action}"
+															onClick="abrirVentanaSegunSeleccion();"
 															binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.btnImprimir}" id="btnImprimir" styleClass="button"
-															text="Visualizar Reporte" onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')" />
+															text="Visualizar Reporte" />
 														<ui:staticText escape="false" id="stSeparadorBotonImprimirReiniciar" text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
 														<a4j:commandButton action="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.btnReiniciar_action}"
 															binding="#{saic$grpSHPS$ABMDDJJSHPS$ImprimirDDJJSHPS.btnReiniciar}" id="btnReiniciar" styleClass="btnAjax" value="Reiniciar"

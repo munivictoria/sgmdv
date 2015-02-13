@@ -49,6 +49,7 @@ import com.trascender.presentacion.abstracts.PaginatedTable;
 import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.saic.recurso.filtros.FiltroCobroExterno;
 import com.trascender.saic.recurso.filtros.FiltroDDJJSHPS;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionArrendamiento;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionAutomotor;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionCementerio;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionOSP;
@@ -144,6 +145,11 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 			locFiltroLiquidacionTGI.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaLiquidacionTGI = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(LiquidacionTasa.codigoTGI),
 					"#{saic$grpTGI$ABMLiquidacionTGI$AdminLiquidacionTGI}", locFiltroLiquidacionTGI);
+			
+			FiltroLiquidacionArrendamiento locFiltroLiquidacionArrendamiento = new FiltroLiquidacionArrendamiento();
+			locFiltroLiquidacionArrendamiento.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
+			this.tablaLiquidacionArrendamiento = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(LiquidacionTasa.codigoArrendamiento),
+					"#{saic$grpArrendamiento$ABMLiquidacionArrendamiento$AdminLiquidacionArrendamiento}", locFiltroLiquidacionArrendamiento);
 
 			FiltroLiquidacionSHPS locFiltroLiquidacionSHPS = new FiltroLiquidacionSHPS();
 			locFiltroLiquidacionSHPS.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
@@ -374,6 +380,11 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		 * PortableRemoteObject.narrow(obj, SystemLiquidacionTasaHome.class); this.remoteSystemLiquidacionTasa = locSystemLiquidacionTasaHome.create(); }
 		 * }catch(Exception e){ e.printStackTrace(); }
 		 */
+		try {
+			this.remoteSystemLiquidacionTasa.setLlave(this.getSessionBean1().getLlave());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		return this.remoteSystemLiquidacionTasa;
 	}
 
@@ -444,6 +455,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		 * SystemImpresionHome locSystemImpresionHome = (SystemImpresionHome) PortableRemoteObject.narrow(obj, SystemImpresionHome.class);
 		 * this.remoteSystemImpresion = locSystemImpresionHome.create(); } }catch(Exception e){ e.printStackTrace(); }
 		 */
+		remoteSystemImpresion.setLlave(this.getSessionBean1().getLlave());
 		return this.remoteSystemImpresion;
 	}
 
@@ -934,6 +946,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	 * Conserva el valor de la propiedad listaLiquidacionesTGI.
 	 */
 	private List listaLiquidacionesTGI;
+	private List listaLiquidacionesArrendamiento;
 	private List listaLiquidacionesSHPS;
 	private List listaLiquidacionesOSP;
 	private List listaLiquidacionesPFO;
@@ -944,6 +957,15 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	private List listaCobroExterno;
 	private List listaLogLiquidaciones;
 	
+	public List getListaLiquidacionesArrendamiento() {
+		return listaLiquidacionesArrendamiento;
+	}
+
+	public void setListaLiquidacionesArrendamiento(
+			List listaLiquidacionesArrendamiento) {
+		this.listaLiquidacionesArrendamiento = listaLiquidacionesArrendamiento;
+	}
+
 	public List getListaLogLiquidaciones() {
 		return listaLogLiquidaciones;
 	}
@@ -1088,6 +1110,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	}
 
 	private PaginatedTable tablaLiquidacionTGI;
+	private PaginatedTable tablaLiquidacionArrendamiento;
 	private PaginatedTable tablaLiquidacionSHPS;
 	private PaginatedTable tablaLiquidacionOSP;
 	private PaginatedTable tablaLiquidacionPFO;
@@ -1111,6 +1134,15 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public void setTablaCobroExterno(PaginatedTable tablaCobroExterno) {
 		this.tablaCobroExterno = tablaCobroExterno;
+	}
+	
+	public PaginatedTable getTablaLiquidacionArrendamiento() {
+		return tablaLiquidacionArrendamiento;
+	}
+
+	public void setTablaLiquidacionArrendamiento(
+			PaginatedTable tablaLiquidacionArrendamiento) {
+		this.tablaLiquidacionArrendamiento = tablaLiquidacionArrendamiento;
 	}
 
 	public PaginatedTable getTablaLiquidacionTGI() {
@@ -1375,6 +1407,10 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	public Boolean getEsAdministradorLiquidacionesTGI() {
 		return getEsAdministradorLiquidaciones(LiquidacionTasa.codigoTGI);
 	}
+	
+	public Boolean getEsAdministradorLiquidacionesArrendamiento() {
+		return getEsAdministradorLiquidaciones(LiquidacionTasa.codigoArrendamiento);
+	}
 
 	public Boolean getEsAdministradorLiquidacionesSHPS() {
 		return getEsAdministradorLiquidaciones(LiquidacionTasa.codigoSHPS);
@@ -1483,27 +1519,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, Integer> getMapaAniosCalendarioMunicipalCementerio() {
 		if(mapaAniosCalendarioMunicipalCementerio == null) {
-			try {
-				mapaAniosCalendarioMunicipalCementerio = new LinkedHashMap<String, Integer>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("CEMENTERIO"));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				Collections.sort(loclistaCalendario, new Comparator<CalendarioMunicipal>() {
-					@Override
-					public int compare(CalendarioMunicipal o1, CalendarioMunicipal o2) {
-						return (o1.getAnio().compareTo(o2.getAnio())) * -1;
-					}
-				});
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaAniosCalendarioMunicipalCementerio.put(cadaCalendario.getAnio().toString(), cadaCalendario.getAnio());
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaAniosCalendarioMunicipalCementerio = getMapaAniosCalendarioPorTasa("CEMENTERIO");
 		}
 		return mapaAniosCalendarioMunicipalCementerio;
 	}
@@ -1512,21 +1528,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, CalendarioMunicipal> getMapaCalendariosCementerio(String pAnio) {
 		if(pAnio != null) {
-			try {
-				mapaCalendariosCementerio = new LinkedHashMap<String, CalendarioMunicipal>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("CEMENTERIO"));
-				locFiltro.setAnio(Integer.valueOf(pAnio));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaCalendariosCementerio.put(cadaCalendario.getNombre(), cadaCalendario);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaCalendariosCementerio = getMapaCalendariosPorTasa("CEMENTERIO", pAnio);
 		}
 		return mapaCalendariosCementerio;
 	}
@@ -1566,27 +1568,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, Integer> getMapaAniosCalendarioMunicipalAutomotor() {
 		if(mapaAniosCalendarioMunicipalAutomotor == null) {
-			try {
-				mapaAniosCalendarioMunicipalAutomotor = new LinkedHashMap<String, Integer>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("AUTOMOTOR"));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				Collections.sort(loclistaCalendario, new Comparator<CalendarioMunicipal>() {
-					@Override
-					public int compare(CalendarioMunicipal o1, CalendarioMunicipal o2) {
-						return (o1.getAnio().compareTo(o2.getAnio())) * -1;
-					}
-				});
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaAniosCalendarioMunicipalAutomotor.put(cadaCalendario.getAnio().toString(), cadaCalendario.getAnio());
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+				mapaAniosCalendarioMunicipalAutomotor = getMapaAniosCalendarioPorTasa("AUTOMOTOR");
 		}
 		return mapaAniosCalendarioMunicipalAutomotor;
 	}
@@ -1595,21 +1577,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, CalendarioMunicipal> getMapaCalendariosAutomotor(String pAnio) {
 		if(pAnio != null) {
-			try {
-				mapaCalendariosAutomotor = new LinkedHashMap<String, CalendarioMunicipal>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("AUTOMOTOR"));
-				locFiltro.setAnio(Integer.valueOf(pAnio));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaCalendariosAutomotor.put(cadaCalendario.getNombre(), cadaCalendario);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaCalendariosAutomotor = getMapaCalendariosPorTasa("AUTOMOTOR", pAnio);
 		}
 		return mapaCalendariosAutomotor;
 	}
@@ -1730,27 +1698,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, Integer> getMapaAniosCalendarioMunicipalOSP() {
 		if(mapaAniosCalendarioMunicipalOSP == null) {
-			try {
-				mapaAniosCalendarioMunicipalOSP = new LinkedHashMap<String, Integer>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("OYSP"));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				Collections.sort(loclistaCalendario, new Comparator<CalendarioMunicipal>() {
-					@Override
-					public int compare(CalendarioMunicipal o1, CalendarioMunicipal o2) {
-						return (o1.getAnio().compareTo(o2.getAnio())) * -1;
-					}
-				});
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaAniosCalendarioMunicipalOSP.put(cadaCalendario.getAnio().toString(), cadaCalendario.getAnio());
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaAniosCalendarioMunicipalOSP = getMapaAniosCalendarioPorTasa("OYSP");
 		}
 		return mapaAniosCalendarioMunicipalOSP;
 	}
@@ -1759,21 +1707,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, CalendarioMunicipal> getMapaCalendariosOSP(String pAnio) {
 		if(pAnio != null) {
-			try {
-				mapaCalendariosOSP = new LinkedHashMap<String, CalendarioMunicipal>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("OYSP"));
-				locFiltro.setAnio(Integer.valueOf(pAnio));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaCalendariosOSP.put(cadaCalendario.getNombre(), cadaCalendario);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaCalendariosOSP = getMapaCalendariosPorTasa("OYSP", pAnio);
 		}
 		return mapaCalendariosOSP;
 	}
@@ -1894,27 +1828,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, Integer> getMapaAniosCalendarioMunicipalSHPS() {
 		if(mapaAniosCalendarioMunicipalSHPS == null) {
-			try {
-				mapaAniosCalendarioMunicipalSHPS = new LinkedHashMap<String, Integer>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("SHPS"));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				Collections.sort(loclistaCalendario, new Comparator<CalendarioMunicipal>() {
-					@Override
-					public int compare(CalendarioMunicipal o1, CalendarioMunicipal o2) {
-						return (o1.getAnio().compareTo(o2.getAnio())) * -1;
-					}
-				});
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaAniosCalendarioMunicipalSHPS.put(cadaCalendario.getAnio().toString(), cadaCalendario.getAnio());
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaAniosCalendarioMunicipalSHPS = getMapaAniosCalendarioPorTasa("SHPS");
 		}
 		return mapaAniosCalendarioMunicipalSHPS;
 	}
@@ -1923,21 +1837,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	public Map<String, CalendarioMunicipal> getMapaCalendariosSHPS(String pAnio) {
 		if(pAnio != null) {
-			try {
-				mapaCalendariosSHPS = new LinkedHashMap<String, CalendarioMunicipal>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("SHPS"));
-				locFiltro.setAnio(Integer.valueOf(pAnio));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaCalendariosSHPS.put(cadaCalendario.getNombre(), cadaCalendario);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaCalendariosSHPS = getMapaCalendariosPorTasa("SHPS", pAnio);
 		}
 		return mapaCalendariosSHPS;
 	}
@@ -2076,55 +1976,100 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	}
 
 	private Map<String, Integer> mapaAniosCalendarioMunicipalTGI = null;
+	
+	private LinkedHashMap getMapaAniosCalendarioPorTasa(String nombreObligacion) {
+		LinkedHashMap<String, Integer> locMapa = null;
+		try {
+			locMapa = new LinkedHashMap<String, Integer>();
+			FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
+			locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get(nombreObligacion));
+
+			getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
+			List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
+
+			Collections.sort(loclistaCalendario, new Comparator<CalendarioMunicipal>() {
+				@Override
+				public int compare(CalendarioMunicipal o1, CalendarioMunicipal o2) {
+					return (o1.getAnio().compareTo(o2.getAnio())) * -1;
+				}
+			});
+
+			for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
+				locMapa.put(cadaCalendario.getAnio().toString(), cadaCalendario.getAnio());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return locMapa;
+		
+	}
 
 	public Map<String, Integer> getMapaAniosCalendarioMunicipalTGI() {
 		if(mapaAniosCalendarioMunicipalTGI == null) {
-			try {
-				mapaAniosCalendarioMunicipalTGI = new LinkedHashMap<String, Integer>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("TGI"));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				Collections.sort(loclistaCalendario, new Comparator<CalendarioMunicipal>() {
-					@Override
-					public int compare(CalendarioMunicipal o1, CalendarioMunicipal o2) {
-						return (o1.getAnio().compareTo(o2.getAnio())) * -1;
-					}
-				});
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaAniosCalendarioMunicipalTGI.put(cadaCalendario.getAnio().toString(), cadaCalendario.getAnio());
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaAniosCalendarioMunicipalTGI = getMapaAniosCalendarioPorTasa("TGI");
 		}
 		return mapaAniosCalendarioMunicipalTGI;
 	}
+	
+	private Map<String, Integer> mapaAniosCalendarioArrendamiento;
+	public Map<String, Integer> getMapaAniosCalendarioMunicipalArrendamiento() {
+		if(mapaAniosCalendarioArrendamiento == null) {
+			mapaAniosCalendarioArrendamiento = getMapaAniosCalendarioPorTasa("ARRENDAMIENTO");
+		}
+		return mapaAniosCalendarioArrendamiento;
+	}
+
 
 	private Map<String, CalendarioMunicipal> mapaCalendariosTGI = new HashMap<String, CalendarioMunicipal>();
+	
+	private Map<String, CalendarioMunicipal> getMapaCalendariosPorTasa(String nombreObligacion, String pAnio) {
+		Map<String, CalendarioMunicipal> locMapa = null;
+		try {
+			locMapa = new LinkedHashMap<String, CalendarioMunicipal>();
+			FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
+			locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get(nombreObligacion));
+			locFiltro.setAnio(Integer.valueOf(pAnio));
+
+			getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
+			List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
+
+			for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
+				locMapa.put(cadaCalendario.getNombre(), cadaCalendario);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return locMapa;
+	}
 
 	public Map<String, CalendarioMunicipal> getMapaCalendariosTGI(String pAnio) {
 		if(pAnio != null) {
-			try {
-				mapaCalendariosTGI = new LinkedHashMap<String, CalendarioMunicipal>();
-				FiltroCalendarioMunicipal locFiltro = new FiltroCalendarioMunicipal();
-				locFiltro.setTipoObligacion(this.getCommunicationHabilitacionesBean().getMapaTipoObligacion().get("TGI"));
-				locFiltro.setAnio(Integer.valueOf(pAnio));
-
-				getRemoteSystemPeriodo().setLlave(getSessionBean1().getLlave());
-				List<CalendarioMunicipal> loclistaCalendario = this.getRemoteSystemPeriodo().findListaCalendarios(locFiltro).getListaResultados();
-
-				for(CalendarioMunicipal cadaCalendario : loclistaCalendario) {
-					mapaCalendariosTGI.put(cadaCalendario.getNombre(), cadaCalendario);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mapaCalendariosTGI = getMapaCalendariosPorTasa("TGI", pAnio);
 		}
 		return mapaCalendariosTGI;
+	}
+	
+	private Map<String, CalendarioMunicipal> mapaCalendariosArrendamiento = new HashMap<String, CalendarioMunicipal>();
+	public Map<String, CalendarioMunicipal> getMapaCalendariosArrendamiento(String pAnio) {
+		if(pAnio != null) {
+			mapaCalendariosArrendamiento = getMapaCalendariosPorTasa("ARRENDAMIENTO", pAnio);
+		}
+		return mapaCalendariosArrendamiento;
+	}
+	
+	private Map<String, PeriodoLiquidacion> mapaPeriodosCalendarioMunicipalArrendamiento = new LinkedHashMap<String, PeriodoLiquidacion>();
+
+	public Map<String, PeriodoLiquidacion> getMapaPeriodosCalendarioMunicipalArrendamiento(String pCalendario) {
+		if(pCalendario != null) {
+			mapaPeriodosCalendarioMunicipalArrendamiento.clear();
+			CalendarioMunicipal locCalendario = mapaCalendariosArrendamiento.get(pCalendario);
+			if(locCalendario != null) {
+				for(Periodo cadaPeriodo : locCalendario.getListaPeriodos()) {
+					mapaPeriodosCalendarioMunicipalArrendamiento.put(cadaPeriodo.getNombre(), (PeriodoLiquidacion) cadaPeriodo);
+				}
+			}
+		}
+		return mapaPeriodosCalendarioMunicipalArrendamiento;
 	}
 
 	private Map<String, PeriodoLiquidacion> mapaPeriodosCalendarioMunicipalTGI = new LinkedHashMap<String, PeriodoLiquidacion>();
@@ -2155,6 +2100,21 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 			}
 		}
 		return mapaCuotasCalendarioMunicipalTGI;
+	}
+
+	private Map<String, CuotaLiquidacion> mapaCuotasCalendarioMunicipalArrendamiento = new LinkedHashMap<String, CuotaLiquidacion>();
+
+	public Map<String, CuotaLiquidacion> getMapaCuotasCalendarioMunicipalArrendamiento(String pPeriodo) {
+		if(pPeriodo != null) {
+			mapaCuotasCalendarioMunicipalArrendamiento.clear();
+			PeriodoLiquidacion locPeriodo = mapaPeriodosCalendarioMunicipalArrendamiento.get(pPeriodo);
+			if(locPeriodo != null) {
+				for(CuotaLiquidacion cadaCuota : locPeriodo.getListaCuotas()) {
+					mapaCuotasCalendarioMunicipalArrendamiento.put(cadaCuota.getNombre(), cadaCuota);
+				}
+			}
+		}
+		return mapaCuotasCalendarioMunicipalArrendamiento;
 	}
 
 	public void setMapaVencimientosLiq(Map<String, SortedSet<ModificarVarias.VencimientoEnTabla>> mapaVencimientosLiq) {

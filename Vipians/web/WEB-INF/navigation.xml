@@ -920,6 +920,18 @@
 			<to-view-id>/habilitaciones/grpOSP/ABMConsumoBasico/ABMConsumoBasico.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<!-- Habilitaciones - grpArrendamiento - DocEspArrendamiento -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>AdminDocEspArrendamiento</from-outcome>
+			<to-view-id>/habilitaciones/grpArrendamiento/ABMDocEspArrendamiento/AdminDocEspArrendamiento.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ABMDocEspArrendamiento</from-outcome>
+			<to-view-id>/habilitaciones/grpArrendamiento/ABMDocEspArrendamiento/ABMDocEspArrendamiento.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 	<!-- Habilitaciones - grpTGI - DocEspTGI -->
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
@@ -1308,6 +1320,22 @@
 		<navigation-case>
 			<from-outcome>ABMLiquidacionPFO</from-outcome>
 			<to-view-id>/saic/grpPFO/ABMLiquidacionPFO/ABMLiquidacionPFO.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!-- SAIC - Liquidacion Arrendamiento -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>AdminLiquidacionArrendamiento</from-outcome>
+			<to-view-id>/saic/grpArrendamiento/ABMLiquidacionArrendamiento/AdminLiquidacionArrendamiento.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>GenerarLiquidacionArrendamiento</from-outcome>
+			<to-view-id>/saic/grpArrendamiento/ABMLiquidacionArrendamiento/GenerarLiquidacionArrendamiento.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ABMLiquidacionArrendamiento</from-outcome>
+			<to-view-id>/saic/grpArrendamiento/ABMLiquidacionArrendamiento/ABMLiquidacionArrendamiento.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<!-- SAIC - Liquidacion TGI -->

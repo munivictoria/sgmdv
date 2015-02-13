@@ -2303,6 +2303,16 @@ public class ABMTipoTasa extends ABMPageBean {
 			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.GRUPO_ZONA;
 			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.VENCIMIENTO;
 			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.DEUDA;
+		} else if(tipoObligacion.getNombre().equals("ARRENDAMIENTO")) {
+			opcionesAMostrar = new Object[6];
+			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.CONSTANTE;
+			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.PERSONA;
+//			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.TGI;
+			//TODO Arrendamiento para los dinamicos
+			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.PARCELARIO;
+			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.GRUPO_ZONA;
+			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.VENCIMIENTO;
+			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.DEUDA;
 		} else if(tipoObligacion.getNombre().equals("TRANSITO")) {
 			opcionesAMostrar = new Object[4];
 			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.CONSTANTE;
