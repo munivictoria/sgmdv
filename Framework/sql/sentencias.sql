@@ -232,3 +232,41 @@ ALTER FUNCTION insertar_modificador_liquidacion(importe, clave, character varyin
   OWNER TO vipians;
 
 insert into log_scripts_corridos values(109,109,now());
+
+delete from tipo_parametro where nombre_variable = 'VALOR_MULTA_POR_OMISION';
+
+insert into log_scripts_corridos values(110,110,now());
+
+alter table domicilio add domicilio_armado varchar(300);
+
+insert into log_scripts_corridos values(111,111,now());
+
+insert into tipo_obligacion values (nextval('gen_id_tipo_obligacion'), 'ARRENDAMIENTO');
+
+insert into log_scripts_corridos values(112,112,now());
+
+delete from plantilla_obligacion where id_tipo_obligacion in 
+(select id_tipo_obligacion from tipo_obligacion where nombre = 'Arrendamiento');
+delete from plantilla_doc_tasa_menor;
+delete from tipo_obligacion where nombre = 'Arrendamiento';
+
+insert into log_scripts_corridos values(113,113,now());
+
+--Completa la columna domicilio_armado a partir de las calles.
+update domicilio d set domicilio_armado = 
+case when domi.nombre1 is not null then domi.nombre1 else domi.calle end||' '||
+case when domi.numero is not null and trim(domi.numero) <> '' then domi.numero 
+when domi.nombre2 is not null and domi.nombre3 is null 
+	then case when substring(lower(domi.nombre2) from 1 for 1) = 'i' then 'e ' else 'y ' end ||domi.nombre2
+when domi.nombre2 is not null and domi.nombre3 is not null 
+	then 'entre ' || domi.nombre2 || 
+	case when substring(lower(domi.nombre3) from 1 for 1) = 'i' then ' e ' else ' y ' end || domi.nombre3
+else ''
+end from (select d.id_domicilio, d.numero, d.calle as calle, calle1.nombre as nombre1, calle2.nombre as nombre2, calle3.nombre as nombre3
+from domicilio d
+left join calle calle1 on d.id_calle = calle1.id_calle
+left join calle calle2 on d.id_calle_comienza = calle2.id_calle
+left join calle calle3 on d.id_calle_finaliza = calle3.id_calle)
+as domi where domi.id_domicilio = d.id_domicilio;
+
+insert into log_scripts_corridos values(114,114,now());
