@@ -107,6 +107,7 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		if(cantidad > 0) {
 			throw new TrascenderContabilidadException(516);
 		}
+		pConceptoIngresoVario.calcularValorPorDefecto();
 	}
 
 	public void deleteConceptoIngresoVario(com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario pConceptoIngresoVario) throws java.lang.Exception {

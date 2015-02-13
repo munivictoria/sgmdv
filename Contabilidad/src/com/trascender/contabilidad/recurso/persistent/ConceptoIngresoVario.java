@@ -39,14 +39,10 @@ public class ConceptoIngresoVario implements Serializable{
 	@Column(name = "VALOR_POR_DEFECTO")
 	private Double valorPorDefecto = 0D;
 	private String descripcion;
-	//Relacion con otros objetos
 	
 	@OneToMany(mappedBy = "conceptoIngresoVario", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<IngresoVario> listaIngresoVario;
 	
-//	@OneToMany
-//	@JoinTable(name="RELA_CONCEPTO_INGRESO_VARIO_CUENTA", joinColumns=@JoinColumn(name="ID_CONCEPTO_INGRESO_VARIO", nullable = false), 
-//	inverseJoinColumns=@JoinColumn(name="ID_CUENTA", nullable = false))
 	@OneToMany(mappedBy = "conceptoIngresoVario", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<RelaConceptoIngresoVarioCuenta> listaRelaConceptoIngresoVarioCuenta = new ArrayList<RelaConceptoIngresoVarioCuenta>();
 	
@@ -124,6 +120,14 @@ public class ConceptoIngresoVario implements Serializable{
 
 	public void setListaUsuarios(List<Usuario> listaUsuarios) {
 		this.listaUsuarios = listaUsuarios;
+	}
+	
+	public void calcularValorPorDefecto() {
+		Double valor = 0D;
+		for (RelaConceptoIngresoVarioCuenta cadaRelacion : this.listaRelaConceptoIngresoVarioCuenta) {
+			valor += cadaRelacion.getMontoPorDefecto();
+		}
+		this.valorPorDefecto = valor;
 	}
 
 	/* (non-Javadoc)
