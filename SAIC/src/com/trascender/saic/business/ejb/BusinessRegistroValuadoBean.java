@@ -85,8 +85,9 @@ public class BusinessRegistroValuadoBean implements BusinessRegistroValuadoLocal
 		Recurso declaracionJuradaSHPS = new Recurso();
 		declaracionJuradaSHPS.setIdRecurso(DeclaracionJuradaSHPS.serialVersionUID);
 		declaracionJuradaSHPS.setNombre("Declaración Jurada SHPS");
-		declaracionJuradaSHPS.setAtributosConsultables("Período", "periodoString", "Contribuyente", "docHabilitanteEspecializado.obligacion.persona", "Monto Imponible",
-				"montoImponible", Tipo.MONTO, "Retenciones", "descuentoPorRetenciones");
+		declaracionJuradaSHPS.setAtributosConsultables("Período", "periodoString", "Contribuyente", "docHabilitanteEspecializado.obligacion.persona",
+				"Nro Inscripción", "docHabilitanteEspecializado.numeroInscripcion",
+				"Monto Imponible","montoImponible", Tipo.MONTO, "Retenciones", "descuentoPorRetenciones");
 		declaracionJuradaSHPS.setClase(DeclaracionJuradaSHPS.class);
 		grupo.getListaRecursos().add(declaracionJuradaSHPS);
 
@@ -151,7 +152,8 @@ public class BusinessRegistroValuadoBean implements BusinessRegistroValuadoLocal
 				.getInstance(this.entityManager, DocumentoSHPS.class)
 				.add(Restriccion.IGUAL("obligacion.persona", pPersona))
 				.add(Restriccion.IGUAL("numeroInscripcion", pNroInscripcion))
-				.add(Restriccion.NOT(Restriccion.OR(Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.TERMINADO),
+				.add(Restriccion.NOT(Restriccion.OR(
+						Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.TERMINADO),
 						Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.ANULADO))));
 
 		AtributoDinamico.addRestriccionesCriterio(locCriterio, DocumentoSHPS.serialVersionUID, "idDocHabilitanteEspecializado", pListaAtributosDinamicos);
@@ -166,7 +168,7 @@ public class BusinessRegistroValuadoBean implements BusinessRegistroValuadoLocal
 				DocumentoSHPS locDocumento = (DocumentoSHPS) listado.get(0);
 				locDocumento.toString();
 				locDocumento.getObligacion().toString();
-				if(locDocumento.getRegistroValuado(pCuota) != null) {
+				if(!locDocumento.getRegistroValuado(pCuota).isEmpty()) {
 					throw new SaicException(8);
 				}
 				DeclaracionJuradaSHPS locDeclaracion = new DeclaracionJuradaSHPS();

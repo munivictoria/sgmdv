@@ -31,6 +31,7 @@ import com.trascender.saic.business.interfaces.BusinessRefinanciacionLocal;
 import com.trascender.saic.exception.ResultadoLiquidacion;
 import com.trascender.saic.exception.SaicException;
 import com.trascender.saic.recurso.filtros.FiltroCobroExterno;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionArrendamiento;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionAutomotor;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionCementerio;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionOSP;
@@ -148,6 +149,24 @@ public class SystemLiquidacionTasaBean implements SystemLiquidacionTasa {
 			throw new SaicException(320);
 		}
 	}
+	
+	public ResultadoLiquidacion liquidarArrendamiento(CuotaLiquidacion[] pCuota, Persona pPersona, Parcela pParcela, Boolean pIgnorarPlan) throws TrascenderException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, LiquidacionTasa.codigoArrendamiento, Permiso.Accion.INSERT)) {
+				this.businessLiquidacionTasaLocal.setLlave(this.llave);
+				return this.businessLiquidacionTasaLocal.liquidarArrendamiento(pCuota, pPersona, pParcela, pIgnorarPlan);
+			} else {
+				throw new SaicException(772);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new SaicException(320);
+		}
+	}
+
 
 	/**
 	 * 
@@ -216,20 +235,28 @@ public class SystemLiquidacionTasaBean implements SystemLiquidacionTasa {
 		}
 	}
 
-	/**
-	 * 
-	 * @param pPeriodo
-	 * @param pPersona
-	 * @param pParcela
-	 * @return
-	 * @throws Exception
-	 * @ejb.interface-method view-type = "remote"
-	 */
 	@Override
 	public FiltroLiquidacionTGI findListaLiquidacionesTGI(FiltroLiquidacionTGI pFiltro) throws TrascenderException {
 		try {
 			if(SecurityMgr.getInstance().getPermiso(this.llave, LiquidacionTasa.codigoTGI, Permiso.Accion.SELECT)) {
 				return this.businessLiquidacionTasaLocal.findListaLiquidacionesTGI(pFiltro);
+			} else {
+				throw new SaicException(772);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new SaicException(324);
+		}
+	}
+	
+	@Override
+	public FiltroLiquidacionArrendamiento findListaLiquidacionesArrendamiento(FiltroLiquidacionArrendamiento pFiltro) throws TrascenderException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, LiquidacionTasa.codigoArrendamiento, Permiso.Accion.SELECT)) {
+				return this.businessLiquidacionTasaLocal.findListaLiquidacionesArrendamiento(pFiltro);
 			} else {
 				throw new SaicException(772);
 			}

@@ -62,6 +62,7 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 
 	public static final long codigoCementerio = serialVersionUID + 7;
 	public static final long codigoAutomotor = serialVersionUID + 8;
+	public static final long codigoArrendamiento = serialVersionUID + 9;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CUOTA_LIQUIDACION", nullable = true)

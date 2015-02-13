@@ -1397,7 +1397,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 				.setModoDebug(true)
 				.add(Restriccion.IGUAL("estado", DocHabilitanteEspecializado.Estado.ACTIVO))
 				.add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()))
-				.add(Restriccion.IGUAL("numeroInscripcion", pFiltro.getNumeroInscripcion()));
+				.add(Restriccion.ILIKE("numeroInscripcion", pFiltro.getNumeroInscripcion()));
 		
 		if (pFiltro.getPersona() == null) {
 			locCriterio.crearFetchAlias("obligacion.persona", "locPersona");
@@ -1408,6 +1408,8 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 				.crearFetchAlias("locDomicilio.localidad", "locLocalidad")
 				.crearFetchAlias("locDomicilio.relacionCalle", "locCalle1");
 		}
+		
+		locCriterio.setModoDebug(true);
 		
 		
 		AtributoDinamico.addRestriccionesCriterio(locCriterio, DocumentoSHPS.serialVersionUID, "idDocHabilitanteEspecializado", pFiltro.getListaAtributosDinamicos());

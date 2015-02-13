@@ -1,6 +1,8 @@
 package com.trascender.saic.reporte.dataSource;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,6 +29,7 @@ import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializ
 import com.trascender.habilitaciones.recurso.persistent.Exencion;
 import com.trascender.habilitaciones.recurso.persistent.FiltroObligacionTGI;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
+import com.trascender.habilitaciones.recurso.persistent.arrendamiento.DocumentoArrendamiento;
 import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -68,6 +71,9 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 			DocHabilitanteEspecializado locDocumento = cadaLiquidacion.getDocHabilitanteEspecializado(DocumentoTGI.class);
 			if (locDocumento == null){
 				locDocumento = cadaLiquidacion.getDocHabilitanteEspecializado(DocumentoOSP.class);
+			}
+			if (locDocumento == null) {
+				locDocumento = cadaLiquidacion.getDocHabilitanteEspecializado(DocumentoArrendamiento.class);
 			}
 			String nombreContribuyente = "";
 			if (primerLiquidacion.getDocGeneradorDeuda().getObligacion().getPersona().getCuim().equals("99-99999999-9")) {
@@ -272,6 +278,14 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 					locListaModificadoresSobreSubTotal.add(locModificadorLiquidacion);
 				}
 			}
+			
+			Collections.sort(pLiquidacion.getListaLiquidacionesTasa(), new Comparator<LiquidacionTasa>() {
+				@Override
+				public int compare(LiquidacionTasa o1, LiquidacionTasa o2) {
+					return o1.getTipoTasa().getTipoObligacion().getNombre()
+							.compareTo(o2.getTipoTasa().getTipoObligacion().getNombre());
+				}
+			});
 
 			//Valor de la tasa		
 			for (LiquidacionTasa cadaLiquidacion : pLiquidacion.getListaLiquidacionesTasa()){
@@ -279,6 +293,8 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 					this.listaDetalles.add("Tasa General");
 				} else if (cadaLiquidacion.getTipoTasa().getTipoObligacion().getNombre().equals("OYSP")){
 					this.listaDetalles.add("Servicios Sanitarios");
+				} else if (cadaLiquidacion.getTipoTasa().getTipoObligacion().getNombre().equals("ARRENDAMIENTO")) {
+					this.listaDetalles.add("Arrendamiento");
 				}
 				this.listaImportes.add(cadaLiquidacion.getValor());
 			}

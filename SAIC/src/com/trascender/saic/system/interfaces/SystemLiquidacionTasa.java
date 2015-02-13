@@ -26,6 +26,7 @@ import com.trascender.habilitaciones.recurso.persistent.pfo.Obra;
 import com.trascender.habilitaciones.recurso.persistent.transito.Vehiculo;
 import com.trascender.saic.exception.ResultadoLiquidacion;
 import com.trascender.saic.recurso.filtros.FiltroCobroExterno;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionArrendamiento;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionAutomotor;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionCementerio;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionOSP;
@@ -184,4 +185,8 @@ public interface SystemLiquidacionTasa {
 	public LogLiquidacion getLogLiquidacionesPorId(long pId) throws TrascenderException;
 	
 	public FiltroLogLiquidacion findListaLogLiquidacion(FiltroLogLiquidacion pFiltro) throws TrascenderException;
+	
+	public FiltroLiquidacionArrendamiento findListaLiquidacionesArrendamiento(FiltroLiquidacionArrendamiento pFiltro) throws TrascenderException;
+	
+	public ResultadoLiquidacion liquidarArrendamiento(CuotaLiquidacion[] pCuota, Persona pPersona, Parcela pParcela, Boolean pIgnorarPlan) throws TrascenderException;
 }

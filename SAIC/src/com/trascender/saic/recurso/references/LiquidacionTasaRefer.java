@@ -26,7 +26,25 @@ public class LiquidacionTasaRefer implements Serializable{
 	private Integer anio;
 	private String parcela;
 	private Long idPersona;
+	private String domicilioParcelario;
+	private String aviso;
 	
+	public String getAviso() {
+		return aviso;
+	}
+
+	public void setAviso(String aviso) {
+		this.aviso = aviso;
+	}
+
+	public String getDomicilioParcelario() {
+		return domicilioParcelario;
+	}
+
+	public void setDomicilioParcelario(String domicilioParcelario) {
+		this.domicilioParcelario = domicilioParcelario;
+	}
+
 	public Long getIdPersona() {
 		return idPersona;
 	}
@@ -174,7 +192,6 @@ public class LiquidacionTasaRefer implements Serializable{
 		}
 		return true;
 	}
-	
-	
+
 
 }

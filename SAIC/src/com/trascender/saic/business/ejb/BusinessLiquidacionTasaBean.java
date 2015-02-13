@@ -47,6 +47,7 @@ import com.trascender.catastro.recurso.persistent.Calle;
 import com.trascender.catastro.recurso.persistent.Cuadra;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.catastro.recurso.persistent.ParcelaPorCuadra;
+import com.trascender.catastro.recurso.rfr.DocHabEspecializadoRfr;
 import com.trascender.framework.business.interfaces.BusinessMunicipalidadLocal;
 import com.trascender.framework.business.interfaces.BusinessParametroLocal;
 import com.trascender.framework.exception.TrascenderException;
@@ -89,6 +90,7 @@ import com.trascender.habilitaciones.recurso.persistent.TipoVencimiento;
 import com.trascender.habilitaciones.recurso.persistent.VariableFormula;
 import com.trascender.habilitaciones.recurso.persistent.VariableFormulaCompuesta;
 import com.trascender.habilitaciones.recurso.persistent.VariableFormulaSimple;
+import com.trascender.habilitaciones.recurso.persistent.arrendamiento.DocumentoArrendamiento;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.ParcelaCementerio;
 import com.trascender.habilitaciones.recurso.persistent.cementerio.TipoSepultura;
@@ -112,6 +114,7 @@ import com.trascender.saic.business.interfaces.BusinessRegistroValuadoLocal;
 import com.trascender.saic.exception.ResultadoLiquidacion;
 import com.trascender.saic.exception.SaicException;
 import com.trascender.saic.recurso.filtros.FiltroCobroExterno;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionArrendamiento;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionAutomotor;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionCementerio;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionOSP;
@@ -308,6 +311,14 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				"Vencimiento", "fechaVencimiento", Tipo.FECHA, "Monto", "montoCalculado", Tipo.MONTO, "Tipo de Deuda", "tipoDeuda", "Estado", "estado");
 		locLiquidacionTasaMenor.setClase(LiquidacionTasa.class);
 		grupo.getListaRecursos().add(locLiquidacionTasaMenor);
+		
+		Recurso locLiquidacionArrendamiento = new Recurso();
+		locLiquidacionArrendamiento.setIdRecurso(LiquidacionTasa.codigoArrendamiento);
+		locLiquidacionArrendamiento.setNombre("Liquidación Arrendamiento");
+		locLiquidacionArrendamiento.setAtributosConsultables("Período", "stringPeriodoLiquidado", "Obligación", "stringObligacion", Tipo.TEXTO_LARGO, "Vencimiento", "fechaVencimiento",
+				Tipo.FECHA, "Monto", "montoCalculado", Tipo.MONTO, "Tipo de Deuda", "tipoDeuda", "Estado", "estado");
+		locLiquidacionArrendamiento.setClase(LiquidacionTasa.class);
+		grupo.getListaRecursos().add(locLiquidacionArrendamiento);
 
 		Recurso locRefinanciacion = new Recurso();
 		locRefinanciacion.setIdRecurso(DocumentoRefinanciacion.serialVersionUID);
@@ -418,20 +429,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		// System.out.println("\n\ninicio la liquidación de la tasa = "+pObligacion+" para el período "+pPeriodo);
 
 		DocHabilitanteEspecializado locDocHabilitanteEspecializado = pObligacion.getDocumentoEspecializado();
-		// DocumentoOSP locDocHabilitanteEspecializado = null;
-		// if(pObligacion.getDocumentoEspecializado() instanceof DocumentoOSP){
-		// locDocHabilitanteEspecializado =
-		// this.businessDocumentoOSP.getDocumentoOSPPorId(pObligacion.getDocumentoEspecializado().getIdDocHabilitanteEspecializado());
-		// }
-		// TipoTasa locTipoTasa = pTasa.getTipoTasa();
-
-		// if (locTipoTasa.getEstado().equals(TipoTasa.Estado.EN_ESPERA)){
-		// throw new SaicException(21);
-		// }
-
-		// if(pNumeroCuota.intValue() > 1){
-		// this.validarPreLiquidacion(pObligacion, pCuota);
-		// }
 
 		// se controla que solo se liquide a una persona activa
 		System.out.println("obligacion: " + pObligacion);
@@ -447,7 +444,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 			// System.out.println("GENERE: "+ locListaLiquidacionesTasa.size() + " Liquidaciones Tasa.");
 			Calendar locFechaInicioPeriodo = null;
-			int acumuladorParaElNumeroDeCuota = 1;
 			for(LiquidacionTasa locLiquidacionTasa : locListaLiquidacionesTasa) {
 
 				// locLiquidacionTasa.setNumeroRegistroDeuda(((locTasa.getNroUtltimoRegistroDeudaLiquidado()!=null)?
@@ -604,7 +600,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 					locLiquidacionTasa.getListaModificadoresLiquidacion().add(locModificadorLiquidacion);
 				}
 				
-				//Ya teniendo los vencimientos, creo la funcion para poder llamar a sus valores
+				//Ya teniendo los modificadores, creo la funcion para poder llamar a sus valores
 				ValorModificadorFuncion locFuncion = new ValorModificadorFuncion(locLiquidacionTasa);
 				jep.addFunction(ValorModificadorFuncion.VALOR_MODIFICADOR, locFuncion);
 
@@ -685,7 +681,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				 * 
 				 * this.listaExencionesRegistrosDeuda.put(locExencionRegistroDeuda.hashCode(), locExencionRegistroDeuda); } }
 				 */
-				acumuladorParaElNumeroDeCuota++;
 				System.out.println("monto de la liquidacion " + locLiquidacionTasa.getValor());
 				locLiquidacionTasa.recalcularMonto();
 			}
@@ -1463,10 +1458,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		pTipoParametro.setCuotaLiquidacion(pCuota);
 		Object locValor = 0D;
 
-		if(pTipoParametro.getNombreVariable().equals("NUMERO_CUOTA")) {
-			locValor = new Double(pNumeroCuota);
-		}
-
 		EstadoCuentaTemporal locEstadoCuentaTemporal = null;
 
 		if(pTipoParametro.getNombreVariable().equals("BUEN_CONTRIBUYENTE")) {
@@ -1606,10 +1597,19 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		return locTasa;
 	}
 
-	private void levantarTasasParaCuota(CuotaLiquidacion pCuota) {
-		List<Object[]> listaResultados = Criterio.getInstance(entityManager, Tasa.class).add(Restriccion.IGUAL("anio", pCuota.getPeriodo().getCalendario().getAnio()))
-				.crearAlias("obligacion", "locObligacion").setProyeccion(Proyeccion.PROP("locObligacion.idObligacion", "e")).list();
-
+	private void levantarTasasParaCuota(CuotaLiquidacion pCuota, List<? extends DocHabilitanteEspecializado> listaDocumentos) {
+		Criterio locCriterio = Criterio.getInstance(entityManager, Tasa.class)
+				.add(Restriccion.IGUAL("anio", pCuota.getPeriodo().getCalendario().getAnio()))
+				.crearAlias("obligacion", "locObligacion")
+				.setProyeccion(Proyeccion.PROP("locObligacion.idObligacion", "e"));
+		
+		//Si esta liquidando solo un documento, levantamos las tasas para ese unicamente.
+		if (listaDocumentos.size() == 1) {
+			Obligacion locObligacion = listaDocumentos.get(0).getObligacion();
+			locCriterio.add(Restriccion.IGUAL("locObligacion", locObligacion));
+		}
+		
+		List<Object[]> listaResultados = locCriterio.list();
 		mapaTasasParaCuota = new HashMap<Long, Tasa>();
 		for(Object[] cadaObjeto : listaResultados) {
 			mapaTasasParaCuota.put((Long) cadaObjeto[0], (Tasa) cadaObjeto[1]);
@@ -1744,22 +1744,11 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	 * @ejb.interface-method view-type = "local"
 	 */
 	@Override
-	@SuppressWarnings({"unchecked", "static-access", "rawtypes"})
 	public ResultadoLiquidacion liquidarTgi(CuotaLiquidacion[] pListaCuota, Persona pPersona, Parcela pParcela, Boolean pIgnorarPlan) throws Exception {
 		this.rollbackOnly = false;
 		List locListaLiquidacionesRetorno = new ArrayList();
 
 		ResultadoLiquidacion locResultadoLiquidacion = new ResultadoLiquidacion();
-
-		try {
-			// while(isThreadTGIActivo){
-			// threadLiquidacionTGI.sleep(2000);
-			// System.out.println("::::::Se está ejecutando otro proceso de liquidaciones TGI. Por favor, espere unos instantes...");
-			// }
-			//
-			// threadLiquidacionTGI = new Thread();
-			// threadLiquidacionTGI.run();
-			// isThreadTGIActivo = true;
 			try {
 				if(pListaCuota == null || pListaCuota.length < 1) {
 					locResultadoLiquidacion.addMensaje(5);
@@ -1811,11 +1800,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			} finally {
 				System.gc();
 			}
-		} finally {
-			// threadLiquidacionTGI.interrupt();
-			// threadLiquidacionTGI = null;
-			// isThreadTGIActivo = false;
-		}
 		locResultadoLiquidacion.setCantidadLiquidadas(locListaLiquidacionesRetorno.size());
 		return locResultadoLiquidacion;
 	}
@@ -2006,8 +1990,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 		pCuota = entityManager.merge(pCuota);
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+		levantarTasasParaCuota(pCuota, listado);
+		levantarLiquidacionesParaCuota(pCuota, listado);
 
 		for(DocumentoTGI cadaDocumento : listado) {
 
@@ -2040,16 +2024,11 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				liquidadas--;
 				pResultadoLiquidacion.getListaMensajes().add(t.getMessage());
 				pResultadoLiquidacion.getListaObligacionesNoLiquidadas().add(cadaDocumento.getObligacion());
-				// System.out.println("          //*/*/*");
-				// System.out.println("ERROR: " + t.getMessage());
-				// System.out.println("          //*/*/*");
 			} catch(Exception e) {
 				liquidadas--;
-				// System.out.println(":::::: No se ha podido liquidar la obligacion.");
 				e.printStackTrace();
 				pResultadoLiquidacion.getListaMensajes().add(e.getMessage());
 				pResultadoLiquidacion.getListaObligacionesNoLiquidadas().add(cadaDocumento.getObligacion());
-				// locListaLiquidacionesRetorno.removeAll(listaLiquidacionesTGIAux);
 			}
 
 			// listaLiquidacionesTGIAux.clear();
@@ -2481,7 +2460,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			this.prepararListaModificadoresLiquidacion();
 
 			this.mostrarFechaYHoraInicioLiquidacion("Prueba de");
-			List locListaLiquidacionesRetorno = this.generarLiquidacionesSHPS(pPersona, pCuota, pFiltro);
+			List locListaLiquidacionesRetorno = this.generarLiquidacionesSHPS(pPersona, pCuota, null , pFiltro);
 
 			// this.businessImpresion.setEntityManager(this.entityManager);
 
@@ -2525,8 +2504,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 		pCuota = entityManager.merge(pCuota);
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+		levantarTasasParaCuota(pCuota, pListaDocumentos);
+		levantarLiquidacionesParaCuota(pCuota, pListaDocumentos);
 
 		for(DocumentoOSP locDocumentoOSP : pListaDocumentos) {
 			double tiempoInicio = System.currentTimeMillis();
@@ -2567,6 +2546,63 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				System.out.println(":::::: No se ha podido liquidar la obligacion.");
 				e.printStackTrace();
 				// locListaLiquidacionesRetorno.removeAll(listaLiquidacionesTGIAux);
+			}
+
+			double tiempoFinal = System.currentTimeMillis();
+			double tiempoTranscurrido = tiempoFinal - tiempoInicio;
+			System.out.println("Tiempo por liquidacion = " + (tiempoTranscurrido / 1000) + " seg");
+
+			// listaLiquidacionesTGIAux.clear();
+			System.out.println("                  Se han procesado " + procesadas + "/" + total + " obligaciones");
+			System.out.println("                  Se han liquidado " + liquidadas + "/" + total + " obligaciones");
+		}
+		return locListaLiquidacionesRetorno;
+	}
+	
+	private List generarLiquidacionArrendamiento(CuotaLiquidacion pCuota, List<DocumentoArrendamiento> pListaDocumentos) throws Exception {
+		// tiempo de inicio de la liquidación
+		double locTiempoInicio = System.currentTimeMillis();
+		// this.cargarListaFormulas("OYSP", pCuota);
+		CalendarioMunicipal locCalendarioMunicipal = (CalendarioMunicipal) pCuota.getPeriodo().getCalendario();
+		TipoTasa locTipoTasa = Criterio.getInstance(this.entityManager, TipoTasa.class)
+				.add(Restriccion.IGUAL("estado", TipoTasa.Estado.ACTIVA))
+				.add(Restriccion.IGUAL("plan", locCalendarioMunicipal.getPlan())).uniqueResult();
+
+		int total = pListaDocumentos.size();
+
+		int procesadas = 0;
+		int liquidadas = 0;
+
+		System.out.println("Tiempo en buscar las obligaciones = " + ((System.currentTimeMillis() - locTiempoInicio) / 1000));
+		System.out.println("Cantidad de obligaciones " + total);
+		List<LiquidacionTasa> locListaLiquidacionesRetorno = new ArrayList<LiquidacionTasa>();
+
+		this.prepararTiposParametros(pCuota);
+
+		pCuota = entityManager.merge(pCuota);
+
+		levantarTasasParaCuota(pCuota, pListaDocumentos);
+		levantarLiquidacionesParaCuota(pCuota, pListaDocumentos);
+
+		for(DocumentoArrendamiento locDocumentoArrendamiento : pListaDocumentos) {
+			double tiempoInicio = System.currentTimeMillis();
+
+			liquidadas++;
+			procesadas++;
+
+			try {
+
+				List<LiquidacionTasa> locListaLiquidacionesTasa = this.liquidarObligacion(locDocumentoArrendamiento.getObligacion(), pCuota, pCuota.getPeriodo().getFechaInicio(), locTipoTasa);
+				locListaLiquidacionesRetorno.addAll(locListaLiquidacionesTasa);
+			} catch(TrascenderException t) {
+				liquidadas--;
+				System.out.println("          //*/*/*");
+				System.out.println("ERROR: " + t.getMessage());
+				System.out.println("          //*/*/*");
+			} catch(Exception e) {
+				liquidadas--;
+				System.out.println(":::::: No se ha podido liquidar la obligacion.");
+				e.printStackTrace();
 			}
 
 			double tiempoFinal = System.currentTimeMillis();
@@ -2740,33 +2776,24 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	 */
 	private boolean isPeriodoLiquidado(Obligacion pObligacion, CuotaLiquidacion pCuota) {
 		return listaIdRegistroDeudaLiquidados.contains(pObligacion.getIdObligacion());
-
-		// boolean fueLiquidado = false;
-
-		// if (locLiquidacionTasa != null){
-		// locLiquidacionTasa.getCuotaLiquidacion().toString();
-		// locLiquidacionTasa.getDocGeneradorDeuda().toString();
-		// Integer locCantidadRegDeuda = locLiquidacionTasa.getDocGeneradorDeuda().getCantidadRegDeuda();
-		// Obligacion locObligacion = locLiquidacionTasa.getDocGeneradorDeuda().getObligacion();
-		// DocHabilitanteEspecializado locDocHabEspecializado = locObligacion.getDocumentoEspecializado();
-		// TipoTasa locTipoTasa = locDocHabEspecializado.getTipoTasa();
-		//
-		// if ((locTipoTasa.isFija()) && (locTipoTasa.getCantidadCuotas() >= locCantidadRegDeuda)){
-		// fueLiquidado = true;
-		// }
-		// else if (!locTipoTasa.isFija()){
-		// fueLiquidado=true;
-		// }
-		// }
-		// System.out.println("::::::::::::PERIODO LIQUIDADO: " + ((fueLiquidado == true)?"SI":"NO"));
-		// return fueLiquidado;
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	private void levantarLiquidacionesParaCuota(CuotaLiquidacion pCuota) {
-		listaIdRegistroDeudaLiquidados = new HashSet(Criterio.getInstance(this.entityManager, LiquidacionTasa.class).crearAlias("docGeneradorDeuda.obligacion", "locObligacion")
-				.add(Restriccion.IGUAL("cuotaLiquidacion", pCuota)).add(Restriccion.DISTINTO("locObligacion.estado", Obligacion.Estado.ANULADO))
-				.setProyeccion(Proyeccion.PROP("locObligacion.idObligacion")).add(Orden.ASC("locObligacion.idObligacion")).list());
+	private void levantarLiquidacionesParaCuota(CuotaLiquidacion pCuota, List<? extends DocHabilitanteEspecializado> listaDocumentos) {
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, LiquidacionTasa.class)
+			.crearAlias("docGeneradorDeuda.obligacion", "locObligacion")
+			.add(Restriccion.IGUAL("cuotaLiquidacion", pCuota))
+			.add(Restriccion.DISTINTO("locObligacion.estado", Obligacion.Estado.ANULADO))
+			.setProyeccion(Proyeccion.PROP("locObligacion.idObligacion"))
+			.add(Orden.ASC("locObligacion.idObligacion"));
+		
+		//Si esta liquidando solo un documento, levantamos las liqudiaciones solo para ese documento
+		if (listaDocumentos.size() == 1) {
+			Obligacion locObligacion = listaDocumentos.get(0).getObligacion();
+			locCriterio.add(Restriccion.IGUAL("locObligacion", locObligacion));
+		}
+				
+		listaIdRegistroDeudaLiquidados = new HashSet(locCriterio.list());
 		System.out.println("----------     Se levantaron " + listaIdRegistroDeudaLiquidados.size() + " registros de deuda liquidados.");
 	}
 
@@ -2843,21 +2870,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	public ResultadoLiquidacion liquidarOSP(ServicioOSP pServicio, Calle pCalle, CuotaLiquidacion[] pCuotas, Persona pPersona, Parcela pParcela, Boolean pIgnorarPlan) throws Exception {
 
 		ResultadoLiquidacion locResultadoLiquidacion = new ResultadoLiquidacion();
-		try {
-			// while(isThreadOSPActivo){
-			// threadLiquidacionOSP.sleep(2000);
-			// System.out.println("::::::Se está ejecutando otro proceso de liquidaciones OSP. Por favor, espere unos instantes...");
-			// }
-			//
-			// threadLiquidacionOSP = new Thread();
-			// threadLiquidacionOSP.run();
-			// isThreadOSPActivo = true;
-
 			List locListaLiquidacionesRetorno = new ArrayList();
 			try {
-				//
-				// this.setTipoTasaParaLiquidacionOSP(pServicio,pCalle);
-				// System.gc();
 				System.out.println("Preparando lista de Parámetros Valuados...");
 				this.prepararListaParametroValuados();
 				System.out.println("Actualizando Estado Cuentas...");
@@ -2891,17 +2905,64 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				e.printStackTrace();
 				throw e;
 			}
-		} finally {
-			// this.isThreadOSPActivo = false;
-			// this.threadLiquidacionOSP.interrupt();
-			// this.threadLiquidacionOSP = null;
+	}
+	
+	public ResultadoLiquidacion liquidarArrendamiento(CuotaLiquidacion[] pCuotas, Persona pPersona, Parcela pParcela, Boolean pIgnorarPlan) throws Exception {
+
+		ResultadoLiquidacion locResultadoLiquidacion = new ResultadoLiquidacion();
+			List locListaLiquidacionesRetorno = new ArrayList();
+			try {
+				System.out.println("Actualizando Estado Cuentas...");
+				this.ejecutarProcedimientoActualizacionDeuda(pPersona, pParcela);
+				this.prepararListaExencionesRegistrosDeuda();
+
+				this.mostrarFechaYHoraInicioLiquidacion("");
+
+				this.setIgnorarPlan(pIgnorarPlan);
+
+				for(CuotaLiquidacion cadaCuota : pCuotas) {
+					List<DocumentoArrendamiento> locListaDocumentos = this.findListaDocumentosArrendamientoLiquidables(cadaCuota, pPersona, pParcela);
+					locListaLiquidacionesRetorno.addAll(this.generarLiquidacionArrendamiento(cadaCuota, locListaDocumentos));
+				}
+
+				if(!locListaLiquidacionesRetorno.isEmpty()) {
+					this.guardarLiquidacionesTasa(locListaLiquidacionesRetorno);
+				} else {
+					System.out.println("No se han generado liquidaciones OSP.");
+				}
+
+				this.mostrarFechaYHoraFinLiquidacion("");
+				locResultadoLiquidacion.setCantidadLiquidadas(locListaLiquidacionesRetorno.size());
+				return locResultadoLiquidacion;
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+	}
+	
+	private List<DocumentoArrendamiento> findListaDocumentosArrendamientoLiquidables(CuotaLiquidacion pCuota, Persona pPersona, Parcela pParcela) throws Exception {
+
+		Criterio locCriteriaObligaciones = Criterio.getInstance(this.entityManager, DocumentoArrendamiento.class)
+				.setDistinct(true)
+				.add(Restriccion.IGUAL("estado", DocHabilitanteEspecializado.Estado.ACTIVO))
+				.add(Restriccion.IGUAL("obligacion.persona", pPersona))
+				.add(Restriccion.IGUAL("parcela", pParcela));
+
+		if(pPersona == null) {
+			locCriteriaObligaciones.crearFetchAlias("obligacion.persona", "locPersona");
 		}
+
+		if(pParcela == null) {
+			locCriteriaObligaciones.crearFetchAlias("parcela.listaRegistrosMejora", "mejoras");
+			locCriteriaObligaciones.crearFetchAlias("parcela.listaParcelasPorCuadra", "parcelasPorCuadra");
+		}
+
+		return locCriteriaObligaciones.list();
 	}
 
 	private List<DocumentoOSP> findListaDocumentosOspLiquidables(CuotaLiquidacion pCuota, Calle pCalle, ServicioOSP pServicio, Persona pPersona, Parcela pParcela) throws Exception {
 
 		Criterio locCriteriaObligaciones = Criterio.getInstance(this.entityManager, DocumentoOSP.class).setDistinct(true)
-				// .add(Restriccion.MENOR("fechaInicioActividad", pCuota.getPeriodo().getFechaInicio().getTime()))
 
 				.add(Restriccion.IGUAL("estado", DocHabilitanteEspecializado.Estado.ACTIVO)).add(Restriccion.IGUAL("obligacion.persona", pPersona))
 				.add(Restriccion.IGUAL("parcela", pParcela));
@@ -3014,8 +3075,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 		pCuota = entityManager.merge(pCuota);
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+		levantarTasasParaCuota(pCuota, pListaDocumentos);
+		levantarLiquidacionesParaCuota(pCuota, pListaDocumentos);
 
 		for(DocumentoTasaMenor cadaDocumento : pListaDocumentos) {
 			boolean locEstaLiquidado = this.isPeriodoLiquidado(cadaDocumento.getObligacion(), pCuota);
@@ -3212,17 +3273,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		return Criterio.getInstance(entityManager, ParametroSistemaString.class).add(Restriccion.IGUAL("nombre", pNombre)).setModoDebug(true).uniqueResult();
 	}
 
-	/**
-	 * Recupera un listado de liquidaciones de TGI
-	 * 
-	 * @param pPeriodo
-	 * @param pPersona
-	 * @param pParcela
-	 * @param pIgualFormaPago
-	 * @return
-	 * @throws Excepiton
-	 * @ejb.interface-method view-type = "local"
-	 */
 	@Override
 	public FiltroLiquidacionTGI findListaLiquidacionesTGI(FiltroLiquidacionTGI pFiltro) throws Exception {
 		entityManager.clear();
@@ -3230,9 +3280,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			throw new SaicException(34);
 		}
 
-		// pFiltro.getMapaOrden().put("locObligacion.persona", FiltroAbstracto.ASC);
-
-		try {
 			Criterio crit = Criterio.getInstance(this.entityManager, LiquidacionTasa.class).setModoDebug(true).crearAlias("docGeneradorDeuda.obligacion", "locObligacion")
 					.crearAlias("locObligacion.documentoEspecializado", "locDocEsp").add(Restriccion.JPQL("TYPE(locDocEsp) = " + DocumentoTGI.class.getSimpleName()));
 
@@ -3257,15 +3304,47 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			for(Object cadaObject : pFiltro.getListaResultados()) {
 				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa) cadaObject;
 				locLiquidacionTasa.toString();
-				// locLiquidacionTasa.getDocGeneradorDeuda().toString();
-				// locLiquidacionTasa.getCuotaLiquidacion().toString();
 				locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().toString();
-				// locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getPersona().toString();
 			}
 
-		} catch(Exception e) {
-			e.printStackTrace();
+		return pFiltro;
+	}
+	
+	@Override
+	public FiltroLiquidacionArrendamiento findListaLiquidacionesArrendamiento(FiltroLiquidacionArrendamiento pFiltro) throws Exception {
+		entityManager.clear();
+		if((pFiltro.getPersona() == null) && (pFiltro.getCuota() == null) && (pFiltro.getParcela() == null)) {
+			throw new SaicException(34);
 		}
+
+			Criterio crit = Criterio.getInstance(this.entityManager, LiquidacionTasa.class)
+					.setModoDebug(true).crearAlias("docGeneradorDeuda.obligacion", "locObligacion")
+					.crearAlias("locObligacion.documentoEspecializado", "locDocEsp")
+					.add(Restriccion.TYPE("locDocEsp", DocumentoArrendamiento.class));
+
+			// AGREGO LOS pPARAMETERS
+			crit.add(Restriccion.IGUAL("locObligacion.persona", pFiltro.getPersona()));
+			crit.add(Restriccion.IGUAL("locDocEsp.parcela", pFiltro.getParcela()));
+			crit.add(Restriccion.IGUAL("cuotaLiquidacion.periodo", pFiltro.getPeriodo()));
+			crit.add(Restriccion.IGUAL("cuotaLiquidacion.periodo.calendario", pFiltro.getCalendario()));
+			crit.add(Restriccion.IGUAL("cuotaLiquidacion.periodo.calendario.anio", pFiltro.getAnio()));
+			crit.add(Restriccion.IGUAL("tipoDeuda", pFiltro.getTipoLiquidacion()));
+
+			if(pFiltro.isNoCero()) {
+				crit.add(Restriccion.DISTINTO("montoCalculado", 0D));
+			}
+
+			crit.setModoDebug(true);
+
+			setRestriccionEstadoLiquidacion(pFiltro, crit);
+
+			pFiltro.procesarYListar(crit);
+
+			for(Object cadaObject : pFiltro.getListaResultados()) {
+				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa) cadaObject;
+				locLiquidacionTasa.toString();
+				locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().toString();
+			}
 
 		return pFiltro;
 	}
@@ -3588,9 +3667,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				System.out.println("Preparando lista de Parámetros Valuados...");
 				this.prepararListaParametroValuados();
 
-				System.out.println("Actualizando Estado Cuentas...");
-				this.ejecutarProcedimientoActualizacionDeuda(pPersona, null);
-
 				System.out.println("Preparando lista de Vencimientos...");
 				this.prepararListaVencimientos();
 				System.out.println("Preparando lista de Modificadores...");
@@ -3605,8 +3681,20 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				this.setIgnorarPlan(pIgnorarPlan);
 
 				for(CuotaLiquidacion cadaCuota : pCuota) {
-					// this.setTipoTasaParaLiquidacionSHPS(pPersona, cadaCuota, pFiltro);
-					locListaLiquidacionesRetorno.addAll(this.generarLiquidacionesSHPS(pPersona, cadaCuota, pFiltro));
+					CalendarioMunicipal locCalendario = (CalendarioMunicipal) 
+							cadaCuota.getPeriodo().getCalendario();
+					TipoTasa locTipoTasa = Criterio.getInstance(this.entityManager, TipoTasa.class)
+							.add(Restriccion.IGUAL("estado", TipoTasa.Estado.ACTIVA))
+							.add(Restriccion.IGUAL("plan", locCalendario.getPlan()))
+							.uniqueResult();
+					
+					
+					if (locTipoTasa.tieneParametrosDeduda()) {
+						System.out.println("Actualizando Estado Cuentas...");
+						this.ejecutarProcedimientoActualizacionDeuda(pPersona, null);
+					}
+					
+					locListaLiquidacionesRetorno.addAll(this.generarLiquidacionesSHPS(pPersona, cadaCuota, locTipoTasa, pFiltro));
 				}
 
 				if(!locListaLiquidacionesRetorno.isEmpty()) {
@@ -3638,7 +3726,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		}
 	}
 
-	private java.util.List<LiquidacionTasa> generarLiquidacionesSHPS(Persona pPersona, CuotaLiquidacion pCuota, FiltroObligacionSHPS pFiltro) throws Exception {
+	private java.util.List<LiquidacionTasa> generarLiquidacionesSHPS(Persona pPersona, CuotaLiquidacion pCuota, TipoTasa pTipoTasa, FiltroObligacionSHPS pFiltro) throws Exception {
 
 		// boolean isAlgunParametro=false;
 		double locTiempoInicio = System.currentTimeMillis();
@@ -3666,16 +3754,12 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		int procesadas = 0;
 		int liquidadas = 0;
 
-		CalendarioMunicipal locCalendario = (CalendarioMunicipal) pCuota.getPeriodo().getCalendario();
-		TipoTasa locTipoTasa = Criterio.getInstance(this.entityManager, TipoTasa.class).add(Restriccion.IGUAL("estado", TipoTasa.Estado.ACTIVA))
-				.add(Restriccion.IGUAL("plan", locCalendario.getPlan())).uniqueResult();
-
 		List<LiquidacionTasa> locListaLiquidacionesRetorno = new ArrayList<LiquidacionTasa>();
 
 		pCuota = entityManager.merge(pCuota);
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+		levantarTasasParaCuota(pCuota, locListaDocSHPS);
+		levantarLiquidacionesParaCuota(pCuota, locListaDocSHPS);
 
 		for(DocumentoSHPS cadaDocumento : locListaDocSHPS) {
 			Obligacion locObligacion = cadaDocumento.getObligacion();
@@ -3690,10 +3774,10 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 			if(liquido) {
 				liquidadas++;
-				if(locTipoTasa != null) {
+				if(pTipoTasa != null) {
 					// if (!this.isPeriodoLiquidado(locObligacion,pCuota)){
 					try {
-						locListaLiquidacionesRetorno.addAll(this.liquidarObligacion(locObligacion, pCuota, Calendar.getInstance(), locTipoTasa));
+						locListaLiquidacionesRetorno.addAll(this.liquidarObligacion(locObligacion, pCuota, Calendar.getInstance(), pTipoTasa));
 
 						// locListaLiquidacionesRetorno.addAll(locListaLiquidacionesTasas);
 						// for(LiquidacionTasa cadaLiquidacionTasa : locListaLiquidacionesTasas) {
@@ -4288,8 +4372,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 		pCuota = entityManager.merge(pCuota);
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+//		levantarTasasParaCuota(pCuota);//TODO Liquidacion PFO, pfff....
+//		levantarLiquidacionesParaCuota(pCuota);
 
 		for(Object locObjObligacion : locListadoObligaciones) {
 			liquidadas++;
@@ -4794,12 +4878,13 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		}
 
 		pCuota = entityManager.merge(pCuota);
+		
+		List<DocumentoAutomotor> locListaDocumentos = locCriterio.list();
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+		levantarTasasParaCuota(pCuota, locListaDocumentos);
+		levantarLiquidacionesParaCuota(pCuota, locListaDocumentos);
 
-		for(Object cadaObject : locCriterio.list()) {
-			DocumentoAutomotor cadaDocumento = (DocumentoAutomotor) cadaObject;
+		for(DocumentoAutomotor cadaDocumento : locListaDocumentos) {
 
 			try {
 				locListaLiquidacionesRetorno.addAll(liquidarObligacion(cadaDocumento.getObligacion(), pCuota, Calendar.getInstance(), locTipoTasa));
@@ -4847,11 +4932,12 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 		pCuota = entityManager.merge(pCuota);
 
-		levantarTasasParaCuota(pCuota);
-		levantarLiquidacionesParaCuota(pCuota);
+		List<DocumentoCementerio> listaDocumentos = locCriterio.list();
+		
+		levantarTasasParaCuota(pCuota, listaDocumentos);
+		levantarLiquidacionesParaCuota(pCuota, listaDocumentos);
 
-		for(Object cadaObject : locCriterio.list()) {
-			DocumentoCementerio cadaDocumento = (DocumentoCementerio) cadaObject;
+		for(DocumentoCementerio cadaDocumento : listaDocumentos) {
 			locListaLiquidacionesRetorno.addAll(liquidarObligacion(cadaDocumento.getObligacion(), pCuota, Calendar.getInstance(), locTipoTasa));
 		}
 
