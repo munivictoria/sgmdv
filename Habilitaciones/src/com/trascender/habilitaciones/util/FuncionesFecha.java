@@ -19,10 +19,15 @@ public class FuncionesFecha {
 	
 	private Calendar parsear(Object fecha) throws ParseException{
 		Date locDate;
-		try {
-			 locDate = format.parse(fecha.toString());
-		} catch (java.text.ParseException e) {
-			throw new ParseException(e.getMessage());
+		//Si es doble probablemente sea el time en epoch.
+		if (fecha instanceof Double) {
+			locDate = new Date(((Double)fecha).longValue());
+		} else {
+			try {
+				 locDate = format.parse(fecha.toString());
+			} catch (java.text.ParseException e) {
+				throw new ParseException(e.getMessage());
+			}
 		}
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(locDate);
