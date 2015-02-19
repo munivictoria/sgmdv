@@ -358,4 +358,7 @@ public interface BusinessCajaLocal
 			Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta);
 	
 	public List<MovimientoCajaIngreso> getListaMovimientosCaja(List<Pagable> pListaDeudas, boolean conIntereses) throws Exception;
+	
+	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
+			throws Exception;
 }

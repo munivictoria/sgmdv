@@ -1022,4 +1022,9 @@ public class SystemAdministracionIngresosBean implements SystemAdministracionIng
 		return locCaja.getListaMovimientosCaja(pListaDeudas, conIntereses);
 	}
 	
+	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
+			throws Exception{
+		return this.locCaja.generarReporteCajaPorIngresoVario(pIdUsuario, pIdCaja, pFechaDesde, pFechaHasta);
+	}
+	
 }

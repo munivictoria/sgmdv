@@ -339,4 +339,7 @@ public interface SystemAdministracionIngresos
 	public void addPagosPagoFacil(File pFile) throws Exception, RemoteException;
 	
 	public List<MovimientoCajaIngreso> getListaMovimientosCaja(List<Pagable> pListaDeudas, boolean conIntereses) throws Exception;
+	
+	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
+			throws Exception;
 }

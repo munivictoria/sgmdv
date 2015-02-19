@@ -23,7 +23,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.util.JRLoader;
 import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
@@ -1638,12 +1642,13 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		entity.persist(pHistoricoReimpresionTicket);
 		return pHistoricoReimpresionTicket;
 	}
-
+	
 	public ResumenActualCajaDataSource generarReporteCajaPorTasa(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) {
 		// this.abrirSession();
 		ResumenActualCajaDataSource dataSource = null;
 		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class)
-				.setDistinct(true).setModoDebug(true)
+				.setDistinct(true)
+				.setModoDebug(true)
 				.add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
 				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja))
 				.add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
@@ -1673,12 +1678,17 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		return dataSource;
 	}
 
-	public ResumenActualCajaIngresoVarioDS generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) {
-		// this.abrirSession();
+	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
+		throws Exception{
 		ResumenActualCajaIngresoVarioDS dataSource = null;
-		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class).setDistinct(true).setModoDebug(true).add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
-				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja)).add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
-				.add(Restriccion.MENOR("detalles.fechaCancelacion", pFechaHasta)).add(Restriccion.LIKE("codigoBarras", "2", false, Posicion.AL_PRINCIPIO));
+		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class)
+				.setDistinct(true)
+				.setModoDebug(true)
+				.add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
+				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja))
+				.add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
+				.add(Restriccion.MENOR("detalles.fechaCancelacion", pFechaHasta))
+				.add(Restriccion.LIKE("codigoBarras", "2", false, Posicion.AL_PRINCIPIO));
 
 		List<TicketCaja> listaTickets = locCriterio.list();
 		Iterator<TicketCaja> itTicketCaja = listaTickets.iterator();
@@ -1695,7 +1705,12 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			}
 		});
 		dataSource = new ResumenActualCajaIngresoVarioDS(listaTickets);
-		return dataSource;
+		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+		File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+		JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource);
+		return jasperPrint;
 	}
 
 	private void setLiquidacionAlTicket(DetalleTicketCaja locDetalle) {
