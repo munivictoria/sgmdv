@@ -36,6 +36,7 @@ import com.trascender.catastro.recurso.persistent.ParcelaPorCuadra;
 import com.trascender.catastro.recurso.persistent.Servicio;
 import com.trascender.catastro.recurso.persistent.TipoCalle;
 import com.trascender.catastro.recurso.persistent.Zona;
+import com.trascender.framework.recurso.persistent.Domicilio;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
 import com.trascender.framework.recurso.transients.Grupo;
@@ -760,7 +761,21 @@ public class BusinessRegistroGeograficoBean implements BusinessRegistroGeografic
 
 		this.entityManager.flush();
 
+		updateDomiciliosArmados(pCalle);
+		
 		return pCalle;
+	}
+	
+	private void updateDomiciliosArmados(Calle pCalle) {
+		Criterio locCriterio = Criterio.getInstance(entityManager, Domicilio.class)
+				.add(Restriccion.OR(
+						Restriccion.IGUAL("relacionCalle.idAbstractCalle", pCalle.getIdCalle()),
+						Restriccion.IGUAL("relacionCalleComienza.idAbstractCalle", pCalle.getIdCalle()),
+						Restriccion.IGUAL("relacionCalleFinaliza.idAbstractCalle", pCalle.getIdCalle())));
+		List<Domicilio> listaDomicilios = locCriterio.list();
+		for (Domicilio cadaDomicilio : listaDomicilios) {
+			cadaDomicilio.armarDomicilio();
+		}
 	}
 
 	/**
