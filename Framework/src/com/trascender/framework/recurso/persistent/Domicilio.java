@@ -259,6 +259,10 @@ public class Domicilio implements Serializable, Cloneable{
 	@PrePersist
 	@PreUpdate
 	public void beforeSaveUpdate() {
+		this.armarDomicilio();
+	}
+	
+	public void armarDomicilio() {
 		this.domicilioArmado = this.toString();
 	}
 
