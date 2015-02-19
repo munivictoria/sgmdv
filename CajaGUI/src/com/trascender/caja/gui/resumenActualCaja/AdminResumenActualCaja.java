@@ -258,7 +258,7 @@ public class AdminResumenActualCaja extends AdminController<TicketCaja> {
 	void imprimirResumenes() throws Exception {
 //		this.imprimirPlanillaDiaria();
 		this.imprimirPlanillaDiariaPorTasa();
-//		this.imprimirPlanillaDiariaPorSellado();
+		this.imprimirPlanillaDiariaPorIngresos();
 	}
 	
 	
@@ -430,81 +430,23 @@ public class AdminResumenActualCaja extends AdminController<TicketCaja> {
 //		ConexionReportes.getInstance().desconectar();		
 	}
 	
-	void imprimirPlanillaDiariaPorSellado() throws Exception {
-		JasperReport masterReport = null;
-		try {
-
-			URL urlMaestro = this.getClass().getResource("/reports/Reporte_Planilla_Diaria_Caja_Sellado.jasper");
-			
-			masterReport = (JasperReport) JRLoader.loadObject(urlMaestro);
-		} catch (JRException e) {
-			System.out.println("Error cargando el reporte maestro: " + e.getMessage());
-		}
-		
-		JasperReport subReport = null;
-		try {
-
-			URL urlSubReport = this.getClass().getResource("/reports/Reporte_Planilla_Diaria_Caja_Sellado_Subreporte.jasper");
-			
-			subReport = (JasperReport) JRLoader.loadObject(urlSubReport);
-		} catch (JRException e) {
-			System.out.println("Error cargando el subreporte: " + e.getMessage());
-		}
-
-		ConexionReportes.getInstance().conectar();
-		
-		URL urlImagen = this.getClass().getResource("/reports/logo.gif");
-		String locLogo = Conversor.getString(urlImagen);
-		
-		final List<TicketCaja> listaTicketCaja = this.getTableModel().getListaObjetos();
-		Double locTotal = new Double(0.00);
-		int locCantidadTickets = 0;
-		if (listaTicketCaja != null) {
-			for(TicketCaja ticketCaja: listaTicketCaja){
-				if(ticketCaja.getImporteTotal() != null && ticketCaja.getEstado().equals(Estado.ACTIVO)){
-					locTotal += ticketCaja.getImporteTotal();
-					locCantidadTickets++;
-				}
-			}
-		}
+	void imprimirPlanillaDiariaPorIngresos() throws Exception {
 		
 		this.getView().getTfCaja().setText(AppManager.getInstance().getUsuario().getNombrePersonaFisica()
 				+ " [" 
 				+ AppManager.getInstance().getUsuario().toString() 
 				+ "]");
 		
+
+		this.actualizarBusquedaModel();
+		Date fechaDesde = this.getBusquedaModel().getFechaHoraDesde();
+		Date fechaHasta = this.getBusquedaModel().getFechaHoraHasta();
+		Long idUsuario = CajaGUI.getInstance().getUsuario().getIdUsuario();
+		Long idCaja = CajaGUI.getInstance().getCaja().getIdCaja();
 		
-		System.out.println("ID_USUARIO " + this.getBusquedaModel().getUsuario().getIdUsuario());
-		System.out.println("ID_CAJA    " + this.getBusquedaModel().getCaja().getIdCaja());
-		System.out.println("---- sin busquedaModel ----");
-		System.out.println("ID_USUARIO  " + AppManager.getInstance().getUsuario().getIdUsuario());
-		System.out.println("ID_CAJA     " + CajaGUI.getInstance().getCaja().getIdCaja());
+		JasperPrint masterPrint = CajaGUI.getInstance().getAdminSystemsCaja().getSystemAdministracionIngresos()
+				.generarReporteCajaPorIngresoVario(idUsuario, idCaja, fechaDesde, fechaHasta);
 		
-		
-		Map masterParams = new HashMap();
-//		masterParams.put("ID_USUARIO", new Integer((int)this.getBusquedaModel().getUsuario().getIdUsuario()));
-//		masterParams.put("ID_CAJA", new Integer((int)this.getBusquedaModel().getCaja().getIdCaja()));
-		masterParams.put("ID_USUARIO", new Integer((int)AppManager.getInstance().getUsuario().getIdUsuario()));
-		masterParams.put("ID_CAJA", new Integer((int)CajaGUI.getInstance().getCaja().getIdCaja()));
-		masterParams.put("PAR_IMAGEN", locLogo);
-		
-		
-		masterParams.put("PAR_SUBREPORTE", subReport);
-		
-		
-		JasperPrint masterPrint = null;
-		
-		try {
-			masterPrint = JasperFillManager.fillReport(masterReport, masterParams, ConexionReportes.getInstance().getConnection());
-			
-		} catch (JRException e) {
-			System.out.println("Error llenando el reporte maestro: " + e.getMessage());
-			try {
-				ConexionReportes.getInstance().getConnection().close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}	
 		
 		// Obtener la resolucion de pantalla del usuario
 	    Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -516,10 +458,8 @@ public class AdminResumenActualCaja extends AdminController<TicketCaja> {
 		locDialog.pack();
 		locDialog.setModal(true);
 		locDialog.setSize(dimension.width, dimension.height);
-		locDialog.setTitle("Vista previa de Planilla Diaria de Caja - Sellados Administrativos");
+		locDialog.setTitle("Vista previa de Planilla Diaria de Caja - Ingresos Varios");
 		locDialog.setVisible(true);
-
-		ConexionReportes.getInstance().desconectar();		
 	}
 	
 	@Override
