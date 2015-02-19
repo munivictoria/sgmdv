@@ -68,6 +68,33 @@ public class AgregarValorMedidor extends AbstractPageBean {
 
 	private Long idPagina = null;
 	private Long idSubSesion = null;
+	private TextField tfParcela = new TextField();
+	private Button btnSeleccionarParcela = new Button();
+	private Button btnLimpiarParcela = new Button();
+
+	public TextField getTfParcela() {
+		return tfParcela;
+	}
+
+	public void setTfParcela(TextField tfParcela) {
+		this.tfParcela = tfParcela;
+	}
+
+	public Button getBtnSeleccionarParcela() {
+		return btnSeleccionarParcela;
+	}
+
+	public void setBtnSeleccionarParcela(Button btnSeleccionarParcela) {
+		this.btnSeleccionarParcela = btnSeleccionarParcela;
+	}
+
+	public Button getBtnLimpiarParcela() {
+		return btnLimpiarParcela;
+	}
+
+	public void setBtnLimpiarParcela(Button btnLimpiarParcela) {
+		this.btnLimpiarParcela = btnLimpiarParcela;
+	}
 
 	public Long getIdPagina() {
 		return idPagina;
@@ -1156,6 +1183,8 @@ public class AgregarValorMedidor extends AbstractPageBean {
 		if(periodo != null) {
 			cuota = this.getDDObjectValue(getDdCuotas(), this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalOSP(periodo.toString()));
 		}
+		
+		codigoMedidor = tfCodigoMedidor.getText().toString();
 
 		this.getObjectListDataProvider().commitChanges();
 		medicionesCargadas = (ArrayList) this.getObjectListDataProvider().getList();
@@ -1546,10 +1575,22 @@ public class AgregarValorMedidor extends AbstractPageBean {
 		ServicioOSP pServicio = null;
 		String pCodigoMedidor = null;
 
-		pServicio = (ServicioOSP) this.obtenerObjetoDelElementoPila(0, ServicioOSP.class);
-		pCalle = (Calle) this.obtenerObjetoDelElementoPila(1, Calle.class);
+		pServicio = (ServicioOSP) this.obtenerObjetoDelElementoPila(0);
+		pCalle = (Calle) this.obtenerObjetoDelElementoPila(1);
 		pCuota = (CuotaLiquidacion) this.obtenerObjetoDelElementoPila(4);
-		pCodigoMedidor = (String) this.obtenerObjetoDelElementoPila(7, String.class);
+		pCodigoMedidor = (String) this.obtenerObjetoDelElementoPila(7);
+		
+		if (pServicio == null || pServicio.getIdTipoAlicuota() == -1) {
+			pServicio = null;
+		}
+		
+		if (pCalle == null || pCalle.getIdCalle() == -1) {
+			pCalle = null;
+		}
+		
+		if (pCodigoMedidor == null || pCodigoMedidor.trim().isEmpty()) {
+			pCodigoMedidor = null;
+		}
 
 		if(pCuota != null) {
 			List medidores = null;
@@ -1662,5 +1703,13 @@ public class AgregarValorMedidor extends AbstractPageBean {
 			retorno = this.prepararCaducidad();
 		}
 		return retorno;
+	}
+	
+	public String btnSeleccionarParcela_action() {
+		return null;
+	}
+	
+	public String btnLimpiarParcela_action() {
+		return null;
 	}
 }

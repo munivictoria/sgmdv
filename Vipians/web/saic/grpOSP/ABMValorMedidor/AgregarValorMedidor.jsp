@@ -124,6 +124,21 @@
 														action="#{saic$grpOSP$ABMValorMedidor$AgregarValorMedidor.btnLimpiarCalle_action}" styleClass="buttonLimpiarAjax" />
 												</td>
 											</tr>
+											<tr>
+													<td align="right" nowrap="nowrap">
+														<ui:label for="tfParcela" id="lblParcela" styleClass="label" text="Parcela" />
+													</td>
+													<td nowrap="nowrap" colspan="4">
+														<ui:textField binding="#{saic$grpOSP$ABMValorMedidor$AgregarValorMedidor.tfParcela}" columns="49" disabled="true"
+															id="tfParcela" styleClass="textField" />
+														<ui:button action="#{saic$grpOSP$ABMValorMedidor$AgregarValorMedidor.btnSeleccionarParcela_action}"
+															binding="#{saic$grpOSP$ABMValorMedidor$AgregarValorMedidor.btnSeleccionarParcela}" id="btnSeleccionarParcela"
+															escape="false" mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
+														<a4j:commandButton id="btnLimpiarParcela" reRender="form1:tfParcela"
+															binding="#{saic$grpOSP$ABMValorMedidor$AgregarValorMedidor.btnLimpiarParcela}"
+															action="#{saic$grpOSP$ABMValorMedidor$AgregarValorMedidor.btnLimpiarParcela_action}" styleClass="buttonLimpiarAjax" />
+													</td>
+												</tr>
 										</table>
 									</td>
 								</tr>
