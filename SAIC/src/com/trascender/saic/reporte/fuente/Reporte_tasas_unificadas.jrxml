@@ -222,18 +222,23 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="223" y="95" width="151" height="15"/>
 				<textElement verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[($F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("EXENTO_TGI").getValorParametro().equals(1D)  ?  "Solo OSM"  :
+				<textFieldExpression><![CDATA[($F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI") == null ? $F{F_ZONA}+"*" :
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("EXENTO_TGI").getValorParametro().equals(1D)  ?  "Solo OSM"  :
 $F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(0.0)  ?  "E"  :
 $F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(1.0)  ?  "A"  :
 $F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(2.0)  ?  "B"  :
 $F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(3.0)  ?  "C"  :
 $F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(4.0)  ?  "D"  :
-$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(5.0)  ?  "O"  : "----")]]></textFieldExpression>
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("CONVERSION_ZONAS_TGI").getValorParametro().equals(5.0)  ?  "O"  : "-----")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="39" y="111" width="35" height="14"/>
 				<textElement verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("METROS_FRENTE").getValorParametro()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("METROS_FRENTE") != null
+?
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("METROS_FRENTE").getValorParametro()
+:
+$F{F_METROS_FRENTE}+"*"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="43" y="94" width="36" height="15"/>
@@ -393,23 +398,46 @@ $F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("ES_MEDIDO").getValorPa
 			<textField isBlankWhenNull="true">
 				<reportElement x="63" y="125" width="70" height="16"/>
 				<textElement verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("AVALUO_TERRENO").getValorParametro()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("AVALUO_TERRENO") != null
+?
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("AVALUO_TERRENO").getValorParametro()
+:
+$F{F_AVALUO_TERRENOS}+"*"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="239" y="125" width="100" height="16"/>
 				<textElement verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("AVALUO_MEJORAS").getValorParametro()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("AVALUO_MEJORAS") != null
+?
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("AVALUO_MEJORAS").getValorParametro()
+:
+$F{F_AVALUO_MEJORAS}+"*"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="297" y="111" width="42" height="13"/>
 				<textElement verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("SUPERFICIE_MEJORAS").getValorParametro()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("SUPERFICIE_MEJORAS") != null
+?
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("SUPERFICIE_MEJORAS").getValorParametro()
+:
+$F{F_SUPERFICIE_MEJORAS}+"*"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="170" y="112" width="49" height="13"/>
 				<textElement verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("SUPERFICIE_TERRENO").getValorParametro()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("SUPERFICIE_TERRENO") != null
+?
+$F{liquidacionTasaAgrupada}.getParametroValuadoPorNombre("SUPERFICIE_TERRENO").getValorParametro()
+:
+$F{F_SUPERFICIE_TERRENO}+"*"]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="1" y="173" width="397" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[* Datos actuales, pueden no coincidir con el dato usado en la liquidación]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

@@ -127,6 +127,8 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 					locMapa.put("F_NRO_PARTIDA",
 							locDocumento.getParcela().getNroPartidaProvincial());
 					locMapa.put("F_ZONA", getZona(cadaLiquidacion));
+					locMapa.put("F_METROS_FRENTE", locDocumento.getParcela().getMetrosFrenteTotal());
+					locMapa.put("F_SUPERFICIE_MEJORAS", locDocumento.getParcela().getSuperficieMejoras());
 					locMapa.put("F_SUPERFICIE_TERRENO",
 							locDocumento.getParcela().getSuperficie());
 					locMapa.put("F_AVALUO_TERRENOS",

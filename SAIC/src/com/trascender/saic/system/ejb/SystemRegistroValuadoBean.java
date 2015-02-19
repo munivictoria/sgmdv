@@ -256,9 +256,6 @@ public class SystemRegistroValuadoBean implements SystemRegistroValuado {
 			com.trascender.habilitaciones.recurso.persistent.osp.ServicioOSP pServicio, String pCodigoMedidor) throws TrascenderException {
 		try {
 			if(SecurityMgr.getInstance().getPermiso(this.llave, ValorMedidor.serialVersionUID, Permiso.Accion.SELECT)) {
-				if(pServicio == null && pCodigoMedidor == null) {
-					throw new SaicException(312);
-				}
 				return this.businessRegistroValuadoLocal.getListaNuevasMedidasServiciosOSP(pCalle, pCuota, pServicio, pCodigoMedidor);
 			} else {
 				throw new SaicException(705);

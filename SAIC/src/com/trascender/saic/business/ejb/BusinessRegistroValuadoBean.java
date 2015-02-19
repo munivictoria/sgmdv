@@ -15,8 +15,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import ar.trascender.criterio.clases.Criterio;
+import ar.trascender.criterio.clases.Funcion;
+import ar.trascender.criterio.clases.Orden;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
+import ar.trascender.criterio.clases.TuplaCase;
+import ar.trascender.criterio.enums.TipoSubconsulta;
 
 import com.trascender.catastro.recurso.persistent.Calle;
 import com.trascender.catastro.recurso.persistent.Parcela;
@@ -430,38 +434,37 @@ public class BusinessRegistroValuadoBean implements BusinessRegistroValuadoLocal
 		if(pCuota == null) {
 			throw new SaicException(311);
 		}
-		if(pServicio == null && pCodigoMedidor == null) {
-			throw new SaicException(5);
-		}
 
-		List listaParcelas = null;
+		Criterio criterioParcela = null;
 		if(pCalle != null) {
-			listaParcelas = Criterio.getInstance(this.entityManager, Parcela.class).setProyeccion(Proyeccion.PROP("idParcela"))
-					.add(Restriccion.IGUAL("domicilioParcelario.relacionCalle.idAbstractCalle", pCalle.getIdCalle())).list();
+			criterioParcela = Criterio.getInstance(this.entityManager, Parcela.class)
+					.setProyeccion(Proyeccion.PROP("idParcela"))
+					.add(Restriccion.IGUAL("domicilioParcelario.relacionCalle.idAbstractCalle", pCalle.getIdCalle()));
 		}
 
-		Criterio busquedaDocumentos = Criterio.getInstance(this.entityManager, DocumentoOSP.class).add(
-				Restriccion.NOT(Restriccion.OR(Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.TERMINADO), Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.ANULADO))));
+		Criterio busquedaDocumentos = Criterio.getInstance(this.entityManager, DocumentoOSP.class)
+				.add(Orden.ASC("listaAsocRegAlicuota.codigoMedidor"))
+				.add(Restriccion.LIKE("listaAsocRegAlicuota.codigoMedidor", pCodigoMedidor))
+				.add(Restriccion.NOT(
+						Restriccion.OR(
+								Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.TERMINADO), 
+								Restriccion.IGUAL("obligacion.estado", Obligacion.Estado.ANULADO))));
 
-		if((listaParcelas != null) && (!listaParcelas.isEmpty())) {
-			busquedaDocumentos.crearAlias("parcela", "locParcela").add(Restriccion.EN("locParcela.idParcela", listaParcelas));
+		if(criterioParcela != null) {	
+			busquedaDocumentos.add(Restriccion.SUBCONSULTA("parcela", TipoSubconsulta.IN, criterioParcela));
 		}
 
 		if(pServicio != null && pServicio.getIdTipoAlicuota() != -1) {
-			busquedaDocumentos.crearAlias("listaAsocRegAlicuota.registroAlicuota", "locRegistroAlicuota").add(
-					Restriccion.IGUAL("locRegistroAlicuota.idTipoAlicuota", pServicio.getIdTipoAlicuota()));
+			busquedaDocumentos.crearAlias("listaAsocRegAlicuota.registroAlicuota", "locRegistroAlicuota")
+				.add(Restriccion.IGUAL("locRegistroAlicuota.idTipoAlicuota", pServicio.getIdTipoAlicuota()));
 		} else {
-			// Discriminamos por servicio medido, si no trae de todos los servicios, incluso no medidos.
-			List<ServicioOSP> locListaServiciosMedidos = Criterio.getInstance(entityManager, ServicioOSP.class).add(Restriccion.IGUAL("medido", true))
-					.add(Restriccion.IGUAL("estado", RegAlicuota.Estado.ACTIVO)).list();
 			busquedaDocumentos.crearAlias("listaAsocRegAlicuota.registroAlicuota", "cadaRegAlicuota");
-			busquedaDocumentos.add(Restriccion.EN("cadaRegAlicuota", locListaServiciosMedidos));
+			busquedaDocumentos.add(Restriccion.IGUAL("cadaRegAlicuota.medido", true))
+				.add(Restriccion.IGUAL("cadaRegAlicuota.estado", RegAlicuota.Estado.ACTIVO));
 		}
 
-		if(pCodigoMedidor != null && !pCodigoMedidor.trim().isEmpty()) {
-			busquedaDocumentos.add(Restriccion.IGUAL("codigoMedidor", pCodigoMedidor));
-		}
-
+			
+		busquedaDocumentos.setModoDebug(true);
 		List listaDocumentos = busquedaDocumentos.list();
 		// HACER: si listadocumento != null lo de abajo sino listaRetorno
 		for(Object objDocumento : listaDocumentos) {

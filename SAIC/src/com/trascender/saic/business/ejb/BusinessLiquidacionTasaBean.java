@@ -495,6 +495,14 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 					cadaVariableSimple.setValor(jep.getValue());
 					jep.addVariable(cadaVariableSimple.getNombre(), cadaVariableSimple.getValor());
 				}
+				
+				//Luego de calcular las variables, pregunto por la condicion de no liquidacion.
+				jep.parseExpression(locLiquidacionTasa.getTipoTasa().getCondicionNoLiquidacion());
+				Double valorCondicionNoLiquidacion = jep.getValue();
+				if (!valorCondicionNoLiquidacion.equals(0D)) {
+					//No guardar esta liquidacion.
+					continue;
+				}
 
 				// calculo el valor de la tasa sin moficadores de ningún tipo
 
