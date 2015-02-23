@@ -85,6 +85,7 @@
         <file path="/Framework/src/META-INF/MANIFEST.MF"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.persistent"/>
         <javaElement handleIdentifier="=Expedientes/src&lt;com.trascender.expedientes.business.ejb"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.arrendamiento"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessPlantillaObligacionBean.java"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessRegistroPropiedadLocal.java"/>
         <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.recurso.persistent.refinanciacion"/>
@@ -111,13 +112,14 @@
         <javaElement handleIdentifier="=Expedientes/src&lt;com.trascender.expedientes.system.interfaces"/>
         <javaElement handleIdentifier="=Expedientes/src&lt;com.trascender.expedientes.system.ejb"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.business.ejb{BusinessCajaBean.java"/>
-        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoPlanObraLocal.java"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.business.interfaces{BusinessCajaLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoPlanObraLocal.java"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.recurso.filtros"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.reporte.dataSource"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.business.ejb{BusinessIngresoVarioBean.java"/>
         <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessImpresionBean.java"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.business.ejb{BusinessSolicitudSuministroBean.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoArrendamientoLocal.java"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.persistent.cementerio"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.business.ejb{BusinessBienBean.java"/>
         <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessReLiquidacionLocal.java"/>
@@ -136,7 +138,6 @@
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.business.interfaces{BusinessCajaChicaLocal.java"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.exception"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.reporte.compilado"/>
-        <javaElement handleIdentifier="=Expedientes/src&lt;com.trascender.expedientes.recurso.interfaces"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.reporte.compilado"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroPropiedadBean.java"/>
         <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.interfaces{BusinessRefinanciacionLocal.java"/>
@@ -169,8 +170,8 @@
         <javaElement handleIdentifier="=Expedientes/src&lt;com.trascender.expedientes.enums"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.business.interfaces{BusinessPlanDeCuentaLocal.java"/>
         <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.reporte.dataSource"/>
-        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util.enumerations"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessReportesCatastroLocal.java"/>
+        <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoArrendamiento.java"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.business.interfaces{BusinessFacturaLocal.java"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessDocumentoTGILocal.java"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.system.interfaces"/>
