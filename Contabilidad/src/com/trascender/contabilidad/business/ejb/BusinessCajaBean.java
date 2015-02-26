@@ -1515,10 +1515,6 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			throw new TrascenderContabilidadException(105);
 		}
 
-		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.VENCIDA) {
-			throw new TrascenderContabilidadException(102);
-		}
-
 		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.ANULADA) {
 			throw new TrascenderContabilidadException(103);
 		}
@@ -1551,6 +1547,15 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			locLiquidacion.getDocGeneradorDeuda().toString();
 			if(locLiquidacion.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado().getParcela() != null) {
 				locLiquidacion.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado().getParcela().toString();
+			}
+			
+			if(locLiquidacion.getEstado() == RegistroDeuda.EstadoRegistroDeuda.VENCIDA) {
+				try {
+					businessReliquidacion.setLlave(llave);
+					locLiquidacion = businessReliquidacion.calcularIntereses(locLiquidacion, new Date(), true, true, false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			return locLiquidacion;
 		} else {

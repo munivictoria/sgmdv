@@ -22,9 +22,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado;
 import com.trascender.saic.recurso.interfaces.Pagable;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
+import com.trascender.saic.recurso.persistent.RegistroDeuda;
 
 @Entity
 @Table(name = "TICKET_CAJA")
@@ -214,6 +216,16 @@ public class TicketCaja implements Serializable{
 			}
 		}
 		return "";
+	}
+	
+	public Double getImporteInteres() {
+		Double interes = new Double(0);
+		List<Pagable> pagables = Util.getListaPropiedad(detalles, "deuda");
+		List<Double> intereses = Util.getListaPropiedad(pagables, "interes");
+		for (Double cadaInteres : intereses) {
+			interes += cadaInteres;
+		}
+		return interes;
 	}
 	
 	@Override

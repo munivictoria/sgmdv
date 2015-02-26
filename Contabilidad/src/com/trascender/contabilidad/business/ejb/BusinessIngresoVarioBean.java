@@ -199,8 +199,10 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 
 	public FiltroIngresoVario findListaIngresoVario(FiltroIngresoVario pFiltro) throws java.lang.Exception {
 		Criterio locCriterio = Criterio.getInstance(entity, IngresoVario.class)
-
-		.add(Restriccion.IGUAL("conceptoIngresoVario", pFiltro.getConceptoIngresoVario())).add(Restriccion.IGUAL("estado", pFiltro.getEstado()));
+			.add(Restriccion.IGUAL("conceptoIngresoVario", pFiltro.getConceptoIngresoVario()))
+			.add(Restriccion.IGUAL("estado", pFiltro.getEstado()))
+			.add(Restriccion.MAYOR("fechaEmision", pFiltro.getFechaDesde()))
+			.add(Restriccion.MENOR("fechaEmision", pFiltro.getFechaHasta()));
 
 		if(pFiltro.getPersona() != null) {
 			locCriterio.add(Restriccion.IGUAL("persona", pFiltro.getPersona()));

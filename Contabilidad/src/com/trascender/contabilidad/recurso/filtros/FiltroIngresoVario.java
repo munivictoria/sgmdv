@@ -1,5 +1,6 @@
 package com.trascender.contabilidad.recurso.filtros;
 
+import java.util.Date;
 import java.util.List;
 
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
@@ -19,8 +20,25 @@ public class FiltroIngresoVario extends FiltroAbstracto<IngresoVario>{
 	private ConceptoIngresoVario conceptoIngresoVario;
 	private IngresoVario.Estado estado;
 	private List<Long> listaIdPersonas;
+	private Date fechaDesde, fechaHasta;
 	
 	public FiltroIngresoVario() {
+	}
+	
+	public Date getFechaDesde() {
+		return fechaDesde;
+	}
+
+	public void setFechaDesde(Date fechaDesde) {
+		this.fechaDesde = fechaDesde;
+	}
+
+	public Date getFechaHasta() {
+		return fechaHasta;
+	}
+
+	public void setFechaHasta(Date fechaHasta) {
+		this.fechaHasta = fechaHasta;
 	}
 
 	public FiltroIngresoVario(Persona persona,

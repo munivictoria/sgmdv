@@ -874,6 +874,7 @@ public class SystemAdministracionIngresosBean implements SystemAdministracionIng
 	public List<DetalleTicketCaja> getListaDetalleByIdLiquidacion(String codigo) throws TrascenderException{
 		try{
 			if (SecurityMgr.getInstance().getPermiso(this.llave, TicketCaja.serialVersionUID, Permiso.Accion.INSERT)){
+				this.locCaja.setLlave(llave);
 				return this.locCaja.getListaDetalleByIdLiquidacion(codigo);
 			} else {
 				throw new TrascenderContabilidadException(900);
