@@ -62,6 +62,7 @@ import com.trascender.saic.recurso.persistent.EstadoCuentaTemporalSHPS;
 import com.trascender.saic.recurso.persistent.EstadoCuentaTemporalTGI;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ParametroValuadoAlicuota;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
@@ -113,6 +114,13 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 		locRecurso.setNombre("Auditoria Tributaria");
 		locRecurso.setClase(AuditoriaTributaria.class);
 		grupo.getListaRecursos().add(locRecurso);
+		
+		Recurso plantilla = new Recurso();
+		plantilla.setIdRecurso(PlantillaPlanDePago.serialVersionUID);
+		plantilla.setNombre("Plantilla Plan de Pago");
+		plantilla.setClase(PlantillaPlanDePago.class);
+		plantilla.setAtributosConsultables("Nombre", "nombre");
+		grupo.getListaRecursos().add(plantilla);
 
 		SecurityMgr.getInstance().addGrupo(grupo);
 	}

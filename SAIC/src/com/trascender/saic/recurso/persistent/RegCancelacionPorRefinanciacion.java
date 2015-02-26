@@ -116,10 +116,8 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa)locRegistroDeuda;
 				montoTotal+=locLiquidacionTasa.getValorTotal();
 			}else if (locRegistroDeuda instanceof CuotaRefinanciacion){
-				System.out.println("Es una refi");
 				CuotaRefinanciacion cadaCuota = (CuotaRefinanciacion) locRegistroDeuda;
 				montoTotal += cadaCuota.getValor();
-			
 			}
 		}
 		return montoTotal;

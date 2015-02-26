@@ -15,7 +15,9 @@ import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaRefer;
+import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
@@ -64,4 +66,12 @@ public interface SystemEstadoCuentaContribuyente{
    public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(LiquidacionTasaRefer pLiquidacion);
    
    public FiltroLiquidacionTasaRefer findListaLiquidacionTasaRefer(FiltroLiquidacionTasaRefer pFiltro) throws Exception;
+   
+   public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException;
+	
+   public void updatePlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException;
+	
+   public void deletePlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException;
+	
+   public FiltroPlantillaPlanDePago findListaPlantillaPlanDePago(FiltroPlantillaPlanDePago filtro) throws TrascenderException;
 }

@@ -26,6 +26,7 @@ import com.trascender.habilitaciones.recurso.persistent.PeriodoLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.habilitaciones.recurso.persistent.osp.ServicioOSP;
 import com.trascender.habilitaciones.recurso.persistent.pfo.Obra;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionSHPS;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
@@ -70,12 +71,7 @@ public interface BusinessImpresionLocal
 			Integer pCuotaHasta
 			) throws Exception;
 
-	public JasperPrint getReporteSHPS(
-			com.trascender.framework.recurso.persistent.Persona pPersona,
-			com.trascender.habilitaciones.recurso.persistent.RegAlicuota pRubro,
-			Integer pAnio, Calendario pCalendario, PeriodoLiquidacion pPeriodo,
-			CuotaLiquidacion pCuota,
-			EstadoRegistroDeuda pEstadoRegistroDeuda, List<AtributoDinamico<?>> pListaAtributosDinamicos, Usuario pUsuario) throws Exception;
+	public JasperPrint getReporteSHPS(FiltroLiquidacionSHPS filtro, Usuario pUsuario) throws Exception;
 
 	public JasperPrint getReporteSHPS(List<LiquidacionTasa> pListaLiquidaciones, Usuario pUsuario) throws Exception;
 

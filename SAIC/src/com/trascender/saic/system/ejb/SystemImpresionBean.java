@@ -29,6 +29,7 @@ import com.trascender.habilitaciones.recurso.persistent.PeriodoLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.habilitaciones.recurso.persistent.osp.ServicioOSP;
 import com.trascender.saic.business.interfaces.BusinessImpresionLocal;
+import com.trascender.saic.recurso.filtros.FiltroLiquidacionSHPS;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
@@ -107,16 +108,10 @@ public class SystemImpresionBean implements SystemImpresion {
 	}
 
 	@Override
-	public JasperPrint getReporteSHPS(
-			com.trascender.framework.recurso.persistent.Persona pPersona,
-			com.trascender.habilitaciones.recurso.persistent.RegAlicuota pRubro,
-			Integer pAnio, Calendario pCalendario, PeriodoLiquidacion pPeriodo,
-			CuotaLiquidacion pCuota,
-			EstadoRegistroDeuda pEstadoRegistroDeuda, List<AtributoDinamico<?>> pListaAtributosDinamicos) throws Exception{
+	public JasperPrint getReporteSHPS(FiltroLiquidacionSHPS filtro) throws Exception{
 
 		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(llave);
-		System.out.println("*****************************************************" + locUsuario);
-		return businessImpresionLocal.getReporteSHPS(pPersona, pRubro, pAnio, pCalendario, pPeriodo, pCuota, pEstadoRegistroDeuda, pListaAtributosDinamicos, locUsuario);
+		return businessImpresionLocal.getReporteSHPS(filtro, locUsuario);
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -17,17 +16,15 @@ import javax.persistence.PersistenceContext;
 import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
+import ar.trascender.criterio.interfaces.Restringible;
 
 import com.trascender.framework.business.interfaces.BusinessCalendarioLocal;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
-import com.trascender.framework.recurso.transients.Periodo;
-import com.trascender.framework.util.Periodicidad;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TrascenderEnverListener;
 import com.trascender.habilitaciones.business.interfaces.BusinessObligacionLocal;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado.Estado;
-import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.habilitaciones.recurso.persistent.refinanciacion.DocumentoRef;
 import com.trascender.saic.business.interfaces.BusinessAuditoriaTributariaLocal;
@@ -36,12 +33,13 @@ import com.trascender.saic.business.interfaces.BusinessReLiquidacionLocal;
 import com.trascender.saic.business.interfaces.BusinessRefinanciacionLocal;
 import com.trascender.saic.business.interfaces.BusinessRegistroValuadoLocal;
 import com.trascender.saic.exception.SaicException;
+import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
-import com.trascender.saic.recurso.persistent.TasaTGI;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
@@ -79,33 +77,6 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 	 */
 	private static final long serialVersionUID = -6066365215721537177L;
 	
-//	private BusinessRegistroValuadoLocal getBusinessRegistroValuado() throws Exception{
-//		if (this.businessRegistroValuado==null){
-//			Context locContext = new InitialContext();
-//			BusinessRegistroValuadoLocalHome locHome = (BusinessRegistroValuadoLocalHome) PortableRemoteObject.narrow(locContext.lookup(BusinessRegistroValuadoLocalHome.JNDI_NAME),BusinessRegistroValuadoLocalHome.class);
-//			this.businessRegistroValuado = locHome.create();
-//		}
-//		return this.businessRegistroValuado;
-//	}
-	
-//	private BusinessReLiquidacionLocal getBusinessReLiquidacionTasa() throws Exception{
-//		if (this.businessReLiquidacionTasa ==null){
-//			Context locContext = new InitialContext();
-//			BusinessReLiquidacionLocalHome locHome = (BusinessReLiquidacionLocalHome) PortableRemoteObject.narrow(locContext.lookup(BusinessReLiquidacionLocalHome.JNDI_NAME),BusinessReLiquidacionLocalHome.class);
-//			this.businessReLiquidacionTasa = locHome.create();
-//		}
-//		return this.businessReLiquidacionTasa;
-//	}
-	
-//	@SuppressWarnings("unused")
-//	private BusinessLiquidacionTasaLocal getBusinessLiquidacionTasa() throws Exception{
-//		if (this.businessLiquidacionTasa==null){
-//			Context locContext = new InitialContext();
-//			BusinessLiquidacionTasaLocalHome locHome = (BusinessLiquidacionTasaLocalHome) PortableRemoteObject.narrow(locContext.lookup(BusinessLiquidacionTasaLocalHome.JNDI_NAME),BusinessLiquidacionTasaLocalHome.class);
-//			this.businessLiquidacionTasa = locHome.create();
-//		}
-//		return this.businessLiquidacionTasa;
-//	}
 	
 	
 	/**
@@ -307,105 +278,6 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 				pAuditoria.setDocumentoRefinanciacion(pDocumentoRefinanciacion);
 				this.businessAuditoria.updateAuditoriaTributaria(pAuditoria);
 			}
-//		this.session = GestorPersistenciaSaic.getInstance().getSession();
-//		Transaction tx=null;
-//		try{
-//			tx = this.session.beginTransaction();
-//			this.validarDocumentoRefinanciación(pDocumentoRefinanciacion);
-//
-//			if (pDocumentoRefinanciacion.getListaRegistrosDeuda().isEmpty()){
-//				this.calcularCuotasRefinanciacion(pDocumentoRefinanciacion);
-//			}
-//
-//			Integer locNumeroRefinanciacion = (Integer)this.session.createSQLQuery("Select max( cast(numero_refinanciacion as integer)) from documento_refinanciacion").list().get(0);
-//			if (locNumeroRefinanciacion == null){
-//				locNumeroRefinanciacion = 0;
-//			}
-//			locNumeroRefinanciacion++;
-//			pDocumentoRefinanciacion.setNumeroRefinanciacion(locNumeroRefinanciacion);
-//			
-//			DocumentoRef locDocHabilitanteEspecializado = new DocumentoRef();
-//			
-//			Obligacion locObligacion = pDocumentoRefinanciacion.getObligacion();
-//			
-//			Integer locNumeroTramite = (Integer)this.session.createSQLQuery("Select max( cast(numero_tramite as integer)) from obligacion").list().get(0);
-//
-//			locNumeroTramite++;
-//			locObligacion.setNumeroTramite(locNumeroTramite);
-//			
-//			locObligacion.setDocumentoEspecializado(locDocHabilitanteEspecializado);
-//			
-//			this.setValoresPorDefecto(pDocumentoRefinanciacion);
-//		
-//			pDocumentoRefinanciacion.setTipoDocGeneradorDeuda(TipoDocGeneradorDeuda.REFINANCIACION);
-//			
-//			locDocHabilitanteEspecializado.setObligacion(locObligacion);
-//			locDocHabilitanteEspecializado.setDomicilio(locObligacion.getPersona().getDomicilio());
-//			locDocHabilitanteEspecializado.setEstado(Estado.ACTIVO);
-//			locDocHabilitanteEspecializado.setFechaCreacion(Calendar.getInstance().getTime());
-//			pDocumentoRefinanciacion.getObligacion().setDocumentoEspecializado(locDocHabilitanteEspecializado);
-//		
-//			this.session.save(pDocumentoRefinanciacion.getObligacion());
-//			
-//			this.session.evict(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion());
-//			this.session.evict(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda());
-//			
-//			this.session.save(pDocumentoRefinanciacion);
-//
-//			for (RegistroDeuda cadaRegistroDeuda: pDocumentoRefinanciacion.getListaRegistrosDeuda()){
-//				cadaRegistroDeuda.setDocGeneradorDeuda(pDocumentoRefinanciacion);
-//				this.session.saveOrUpdate(cadaRegistroDeuda);
-//			}
-//
-//			RegistroDeuda locRegistroDeuda = pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda().iterator().next();
-//			//si se trata de reliquidaciones tgi q solo traiga las reliquidaciones de esta y asi si son liquidaciones
-//			List<RegistroDeuda> locListaRegistrosDeudaAsociados = this.getBusinessReLiquidacionTasa().getListaRegistrosDeudaAsociados(locRegistroDeuda, locRegistroDeuda.getTipoDeuda());
-//
-//			if(!this.session.isOpen()){
-//				this.session = GestorPersistenciaSaic.getInstance().getSession();
-//			}
-//			
-//			if(locRegistroDeuda.getDocGeneradorDeuda() instanceof TasaTGI){
-//				//Tomo el primer registro deuda a refinanciar, ese me sirve para saber si es tercio o bimestre la deuda q se refinancia
-//				TasaTGI locTasaTGI = (TasaTGI) locRegistroDeuda.getDocGeneradorDeuda();
-//				//Si refinancio la bimestral es xq no pague nada, por eso todas las otras quedan como Refinanciada bimestral
-//				if((locTasaTGI.getTipoTasa().getPeriodicidad().equals(Periodicidad.BIMESTRAL) && locTasaTGI.getTipoTasa().getPeriodicidadCuotas().equals(Periodicidad.BIMESTRAL))){
-//					for(RegistroDeuda cadaRegistroDeuda : locListaRegistrosDeudaAsociados){
-//						//No se cambia el estado del bimestre
-//						if(locRegistroDeuda.getIdRegistroDeuda() != cadaRegistroDeuda.getIdRegistroDeuda()){
-//							cadaRegistroDeuda.setEstado(EstadoRegistroDeuda.REFINANCIADA_BIMESTRAL);
-//							this.session.merge(cadaRegistroDeuda);
-//						}
-//					}
-//				}
-//			}
-//
-//			for(RegistroDeuda cadaRegistroDeuda: pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()){
-//				cadaRegistroDeuda.toString();
-//				cadaRegistroDeuda.getDocGeneradorDeuda().toString();
-//				cadaRegistroDeuda.getDocGeneradorDeuda().getObligacion().toString();
-//				cadaRegistroDeuda.getDocGeneradorDeuda().getObligacion().getPersona().toString();
-//				
-//				cadaRegistroDeuda.setRegistroCancelacion(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion());
-//
-//				//Por defecto todas quedan como refinanciadas, en el caso de que se refinancie la deuda anual tgi, los periodos de tercios y primer bimestre
-//				//pasan a tener estado REFINANCIADA_ANUAL
-//				cadaRegistroDeuda.setEstado(EstadoRegistroDeuda.REFINANCIADA);
-//				this.session.merge(cadaRegistroDeuda);
-//			}
-//			tx.commit();
-//		}
-//		catch(Exception e){
-//			if ((tx!=null)&&(tx.isActive())){
-//				tx.rollback();
-//			}
-//			throw e;
-//		}
-//		finally{
-//			if ((this.session!=null)&&(this.session.isOpen())){
-//				this.session.close();
-//			}
-//		}
 	}
 	
 	private void validarDocumentoRefinanciación(DocumentoRefinanciacion pDocumentoRefinanciacion)  throws TrascenderException {
@@ -603,37 +475,29 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			
 			//Agrego los pParams
 			locCriterio
-//			.setFetchJoin("docGeneradorDeuda")
 						.add(Restriccion.IGUAL("docGeneradorDeuda", pDocumentoRefinanciacion))
 						.add(Restriccion.IGUAL("listaRegistroDeuda", pCuotaRefinanciacion));
 		
 		return locListaRetorno;
+	}
 	
-//		List<CuotaRefinanciacion> locListaRetorno = new ArrayList<CuotaRefinanciacion>();
-//		
-//		try{
-//			Criteria locCriteria = this.session.createCriteria(CuotaRefinanciacion.class);
-//					
-//			if(pDocumentoRefinanciacion != null){
-//						locCriteria.setFetchMode("docGeneradorDeuda", FetchMode.JOIN)
-//						.add(Restrictions.eq("docGeneradorDeuda", pDocumentoRefinanciacion));
-//			}
-//			
-//			if(pCuotaRefinanciacion != null){
-//				
-//				locCriteria.createAlias("listaRegistroDeuda", "locListaRegistroDeuda")
-//				.add(Restrictions.eq("locListaRegistroDeuda", pCuotaRefinanciacion));
-//			}
-//			
-//			
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//			throw e;
-//		}
-//		
-//		
-//		
-//		return locListaRetorno;
+	public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		this.entityManager.merge(plantilla);
+	}
+	
+	public void updatePlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		this.entityManager.merge(plantilla);
+	}
+	
+	public void deletePlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		this.entityManager.remove(this.entityManager.merge(plantilla));
+	}
+	
+	public FiltroPlantillaPlanDePago findListaPlantillaPlanDePago(FiltroPlantillaPlanDePago filtro) {
+		Criterio locCriterio = Criterio.getInstance(entityManager, PlantillaPlanDePago.class)
+				.add(Restriccion.ILIKE("nombre", filtro.getNombre()));
+		filtro.procesarYListar(locCriterio);
+		return filtro;
 	}
 	
 }

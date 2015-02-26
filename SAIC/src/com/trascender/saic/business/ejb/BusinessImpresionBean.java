@@ -76,6 +76,7 @@ import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.pfo.DocumentoPlanObra;
 import com.trascender.habilitaciones.recurso.persistent.refinanciacion.DocumentoRef;
 import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
+import com.trascender.habilitaciones.recurso.persistent.shps.Rubro;
 import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
 import com.trascender.saic.business.interfaces.BusinessEstadoCuentaContribuyenteLocal;
 import com.trascender.saic.business.interfaces.BusinessImpresionLocal;
@@ -391,26 +392,12 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JasperPrint getReporteSHPS(
-			com.trascender.framework.recurso.persistent.Persona pPersona,
-			com.trascender.habilitaciones.recurso.persistent.RegAlicuota pRubro,
-			Integer pAnio, Calendario pCalendario, PeriodoLiquidacion pPeriodo,
-			CuotaLiquidacion pCuota,
-			EstadoRegistroDeuda pEstadoRegistroDeuda, List<AtributoDinamico<?>> pListaAtributosDinamicos, Usuario pUsuario)
+	public JasperPrint getReporteSHPS(FiltroLiquidacionSHPS filtro, Usuario pUsuario)
 					throws Exception {
-		
-		
-		FiltroLiquidacionSHPS locFiltro = new FiltroLiquidacionSHPS();
-		locFiltro.setPersona(pPersona);
-		locFiltro.setAnio(pAnio);
-		locFiltro.setCalendario((CalendarioMunicipal) pCalendario);
-		locFiltro.setPeriodo(pPeriodo);
-		locFiltro.setCuota(pCuota);
-		locFiltro.setListaAtributosDinamicos(pListaAtributosDinamicos);
-		locFiltro.setEstadoLiquidacion(pEstadoRegistroDeuda);
-		
+		filtro.setCantidadFilasTotales(null);
+		filtro.setCantidadPorPagina(null);
 		List<LiquidacionTasa> locListaLiquidacionesTasa = this.businessLiquidacionTasaLocal
-				.findListaLiquidacionesSHPS(locFiltro).getListaResultados();
+				.findListaLiquidacionesSHPS(filtro).getListaResultados();
 		return getReporteSHPS(locListaLiquidacionesTasa, pUsuario);
 	}
 

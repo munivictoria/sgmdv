@@ -110,6 +110,7 @@ import com.trascender.saic.business.interfaces.BusinessEstadoCuentaContribuyente
 import com.trascender.saic.business.interfaces.BusinessExencionRegistroDeudaLocal;
 import com.trascender.saic.business.interfaces.BusinessImpresionLocal;
 import com.trascender.saic.business.interfaces.BusinessLiquidacionTasaLocal;
+import com.trascender.saic.business.interfaces.BusinessReLiquidacionLocal;
 import com.trascender.saic.business.interfaces.BusinessRegistroValuadoLocal;
 import com.trascender.saic.exception.ResultadoLiquidacion;
 import com.trascender.saic.exception.SaicException;
@@ -368,6 +369,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	private BusinessTipoTasaLocal businessTipoTasa;
 	@EJB
 	private BusinessPeriodoLocal businessPeriodo;
+	@EJB
+	private BusinessReLiquidacionLocal businessReliquidacion;
 
 	private final Map<String, TipoParametro> tiposParametros = new HashMap<String, TipoParametro>();
 	private List<TipoTasa> listaFormulasUtilizadas;
@@ -497,11 +500,15 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				}
 				
 				//Luego de calcular las variables, pregunto por la condicion de no liquidacion.
-				jep.parseExpression(locLiquidacionTasa.getTipoTasa().getCondicionNoLiquidacion());
-				Double valorCondicionNoLiquidacion = jep.getValue();
-				if (!valorCondicionNoLiquidacion.equals(0D)) {
-					//No guardar esta liquidacion.
-					continue;
+				if (locLiquidacionTasa.getTipoTasa().getCondicionNoLiquidacion() != null
+						&& !locLiquidacionTasa.getTipoTasa().getCondicionNoLiquidacion().trim().isEmpty()) {
+					jep.parseExpression(locLiquidacionTasa.getTipoTasa().getCondicionNoLiquidacion());
+					Double valorCondicionNoLiquidacion = jep.getValue();
+					if (!valorCondicionNoLiquidacion.isNaN() 
+							&& !valorCondicionNoLiquidacion.equals(0D)) {
+						//No guardar esta liquidacion.
+						continue;
+					}
 				}
 
 				// calculo el valor de la tasa sin moficadores de ningún tipo
@@ -629,13 +636,20 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 					locFechaInicioPeriodo = (Calendar) pCuota.getPeriodo().getFechaInicio().clone();
 				}
 				// }
-
+				
+				
+				/* Fernando, probando a crear los vencimientos directamente con intereses.
 				Vencimiento[] locListaVencimientos = this.calcularVencimientos(locLiquidacionTasa, locFechaInicioPeriodo);
 				for(Vencimiento locVencimiento : locListaVencimientos) {
 					locLiquidacionTasa.getListaVencimientos().add(locVencimiento);
 				}
 				System.out.println("Tiempo en obtener vencimientos= " + ((System.currentTimeMillis() - tiempoInicial) / 1000));
-
+				*/
+				
+				this.businessReliquidacion.setLlave(llave);
+				locLiquidacionTasa = this.businessReliquidacion
+						.calcularIntereses(locLiquidacionTasa, new Date(), true, false, false);
+				
 				// if(pNumeroCuota != null){
 				// locLiquidacionTasa.setNumeroCuota(pCuota.getNumero());
 				// }
@@ -3772,11 +3786,11 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		for(DocumentoSHPS cadaDocumento : locListaDocSHPS) {
 			Obligacion locObligacion = cadaDocumento.getObligacion();
 			boolean liquido = true;
-			if(cadaDocumento.getFechaCeseActividad() != null) {
-				if(cadaDocumento.getFechaCeseActividad().before(pCuota.getPeriodo().getFechaInicio().getTime())) {
-					liquido = false;
-				}
-			}
+//			if(cadaDocumento.getFechaCeseActividad() != null) {
+//				if(cadaDocumento.getFechaCeseActividad().before(pCuota.getPeriodo().getFechaInicio().getTime())) {
+//					liquido = false;
+//				}
+//			}
 
 			procesadas++;
 
@@ -4154,7 +4168,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				.add(Restriccion.IGUAL("cuotaLiquidacion.periodo", pFiltro.getPeriodo()))
 				.add(Restriccion.IGUAL("cuotaLiquidacion.periodo.calendario", pFiltro.getCalendario()))
 				.add(Restriccion.IGUAL("cuotaLiquidacion.periodo.calendario.anio", pFiltro.getAnio()))
-				
+				.setModoDebug(true)
 				.add(Restriccion.IGUAL("tipoDeuda", pFiltro.getTipoLiquidacion()));
 
 		if(pFiltro.isNoCero()) {

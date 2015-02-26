@@ -16,9 +16,12 @@ import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.saic.business.interfaces.BusinessEstadoCuentaContribuyenteLocal;
+import com.trascender.saic.business.interfaces.BusinessRefinanciacionLocal;
 import com.trascender.saic.exception.SaicException;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaRefer;
+import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
@@ -39,6 +42,9 @@ public class SystemEstadoCuentaContribuyenteBean implements SystemEstadoCuentaCo
 
 	@EJB
 	private BusinessEstadoCuentaContribuyenteLocal business;
+	
+	@EJB
+	private BusinessRefinanciacionLocal businessRefinanciacion;
 
 	/**
 	 * 
@@ -69,17 +75,6 @@ public class SystemEstadoCuentaContribuyenteBean implements SystemEstadoCuentaCo
 	 * @ejb.create-method
 	 */
 	public void ejbCreate() throws CreateException {
-		//		try{
-		//			Context locContexto = new InitialContext();
-		//			Object locObj = locContexto.lookup(BusinessEstadoCuentaContribuyenteLocalHome.JNDI_NAME);
-		//			BusinessEstadoCuentaContribuyenteLocalHome home = (BusinessEstadoCuentaContribuyenteLocalHome)PortableRemoteObject.narrow(locObj, BusinessEstadoCuentaContribuyenteLocalHome.class);
-		//			this.business = home.create();				
-		//		}
-		//		catch(Exception e){
-		//			e.printStackTrace();
-		//			throw new CreateException("No se ha podido instanciar el ejb de negocios");
-		//		}
-
 	}
 
 
@@ -333,6 +328,87 @@ public class SystemEstadoCuentaContribuyenteBean implements SystemEstadoCuentaCo
 	@Override
 	public FiltroLiquidacionTasaRefer findListaLiquidacionTasaRefer(FiltroLiquidacionTasaRefer pFiltro) throws Exception {
 		return business.findListaLiquidacionTasaRefer(pFiltro);
+	}
+
+	@Override
+	public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException{
+		try{
+			if (SecurityMgr.getInstance().getPermiso(this.llave, PlantillaPlanDePago.serialVersionUID, Permiso.Accion.INSERT)){
+				this.businessRefinanciacion.addPlantillaPlanDePago(plantilla);
+			}
+			else{
+				throw new SaicException(222);
+			}
+		}
+		catch (TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new SaicException(222);
+		}
+	}
+
+	@Override
+	public void updatePlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException{
+		try{
+			if (SecurityMgr.getInstance().getPermiso(this.llave, PlantillaPlanDePago.serialVersionUID, Permiso.Accion.UPDATE)){
+				this.businessRefinanciacion.updatePlantillaPlanDePago(plantilla);
+			}
+			else{
+				throw new SaicException(222);
+			}
+		}
+		catch (TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new SaicException(222);
+		}
+	}
+
+	@Override
+	public void deletePlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException{
+		try{
+			if (SecurityMgr.getInstance().getPermiso(this.llave, PlantillaPlanDePago.serialVersionUID, Permiso.Accion.DELETE)){
+				this.businessRefinanciacion.deletePlantillaPlanDePago(plantilla);
+			}
+			else{
+				throw new SaicException(222);
+			}
+		}
+		catch (TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new SaicException(222);
+		}		
+	}
+
+	@Override
+	public FiltroPlantillaPlanDePago findListaPlantillaPlanDePago(
+			FiltroPlantillaPlanDePago filtro) throws TrascenderException{
+		try{
+			if (SecurityMgr.getInstance().getPermiso(this.llave, PlantillaPlanDePago.serialVersionUID, Permiso.Accion.SELECT)){
+				return businessRefinanciacion.findListaPlantillaPlanDePago(filtro);
+			}
+			else{
+				throw new SaicException(222);
+			}
+		}
+		catch (TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new SaicException(222);
+		}
 	}
 
 }
