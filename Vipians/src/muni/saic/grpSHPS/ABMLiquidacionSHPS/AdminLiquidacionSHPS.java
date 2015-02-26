@@ -1184,12 +1184,9 @@ public class AdminLiquidacionSHPS extends AdminPageBean {
 
 				// ariel - descomentar cuando este listo
 				this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
-				// this.getCommunicationSAICBean().getRemoteSystemImpresion().imprimirListadoSHPS(persona, rubro, periodo, estadoRegistroDeuda);
 				JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion()
-						.getReporteSHPS(locFiltro.getPersona(), rubro, locFiltro.getAnio(), 
-								locFiltro.getCalendario(), locFiltro.getPeriodo(), locFiltro.getCuota(), locFiltro.getEstadoLiquidacion(), 
-								locFiltro.getListaAtributosDinamicos());
-
+						.getReporteSHPS(locFiltro);
+				
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.PDF);
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_LiquidacionSHPS");
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);

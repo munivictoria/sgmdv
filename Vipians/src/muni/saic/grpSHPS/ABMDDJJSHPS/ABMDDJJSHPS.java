@@ -935,10 +935,11 @@ public class ABMDDJJSHPS extends ABMPageBean {
 				ResultadoLiquidacion locResultado = getCommunicationSAICBean().getRemoteSystemLiquidacionTasa()
 					.liquidarSHPS(locDocumento.getObligacion().getPersona(), cuotas, locFiltro, false);
 				if (locResultado.getCantidadLiquidadas() > 0) {
+					FiltroLiquidacionSHPS filtroLiquidacion = new FiltroLiquidacionSHPS();
+					filtroLiquidacion.setPersona(locDocumento.getObligacion().getPersona());
+					filtroLiquidacion.setCuota(locDeclaracion.getCuotaLiquidacion());
 					JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion()
-							.getReporteSHPS(locDocumento.getObligacion().getPersona(), null, null, 
-									null, null, locDeclaracion.getCuotaLiquidacion(), null, 
-									null);
+							.getReporteSHPS(filtroLiquidacion);
 					subirReporteASesion("Liquidacion SHPS", ConstantesReportes.PDF, jp);
 				} else {
 					info("No se generaron liquidaciones." + locResultado.getMensajes());

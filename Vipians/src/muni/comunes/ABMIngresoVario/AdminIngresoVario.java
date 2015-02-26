@@ -10,6 +10,7 @@ package muni.comunes.ABMIngresoVario;
 import jasper.ConstantesReportes;
 
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -167,6 +168,24 @@ public class AdminIngresoVario extends AdminPageBean {
 	public void setBtnSeleccionarConceptoIngresoVario(Button b) {
 		this.btnSeleccionarConceptoIngresoVario = b;
 	}
+	
+	private TextField tfFechaDesde = new TextField(), tfFechaHasta = new TextField();
+
+	public TextField getTfFechaDesde() {
+		return tfFechaDesde;
+	}
+
+	public void setTfFechaDesde(TextField tfFechaDesde) {
+		this.tfFechaDesde = tfFechaDesde;
+	}
+
+	public TextField getTfFechaHasta() {
+		return tfFechaHasta;
+	}
+
+	public void setTfFechaHasta(TextField tfFechaHasta) {
+		this.tfFechaHasta = tfFechaHasta;
+	}
 
 	@Override
 	protected void _init() throws Exception {
@@ -189,6 +208,8 @@ public class AdminIngresoVario extends AdminPageBean {
 
 	@Override
 	protected ElementoPila agregarObjetosAElementoPila(ElementoPila ep) {
+		this.setTextFieldValueDate(this.tfFechaDesde, new Date());
+		this.setTextFieldValueDate(this.tfFechaHasta, new Date());
 		return ep;
 	}
 
@@ -201,6 +222,9 @@ public class AdminIngresoVario extends AdminPageBean {
 
 		locFiltro.setEstado(getDDEnumValue(this.getDdEstado(), IngresoVario.Estado.class));
 		locFiltro.setConceptoIngresoVario(this.getDDObjectValue(getDdConceptoIngresoVario(), getCommunicationCajaBean().getMapaConceptosIngresosVarios()));
+		
+		locFiltro.setFechaDesde(this.getTextFieldValueDate(this.tfFechaDesde));
+		locFiltro.setFechaHasta(this.getTextFieldValueDate(this.tfFechaHasta));
 	}
 
 	@Override
@@ -217,6 +241,9 @@ public class AdminIngresoVario extends AdminPageBean {
 
 		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado() == null ? IngresoVario.Estado.CREADO : locFiltro.getEstado())));
 		this.getDdEstadoDefaultOptions().setSelectedValue(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado())));
+		
+		setTextFieldValueDate(this.tfFechaDesde, locFiltro.getFechaDesde());
+		setTextFieldValueDate(this.tfFechaHasta, locFiltro.getFechaHasta());
 
 	}
 
@@ -234,6 +261,9 @@ public class AdminIngresoVario extends AdminPageBean {
 		this.getDdEstadoDefaultOptions().setSelectedValue(Util.getEnumNameFromString(String.valueOf(IngresoVario.Estado.CREADO)));
 		this.getTfPersonaSeleccionada().setText(null);
 		this.getTfConceptoIngresoVario().setText(null);
+		
+		this.setTextFieldValueDate(this.tfFechaDesde, new Date());
+		this.setTextFieldValueDate(this.tfFechaHasta, new Date());
 	}
 
 	@Override

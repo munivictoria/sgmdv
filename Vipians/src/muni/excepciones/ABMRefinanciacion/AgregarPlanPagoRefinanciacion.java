@@ -1551,9 +1551,9 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 
             if (periodosAdeudados != null) {
                 Set registrosDeuda = new HashSet(periodosAdeudados);
-                for (Iterator it = registrosDeuda.iterator(); it.hasNext();) {
-                    RegistroDeuda reg = (RegistroDeuda) it.next();                 
-                }
+//                for (Iterator it = registrosDeuda.iterator(); it.hasNext();) {
+//                    RegistroDeuda reg = (RegistroDeuda) it.next();                 
+//                }
                 regCancelacionPorRefinanciacion.getListaRegistrosDeuda().addAll(registrosDeuda);
 
                 documentoRefinanciacion.setRegCancelacionPorRefinanciacion(regCancelacionPorRefinanciacion);
@@ -1619,9 +1619,9 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
         if (documentoRefinanciacion.getSaldoAFavor() != null) {
             this.getTfSaldoAFavor().setText(Conversor.getStringDeDouble(documentoRefinanciacion.getSaldoAFavor()));
         }
-        for (Iterator it = regCancelacionPorRefinanciacion.getListaRegistrosDeuda().iterator(); it.hasNext();) {
-            RegistroDeuda reg = (RegistroDeuda) it.next();     
-        }
+//        for (Iterator it = regCancelacionPorRefinanciacion.getListaRegistrosDeuda().iterator(); it.hasNext();) {
+//            RegistroDeuda reg = (RegistroDeuda) it.next();     
+//        }
      
         if (regCancelacionPorRefinanciacion.getImporteTotal() != null) {
             this.getTfImporte().setText(Conversor.getStringDeDouble(regCancelacionPorRefinanciacion.getImporteTotal()));

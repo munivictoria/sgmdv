@@ -572,6 +572,13 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 		}
 		return retorno;
 	}
+	
+	protected void setTextFieldValueDate(TextField tf, Date date) {
+		if (date != null && tf != null) {
+			String valor = Conversor.getStringDeFechaCorta(date);
+			tf.setText(valor);
+		}
+	}
 
 	protected String getTextAreaValue(TextArea pTextArea) {
 		String retorno = null;

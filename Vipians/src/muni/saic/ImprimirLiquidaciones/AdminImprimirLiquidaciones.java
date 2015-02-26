@@ -349,6 +349,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 	private Button btnMarcarPagada = new Button();
 	private Button btnMarcarImpaga = new Button();
 	private Button btnNotificar = new Button();
+	private Button btnRefinanciar = new Button();
 	private Button btnEliminarLiquidacion = new Button();
 	private Button btnModificarLiquidacion = new Button();
 	private Button btnModificarVarias = new Button();
@@ -360,15 +361,19 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 	private Checkbox chkOmitir = new Checkbox();
 	private Set listaSeleccionados = new HashSet();
 	private TextArea taPersona = new TextArea();
-
+	
+	public Button getBtnRefinanciar() {
+		return btnRefinanciar;
+	}
+	public void setBtnRefinanciar(Button btnRefinanciar) {
+		this.btnRefinanciar = btnRefinanciar;
+	}
 	public Button getBtnNotificar() {
 		return btnNotificar;
 	}
-
 	public void setBtnNotificar(Button btnNotificar) {
 		this.btnNotificar = btnNotificar;
 	}
-
 	public TextArea getTaPersona() {
 		return taPersona;
 	}
@@ -2377,6 +2382,42 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 			}
 		}
 		return null;
+	}
+	
+	public String btnRefinanciar_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		this.guardarEstadoObjetosUsados();
+		
+		if(ultimo) {
+			List<LiquidacionTasaRefer> listaLiquidacionesRefer = Util.castearLista(this.getObjectListDataProvider().getList());
+			List<LiquidacionTasaAgrupada> listaLiquidacionesAgrupadas = new ArrayList<LiquidacionTasaAgrupada>();
+
+			for(Iterator<LiquidacionTasaRefer> iterator = listaLiquidacionesRefer.iterator(); iterator.hasNext();) {
+				LiquidacionTasaRefer cadaLiquidacionRefer = iterator.next();
+				if(!cadaLiquidacionRefer.getEstado().equals("VIGENTE") && !cadaLiquidacionRefer.getEstado().equals("VENCIDA")) {
+					iterator.remove();
+					continue;
+				}
+				try {
+					this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
+					listaLiquidacionesAgrupadas.add(this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(cadaLiquidacionRefer));
+				} catch(RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+//			this.getCommunicationSAICBean().setSeleccionadosSeleccionMultipleActualizarDeuda(new HashSet());
+
+			this.getRequestBean1().setObjetoABM(listaLiquidacionesAgrupadas);
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+			this.getRequestBean1().setAbmController(new NotificacionModel().new NotificarController());
+
+			retorno = "AgregarPlanPagoRefinanciacion";
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+		return retorno;
 	}
 	
 	@Override

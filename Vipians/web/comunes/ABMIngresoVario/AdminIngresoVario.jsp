@@ -13,6 +13,8 @@
 
 					function cargarComportamientoJQuery() {
 						autoCompletarEnTextField("#form1:tfPersonaSeleccionada", "persona", nombreBean, "setPersonaAutocompletar");
+						calendarioEnTextField("#form1:tfFechaDesde");
+						calendarioEnTextField("#form1:tfFechaHasta");
 					}
 
 					function focusearTfPersonaSeleccionada() {
@@ -50,7 +52,7 @@
 															<ui:label binding="#{comunes$ABMIngresoVario$AdminIngresoVario.lblPersonaSeleccionada}" for="tfPersonaSeleccionada"
 																id="lblPersonaSeleccionada" styleClass="label" text="Persona" />
 														</td>
-														<td>
+														<td colspan="3">
 															<ui:textField binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfPersonaSeleccionada}" columns="40"
 																id="tfPersonaSeleccionada"
 																styleClass="#{comunes$ABMIngresoVario$AdminIngresoVario.paginatedTable.filtro.persona != null ? 'textFieldDisabled' : 'textField'}"
@@ -75,16 +77,7 @@
 														<td>
 															<ui:dropDown binding="#{comunes$ABMIngresoVario$AdminIngresoVario.ddConceptoIngresoVario}" id="ddConceptoIngresoVario"
 																items="#{comunes$ABMIngresoVario$AdminIngresoVario.ddConceptoIngresoVarioOptions.options}" styleClass="textField" />
-															<!--<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnSeleccionarConceptoIngresoVario_action}"
-																binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnSeleccionarConceptoIngresoVario}" escape="false"
-																id="btnSeleccionarConceptoIngresoVario" mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
-															<a4j:commandButton id="btnLimpiarConceptoIngresoVario" reRender="form1:tfConceptoIngresoVario"
-																binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnLimpiarConceptoIngresoVario}"
-																action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnLimpiarConceptoIngresoVario_action}"
-																styleClass="buttonLimpiarAjax" />-->
 														</td>
-													</tr>
-													<tr>
 														<td align="right" nowrap="true">
 															<ui:label binding="#{comunes$ABMIngresoVario$AdminIngresoVario.lblEstado}" for="ddEstado" id="lblEstado" styleClass="label"
 																text="Estado" />
@@ -92,6 +85,20 @@
 														<td>
 															<ui:dropDown binding="#{comunes$ABMIngresoVario$AdminIngresoVario.ddEstado}" id="ddEstado"
 																items="#{comunes$ABMIngresoVario$AdminIngresoVario.ddEstadoDefaultOptions.options}" styleClass="textField" />
+														</td>
+													</tr>
+													<tr>
+														<td align="right" nowrap="true">
+															<ui:label for="tfFechaDesde" id="lblFechaDesde" styleClass="label" text="Fecha desde" />
+														</td>
+														<td>
+															<ui:textField id="tfFechaDesde" binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfFechaDesde}" styleClass="textField"/>
+														</td>
+														<td align="right" nowrap="true">
+															<ui:label for="tfFechaHasta" id="lblFechaHasta" styleClass="label" text="Fecha hasta" />
+														</td>
+														<td>
+															<ui:textField id="tfFechaHasta" binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfFechaHasta}" styleClass="textField"/>
 														</td>
 													</tr>
 													<tr>
