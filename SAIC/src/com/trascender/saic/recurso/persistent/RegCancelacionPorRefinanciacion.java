@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import com.trascender.framework.recurso.persistent.DigestoMunicipal;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
+import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 
 /**
  * Este registro de cancelación obtiene los datos de los registros de deuda
@@ -158,6 +159,18 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	}
 	public void setListaRegistrosDeuda(Set<RegistroDeuda> listaRegistrosDeuda) {
 		this.listaRegistrosDeuda = listaRegistrosDeuda;
+	}
+	
+	public void addListaRegistrosDeuda(Set<RegistroDeuda> listaRegistros) {
+		//Si es LiquidacionTasaAgrupada, agrego las Liquidaciones que la componen directamente:
+		for (RegistroDeuda cadaRegistro : listaRegistros) {
+			if (cadaRegistro instanceof LiquidacionTasaAgrupada) {
+				LiquidacionTasaAgrupada cadaAgrupada = (LiquidacionTasaAgrupada) cadaRegistro;
+				this.listaRegistrosDeuda.addAll(cadaAgrupada.getListaLiquidacionesTasa());
+			} else {
+				this.listaRegistrosDeuda.add(cadaRegistro);
+			}
+		}
 	}
 
 	

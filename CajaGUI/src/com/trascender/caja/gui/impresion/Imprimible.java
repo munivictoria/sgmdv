@@ -113,8 +113,13 @@ public abstract class Imprimible {
 			resultado+="Concepto:      "+locDeuda.getNombre()+" \n"; //Administrativo
 		}
 
-		resultado+=" \n";	
-		resultado+="Importe: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal())+"\n";
+		resultado+=" \n";
+		Double interes = this.ticketCaja.getImporteInteres();
+		if (interes > 0D) {
+			resultado+="Importe: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal() - interes)+"\n";
+			resultado+="Interes: $     "+locNumberFormat.format(interes)+"\n";
+		}
+		resultado+="Importe total: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal())+"\n";
 		resultado+="Pagos:\n";
 		for (PagoTicket cadaPagoTicket : this.ticketCaja.getListaPagosTicket()){
 			resultado += cadaPagoTicket.getDescripcion() + ":    $ " + locNumberFormat.format(cadaPagoTicket.getMonto())+"\n";
@@ -195,7 +200,12 @@ public abstract class Imprimible {
 		}
 
 		resultado+=" \n";
-		resultado+="Importe: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal())+"\n";
+		Double interes = this.ticketCaja.getImporteInteres();
+		if (interes > 0D) {
+			resultado+="Importe: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal() - interes)+"\n";
+			resultado+="Interes: $     "+locNumberFormat.format(interes)+"\n";
+		}
+		resultado+="Importe total: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal())+"\n";
 		resultado+="Pagos:\n";
 		for (PagoTicket cadaPagoTicket : this.ticketCaja.getListaPagosTicket()){
 			resultado += cadaPagoTicket.getDescripcion() + ":    $ " + locNumberFormat.format(cadaPagoTicket.getMonto())+"\n";
@@ -280,7 +290,12 @@ public abstract class Imprimible {
 		}
 
 		resultado+=" \n";
-		resultado+="Importe: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal())+"\n";
+		Double interes = this.ticketCaja.getImporteInteres();
+		if (interes > 0D) {
+			resultado+="Importe: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal() - interes)+"\n";
+			resultado+="Interes: $     "+locNumberFormat.format(interes)+"\n";
+		}
+		resultado+="Importe total: $     "+locNumberFormat.format(this.ticketCaja.getImporteTotal())+"\n";
 		resultado+="Pagos:\n";
 		for (PagoTicket cadaPagoTicket : this.ticketCaja.getListaPagosTicket()){
 			resultado += cadaPagoTicket.getDescripcion() + ":    $ " + locNumberFormat.format(cadaPagoTicket.getMonto())+"\n";

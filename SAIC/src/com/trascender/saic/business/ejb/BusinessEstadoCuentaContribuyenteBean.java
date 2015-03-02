@@ -826,7 +826,7 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 					consulta += "and rd.estado = '" + pFiltro.getEstadoLiquidacion().name() + "'";
 				}
 			} else {
-				consulta += "and rd.estado in ('PAGADA', 'VIGENTE', 'VENCIDA') ";
+				consulta += "and rd.estado in ('PAGADA', 'VIGENTE', 'VENCIDA', 'REFINANCIADA') ";
 			}
 
 			consulta += " group by rd.estado,per.nombre, cuota.nombre, rd.tipo, par.nro_parcela, " 

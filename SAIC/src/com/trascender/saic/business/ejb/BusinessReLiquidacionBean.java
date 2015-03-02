@@ -1670,6 +1670,8 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 		//Si es durante la reliqudacion, no generamos el Log, pues lo hara el proceso de la reliquidacion.
 		if (!duranteReliquidacion) {
 			this.businessLiquidacionTasaLocal.generarLogLiquidacion(pLiquidacionTasa, SecurityMgr.getInstance().getUsuario(llave), LogLiquidacion.Evento.ACTUALIZO, null);
+			//Hacemos toString para quitar un par de Lazys, solo si no es durante la reliquidacion.
+			pLiquidacionTasa.getPersona().toString();
 		}
 
 		return pLiquidacionTasa;

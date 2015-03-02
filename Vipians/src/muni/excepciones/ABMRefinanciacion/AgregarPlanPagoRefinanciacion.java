@@ -42,11 +42,13 @@ import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.validadores.Validador;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGeneradorDeuda;
+import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.RegCancelacionPorRefinanciacion;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
+import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 //import com.trascender.saic.util.enumerations.DocGeneradorDeudaTipo;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -55,6 +57,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1526,11 +1529,33 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
         this.setListaDelCommunication(listaCuotas);
         this.getObjectListDataProvider().setList(listaCuotas);
     }
+    
+    private List aplicarInteresesPeriodosAdeudados(List periodosAdeudados) throws Exception{
+    	List locListaRetorno = new ArrayList();
+    	for (Object cadaObject : periodosAdeudados) {
+			if (cadaObject instanceof LiquidacionTasaAgrupada) {
+				LiquidacionTasaAgrupada agrupada = (LiquidacionTasaAgrupada) cadaObject;
+				for (int i = 0 ; i < agrupada.getListaLiquidacionesTasa().size() ; i++){
+					LiquidacionTasa cadaLiquidacionIndividual = agrupada.getListaLiquidacionesTasa().get(i);
+					agrupada.getListaLiquidacionesTasa().set(i, 
+							getCommunicationSAICBean().getRemoteSystemReliquidacion()
+								.calcularIntereses(cadaLiquidacionIndividual, new Date(), true, true));
+				}
+				locListaRetorno.add(agrupada);
+			} else if (cadaObject instanceof LiquidacionTasa){
+				LiquidacionTasa cadaLiquidacion = (LiquidacionTasa) cadaObject;
+				locListaRetorno.add(
+						getCommunicationSAICBean().getRemoteSystemReliquidacion()
+						.calcularIntereses(cadaLiquidacion, new Date(), true, true));
+			}
+		}
+    	return locListaRetorno;
+    }
 
     private void mostrarEstadoObjetosUsados() {
         // CAMBIAR: Revisar el metodo completo.
         int ind = 0;
-        ArrayList periodosAdeudados = null;
+        List periodosAdeudados = null;
         DigestoMunicipal digestoMunicipal = null;
         DocumentoRefinanciacion documentoRefinanciacion = null;
         RegCancelacionPorRefinanciacion regCancelacionPorRefinanciacion = null;
@@ -1546,15 +1571,18 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
         if (this.getRequestBean1().getObjetoABM() != null) {
             // ariel - por objetoABM va a venir la lista de Periodos Adeudados
             periodosAdeudados = (ArrayList) this.getRequestBean1().getObjetoABM();
+            try {
+            	periodosAdeudados = this.aplicarInteresesPeriodosAdeudados(periodosAdeudados);
+            } catch (Exception e) {
+            	e.printStackTrace();
+            	error("Error aplicando intereses a la deuda");
+            }
             documentoRefinanciacion = new DocumentoRefinanciacion();
             regCancelacionPorRefinanciacion = new RegCancelacionPorRefinanciacion();
 
             if (periodosAdeudados != null) {
                 Set registrosDeuda = new HashSet(periodosAdeudados);
-//                for (Iterator it = registrosDeuda.iterator(); it.hasNext();) {
-//                    RegistroDeuda reg = (RegistroDeuda) it.next();                 
-//                }
-                regCancelacionPorRefinanciacion.getListaRegistrosDeuda().addAll(registrosDeuda);
+                regCancelacionPorRefinanciacion.addListaRegistrosDeuda(registrosDeuda);
 
                 documentoRefinanciacion.setRegCancelacionPorRefinanciacion(regCancelacionPorRefinanciacion);
                 regCancelacionPorRefinanciacion.setDocumentoRefinanciacion(documentoRefinanciacion);

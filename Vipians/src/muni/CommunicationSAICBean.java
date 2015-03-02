@@ -434,6 +434,11 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		 * SystemReliquidacionHome locSystemReliquidacionHome = (SystemReliquidacionHome) PortableRemoteObject.narrow(obj, SystemReliquidacionHome.class);
 		 * this.remoteSystemReliquidacion = locSystemReliquidacionHome.create(); } }catch(Exception e){ e.printStackTrace(); }
 		 */
+		try {
+			this.remoteSystemReliquidacion.setLlave(getSessionBean1().getLlave());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		return this.remoteSystemReliquidacion;
 	}
 
