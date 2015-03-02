@@ -270,3 +270,29 @@ left join calle calle3 on d.id_calle_finaliza = calle3.id_calle)
 as domi where domi.id_domicilio = d.id_domicilio;
 
 insert into log_scripts_corridos values(114,114,now());
+
+create table plantilla_plan_de_pago (
+id_plantilla_plan_de_pago clave not null primary key,
+nombre varchar(255),
+monto_condonacion_importe importe,
+monto_condonacion_interes importe,
+condonacion_importe_porcentual boolean,
+condonacion_interes_porcentual boolean,
+cantidad_cuotas integer,
+tasa_nominal_anual importe,
+interes_punitorio importe,
+dia_vencimiento integer,
+cantidad_dias_cese integer,
+cantidad_cuotas_cese integer);
+
+alter table plantilla_plan_de_pago owner to vipians;
+
+create sequence gen_id_plantilla_plan_pago;
+
+alter SEQUENCE gen_id_plantilla_plan_pago owner to vipians;
+
+insert into log_scripts_corridos values(115,115,now());
+
+alter table cuota_refinanciac drop id_periodo;
+
+insert into log_scripts_corridos values(116,116,now());
