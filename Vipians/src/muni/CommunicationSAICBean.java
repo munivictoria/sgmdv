@@ -64,6 +64,7 @@ import com.trascender.saic.recurso.persistent.AlicuotaLiquidada;
 import com.trascender.saic.recurso.persistent.CobroExterno;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
+import com.trascender.saic.recurso.persistent.Reliquidacion;
 import com.trascender.saic.system.interfaces.SystemAuditoriaTributaria;
 import com.trascender.saic.system.interfaces.SystemEstadoCuentaContribuyente;
 import com.trascender.saic.system.interfaces.SystemExencionRegistroDeuda;
@@ -1380,33 +1381,33 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	private muni.SessionBean1 getSessionBean1() {
 		return (muni.SessionBean1) getBean("SessionBean1");
 	}
-
-	private Boolean esAdministradorLiquidaciones = null;
+	
+	public Boolean getEsAdministradorReliquidaciones() {
+		return getEsAdministradorLiquidaciones(Reliquidacion.serialVersionUID);
+	}
 
 	public Boolean getEsAdministradorLiquidaciones(long pCodigo) {
-		if(esAdministradorLiquidaciones == null) {
-			try {
-				this.getComunicationBean().getRemoteSystemUsuario().setLlave(this.getSessionBean1().getLlave());
-				Usuario usuarioLogueado = this.getComunicationBean().getRemoteSystemUsuario().findUsuarioPorLlave(this.getSessionBean1().getLlave());
-				boolean encontrado = false;
-				if(!usuarioLogueado.getUser().equals("root")) {
-					for(Iterator<Rol> itRol = usuarioLogueado.getListaRoles().iterator(); itRol.hasNext() && !encontrado;) {
-						for(Iterator<Permiso> itPermiso = itRol.next().getListaPermisos().iterator(); itPermiso.hasNext() && !encontrado;) {
-							Permiso cadaPermiso = itPermiso.next();
-							if(cadaPermiso.getIdRecurso() == pCodigo && cadaPermiso.isAudith()) {
-								encontrado = true;
-							}
+		boolean encontrado = false;
+		try {
+			this.getComunicationBean().getRemoteSystemUsuario().setLlave(this.getSessionBean1().getLlave());
+			Usuario usuarioLogueado = this.getComunicationBean().getRemoteSystemUsuario().findUsuarioPorLlave(this.getSessionBean1().getLlave());
+			
+			if(!usuarioLogueado.getUser().equals("root")) {
+				for(Iterator<Rol> itRol = usuarioLogueado.getListaRoles().iterator(); itRol.hasNext() && !encontrado;) {
+					for(Iterator<Permiso> itPermiso = itRol.next().getListaPermisos().iterator(); itPermiso.hasNext() && !encontrado;) {
+						Permiso cadaPermiso = itPermiso.next();
+						if(cadaPermiso.getIdRecurso() == pCodigo && cadaPermiso.isAudith()) {
+							encontrado = true;
 						}
 					}
-				} else {
-					encontrado = true;
 				}
-				this.esAdministradorLiquidaciones = encontrado;
-			} catch(Exception e) {
-				e.printStackTrace();
+			} else {
+				encontrado = true;
 			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		return this.esAdministradorLiquidaciones;
+		return encontrado;
 	}
 
 	public Boolean getEsAdministradorLiquidacionesTGI() {

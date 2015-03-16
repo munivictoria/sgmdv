@@ -71,6 +71,8 @@ public class ActualizarDeudaModel extends ABMModel {
 		@Override
 		public void ocultarDeshabilitarEnVista() {
 			getBeanActualizarDeuda().getStTitulo().setText(getNombreEntidad());
+			getBeanActualizarDeuda().getCbAplicarIntereses().setDisabled(
+					!getCommunicationSAICBean().getEsAdministradorReliquidaciones());
 		}
 
 		@Override

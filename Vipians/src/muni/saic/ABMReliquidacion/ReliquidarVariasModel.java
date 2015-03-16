@@ -114,7 +114,8 @@ public class ReliquidarVariasModel extends ABMModel{
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-
+			getBeanReliquidarVarias().getCbAplicarInteres().setDisabled(
+					!getCommunicationSAICBean().getEsAdministradorReliquidaciones());
 		}
 
 		@Override

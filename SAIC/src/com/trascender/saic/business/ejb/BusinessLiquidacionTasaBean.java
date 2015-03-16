@@ -5053,6 +5053,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 					for(Object cadaObj : locListaIdsResultado) {
 						RegistroDeuda locRegistroDeuda = this.getRegistroDeudaPorId(Long.parseLong(cadaObj.toString()));
 						System.out.println(locRegistroDeuda);
+						//TODO Armar el CobroExterno y persistirlo.
 					}
 
 					// System.out.println("-------> REGISTRO DEUDA CON ID " + locRegistroDeuda.getIdRegistroDeuda() + " : " + locRegistroDeuda);

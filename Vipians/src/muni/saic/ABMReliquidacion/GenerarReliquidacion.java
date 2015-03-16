@@ -150,6 +150,8 @@ public class GenerarReliquidacion extends AbstractPageBean {
 //		Option[] opNuevosParametrosAlicuota = null;
 //		opNuevosParametrosAlicuota = this.getApplicationBean1().getMgrDropDown().armarArrayOptionsList(this.getObjectListDataProvider4().getObjects(), "");
 //		lbVariablesACargarAlicuotaDefaultOptions.setOptions(opNuevosParametrosAlicuota);
+		
+		cbAplicarInteres.setDisabled(!getCommunicationSAICBean().getEsAdministradorReliquidaciones());
 	}
 
 	private Table table2 = new Table();
