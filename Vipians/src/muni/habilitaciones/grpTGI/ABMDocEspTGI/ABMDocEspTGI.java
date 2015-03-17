@@ -1164,13 +1164,14 @@ public class ABMDocEspTGI extends ABMPageBean {
 				DocumentoTGI documentoTGI = this.obtenerObjetoDelElementoPila(1, DocumentoTGI.class);
 				documentoTGI.setParcela(locParcela);
 
-				List listaPropietarios = new ArrayList();
+				List<Persona> listaPropietarios = new ArrayList<Persona>();
 				for(RegistroPropietario rp : locParcela.getTituloPropiedad().getListaRegistrosPropietarios()) {
 					listaPropietarios.add(rp.getPersona());
 				}
 				this.getObjectListDataProvider2().setList(listaPropietarios);
 				this.setListaDelCommunication(listaPropietarios);
-				PersonaFisica locPersona = (PersonaFisica) listaPropietarios.get(0);
+				
+				Persona locPersona = listaPropietarios.get(0);
 				this.getRadioButton1().setSelected(locPersona);
 
 				this.getElementoPila().getObjetos().set(1, documentoTGI);
