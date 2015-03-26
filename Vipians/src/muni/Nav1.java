@@ -146,6 +146,7 @@ import com.trascender.saic.recurso.persistent.CobroExterno;
 import com.trascender.saic.recurso.persistent.ExencionRegistroDeuda;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
@@ -389,6 +390,7 @@ public class Nav1 extends AbstractPageBean {
 			new Enlace(LiquidacionTasa.codigoCementerio, "/faces/saic/grpCementerio/ABMLiquidacionCementerio/AdminLiquidacionCementerio.jsp"),
 			new Enlace(LiquidacionTasa.codigoTasaMenor, "/faces/saic/grpTasaMenor/ABMLiquidacionTasaMenor/AdminLiquidacionTasaMenor.jsp"),
 			new Enlace(LiquidacionTasa.codigoEstadoCuenta, "/faces/saic/ABMEstadoCuenta/AdminEstadoCuenta.jsp"),
+			new Enlace(PlantillaPlanDePago.serialVersionUID, "/faces/saic/ABMPlantillaPlanDePago/AdminPlantillaPlanDePago.jsp"),
 			new Enlace(RegistroValuadoTasaMenor.serialVersionUID, "/faces/saic/grpTasaMenor/ABMRegistroValuadoTasaMenor/AdminRegistroValuadoTasaMenor.jsp"),
 			new Enlace(LiquidacionTasa.codigoTasasUnificadas, "/faces/saic/ImprimirLiquidaciones/AdminImprimirLiquidaciones.jsp"),
 			new Enlace(LogLiquidacion.serialVersionUID, "/faces/saic/LogLiquidaciones/AdminLogLiquidaciones.jsp"),

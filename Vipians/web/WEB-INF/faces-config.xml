@@ -646,6 +646,8 @@
 		<managed-bean-class>muni.compras.EstadoCuentaCorriente.AdminEstadoCuentaCorriente</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	
+	
 	<!-- /EstadoCuentaCorriente -->
 
 	<!-- LiquidacionCompra -->
@@ -1885,6 +1887,17 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Estado Cuenta -->
+	
+	<managed-bean>
+		<managed-bean-name>saic$ABMPlantillaPlanDePago$AdminPlantillaPlanDePago</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMPlantillaPlanDePago.AdminPlantillaPlanDePago</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago</managed-bean-name>
+		<managed-bean-class>muni.saic.ABMPlantillaPlanDePago.ABMPlantillaPlanDePago</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 	<!-- Exencion Obligacion -->
 	<managed-bean>

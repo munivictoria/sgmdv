@@ -1490,6 +1490,18 @@
 			<to-view-id>/saic/ABMEstadoCuenta/ConsultarEstadoCuenta.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>AdminPlantillaPlanDePago</from-outcome>
+			<to-view-id>/saic/ABMPlantillaPlanDePago/AdminPlantillaPlanDePago.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ABMPlantillaPlanDePago</from-outcome>
+			<to-view-id>/saic/ABMPlantillaPlanDePago/ABMPlantillaPlanDePago.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 	<!-- SAIC - Reliquidacion -->
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
