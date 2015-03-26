@@ -59,11 +59,13 @@ import com.trascender.saic.recurso.filtros.FiltroLiquidacionTGI;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaMenor;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaRefer;
 import com.trascender.saic.recurso.filtros.FiltroLogLiquidacion;
+import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
 import com.trascender.saic.recurso.filtros.FiltroValorMedidor;
 import com.trascender.saic.recurso.persistent.AlicuotaLiquidada;
 import com.trascender.saic.recurso.persistent.CobroExterno;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.Reliquidacion;
 import com.trascender.saic.system.interfaces.SystemAuditoriaTributaria;
 import com.trascender.saic.system.interfaces.SystemEstadoCuentaContribuyente;
@@ -191,6 +193,12 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 			locFiltroCobroExterno.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaCobroExterno = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(CobroExterno.serialVersionUID), "#{saic$ABMCobroExterno$AdminCobroExterno}",
 					locFiltroCobroExterno);
+			
+			FiltroPlantillaPlanDePago filtroPlanPlanDePago = new FiltroPlantillaPlanDePago();
+			filtroPlanPlanDePago.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
+			this.tablaPlantillaPlanDePago = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(PlantillaPlanDePago.serialVersionUID), 
+					"#{saic$ABMPlantillaPlanDePago$AdminPlantillaPlanDePago}",
+					filtroPlanPlanDePago);
 
 		} catch(Exception ex) {
 			// Logger.getLogger(ComunicationBean.class.getName()).log(Level.SEVERE,
@@ -1125,7 +1133,16 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	private PaginatedTable tablaLiquidacionTasaMenor;
 	private PaginatedTable tablaCobroExterno;
 	private PaginatedTable tablaLogLiquidaciones;
+	private PaginatedTable tablaPlantillaPlanDePago;
 	
+	public PaginatedTable getTablaPlantillaPlanDePago() {
+		return tablaPlantillaPlanDePago;
+	}
+
+	public void setTablaPlantillaPlanDePago(PaginatedTable tablaPlantillaPlanDePago) {
+		this.tablaPlantillaPlanDePago = tablaPlantillaPlanDePago;
+	}
+
 	public PaginatedTable getTablaLogLiquidaciones() {
 		return tablaLogLiquidaciones;
 	}
@@ -2146,5 +2163,17 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	public void setTablePhaseListenerActualizarDeuda(TableSelectPhaseListener tablePhaseListenerActualizarDeuda) {
 		this.tablePhaseListenerActualizarDeuda = tablePhaseListenerActualizarDeuda;
 	}
+	
+	private List<PlantillaPlanDePago> listaPlantillaPlanDePagos;
+
+	public List<PlantillaPlanDePago> getListaPlantillaPlanDePagos() {
+		return listaPlantillaPlanDePagos;
+	}
+
+	public void setListaPlantillaPlanDePagos(
+			List<PlantillaPlanDePago> listaPlantillaPlanDePagos) {
+		this.listaPlantillaPlanDePagos = listaPlantillaPlanDePagos;
+	}
+	
 
 }
