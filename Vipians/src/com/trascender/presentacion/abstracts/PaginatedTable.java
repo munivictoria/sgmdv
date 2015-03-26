@@ -207,7 +207,7 @@ public class PaginatedTable extends Table {
 		StaticText st = new StaticText();
 		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
 		DateTimeConverter locConverter = new DateTimeConverter();
-		locConverter.setPattern("dd/MM/yyyy hh:mm:ss");
+		locConverter.setPattern("dd/MM/yyyy HH:mm:ss");
 		locConverter.setTimeZone(TimeZone.getDefault());
 		st.setConverter(locConverter);
 		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));

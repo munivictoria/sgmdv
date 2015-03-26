@@ -20,6 +20,7 @@ import org.ajax4jsf.ajax.html.HtmlAjaxStatus;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
+import com.sun.rave.web.ui.component.Checkbox;
 import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.Form;
 import com.sun.rave.web.ui.component.Head;
@@ -556,6 +557,12 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 		}
 		return retorno;
 	}
+	
+	protected void setTextFieldValueInteger(TextField tf, Integer value) {
+		if (value != null) {
+			tf.setText(value);
+		}
+	}
 
 	protected Double getTextFieldValueDouble(TextField pTextField) {
 		Double retorno = null;
@@ -563,6 +570,12 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 			retorno = Conversor.getDoubleDeString(pTextField.getText().toString().trim());
 		}
 		return retorno;
+	}
+	
+	protected void setTextFieldValueDouble(TextField tf, Double value) {
+		if (value != null) {
+			tf.setText(value);
+		}
 	}
 
 	protected Date getTextFieldValueDate(TextField pTextField) {
@@ -610,6 +623,12 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 			return null;
 		} else {
 			return Enum.valueOf(pClase, valor.toString());
+		}
+	}
+	
+	protected void setCheckBoxValue(Checkbox cb, Boolean value) {
+		if (value != null) {
+			cb.setSelected(value);
 		}
 	}
 
