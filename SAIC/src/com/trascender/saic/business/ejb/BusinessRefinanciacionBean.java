@@ -482,11 +482,15 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 	}
 	
 	public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		TrascenderEnverListener.setValoresEnAuditoriaBean(plantilla);
 		this.entityManager.merge(plantilla);
+		this.entityManager.flush();
 	}
 	
 	public void updatePlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		TrascenderEnverListener.setValoresEnAuditoriaBean(plantilla);
 		this.entityManager.merge(plantilla);
+		this.entityManager.flush();
 	}
 	
 	public void deletePlantillaPlanDePago(PlantillaPlanDePago plantilla) {
@@ -497,6 +501,9 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		Criterio locCriterio = Criterio.getInstance(entityManager, PlantillaPlanDePago.class)
 				.add(Restriccion.ILIKE("nombre", filtro.getNombre()));
 		filtro.procesarYListar(locCriterio);
+		for (PlantillaPlanDePago cadaPlantilla : filtro.getListaResultados()) {
+			cadaPlantilla.getListaLogsAuditoria().size();
+		}
 		return filtro;
 	}
 	

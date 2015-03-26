@@ -1,16 +1,25 @@
 package com.trascender.saic.recurso.persistent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Where;
 
 import com.trascender.framework.util.EntidadTrascender;
+import com.trascender.framework.util.LogAuditoria;
 
 @Entity
 @Table(name = "PLANTILLA_PLAN_DE_PAGO")
@@ -166,7 +175,9 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 		return true;
 	}
 
+	@Transient
 	private String comentarioAuditoria;
+	@Transient
 	private long llaveUsuarioAuditoria;
 	@Override
 	public void setComentarioAuditoria(String pComentario) {
@@ -186,6 +197,19 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@Override
 	public String getComentarioAuditoria() {
 		return comentarioAuditoria;
+	}
+	
+	@OrderBy(value = "fecha")
+	@Where(clause = "id_recurso = " + serialVersionUID)
+	@OneToMany(mappedBy = "idEntidad", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<LogAuditoria> listaLogsAuditoria = new ArrayList<LogAuditoria>();
+
+	public List<LogAuditoria> getListaLogsAuditoria() {
+		return listaLogsAuditoria;
+	}
+
+	public void setListaLogsAuditoria(List<LogAuditoria> pListaLogsAuditoria) {
+		this.listaLogsAuditoria = pListaLogsAuditoria;
 	}
 
 }
