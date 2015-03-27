@@ -1974,16 +1974,21 @@ public class AdminParcela extends AdminPageBean {
 		List<String> locListaPropiedadesTituloPropiedad = this.getComunicationBean().getListaNombresPropiedadesLogs(TituloPropiedadParcelario.serialVersionUID);
 		List<String> locListaPropiedadesPlanoMensura = this.getComunicationBean().getListaNombresPropiedadesLogs(PlanoMensura.serialVersionUID);
 		List<String> locListaPropiedadesPlanoConstruccion = this.getComunicationBean().getListaNombresPropiedadesLogs(PlanoConstruccion.serialVersionUID);
+		List<String> locListaPropiedadesRegistroMejora = this.getComunicationBean().getListaNombresPropiedadesLogs(RegistroMejora.serialVersionUID);
 
-		int cantidad = locListaPropiedadesParcela.size() + locListaPropiedadesTituloPropiedad.size() + locListaPropiedadesPlanoMensura.size()
-				+ locListaPropiedadesPlanoConstruccion.size();
+		int cantidad = locListaPropiedadesParcela.size() + 
+				locListaPropiedadesTituloPropiedad.size() + 
+				locListaPropiedadesPlanoMensura.size() + 
+				locListaPropiedadesPlanoConstruccion.size() +
+				locListaPropiedadesRegistroMejora.size();
 
-		Option[] opPropiedades = new Option[cantidad + 4];
+		Option[] opPropiedades = new Option[cantidad + 5];
 		opPropiedades[0] = new Option("Parcela", "Parcela");
 		opPropiedades[1] = new Option("Título Propiedad", "Título Propiedad");
 		opPropiedades[2] = new Option("Plano Mensura", "Plano Mensura");
 		opPropiedades[3] = new Option("Plano Construcción", "Plano Construcción");
-		int i = 4;
+		opPropiedades[4] = new Option("Registro Mejora", "Registro Mejora");
+		int i = 5;
 		for(String cadaPropiedad : locListaPropiedadesParcela) {
 			opPropiedades[i++] = new Option("Parcela -> " + cadaPropiedad, "Parcela -> " + cadaPropiedad);
 		}
@@ -1996,7 +2001,9 @@ public class AdminParcela extends AdminPageBean {
 		for(String cadaPropiedad : locListaPropiedadesPlanoConstruccion) {
 			opPropiedades[i++] = new Option("Plano Construcción -> " + cadaPropiedad, "Plano Construcción -> " + cadaPropiedad);
 		}
-
+		for(String cadaPropiedad : locListaPropiedadesRegistroMejora) {
+			opPropiedades[i++] = new Option("Registro Mejora -> " + cadaPropiedad, "Registro Mejora -> " + cadaPropiedad);
+		}
 		return opPropiedades;
 	}
 

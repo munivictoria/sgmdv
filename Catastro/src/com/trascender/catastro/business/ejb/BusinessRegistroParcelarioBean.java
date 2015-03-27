@@ -388,6 +388,7 @@ public class BusinessRegistroParcelarioBean implements BusinessRegistroParcelari
 		List<BusquedaPorLog> locLogsTituloPropiedad = new ArrayList();
 		List<BusquedaPorLog> locLogsPlanoMensura = new ArrayList();
 		List<BusquedaPorLog> locLogsPlanoConstruccion = new ArrayList();
+		List<BusquedaPorLog> locLogsRegistroMejora = new ArrayList();
 
 		for(BusquedaPorLog cadaLog : filtro.getListaBusquedaPorLogs()) {
 			if(cadaLog.getNombrePropiedad() != null) {
@@ -411,6 +412,11 @@ public class BusinessRegistroParcelarioBean implements BusinessRegistroParcelari
 					locLogsPlanoConstruccion.add(cadaLog);
 					continue;
 				}
+				if(cadaLog.getNombrePropiedad().equals("Registro Mejora")) {
+					cadaLog.setNombrePropiedad("");
+					locLogsRegistroMejora.add(cadaLog);
+					continue;
+				}
 
 				if(cadaLog.getNombrePropiedad().startsWith("Parcela")) {
 					cadaLog.setNombrePropiedad(cadaLog.getNombrePropiedad().substring(11));
@@ -424,6 +430,9 @@ public class BusinessRegistroParcelarioBean implements BusinessRegistroParcelari
 				} else if(cadaLog.getNombrePropiedad().startsWith("Plano Construcción")) {
 					cadaLog.setNombrePropiedad(cadaLog.getNombrePropiedad().substring(22));
 					locLogsPlanoConstruccion.add(cadaLog);
+				} else if (cadaLog.getNombrePropiedad().startsWith("Registro Mejora")) {
+					cadaLog.setNombrePropiedad(cadaLog.getNombrePropiedad().substring(19));
+					locLogsRegistroMejora.add(cadaLog);
 				}
 			}
 		}
@@ -433,6 +442,10 @@ public class BusinessRegistroParcelarioBean implements BusinessRegistroParcelari
 		if (!locLogsPlanoConstruccion.isEmpty()) {
 			locCriterio.crearAlias("listaPlanosConstruccion", "cadaPlanoConstruccion");
 			BusquedaPorLog.addRestriccionesCriterio(locCriterio, PlanoConstruccion.serialVersionUID, "idPlanoConstruccion", locLogsPlanoConstruccion, "cadaPlanoConstruccion");
+		}
+		if (!locLogsRegistroMejora.isEmpty()) {
+			locCriterio.crearAlias("listaRegistrosMejora", "cadaRegistroMejora");
+			BusquedaPorLog.addRestriccionesCriterio(locCriterio, RegistroMejora.serialVersionUID, "idRegistroMejora", locLogsRegistroMejora, "cadaRegistroMejora");
 		}
 
 		// Separo la restriccion de Cuadra para no forzar al criterio a hacer el alias, pues
