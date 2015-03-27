@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui">
+<jsp:root version="1.2" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui">
     <jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8"/>
     <f:view>
         <ui:page binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.page1}" id="page1">
@@ -154,6 +154,25 @@
                                     </tr>
                                     <tr>
                                         <td align="right" nowrap="nowrap">
+                                            <ui:label for="ddPlantilla" id="lblPlantilla" styleClass="label" text="Plantilla"/>
+                                        </td>
+                                        <td align="left" colspan="3" nowrap="nowrap">
+                                            <ui:dropDown binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ddPlantilla}" 
+                                            	id="ddPlantilla" styleClass="textField"
+												items="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ddPlantillaOptions.options}" >
+												<a4j:support event="onChange" oncomplete="calcularCondonaciones();"
+													reRender="form1:tfImporteACondonar, form1:tfInteresACondonar, form1:rbCondonarImportePorc,
+														form1:rbCondonarImporteFijo, form1:rbCondonarInteresesPorc, form1:rbCondonarInteresesFijo
+														form1:tfInteresesACondonar, form1:rbCondonarInteresesFijo,
+														form1:tfCantidadCuotas, form1:tfTasaNominalAnual,
+														form1:tfInteresPunitorio, form1:tfDiaVencimiento, form1:tfCantidadDiasCaida, form1:tfCantidadCuotasCaida"
+													actionListener="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.eventoSeleccionPlantilla(evento)}"
+												 />
+											</ui:dropDown>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" nowrap="nowrap">
                                             <ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblContribuyente}"
                                                 for="tfContribuyente" id="lblContribuyente" styleClass="label" text="Contribuyente"/>
                                         </td>
@@ -243,7 +262,6 @@
                                         </td>
                                         <td align="left" nowrap="nowrap">
                                             <ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfIntereses}" columns="15"
-                                                          converter="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.numberConverter1}"
                                                 disabled="true" id="tfIntereses" style="text-align:right; padding-right:6px;" styleClass="textFieldDisabled"/>
                                         </td>
                                         <td align="left" nowrap="nowrap">

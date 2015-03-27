@@ -12,6 +12,7 @@ import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Button;
+import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.Form;
 import com.sun.rave.web.ui.component.Head;
 import com.sun.rave.web.ui.component.HiddenField;
@@ -28,6 +29,8 @@ import com.sun.rave.web.ui.component.Table;
 import com.sun.rave.web.ui.component.TableColumn;
 import com.sun.rave.web.ui.component.TableRowGroup;
 import com.sun.rave.web.ui.component.TextField;
+import com.sun.rave.web.ui.model.Option;
+import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.DigestoMunicipal;
 import com.trascender.framework.recurso.persistent.Persona;
@@ -43,6 +46,7 @@ import com.trascender.presentacion.validadores.Validador;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegCancelacionPorRefinanciacion;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
@@ -58,6 +62,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -65,6 +70,7 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
+import javax.faces.event.ActionEvent;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -124,6 +130,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 
         dateTimeConverter1.setPattern("dd/MM/yyyy");
 
+        numberConverter1.setLocale(Locale.getDefault());
         numberConverter1.setPattern("$ #,##0.00");
         numberConverter1.setMinIntegerDigits(1);//2
         numberConverter1.setMaxIntegerDigits(40);
@@ -132,9 +139,38 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
         if (this.getListaDelCommunication() != null) {
             this.getObjectListDataProvider().setList(this.getListaDelCommunication());
         }
+        
+        Set<String> locListaPlantillas = getCommunicationSAICBean().getMapaPlantillas().keySet();
+
+		Option[] opPlantillas = new Option[locListaPlantillas.size() + 1];
+		int i = 0;
+		opPlantillas[i++] = new Option("", "");
+		for (String cadaPlantilla : locListaPlantillas) {
+			opPlantillas[i++] = new Option(cadaPlantilla, cadaPlantilla);
+		}
+		this.ddPlantillaOptions.setOptions(opPlantillas);
 
     }
-    private Page page1 = new Page();
+    
+    private DropDown ddPlantilla = new DropDown();
+    private SingleSelectOptionsList ddPlantillaOptions = new SingleSelectOptionsList();
+    
+    public SingleSelectOptionsList getDdPlantillaOptions() {
+		return ddPlantillaOptions;
+	}
+
+	public void setDdPlantillaOptions(SingleSelectOptionsList ddPlantillaOptions) {
+		this.ddPlantillaOptions = ddPlantillaOptions;
+	}
+
+	public DropDown getDdPlantilla() {
+		return ddPlantilla;
+	}
+
+	public void setDdPlantilla(DropDown ddPlantilla) {
+		this.ddPlantilla = ddPlantilla;
+	}
+	private Page page1 = new Page();
 
     public Page getPage1() {
         return page1;
@@ -1357,6 +1393,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 
         // Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
         ep.getObjetos().add(ind++, new Integer(0));
+        
         return ep;
     }
 
@@ -1578,6 +1615,9 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
             	error("Error aplicando intereses a la deuda");
             }
             documentoRefinanciacion = new DocumentoRefinanciacion();
+            //Para inicializar valores por defecto.
+            documentoRefinanciacion.setMesInicioRefinanciacion(Calendar.getInstance().get(Calendar.MONTH) + 1);
+            documentoRefinanciacion.setAnioInicioRefinanciacion(Calendar.getInstance().get(Calendar.YEAR));
             regCancelacionPorRefinanciacion = new RegCancelacionPorRefinanciacion();
 
             if (periodosAdeudados != null) {
@@ -2279,6 +2319,44 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
             retorno = this.prepararCaducidad();
         }
         return retorno;
+    }
+    
+    public void eventoSeleccionPlantilla(ActionEvent evento) {
+    	PlantillaPlanDePago locPlantilla = getCommunicationSAICBean().getMapaPlantillas().get(getDdPlantilla().getSelected().toString());
+    	setPlantilla(locPlantilla);
+    }
+    
+    private void setPlantilla(PlantillaPlanDePago plantilla) {
+    	if (plantilla.getMontoCondonacionImporte() != null)
+    		tfImporteACondonar.setText(plantilla.getMontoCondonacionImporte());
+    	
+    	if (plantilla.getCondonacionImportePorcentual() != null) {
+			this.rbCondonarImportePorc.setSelected(plantilla.getCondonacionImportePorcentual());
+			this.rbCondonarImporteFijo.setSelected(!plantilla.getCondonacionImportePorcentual());
+    	}
+    		
+    	if (plantilla.getMontoCondonacionIntereses() != null)
+    		tfInteresesACondonar.setText(plantilla.getMontoCondonacionIntereses());
+    	
+    	if (plantilla.getCondonacionInteresPorcentual() != null) {
+    			this.rbCondonarInteresesPorc.setSelected(plantilla.getCondonacionInteresPorcentual());
+    			this.rbCondonarInteresesFijo.setSelected(!plantilla.getCondonacionInteresPorcentual());
+    	}
+    	
+    	if (plantilla.getCantidadCuotas() != null) 
+    		tfCantidadCuotas.setText(plantilla.getCantidadCuotas());
+    	if (plantilla.getTasaNominalAnual() != null) 
+    		tfTasaNominalAnual.setText(plantilla.getTasaNominalAnual());
+    	if (plantilla.getInteresPunitorio() != null) 
+    		tfInteresPunitorio.setText(plantilla.getInteresPunitorio());
+    	if (plantilla.getDiaVencimiento() != null)
+    		tfDiaVencimiento.setText(plantilla.getDiaVencimiento());
+    	if (plantilla.getCantidadDiasCese() != null) 
+    		tfCantidadDiasCaida.setText(plantilla.getCantidadDiasCese());
+    	if (plantilla.getCantidadCuotasCese() != null)
+    		tfCantidadCuotasCaida.setText(plantilla.getCantidadCuotasCese());
+    	
+    	this.guardarEstadoObjetosUsados();
     }
 
     public String btnCancelar_action() {

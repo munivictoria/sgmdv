@@ -424,9 +424,9 @@
 														<ui:button action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnNotificar_action}"
 															binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnNotificar}" id="btnNotificar"
 															styleClass="button" text="Notificar" />
-														<ui:button action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnRefinanciar_action}"
-															binding="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnRefinanciar}" id="btnRefinanciar"
-															styleClass="button" text="Refinanciar" />
+														<a4j:commandButton 
+															action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnRefinanciar_action}" id="btnRefinanciar"
+															value="Refinanciar" styleClass="btnAjax" oncomplete="changeStyleAlIngresar()" />
 														<ui:staticText text="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.textoSeparador}" id="stSeparadorExportal"
 															styleClass="barraSeparadoraVertical" />
 														<ui:button action="#{saic$ImprimirLiquidaciones$AdminImprimirLiquidaciones.btnExportar_action}"

@@ -2407,13 +2407,15 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 					e.printStackTrace();
 				}
 			}
-//			this.getCommunicationSAICBean().setSeleccionadosSeleccionMultipleActualizarDeuda(new HashSet());
-
-			this.getRequestBean1().setObjetoABM(listaLiquidacionesAgrupadas);
-			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-			this.getRequestBean1().setAbmController(new NotificacionModel().new NotificarController());
-
-			retorno = "AgregarPlanPagoRefinanciacion";
+			
+			if (!listaLiquidacionesAgrupadas.isEmpty()) {
+				this.getRequestBean1().setObjetoABM(listaLiquidacionesAgrupadas);
+				this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+				this.getRequestBean1().setAbmController(new NotificacionModel().new NotificarController());
+				retorno = "AgregarPlanPagoRefinanciacion";
+			} else {
+				info("No hay Liquidaciones para Refinanciar");
+			}
 		} else {
 			retorno = this.prepararCaducidad();
 		}

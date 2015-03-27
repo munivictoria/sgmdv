@@ -190,8 +190,8 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		
 		this.setTextFieldValueDouble(tfMontoCondonacionImporte, plantillaPlanDePago.getMontoCondonacionImporte());
 		this.setTextFieldValueDouble(tfMontoCondonacionInteres, plantillaPlanDePago.getMontoCondonacionIntereses());
-		this.setCheckBoxValue(cbCondonacionImportePorcentual, plantillaPlanDePago.isCondonacionImportePorcentual());
-		this.setCheckBoxValue(cbCondonacionInteresPorcentual, plantillaPlanDePago.isCondonacionInteresPorcentual());
+		this.setCheckBoxValue(cbCondonacionImportePorcentual, plantillaPlanDePago.getCondonacionImportePorcentual());
+		this.setCheckBoxValue(cbCondonacionInteresPorcentual, plantillaPlanDePago.getCondonacionInteresPorcentual());
 		
 		this.setTextFieldValueInteger(this.tfCantidadCuotas, plantillaPlanDePago.getCantidadCuotas());
 		this.setTextFieldValueInteger(tfDiaVencimiento, plantillaPlanDePago.getDiaVencimiento());

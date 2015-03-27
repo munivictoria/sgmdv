@@ -39,9 +39,9 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@Column(name = "MONTO_CONDONACION_INTERESES")
 	private Double montoCondonacionIntereses;
 	@Column(name = "CONDONACION_IMPORTE_PORCENTUAL")
-	private boolean condonacionImportePorcentual = true;
+	private Boolean condonacionImportePorcentual = true;
 	@Column(name = "CONDONACION_INTERES_PORCENTUAL")
-	private boolean condonacionInteresPorcentual = true;
+	private Boolean condonacionInteresPorcentual = true;
 
 	@Column(name = "CANTIDAD_CUOTAS")
 	private Integer cantidadCuotas;
@@ -91,19 +91,19 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 		this.montoCondonacionIntereses = montoCondonacionIntereses;
 	}
 
-	public boolean isCondonacionImportePorcentual() {
+	public Boolean getCondonacionImportePorcentual() {
 		return condonacionImportePorcentual;
 	}
 
-	public void setCondonacionImportePorcentual(boolean condonacionImportePorcentual) {
+	public void setCondonacionImportePorcentual(Boolean condonacionImportePorcentual) {
 		this.condonacionImportePorcentual = condonacionImportePorcentual;
 	}
 
-	public boolean isCondonacionInteresPorcentual() {
+	public Boolean getCondonacionInteresPorcentual() {
 		return condonacionInteresPorcentual;
 	}
 
-	public void setCondonacionInteresPorcentual(boolean condonacionInteresPorcentual) {
+	public void setCondonacionInteresPorcentual(Boolean condonacionInteresPorcentual) {
 		this.condonacionInteresPorcentual = condonacionInteresPorcentual;
 	}
 

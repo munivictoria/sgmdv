@@ -2175,5 +2175,25 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		this.listaPlantillaPlanDePagos = listaPlantillaPlanDePagos;
 	}
 	
+	private Map<String, PlantillaPlanDePago> mapaPlantillas;
+
+	public Map<String, PlantillaPlanDePago> getMapaPlantillas() {
+		if (mapaPlantillas == null) {
+			try {
+				FiltroPlantillaPlanDePago filtro = new FiltroPlantillaPlanDePago();
+				filtro = this.getRemoteSystemEstadoCuentaContribuyente().findListaPlantillaPlanDePago(filtro);
+				if (filtro.getListaResultados().size() > 0) {
+					mapaPlantillas = new HashMap<String, PlantillaPlanDePago>();
+					for (PlantillaPlanDePago cadaPlantilla : filtro.getListaResultados()) {
+						mapaPlantillas.put(cadaPlantilla.getNombre(), cadaPlantilla);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mapaPlantillas;
+	}
+	
 
 }

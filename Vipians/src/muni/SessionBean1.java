@@ -610,5 +610,4 @@ public class SessionBean1 extends AbstractSessionBean {
 	}
 	
 	
-	
 }
