@@ -80,6 +80,7 @@ import com.trascender.saic.recurso.persistent.Tasa;
 import com.trascender.saic.recurso.persistent.TasaTGI;
 import com.trascender.saic.recurso.persistent.Vencimiento;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
+import com.trascender.saic.util.ValorBasicoTasaFuncion;
 import com.trascender.saic.util.ValorModificadorFuncion;
 
 /**
@@ -1226,6 +1227,10 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 				double valor = locLiquidacionTasa.getValor() + jep.getValue();
 				locLiquidacionTasa.setValor(Util.redondear(valor, 2));
 			}
+			
+			//Teniendo el valor de la Tasa, creo la funcion que puede ser usada por los modificadores.
+			ValorBasicoTasaFuncion funcionValorTasa = new ValorBasicoTasaFuncion(locLiquidacionTasa);
+			jep.addFunction(ValorBasicoTasaFuncion.VALOR_BASICO_TASA, funcionValorTasa);
 
 			for(AlicuotaLiquidada cadaAlicuotaLiquidada : locListaAlicuotasLiquidadas) {
 				if(cadaAlicuotaLiquidada.getValor() == null) {

@@ -161,6 +161,7 @@ import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 import com.trascender.saic.recurso.transients.pagoFacil.ArchivoTransmisionPagoFacil;
 import com.trascender.saic.recurso.transients.pagoFacil.LoteArchivoPF;
 import com.trascender.saic.recurso.transients.pagoFacil.RegistroDetallePF;
+import com.trascender.saic.util.ValorBasicoTasaFuncion;
 import com.trascender.saic.util.ValorModificadorFuncion;
 
 @Stateless(name = "BusinessLiquidacionTasaLocal")
@@ -582,6 +583,11 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 						double valor = locLiquidacionTasa.getValor() + (jep.getValue());
 						locLiquidacionTasa.setValor(Util.redondear(valor, 2));
 					}
+					
+					//Teniendo el valor de la Tasa, creo la funcion que puede ser usada por los modificadores.
+					ValorBasicoTasaFuncion funcionValorTasa = new ValorBasicoTasaFuncion(locLiquidacionTasa);
+					jep.addFunction(ValorBasicoTasaFuncion.VALOR_BASICO_TASA, funcionValorTasa);
+					
 					// Siempre debo añadir las Alicuotas liquidadas a la liquidacion, tengan valor o no, por si se reliquidan.
 					for(AlicuotaLiquidada cadaAlicuotaLiquidada : locListaAlicuotasLiquidadas) {
 						// Si tienen valor null, les seteo 0
