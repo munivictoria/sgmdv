@@ -518,6 +518,9 @@ public class BusinessTipoTasaBean implements BusinessTipoTasaLocal {
 	 */
 	public void validarFormula(TipoTasa pTipoTasa) throws Exception {
 		JEP jep = this.getMotorFormulas();
+		//Se agrega la funcion VALOR_MODIFICADOR del modulo SAIC con una funcion boba.
+		jep.addFunction("VALOR_MODIFICADOR", new FuncionBoba());
+		jep.addFunction("VALOR_BASICO_TASA", new FuncionBoba());
 
 		List<TipoParametro> locListaTiposParametrosSistema = Criterio.getInstance(this.entityManager, TipoParametro.class).detachedList();
 
@@ -606,8 +609,6 @@ public class BusinessTipoTasaBean implements BusinessTipoTasaLocal {
 
 		// Valido el interés y el recargo
 		jep.addVariable(TipoParametroInteres.IMPORTE_INTERES.getNombreVariable(), 0f);
-		//Se agrega la funcion VALOR_MODIFICADOR del modulo SAIC con una funcion boba.
-		jep.addFunction("VALOR_MODIFICADOR", new FuncionBoba());
 		if(pTipoTasa.getInteres() != null && pTipoTasa.getInteres().getFormula() != null) {
 			jep.parseExpression(pTipoTasa.getInteres().getFormula());
 			jep.getValue();

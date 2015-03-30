@@ -584,10 +584,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 						locLiquidacionTasa.setValor(Util.redondear(valor, 2));
 					}
 					
-					//Teniendo el valor de la Tasa, creo la funcion que puede ser usada por los modificadores.
-					ValorBasicoTasaFuncion funcionValorTasa = new ValorBasicoTasaFuncion(locLiquidacionTasa);
-					jep.addFunction(ValorBasicoTasaFuncion.VALOR_BASICO_TASA, funcionValorTasa);
-					
 					// Siempre debo añadir las Alicuotas liquidadas a la liquidacion, tengan valor o no, por si se reliquidan.
 					for(AlicuotaLiquidada cadaAlicuotaLiquidada : locListaAlicuotasLiquidadas) {
 						// Si tienen valor null, les seteo 0
@@ -603,6 +599,10 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 						locLiquidacionTasa.addAlicuotaLiquidada(locAlicuotaLiquidada);
 					}
 				}
+				
+				//Teniendo el valor de la Tasa, creo la funcion que puede ser usada por los modificadores.
+				ValorBasicoTasaFuncion funcionValorTasa = new ValorBasicoTasaFuncion(locLiquidacionTasa);
+				jep.addFunction(ValorBasicoTasaFuncion.VALOR_BASICO_TASA, funcionValorTasa);
 
 				// Armo la lista de modificadores de liquidacion
 				// Calculo todo a la fecha de liquidación
@@ -644,17 +644,18 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				// }
 				
 				
-				/* Fernando, probando a crear los vencimientos directamente con intereses.
 				Vencimiento[] locListaVencimientos = this.calcularVencimientos(locLiquidacionTasa, locFechaInicioPeriodo);
 				for(Vencimiento locVencimiento : locListaVencimientos) {
 					locLiquidacionTasa.getListaVencimientos().add(locVencimiento);
 				}
 				System.out.println("Tiempo en obtener vencimientos= " + ((System.currentTimeMillis() - tiempoInicial) / 1000));
-				*/
 				
-				this.businessReliquidacion.setLlave(llave);
-				locLiquidacionTasa = this.businessReliquidacion
-						.calcularIntereses(locLiquidacionTasa, new Date(), true, false, false);
+				//Si esta vencida al dia de hoy, le aplicamos intereses:
+				if (locLiquidacionTasa.isVencida(new Date())) {
+					this.businessReliquidacion.setLlave(llave);
+					locLiquidacionTasa = this.businessReliquidacion
+							.calcularIntereses(locLiquidacionTasa, new Date(), true, false, false);
+				}
 				
 				// if(pNumeroCuota != null){
 				// locLiquidacionTasa.setNumeroCuota(pCuota.getNumero());

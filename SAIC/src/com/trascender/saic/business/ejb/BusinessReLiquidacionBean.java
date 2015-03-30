@@ -1228,10 +1228,6 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 				locLiquidacionTasa.setValor(Util.redondear(valor, 2));
 			}
 			
-			//Teniendo el valor de la Tasa, creo la funcion que puede ser usada por los modificadores.
-			ValorBasicoTasaFuncion funcionValorTasa = new ValorBasicoTasaFuncion(locLiquidacionTasa);
-			jep.addFunction(ValorBasicoTasaFuncion.VALOR_BASICO_TASA, funcionValorTasa);
-
 			for(AlicuotaLiquidada cadaAlicuotaLiquidada : locListaAlicuotasLiquidadas) {
 				if(cadaAlicuotaLiquidada.getValor() == null) {
 					cadaAlicuotaLiquidada.setValor(0D);
@@ -1245,6 +1241,10 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 				locLiquidacionTasa.addAlicuotaLiquidada(locAlicuotaLiquidadaNueva);
 			}
 		}
+		
+		//Teniendo el valor de la Tasa, creo la funcion que puede ser usada por los modificadores.
+		ValorBasicoTasaFuncion funcionValorTasa = new ValorBasicoTasaFuncion(locLiquidacionTasa);
+		jep.addFunction(ValorBasicoTasaFuncion.VALOR_BASICO_TASA, funcionValorTasa);
 
 		Calendar locCalendarFechaLiquidacion = Calendar.getInstance();
 		locCalendarFechaLiquidacion.setTime(pLiquidacionTasa.getFechaEmision());

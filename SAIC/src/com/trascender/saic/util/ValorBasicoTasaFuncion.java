@@ -21,6 +21,7 @@ public class ValorBasicoTasaFuncion extends PostfixMathCommand {
 
 	public void run(Stack stack) throws ParseException {
 		checkStack(stack);
-		stack.push(liquidacionTasa.getValor());
+		Double valor = liquidacionTasa.getValor();
+		stack.push(valor);
 	}
 }
