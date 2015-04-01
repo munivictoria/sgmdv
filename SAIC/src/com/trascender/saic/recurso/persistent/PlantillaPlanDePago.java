@@ -58,6 +58,17 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@Column(name = "CANTIDAD_CUOTAS_CESE")
 	private Integer cantidadCuotasCese;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plantilla", orphanRemoval = true)
+	private List<ParametroAsociacion> listaParametrosAsociacion = new ArrayList<ParametroAsociacion>();
+	
+	public List<ParametroAsociacion> getListaParametrosAsociacion() {
+		return listaParametrosAsociacion;
+	}
+
+	public void setListaParametrosAsociacion(
+			List<ParametroAsociacion> listaParametrosAsociacion) {
+		this.listaParametrosAsociacion = listaParametrosAsociacion;
+	}
 
 	public long getIdPlantillaPlanDePago() {
 		return idPlantillaPlanDePago;
@@ -154,7 +165,7 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	public void setCantidadCuotasCese(Integer cantidadCuotasCese) {
 		this.cantidadCuotasCese = cantidadCuotasCese;
 	}
-
+	
 	@Override
 	public long getIdEntidad() {
 		return this.idPlantillaPlanDePago;
@@ -210,6 +221,30 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 
 	public void setListaLogsAuditoria(List<LogAuditoria> pListaLogsAuditoria) {
 		this.listaLogsAuditoria = pListaLogsAuditoria;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ (int) (idPlantillaPlanDePago ^ (idPlantillaPlanDePago >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlantillaPlanDePago other = (PlantillaPlanDePago) obj;
+		if (idPlantillaPlanDePago != other.idPlantillaPlanDePago)
+			return false;
+		return true;
 	}
 
 }

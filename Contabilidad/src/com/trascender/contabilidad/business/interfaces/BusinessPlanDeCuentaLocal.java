@@ -17,10 +17,10 @@ import com.trascender.contabilidad.recurso.persistent.Cuenta;
 import com.trascender.contabilidad.recurso.persistent.CuentaArticulo;
 import com.trascender.contabilidad.recurso.persistent.CuentaConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.CuentaInteresRecargo;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.habilitaciones.recurso.persistent.ConceptoPorMora;
 import com.trascender.habilitaciones.recurso.persistent.TipoModificador;
 import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
 /**
@@ -318,7 +318,7 @@ public interface BusinessPlanDeCuentaLocal
 	 * @return ParametroAsociacion
 	 * @throws java.lang.Exception
 	 */
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion addParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion addParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 			throws java.lang.Exception;
 
 	/**
@@ -328,7 +328,7 @@ public interface BusinessPlanDeCuentaLocal
 	 * @return ParametroAsociacion
 	 * @throws Exception
 	 */
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion updateParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion updateParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 			throws Exception;
 
 	/**
@@ -338,7 +338,7 @@ public interface BusinessPlanDeCuentaLocal
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public void deleteParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 			throws Exception;
 		
 	/**
@@ -348,7 +348,7 @@ public interface BusinessPlanDeCuentaLocal
 	 * @return
 	 * @throws java.lang.Exception
 	 */
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) 
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) 
 			throws java.lang.Exception;
 
 	/**
@@ -574,7 +574,7 @@ public interface BusinessPlanDeCuentaLocal
     * @param pCuenta
     * @return 
     * @throws Exception    */
-   public com.trascender.compras.recurso.persistent.reference.CuentaRfr getCuentaRfr( com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta ) throws java.lang.Exception;
+   public com.trascender.framework.recurso.persistent.referencia.CuentaRfr getCuentaRfr( com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta ) throws java.lang.Exception;
    
    /**
 	 * Business method

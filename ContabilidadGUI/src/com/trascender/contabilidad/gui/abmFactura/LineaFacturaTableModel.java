@@ -3,10 +3,10 @@ package com.trascender.contabilidad.gui.abmFactura;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.BienProvisto;
 import com.trascender.compras.recurso.persistent.suministros.Factura;
 import com.trascender.compras.recurso.persistent.suministros.LineaFactura;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.gui.framework.component.TColumnField;
 import com.trascender.gui.framework.exception.GuiException;
 import com.trascender.gui.framework.model.TAbstractTableModel;

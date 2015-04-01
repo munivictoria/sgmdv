@@ -11,12 +11,12 @@ import com.trascender.contabilidad.gui.abmCuenta.AdminCuenta;
 import com.trascender.contabilidad.gui.abmParametroAsociacion.ParametroAsociacionABMModel;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.gui.framework.abmStandard.ABMController;
 import com.trascender.gui.framework.exception.GuiException;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
 import com.trascender.gui.framework.util.Validador;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public abstract class ABMParametroAsociacion extends ABMController<ParametroAsociacion> {
 	
@@ -100,7 +100,7 @@ public abstract class ABMParametroAsociacion extends ABMController<ParametroAsoc
 		if (locCuenta != null) {
 			Cuenta cuenta = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemAdministracionConsultaContable().getCuentaByID(locCuenta.getIdCuenta());
 			ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemAdministracionConsultaContable().validarCuenta(cuenta);
-			this.getAbmModel().getObjetoABM().setCuenta(cuenta);
+//			this.getAbmModel().getObjetoABM().setCuenta(cuenta);
 			this.actualizarABMModel();
 			this.actualizarView();
 		}

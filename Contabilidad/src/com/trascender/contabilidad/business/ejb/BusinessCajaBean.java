@@ -52,7 +52,6 @@ import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.contabilidad.recurso.persistent.Moneda;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaEgreso;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.contabilidad.recurso.persistent.PlanillaDiariaCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCancelado;
@@ -77,6 +76,7 @@ import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacion;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacionFormula;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.RegistroCancelacion;
 import com.trascender.saic.recurso.persistent.RegistroCancelacionManual;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
@@ -790,7 +790,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				CuentaRefinanciacion locCuentaRefinanciacion = new CuentaRefinanciacion();
 
 				locCuentaRefinanciacion.setParametroAsociacion(cadaParametroAsociacion);
-				locCuentaRefinanciacion.setCuenta(cadaParametroAsociacion.getCuenta());
+//				locCuentaRefinanciacion.setCuenta(cadaParametroAsociacion.getCuenta());
 				locCuentaRefinanciacion.setDocumentoRefinanciacion(pDocumentoRefinanciacion);
 				locCuentaRefinanciacion.setImporte(pDocumentoRefinanciacion.getTotalAPagar() * cadaParametroAsociacion.getPorcentaje() / 100);
 

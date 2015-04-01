@@ -37,7 +37,6 @@ import com.trascender.contabilidad.recurso.persistent.FolioLibroDiario;
 import com.trascender.contabilidad.recurso.persistent.LibroDiario;
 import com.trascender.contabilidad.recurso.persistent.LineaPresupuesto;
 import com.trascender.contabilidad.recurso.persistent.Mayor;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.contabilidad.recurso.persistent.PlanDeCuenta;
 import com.trascender.contabilidad.recurso.persistent.Presupuesto;
 import com.trascender.contabilidad.recurso.persistent.SubdiarioCaja;
@@ -51,6 +50,7 @@ import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.persistent.ConceptoPorMora;
 import com.trascender.habilitaciones.recurso.persistent.TipoModificador;
 import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
 @Stateful(name = "ejb/SystemAdministracionConsultaContable")
@@ -1507,7 +1507,7 @@ public class SystemAdministracionConsultaContableBean implements SystemAdministr
 		}
 	}
 	
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion addParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion addParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 		throws com.trascender.framework.exception.TrascenderException {
 		try{
 			if (SecurityMgr.getInstance().getPermiso(this.llave, CuentaRefinanciacion.serialVersionUID, Permiso.Accion.INSERT)){
@@ -1526,7 +1526,7 @@ public class SystemAdministracionConsultaContableBean implements SystemAdministr
 		}
 	}
 
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion updateParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion updateParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 		throws com.trascender.framework.exception.TrascenderException {
 		try{
 			if (SecurityMgr.getInstance().getPermiso(this.llave, CuentaRefinanciacion.serialVersionUID, Permiso.Accion.UPDATE)){
@@ -1545,7 +1545,7 @@ public class SystemAdministracionConsultaContableBean implements SystemAdministr
 		}
 	}
 	
-	public void deleteParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public void deleteParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 		throws com.trascender.framework.exception.TrascenderException {
 		try{
 			if (SecurityMgr.getInstance().getPermiso(this.llave, CuentaRefinanciacion.serialVersionUID, Permiso.Accion.DELETE)){
@@ -1564,7 +1564,7 @@ public class SystemAdministracionConsultaContableBean implements SystemAdministr
 		}
 	}
 	
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) 
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) 
 		throws com.trascender.framework.exception.TrascenderException {
 		try{
 			if (SecurityMgr.getInstance().getPermiso(this.llave, CuentaRefinanciacion.serialVersionUID, Permiso.Accion.SELECT)){
@@ -1894,7 +1894,7 @@ public class SystemAdministracionConsultaContableBean implements SystemAdministr
 		}
 	}
 
-	public com.trascender.compras.recurso.persistent.reference.CuentaRfr getCuentaRfr(
+	public com.trascender.framework.recurso.persistent.referencia.CuentaRfr getCuentaRfr(
 			com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta) 
 				throws com.trascender.framework.exception.TrascenderException{
 		try{

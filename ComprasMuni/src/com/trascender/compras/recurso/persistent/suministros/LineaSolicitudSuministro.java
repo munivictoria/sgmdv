@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.apache.commons.collections.iterators.ArrayListIterator;
 
 import com.trascender.compras.recurso.persistent.inventario.LineaMovimientoMercaderia;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.framework.util.AuditoriaIndirecta;
 import com.trascender.framework.util.EntidadTrascender;
 import com.trascender.framework.util.anotations.NoAuditable;

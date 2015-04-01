@@ -16,7 +16,6 @@ import com.trascender.contabilidad.gui.abmAsociacionCuentaRefinanciacion.Refinan
 import com.trascender.contabilidad.gui.abmParametroAsociacion.AdminParametroAsociacion;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.AsociacionRefinanciacion;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.framework.util.Periodicidad;
 import com.trascender.gui.framework.abmStandard.ABMController;
@@ -25,6 +24,7 @@ import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
 import com.trascender.gui.framework.util.Util;
 import com.trascender.gui.framework.util.Validador;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public abstract class ABMAsociacionRefinanciacion extends ABMController<AsociacionRefinanciacion>{
 	

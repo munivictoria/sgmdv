@@ -65,6 +65,7 @@ import com.trascender.saic.recurso.persistent.AlicuotaLiquidada;
 import com.trascender.saic.recurso.persistent.CobroExterno;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.Reliquidacion;
 import com.trascender.saic.system.interfaces.SystemAuditoriaTributaria;
@@ -2195,5 +2196,15 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		return mapaPlantillas;
 	}
 	
+	private List<ParametroAsociacion> listaParametrosAsociacionPlantilla;
+
+	public List<ParametroAsociacion> getListaParametrosAsociacionPlantilla() {
+		return listaParametrosAsociacionPlantilla;
+	}
+
+	public void setListaParametrosAsociacionPlantilla(
+			List<ParametroAsociacion> listaParametrosAsociacionPlantilla) {
+		this.listaParametrosAsociacionPlantilla = listaParametrosAsociacionPlantilla;
+	}
 
 }

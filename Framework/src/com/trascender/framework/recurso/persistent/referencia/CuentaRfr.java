@@ -1,4 +1,4 @@
-package com.trascender.compras.recurso.persistent.reference;
+package com.trascender.framework.recurso.persistent.referencia;
 
 import java.io.Serializable;
 

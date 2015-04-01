@@ -3,10 +3,10 @@ package com.trascender.contabilidad.gui.abmParametroAsociacion;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.gui.framework.component.TColumnField;
 import com.trascender.gui.framework.exception.GuiException;
 import com.trascender.gui.framework.model.TAbstractTableModel;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class ParametroAsociacionTableModel extends TAbstractTableModel<ParametroAsociacion>{
 

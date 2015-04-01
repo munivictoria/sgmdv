@@ -28,7 +28,6 @@ import com.trascender.compras.recurso.filtros.FiltroAutorizacionSolicitudSuminis
 import com.trascender.compras.recurso.filtros.FiltroEstadoSolicitudSuministro;
 import com.trascender.compras.recurso.filtros.FiltroSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.inventario.LineaMovimientoMercaderia;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.AutorizacionSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
 import com.trascender.compras.recurso.persistent.suministros.EstadoSolicitudSuministro;
@@ -47,6 +46,7 @@ import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Area;
 import com.trascender.framework.recurso.persistent.CodigoCiiu;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Recurso;

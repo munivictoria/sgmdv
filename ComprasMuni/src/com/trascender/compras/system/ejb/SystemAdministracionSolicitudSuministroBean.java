@@ -17,7 +17,6 @@ import com.trascender.compras.exception.TrascenderComprasException;
 import com.trascender.compras.recurso.filtros.FiltroAutorizacionSolicitudSuministro;
 import com.trascender.compras.recurso.filtros.FiltroEstadoSolicitudSuministro;
 import com.trascender.compras.recurso.filtros.FiltroSolicitudSuministro;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.AutorizacionSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
 import com.trascender.compras.recurso.persistent.suministros.EstadoSolicitudSuministro;
@@ -36,6 +35,7 @@ import com.trascender.framework.recurso.persistent.FirmaPermiso;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.framework.system.interfaces.SystemMunicipalidad;
 import com.trascender.framework.util.SecurityMgr;
 

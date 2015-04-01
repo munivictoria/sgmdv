@@ -20,11 +20,11 @@ import com.trascender.contabilidad.recurso.persistent.CuentaArticulo;
 import com.trascender.contabilidad.recurso.persistent.CuentaConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.CuentaInteresRecargo;
 import com.trascender.contabilidad.recurso.persistent.CuentaRefinanciacion;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.habilitaciones.recurso.persistent.ConceptoPorMora;
 import com.trascender.habilitaciones.recurso.persistent.TipoModificador;
 import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
 /**
@@ -675,7 +675,7 @@ public interface SystemAdministracionConsultaContable
 	 * @return ParametroAsociacion
 	 * @throws com.trascender.framework.exception.TrascenderException
 	 */
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion addParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion addParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 			throws com.trascender.framework.exception.TrascenderException, java.rmi.RemoteException;
 	  
 	/**
@@ -684,7 +684,7 @@ public interface SystemAdministracionConsultaContable
 	 * @return ParametroAsociacion
 	 * @throws com.trascender.framework.exception.TrascenderException
 	 */
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion updateParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion updateParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 			throws com.trascender.framework.exception.TrascenderException, java.rmi.RemoteException;
 
 	/**
@@ -693,7 +693,7 @@ public interface SystemAdministracionConsultaContable
 	 * @return 
 	 * @throws com.trascender.framework.exception.TrascenderException
 	 */
-	public void deleteParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion)
+	public void deleteParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion)
 			throws com.trascender.framework.exception.TrascenderException, java.rmi.RemoteException;
 		
 	/**
@@ -702,7 +702,7 @@ public interface SystemAdministracionConsultaContable
 	 * @return
 	 * @throws com.trascender.framework.exception.TrascenderException
 	 */
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) 
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) 
 			throws com.trascender.framework.exception.TrascenderException, java.rmi.RemoteException;
 
 	/**
@@ -874,7 +874,7 @@ public interface SystemAdministracionConsultaContable
     * @param pCuenta
     * @return 
     * @throws com.trascender.framework.exception.TrascenderException    */
-   public com.trascender.compras.recurso.persistent.reference.CuentaRfr getCuentaRfr( com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta )
+   public com.trascender.framework.recurso.persistent.referencia.CuentaRfr getCuentaRfr( com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta )
       throws com.trascender.framework.exception.TrascenderException, java.rmi.RemoteException;
 
    /**

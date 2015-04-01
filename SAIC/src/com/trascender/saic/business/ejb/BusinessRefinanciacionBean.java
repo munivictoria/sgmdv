@@ -36,6 +36,7 @@ import com.trascender.saic.exception.SaicException;
 import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
@@ -481,13 +482,30 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		return locListaRetorno;
 	}
 	
+	private void validarPlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		Criterio locCriterio = Criterio.getInstance(entityManager, PlantillaPlanDePago.class)
+				.add(Restriccion.ID(plantilla.getIdPlantillaPlanDePago()).NEGADA())
+				.add(Restriccion.LIKE("nombre", plantilla.getNombre(), false))
+				.setProyeccion(Proyeccion.COUNT());
+		Long cantidad = locCriterio.uniqueResult();
+		if (cantidad > 0) {
+			throw new RuntimeException("Plantilla repetida");
+		}
+		
+		for (ParametroAsociacion cadaParametro : plantilla.getListaParametrosAsociacion()) {
+			cadaParametro.setPlantilla(plantilla);
+		}
+	}
+	
 	public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		validarPlantillaPlanDePago(plantilla);
 		TrascenderEnverListener.setValoresEnAuditoriaBean(plantilla);
 		this.entityManager.merge(plantilla);
 		this.entityManager.flush();
 	}
 	
 	public void updatePlantillaPlanDePago(PlantillaPlanDePago plantilla) {
+		validarPlantillaPlanDePago(plantilla);
 		TrascenderEnverListener.setValoresEnAuditoriaBean(plantilla);
 		this.entityManager.merge(plantilla);
 		this.entityManager.flush();
@@ -503,6 +521,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		filtro.procesarYListar(locCriterio);
 		for (PlantillaPlanDePago cadaPlantilla : filtro.getListaResultados()) {
 			cadaPlantilla.getListaLogsAuditoria().size();
+			cadaPlantilla.getListaParametrosAsociacion().size();
 		}
 		return filtro;
 	}

@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -20,6 +22,7 @@ import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.RegCancelacionPorRefinanciacion;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 
@@ -86,6 +89,10 @@ public class DocumentoRefinanciacion extends DocGeneradorDeuda {
 
 	@Column(name = "MES_INICIO_REFINANCIACION")
 	private Integer mesInicioRefinanciacion;
+	
+	@JoinColumn(name = "ID_PLANTILLA")
+	@ManyToOne
+	private PlantillaPlanDePago plantilla;
 
 	@Transient
 	private Double multa = 0d;
@@ -95,6 +102,14 @@ public class DocumentoRefinanciacion extends DocGeneradorDeuda {
 	private Double entrega = 0d;
 	@Transient
 	private Double montoMinimoPorCuota = 0d;
+	
+	public PlantillaPlanDePago getPlantilla() {
+		return plantilla;
+	}
+
+	public void setPlantilla(PlantillaPlanDePago plantilla) {
+		this.plantilla = plantilla;
+	}
 
 	/**
 	 * El capital es el monto a refinanciar

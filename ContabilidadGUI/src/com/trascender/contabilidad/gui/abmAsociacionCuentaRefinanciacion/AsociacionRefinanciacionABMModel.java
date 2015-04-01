@@ -7,9 +7,9 @@ import java.util.Set;
 
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.AsociacionRefinanciacion;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.gui.framework.model.TAbstractABMModel;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class AsociacionRefinanciacionABMModel extends TAbstractABMModel<AsociacionRefinanciacion> {
 	List<ParametroAsociacion> ListaParametrosAsociacion = new ArrayList<ParametroAsociacion>();

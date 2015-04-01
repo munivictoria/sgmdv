@@ -12,7 +12,6 @@ import javax.ejb.Remote;
 import com.trascender.compras.recurso.filtros.FiltroAutorizacionSolicitudSuministro;
 import com.trascender.compras.recurso.filtros.FiltroEstadoSolicitudSuministro;
 import com.trascender.compras.recurso.filtros.FiltroSolicitudSuministro;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.AutorizacionSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.Bien;
 import com.trascender.compras.recurso.persistent.suministros.EstadoSolicitudSuministro;
@@ -24,6 +23,7 @@ import com.trascender.compras.recurso.persistent.suministros.UsuarioAutorizadorS
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Area;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 
 @Remote
 public interface SystemAdministracionSolicitudSuministro

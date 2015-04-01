@@ -3,9 +3,9 @@ package com.trascender.contabilidad.gui.abmParametroAsociacion;
 import java.util.List;
 
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.contabilidad.system.interfaces.SystemAdministracionConsultaContable;
 import com.trascender.gui.framework.model.TAbstractBusquedaModel;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class ParametroAsociacionBusquedaModel extends TAbstractBusquedaModel<ParametroAsociacion> {
 

@@ -14,7 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.trascender.compras.recurso.persistent.inventario.LineaMovimientoMercaderia;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.framework.util.AuditoriaIndirecta;
 import com.trascender.framework.util.EntidadTrascender;
 

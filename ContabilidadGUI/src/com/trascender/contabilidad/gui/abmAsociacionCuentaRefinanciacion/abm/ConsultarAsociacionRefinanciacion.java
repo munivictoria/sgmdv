@@ -11,8 +11,8 @@ import com.trascender.contabilidad.gui.abmAsociacionCuentaRefinanciacion.Paramet
 import com.trascender.contabilidad.gui.abmAsociacionCuentaRefinanciacion.RefinanciacionTableModel;
 import com.trascender.contabilidad.gui.recursos.MessagesContabilidad;
 import com.trascender.contabilidad.recurso.persistent.CuentaRefinanciacion;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.gui.framework.main.AppManager;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
 public class ConsultarAsociacionRefinanciacion extends ABMAsociacionRefinanciacion {

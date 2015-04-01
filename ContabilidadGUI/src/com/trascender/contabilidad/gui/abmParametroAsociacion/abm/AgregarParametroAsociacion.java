@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 
 import com.trascender.contabilidad.gui.abmParametroAsociacion.ParametroAsociacionABMModel;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.gui.framework.main.AppManager;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class AgregarParametroAsociacion extends ABMParametroAsociacion {
 

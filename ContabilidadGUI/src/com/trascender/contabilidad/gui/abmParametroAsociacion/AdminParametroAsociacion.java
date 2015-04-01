@@ -11,9 +11,9 @@ import com.trascender.contabilidad.gui.abmParametroAsociacion.abm.AgregarParamet
 import com.trascender.contabilidad.gui.abmParametroAsociacion.abm.EliminarParametroAsociacion;
 import com.trascender.contabilidad.gui.abmParametroAsociacion.abm.ModificarParametroAsociacion;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.gui.framework.abmStandard.AdminController;
 import com.trascender.gui.framework.main.AppManager;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class AdminParametroAsociacion extends AdminController<ParametroAsociacion> {
 

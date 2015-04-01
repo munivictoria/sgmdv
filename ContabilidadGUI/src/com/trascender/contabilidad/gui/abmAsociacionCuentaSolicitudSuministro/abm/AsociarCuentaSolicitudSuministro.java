@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaSolicitudSuministro.AsociacionCuentaSolicitudSuministroABMModel;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaSolicitudSuministro.FirmaPermisoTableModel;
 import com.trascender.contabilidad.gui.abmAsociacionCuentaSolicitudSuministro.LineaSolicitudSuministroTableModel;
 import com.trascender.contabilidad.gui.abmCuenta.AdminCuenta;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
 

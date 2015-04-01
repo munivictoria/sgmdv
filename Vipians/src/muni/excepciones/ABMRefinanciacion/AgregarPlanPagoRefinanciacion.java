@@ -1536,6 +1536,11 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
             regCancelacionPorRefinanciacion.setDigestoMunicipal(null);
             this.getTfDigesto().setText(" ");
         }
+        
+        if (ddPlantilla.getSelected() != "") {
+        	PlantillaPlanDePago plantilla = getCommunicationSAICBean().getMapaPlantillas().get(ddPlantilla.getSelected().toString());
+        	documentoRefinanciacion.setPlantilla(plantilla);
+        }
 
         documentoRefinanciacion.setRegCancelacionPorRefinanciacion(regCancelacionPorRefinanciacion);
         //sacado por mines
@@ -2162,7 +2167,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 
                 // CAMBIAR: Validar los campos necesarios.
                 Validador v = new Validador();
-                int cantNoVacios = 12; //mines cambiaste de 12 a 13
+                int cantNoVacios = 13;
                 UIComponent[] noVacios = new UIComponent[cantNoVacios];
                 String[] nomNoVacios = new String[cantNoVacios];
 
@@ -2208,6 +2213,9 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
                 nomNoVacios[pos++] = this.getLblCantidadDiasCaida().getText().toString();
                 noVacios[pos] = this.getTfCantidadCuotasCaida();
                 nomNoVacios[pos++] = this.getLblCantidadCuotasCaida().getText().toString();
+                
+                noVacios[pos] = this.getDdPlantilla();
+                nomNoVacios[pos++] = "Plantilla Plan de Pagos";
 
                 pos = 0;
                 enteros[pos] = this.getTfCantidadCuotas();
@@ -2322,8 +2330,10 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
     }
     
     public void eventoSeleccionPlantilla(ActionEvent evento) {
-    	PlantillaPlanDePago locPlantilla = getCommunicationSAICBean().getMapaPlantillas().get(getDdPlantilla().getSelected().toString());
-    	setPlantilla(locPlantilla);
+    	if (ddPlantilla.getSelected() != "") {
+	    	PlantillaPlanDePago locPlantilla = getCommunicationSAICBean().getMapaPlantillas().get(getDdPlantilla().getSelected().toString());
+	    	setPlantilla(locPlantilla);
+    	}
     }
     
     private void setPlantilla(PlantillaPlanDePago plantilla) {

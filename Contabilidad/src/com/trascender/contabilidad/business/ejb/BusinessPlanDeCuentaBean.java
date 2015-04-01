@@ -24,7 +24,6 @@ import ar.trascender.criterio.clases.Restriccion;
 import com.trascender.compras.business.interfaces.BusinessStockLocal;
 import com.trascender.compras.recurso.persistent.inventario.Articulo;
 import com.trascender.compras.recurso.persistent.inventario.Articulo.EstadoContable;
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.LineaFactura;
 import com.trascender.contabilidad.business.interfaces.BusinessPlanDeCuentaLocal;
 import com.trascender.contabilidad.exception.TrascenderContabilidadException;
@@ -49,11 +48,11 @@ import com.trascender.contabilidad.recurso.persistent.LineaPresupuestoGastos;
 import com.trascender.contabilidad.recurso.persistent.LineaPresupuestoRecursos;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCuentaEgreso;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCuentaIngreso;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.contabilidad.recurso.persistent.PlanDeCuenta;
 import com.trascender.contabilidad.recurso.persistent.Presupuesto;
 import com.trascender.contabilidad.recurso.persistent.TipoBalance;
 import com.trascender.contabilidad.recurso.persistent.TipoCuenta;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Periodo;
@@ -63,6 +62,7 @@ import com.trascender.habilitaciones.recurso.persistent.ConceptoPorMora;
 import com.trascender.habilitaciones.recurso.persistent.TipoModificador;
 import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
 import com.trascender.saic.business.interfaces.BusinessRegistroValuadoLocal;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
 @Stateless(name = "ejb/BusinessPlanDeCuentaBeanLocal")
@@ -694,21 +694,21 @@ public class BusinessPlanDeCuentaBean implements BusinessPlanDeCuentaLocal {
 		return listaCuentaTipoModificador;
 	}
 
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion addParametroAsociacion(
-			com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion) throws java.lang.Exception {
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion addParametroAsociacion(
+			com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion) throws java.lang.Exception {
 		this.validarDatosParametrosAsociacion(pParametroAsociacion);
 		entity.persist(pParametroAsociacion);
 		return pParametroAsociacion;
 	}
 
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion updateParametroAsociacion(
-			com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion) throws Exception {
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion updateParametroAsociacion(
+			com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion) throws Exception {
 		// this.validarDatosParametrosAsociacion(pParametroAsociacion);
 		pParametroAsociacion = entity.merge(pParametroAsociacion);
 		return pParametroAsociacion;
 	}
 
-	public void deleteParametroAsociacion(com.trascender.contabilidad.recurso.persistent.ParametroAsociacion pParametroAsociacion) throws Exception {
+	public void deleteParametroAsociacion(com.trascender.saic.recurso.persistent.ParametroAsociacion pParametroAsociacion) throws Exception {
 		pParametroAsociacion = entity.merge(pParametroAsociacion);
 		entity.remove(pParametroAsociacion);
 	}
@@ -717,7 +717,7 @@ public class BusinessPlanDeCuentaBean implements BusinessPlanDeCuentaLocal {
 	public List<ParametroAsociacion> findListaParametroAsociacion() throws java.lang.Exception {
 		List<ParametroAsociacion> listaParametroAsociacion = Criterio.getInstance(entity, ParametroAsociacion.class).list();
 		for(ParametroAsociacion parametroAsociacion : listaParametroAsociacion) {
-			parametroAsociacion.getCuenta().getListaTipoCuenta().size();
+//			parametroAsociacion.getCuenta().getListaTipoCuenta().size();
 			parametroAsociacion.getCuenta().getCuentaPadre();
 			if(parametroAsociacion.getCuenta().getCuentaPadre() != null) {
 				parametroAsociacion.getCuenta().getCuentaPadre().toString();
@@ -737,7 +737,7 @@ public class BusinessPlanDeCuentaBean implements BusinessPlanDeCuentaLocal {
 		}
 	}
 
-	public com.trascender.contabilidad.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) throws java.lang.Exception {
+	public com.trascender.saic.recurso.persistent.ParametroAsociacion getParametroAsociacionByID(Long pId) throws java.lang.Exception {
 		if(pId == null) {
 			throw new TrascenderContabilidadException(298);
 		}
@@ -746,7 +746,7 @@ public class BusinessPlanDeCuentaBean implements BusinessPlanDeCuentaLocal {
 		}
 		ParametroAsociacion locParametroAsociacion = entity.find(ParametroAsociacion.class, pId);
 		locParametroAsociacion.getCuenta().toString();
-		locParametroAsociacion.getCuenta().getListaTipoCuenta().size();
+//		locParametroAsociacion.getCuenta().getListaTipoCuenta().size();
 		locParametroAsociacion.getCuenta().getCuentaPadre();
 		if(locParametroAsociacion.getCuenta().getCuentaPadre() != null) {
 			locParametroAsociacion.getCuenta().getCuentaPadre().toString();
@@ -793,7 +793,7 @@ public class BusinessPlanDeCuentaBean implements BusinessPlanDeCuentaLocal {
 				CuentaRefinanciacion locCuentaRefinanciacion = new CuentaRefinanciacion();
 
 				locCuentaRefinanciacion.setParametroAsociacion(cadaParametroAsociacion);
-				locCuentaRefinanciacion.setCuenta(cadaParametroAsociacion.getCuenta());
+//				locCuentaRefinanciacion.setCuenta(cadaParametroAsociacion.getCuenta());
 				locCuentaRefinanciacion.setDocumentoRefinanciacion(cadaDocumentoRefinanciacion);
 				locCuentaRefinanciacion.setImporte(cadaDocumentoRefinanciacion.getTotalAPagar() * cadaParametroAsociacion.getPorcentaje() / 100);
 
@@ -1172,7 +1172,7 @@ public class BusinessPlanDeCuentaBean implements BusinessPlanDeCuentaLocal {
 		pBajaArticulo.setMovimientoCuentaIngreso(locMovimientoIngreso);
 	}
 
-	public com.trascender.compras.recurso.persistent.reference.CuentaRfr getCuentaRfr(com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta) throws Exception {
+	public com.trascender.framework.recurso.persistent.referencia.CuentaRfr getCuentaRfr(com.trascender.contabilidad.recurso.persistent.Cuenta pCuenta) throws Exception {
 		CuentaRfr locCuentaRfr = new CuentaRfr();
 		locCuentaRfr.setAbreviatura(pCuenta.getAbreviatura());
 		locCuentaRfr.setNombre(pCuenta.getNombre());

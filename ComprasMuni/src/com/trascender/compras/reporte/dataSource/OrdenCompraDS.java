@@ -11,13 +11,13 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.Contratacion;
 import com.trascender.compras.recurso.persistent.suministros.LineaOrdenCompra;
 import com.trascender.compras.recurso.persistent.suministros.LineaSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.OrdenCompra;
 import com.trascender.framework.recurso.persistent.Area;
 import com.trascender.framework.recurso.persistent.PersonaJuridica;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.framework.util.MultiMap;
 import com.trascender.framework.util.TrascenderDataSource;
 import com.trascender.framework.util.Util;

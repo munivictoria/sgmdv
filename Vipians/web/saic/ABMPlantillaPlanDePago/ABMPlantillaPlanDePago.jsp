@@ -40,7 +40,7 @@
 											columns="10" id="tfMontoCondonacionImporte" styleClass="textField" />
 									</td>
 									<td align="right" nowrap="nowrap">
-										<ui:label for="cbCondonacionImportePorcentual" id="lblMontoCondonacionImporte" styleClass="label" text="Porcentual" />
+										<ui:label for="cbCondonacionImportePorcentual" id="lblMontoCondonacionImportePorcentual" styleClass="label" text="Porcentual" />
 									</td>
 									<td>
 										<ui:checkbox id="cbCondonacionImportePorcentual" binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.cbCondonacionImportePorcentual}"/>
@@ -55,7 +55,7 @@
 											columns="10" id="tfMontoCondonacionInteres" styleClass="textField" />
 									</td>
 									<td align="right" nowrap="nowrap">
-										<ui:label for="cbCondonacionInteresPorcentual" id="lblMontoCondonacionInteres" styleClass="label" text="Porcentual" />
+										<ui:label for="cbCondonacionInteresPorcentual" id="lblMontoCondonacionInteresPorcentual" styleClass="label" text="Porcentual" />
 									</td>
 									<td>
 										<ui:checkbox id="cbCondonacionInteresPorcentual" binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.cbCondonacionInteresPorcentual}"/>
@@ -107,6 +107,129 @@
 									<td>
 										<ui:textField binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tfCantidadCuotasCese}" 
 											columns="10" id="tfCantidadCuotasCese" styleClass="textField" />
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<ui:label id="lblCuentas" styleClass="label57" text="Cuentas" />
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<ui:table augmentTitle="false" binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tablaCuentas}"
+											id="tablaCuentas">
+											<script>
+												<![CDATA[
+												/* ----- Functions for Table Preferences Panel ----- */
+												/*
+												 * Toggle the table preferences panel open or closed
+												 */
+												function togglePreferencesPanel() {
+													var table = document
+															.getElementById("form1:tablaCuentas");
+													table
+															.toggleTblePreferencesPanel();
+												}
+												/* ----- Functions for Filter Panel ----- */
+												/*
+												 * Return true if the filter menu has actually changed,
+												 * so the corresponding event should be allowed to continue.
+												 */
+												function filterMenuChanged() {
+													var table = document
+															.getElementById("form1:tablaCuentas");
+													return table
+															.filterMenuChanged();
+												}
+												/*
+												 * Toggle the custom filter panel (if any) open or closed.
+												 */
+												function toggleFilterPanel() {
+													var table = document
+															.getElementById("form1:tablaCuentas");
+													return table
+															.toggleTableFilterPanel();
+												}
+												/* ----- Functions for Table Actions ----- */
+												/*
+												 * Initialize all rows of the table when the state
+												 * of selected rows changes.
+												 */
+												function initAllRows() {
+													var table = document
+															.getElementById("form1:tablaCuentas");
+													table.initAllRows();
+												}
+												/*
+												 * Set the selected state for the given row groups
+												 * displayed in the table.  This functionality requires
+												 * the 'selectId' of the tableColumn to be set.
+												 *
+												 * @param rowGroupId HTML element id of the tableRowGroup component
+												 * @param selected Flag indicating whether components should be selected
+												 */
+												function selectGroupRows(
+														rowGroupId, selected) {
+													var table = document
+															.getElementById("form1:tablaCuentas");
+													table.selectGroupRows(
+															rowGroupId,
+															selected);
+												}
+												/*
+												 * Disable all table actions if no rows have been selected.
+												 */
+												function disableActions() {
+													// Determine whether any rows are currently selected
+													var table = document
+															.getElementById("form1:tablaCuentas");
+													var disabled = (table
+															.getAllSelectedRowsCount() > 0) ? false
+															: true;
+													// Set disabled state for top actions
+													document
+															.getElementById(
+																	"form1:tablaCuentas:tableActionsTop:deleteTop")
+															.setDisabled(
+																	disabled);
+													// Set disabled state for bottom actions
+													document
+															.getElementById(
+																	"form1:tablaCuentas:tableActionsBottom:deleteBottom")
+															.setDisabled(
+																	disabled);
+												}
+												]]>
+											</script>
+											<ui:tableRowGroup binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.trgCuentas}" id="trgCuentas"
+												sourceData="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.ldpCuentas}" sourceVar="currentRowCuentas">
+												<ui:tableColumn align="center" binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tcRbCuentas}" id="tcRbCuentas"
+													valign="middle" width="10">
+													<ui:radioButton binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.rbCuentas}" id="rbCuentas" label=""
+														name="buttonGroupCuentas" selected="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.RBSelectedCuentas}"
+														selectedValue="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.currentRowCuentas}" />
+												</ui:tableColumn>
+												<ui:tableColumn binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tcCodigoImputacion}" headerText="Código Imputación" id="tcCodigoImputacion" sort="codigoImputacion">
+													<ui:staticText id="stCodigoImputacion" text="#{currentRowCuentas.value['cuenta'].codigoImputacion}" />
+												</ui:tableColumn>
+												<ui:tableColumn binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tcNombreCuenta}" headerText="Nombre" id="tcNombreCuenta" sort="nombre">
+													<ui:staticText id="stNombreCuenta" text="#{currentRowCuentas.value['cuenta'].nombre}" />
+												</ui:tableColumn>
+												<ui:tableColumn binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tcPorcentaje}" headerText="Porcentaje" id="tcPorcentaje" sort="porcentaje">
+													<ui:textField binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tfPorcentaje}" id="tfPorcentaje" text="#{currentRowCuentas.value['porcentaje']}"/>
+												</ui:tableColumn>
+											</ui:tableRowGroup>
+											<f:facet name="actionsTop">
+												<ui:panelGroup binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.pgCuentas}" id="pgCuentas">
+													<ui:button action="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnAgregarCuenta_action}"
+														binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnAgregarCuenta}" id="btnAgregarCuenta"
+														styleClass="button" text="Agregar"/>
+													<a4j:commandButton action="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnQuitarCuenta_action}"
+														binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnQuitarCuenta}" id="btnQuitarCuenta" 
+														value="Quitar" styleClass="btnAjax" reRender="tablaCuentas" />
+												</ui:panelGroup>
+											</f:facet>
+										</ui:table>
 									</td>
 								</tr>
 								<tr>

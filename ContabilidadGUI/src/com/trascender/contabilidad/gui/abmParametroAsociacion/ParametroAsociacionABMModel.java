@@ -1,8 +1,8 @@
 package com.trascender.contabilidad.gui.abmParametroAsociacion;
 
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.gui.framework.model.TAbstractABMModel;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class ParametroAsociacionABMModel extends TAbstractABMModel<ParametroAsociacion> {
 

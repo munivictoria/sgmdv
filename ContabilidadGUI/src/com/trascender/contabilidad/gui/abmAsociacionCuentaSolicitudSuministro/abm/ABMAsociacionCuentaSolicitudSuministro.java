@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.FirmaPermisoSolicitud;
 import com.trascender.compras.recurso.persistent.suministros.LineaSolicitudSuministro;
 import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro;
@@ -17,6 +16,7 @@ import com.trascender.contabilidad.gui.abmAsociacionCuentaSolicitudSuministro.Li
 import com.trascender.contabilidad.gui.abmCuenta.AdminCuenta;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.gui.framework.abmStandard.ABMController;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.recursos.Messages;

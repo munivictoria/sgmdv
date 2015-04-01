@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import com.trascender.compras.recurso.persistent.reference.CuentaRfr;
 import com.trascender.compras.recurso.persistent.suministros.FacturaProveedor;
 import com.trascender.compras.recurso.persistent.suministros.LineaFactura;
 import com.trascender.compras.recurso.persistent.suministros.Factura.Estado;
@@ -18,6 +17,7 @@ import com.trascender.contabilidad.gui.abmFactura.FacturaProveedorABMModel;
 import com.trascender.contabilidad.gui.abmFactura.LineaFacturaTableModel;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 import com.trascender.gui.framework.abmStandard.ABMController;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.model.TDefaultComboBoxModel;

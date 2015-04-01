@@ -6,13 +6,28 @@
  */
 package muni.saic.ABMPlantillaPlanDePago;
 
+import java.util.List;
+
+import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
+
+import com.sun.data.provider.RowKey;
+import com.sun.data.provider.impl.ObjectListDataProvider;
+import com.sun.rave.web.ui.component.Button;
 import com.sun.rave.web.ui.component.Checkbox;
 import com.sun.rave.web.ui.component.MessageGroup;
+import com.sun.rave.web.ui.component.PanelGroup;
+import com.sun.rave.web.ui.component.RadioButton;
+import com.sun.rave.web.ui.component.Table;
+import com.sun.rave.web.ui.component.TableColumn;
+import com.sun.rave.web.ui.component.TableRowGroup;
 import com.sun.rave.web.ui.component.TextArea;
 import com.sun.rave.web.ui.component.TextField;
-import com.trascender.framework.recurso.persistent.Secretaria;
+import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
+import com.trascender.contabilidad.recurso.persistent.Cuenta;
+import com.trascender.contabilidad.recurso.persistent.RelaConceptoIngresoVarioCuenta;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 
 /**
@@ -27,8 +42,12 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 
 	@Override
 	protected void _init() throws Exception {
+		if(this.getListaDelCommunicationParametrosAsociacion() != null) {
+			this.ldpCuentas.setList(this.getListaDelCommunicationParametrosAsociacion());
+		}
 	}
 
+	private ObjectListDataProvider ldpCuentas = new ObjectListDataProvider();
 	private TextField tfNombre = new TextField();
 	private TextField tfMontoCondonacionImporte = new TextField();
 	private TextField tfMontoCondonacionInteres = new TextField();
@@ -40,7 +59,114 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	private TextField tfDiaVencimiento = new TextField();
 	private TextField tfCantidadDiasCese = new TextField();
 	private TextField tfCantidadCuotasCese = new TextField();
+	private Table tablaCuentas = new Table();
+	private TableRowGroup trgCuentas = new TableRowGroup();
+	private TableColumn tcRbCuentas = new TableColumn();
+	private RadioButton rbCuentas = new RadioButton();
+	private TableColumn tcCodigoImputacion = new TableColumn();
+	private TableColumn tcNombreCuenta = new TableColumn();
+	private TableColumn tcPorcentaje = new TableColumn();
+	private TextField tfPorcentaje = new TextField();
+	private PanelGroup pgCuentas = new PanelGroup();
+	private Button btnAgregarCuenta = new Button();
+	private HtmlAjaxCommandButton btnQuitarCuenta = new HtmlAjaxCommandButton();
 	
+	public PanelGroup getPgCuentas() {
+		return pgCuentas;
+	}
+
+	public void setPgCuentas(PanelGroup pgCuentas) {
+		this.pgCuentas = pgCuentas;
+	}
+
+	public Button getBtnAgregarCuenta() {
+		return btnAgregarCuenta;
+	}
+
+	public void setBtnAgregarCuenta(Button btnAgregarCuenta) {
+		this.btnAgregarCuenta = btnAgregarCuenta;
+	}
+
+	public HtmlAjaxCommandButton getBtnQuitarCuenta() {
+		return btnQuitarCuenta;
+	}
+
+	public void setBtnQuitarCuenta(HtmlAjaxCommandButton btnQuitarCuenta) {
+		this.btnQuitarCuenta = btnQuitarCuenta;
+	}
+
+	public TableColumn getTcPorcentaje() {
+		return tcPorcentaje;
+	}
+
+	public void setTcPorcentaje(TableColumn tcPorcentaje) {
+		this.tcPorcentaje = tcPorcentaje;
+	}
+
+	public TextField getTfPorcentaje() {
+		return tfPorcentaje;
+	}
+
+	public void setTfPorcentaje(TextField tfPorcentaje) {
+		this.tfPorcentaje = tfPorcentaje;
+	}
+
+	public TableColumn getTcCodigoImputacion() {
+		return tcCodigoImputacion;
+	}
+
+	public void setTcCodigoImputacion(TableColumn tcCodigoImputacion) {
+		this.tcCodigoImputacion = tcCodigoImputacion;
+	}
+
+	public TableColumn getTcNombreCuenta() {
+		return tcNombreCuenta;
+	}
+
+	public void setTcNombreCuenta(TableColumn tcNombreCuenta) {
+		this.tcNombreCuenta = tcNombreCuenta;
+	}
+
+	public RadioButton getRbCuentas() {
+		return rbCuentas;
+	}
+
+	public void setRbCuentas(RadioButton rbCuentas) {
+		this.rbCuentas = rbCuentas;
+	}
+
+	public TableColumn getTcRbCuentas() {
+		return tcRbCuentas;
+	}
+
+	public void setTcRbCuentas(TableColumn tcRbCuentas) {
+		this.tcRbCuentas = tcRbCuentas;
+	}
+
+	public ObjectListDataProvider getLdpCuentas() {
+		return ldpCuentas;
+	}
+
+	public void setLdpCuentas(ObjectListDataProvider ldpCuentas) {
+		this.ldpCuentas = ldpCuentas;
+	}
+
+	public Table getTablaCuentas() {
+		return tablaCuentas;
+	}
+
+	public void setTablaCuentas(Table tablaCuentas) {
+		this.tablaCuentas = tablaCuentas;
+	}
+
+	public TableRowGroup getTrgCuentas() {
+		return trgCuentas;
+	}
+
+	public void setTrgCuentas(TableRowGroup trgCuentas) {
+		this.trgCuentas = trgCuentas;
+	}
+
 	public TextField getTfMontoCondonacionImporte() {
 		return tfMontoCondonacionImporte;
 	}
@@ -172,18 +298,29 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	@Override
 	protected void guardarEstadoObjetosUsados() {
 		int ind = 0;
-		PlantillaPlanDePago PlantillaPlanDePago = (PlantillaPlanDePago) this.obtenerObjetoDelElementoPila(ind++, PlantillaPlanDePago.class);
+		PlantillaPlanDePago plantillaPlanDePago = (PlantillaPlanDePago) this.obtenerObjetoDelElementoPila(ind++, PlantillaPlanDePago.class);
 
-		PlantillaPlanDePago.setNombre(this.getTextFieldValue(getTfNombre()));
+		plantillaPlanDePago.setNombre(this.getTextFieldValue(getTfNombre()));
+		plantillaPlanDePago.setMontoCondonacionImporte(getTextFieldValueDouble(tfMontoCondonacionImporte));
+		plantillaPlanDePago.setMontoCondonacionIntereses(getTextFieldValueDouble(tfMontoCondonacionInteres));
+		plantillaPlanDePago.setCondonacionImportePorcentual(getCbCondonacionImportePorcentual().isChecked());
+		plantillaPlanDePago.setCondonacionInteresPorcentual(getCbCondonacionInteresPorcentual().isChecked());
+		plantillaPlanDePago.setCantidadCuotas(getTextFieldValueInteger(tfCantidadCuotas));
+		plantillaPlanDePago.setDiaVencimiento(getTextFieldValueInteger(tfDiaVencimiento));
+		plantillaPlanDePago.setInteresPunitorio(getTextFieldValueDouble(tfInteresPunitorio));
+		plantillaPlanDePago.setTasaNominalAnual(getTextFieldValueDouble(tfTasaNominalAnual));
+		plantillaPlanDePago.setCantidadCuotasCese(getTextFieldValueInteger(tfCantidadCuotasCese));
+		plantillaPlanDePago.setCantidadDiasCese(getTextFieldValueInteger(tfCantidadDiasCese));
+
+		this.getLdpCuentas().commitChanges();
+		plantillaPlanDePago.setListaParametrosAsociacion(this.getLdpCuentas().getList());
 
 		ind = 0;
-		this.getElementoPila().getObjetos().set(ind++, PlantillaPlanDePago);
+		this.getElementoPila().getObjetos().set(ind++, plantillaPlanDePago);
 	}
 
 	@Override
 	protected void mostrarEstadoObjetosUsados() {
-		this.acomodarSeleccionado();
-
 		int ind = 0;
 		PlantillaPlanDePago plantillaPlanDePago = (PlantillaPlanDePago) this.obtenerObjetoDelElementoPila(ind++, PlantillaPlanDePago.class);
 		this.getTfNombre().setText(plantillaPlanDePago.getNombre());
@@ -193,7 +330,7 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		this.setCheckBoxValue(cbCondonacionImportePorcentual, plantillaPlanDePago.getCondonacionImportePorcentual());
 		this.setCheckBoxValue(cbCondonacionInteresPorcentual, plantillaPlanDePago.getCondonacionInteresPorcentual());
 		
-		this.setTextFieldValueInteger(this.tfCantidadCuotas, plantillaPlanDePago.getCantidadCuotas());
+		this.setTextFieldValueInteger(tfCantidadCuotas, plantillaPlanDePago.getCantidadCuotas());
 		this.setTextFieldValueInteger(tfDiaVencimiento, plantillaPlanDePago.getDiaVencimiento());
 		
 		this.setTextFieldValueDouble(tfInteresPunitorio, plantillaPlanDePago.getInteresPunitorio());
@@ -202,7 +339,8 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		this.setTextFieldValueInteger(tfCantidadCuotasCese, plantillaPlanDePago.getCantidadCuotasCese());
 		this.setTextFieldValueInteger(tfCantidadDiasCese, plantillaPlanDePago.getCantidadDiasCese());
 		
-		
+		this.getLdpCuentas().setList(plantillaPlanDePago.getListaParametrosAsociacion());
+		this.setListaDelCommunicationParametrosAsociacion(getLdpCuentas().getList());
 	}
 
 	@Override
@@ -212,14 +350,32 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
+		PlantillaPlanDePago plantilla = (PlantillaPlanDePago) obtenerObjetoDelElementoPila(0);
+		if(pObject instanceof Cuenta) {
+			Cuenta locCuenta = (Cuenta) pObject;
+
+			boolean encontrado = false;
+			for(ParametroAsociacion cadaParametro : plantilla.getListaParametrosAsociacion()) {
+				if(cadaParametro.getCuenta().getIdCuenta() == locCuenta.getIdCuenta()) {
+					encontrado = true;
+				}
+			}
+
+			if(!encontrado) {
+				ParametroAsociacion locParametro = new ParametroAsociacion();
+				locParametro.setCuenta(locCuenta.getCuentaRfr());
+				plantilla.getListaParametrosAsociacion().add(locParametro);
+			}
+		}
+		this.getElementoPila().getObjetos().set(0, plantilla);
 	}
 
 	@Override
 	protected void procesarObjetoABM(Object pObject) {
-		PlantillaPlanDePago PlantillaPlanDePago = (PlantillaPlanDePago) pObject;
+		PlantillaPlanDePago plantillaPlanDePago = (PlantillaPlanDePago) pObject;
 
 		int ind = 0;
-		this.getElementoPila().getObjetos().set(ind++, PlantillaPlanDePago);
+		this.getElementoPila().getObjetos().set(ind++, plantillaPlanDePago);
 	}
 	
 	@Override
@@ -239,4 +395,77 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		PlantillaPlanDePago locPlantillaPlanDePago = this.obtenerObjetoDelElementoPila(0, PlantillaPlanDePago.class);
 		this.getTablaLogs().getLdpLogs().setList(locPlantillaPlanDePago.getListaLogsAuditoria());
 	}
+	
+	private List<ParametroAsociacion> getListaDelCommunicationParametrosAsociacion() {
+		return this.getCommunicationSAICBean().getListaParametrosAsociacionPlantilla();
+	}
+
+	private void setListaDelCommunicationParametrosAsociacion(List<ParametroAsociacion> lista) {
+		this.getCommunicationSAICBean().setListaParametrosAsociacionPlantilla(lista);
+	}
+	
+	private Object lastSelectedCuentas = null;
+
+	public Object getRBSelectedCuentas() {
+		String sv = (String) rbCuentas.getSelectedValue();
+		return sv.equals(lastSelectedCuentas) ? sv : null;
+	}
+
+	public void setRBSelectedCuentas(Object selected) {
+		if(selected != null) {
+			lastSelectedCuentas = selected;
+		}
+	}
+	
+	public String getCurrentRowCuentas() {
+		return trgCuentas.getRowKey().getRowId();
+	}
+
+	public void setCurrentRowCuentas(int row) {
+	}
+	
+	public String btnAgregarCuenta_action() {
+		return navegarParaSeleccionar("AdminCuenta");
+	}
+	
+	public RowKey getSeleccionadoCuentas() {
+		RowKey rk = null;
+		try {
+			String aRowId = (String) RadioButton.getSelected("buttonGroupCuentas");
+			rk = this.getLdpCuentas().getRowKey(aRowId);
+		} catch(Exception ex) {
+		}
+		return rk;
+	}
+	
+	public String btnQuitarCuenta_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		this.guardarEstadoObjetosUsados();
+
+		if(ultimo) {
+			RowKey rk = null;
+
+			try {
+				rk = this.getSeleccionadoCuentas();
+				if(rk != null) {
+					int index = getNroFila(rk.toString());
+					Object obj = this.getLdpCuentas().getObjects()[index];
+					PlantillaPlanDePago locPlantilla = this.obtenerObjetoDelElementoPila(0, PlantillaPlanDePago.class);
+					locPlantilla.getListaParametrosAsociacion().remove(obj);
+				}
+			} catch(Exception ex) {
+			}
+
+			this.guardarEstadoObjetosUsados();
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+
+		return retorno;
+	}
+
 }

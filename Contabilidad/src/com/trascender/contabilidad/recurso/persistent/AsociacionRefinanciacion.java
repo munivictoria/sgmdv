@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
+
 @Entity
 @Table(name = "ASOCIACION_REFINANCIACION")
 public class AsociacionRefinanciacion implements Serializable {

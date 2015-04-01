@@ -296,3 +296,13 @@ insert into log_scripts_corridos values(115,115,now());
 alter table cuota_refinanciac drop id_periodo;
 
 insert into log_scripts_corridos values(116,116,now());
+
+alter table plantilla_plan_de_pago rename column monto_condonacion_interes to monto_condonacion_intereses;
+
+alter table documento_refinanciacion add id_plantilla clave;
+alter table documento_refinanciacion add constraint fK_doc_ref_plantilla foreign key (id_plantilla) 
+references plantilla_plan_de_pago(id_plantilla_plan_de_pago) on update cascade on delete restrict;
+
+alter table parametro_asociacion add id_plantilla clave;
+alter table parametro_asociacion add constraint fK_par_asociacion_plantilla foreign key (id_plantilla) 
+references plantilla_plan_de_pago(id_plantilla_plan_de_pago) on update cascade on delete restrict;

@@ -15,13 +15,13 @@ import com.trascender.contabilidad.gui.abmAsociacionCuentaRefinanciacion.abm.Con
 import com.trascender.contabilidad.gui.abmAsociacionCuentaRefinanciacion.abm.EliminarAsociacionRefinanciacion;
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.AsociacionRefinanciacion;
-import com.trascender.contabilidad.recurso.persistent.ParametroAsociacion;
 import com.trascender.framework.util.Periodicidad;
 import com.trascender.gui.framework.abmStandard.AdminController;
 import com.trascender.gui.framework.exception.GuiException;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
 import com.trascender.gui.framework.util.Validador;
+import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 
 public class AdminAsociacionRefinanciacion extends AdminController<AsociacionRefinanciacion> {
 

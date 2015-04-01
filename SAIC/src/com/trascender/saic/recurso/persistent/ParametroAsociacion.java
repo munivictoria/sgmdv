@@ -1,4 +1,4 @@
-package com.trascender.contabilidad.recurso.persistent;
+package com.trascender.saic.recurso.persistent;
 
 import java.io.Serializable;
 
@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 
 @Entity
 @Table(name = "PARAMETRO_ASOCIACION")
@@ -26,9 +28,21 @@ public class ParametroAsociacion implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_CUENTA")
-	private Cuenta cuenta;
+	private CuentaRfr cuenta;
 	private Double porcentaje;
 	
+	@ManyToOne
+	@JoinColumn(name ="ID_PLANTILLA")
+	private PlantillaPlanDePago plantilla;
+	
+	public PlantillaPlanDePago getPlantilla() {
+		return plantilla;
+	}
+
+	public void setPlantilla(PlantillaPlanDePago plantilla) {
+		this.plantilla = plantilla;
+	}
+
 	public long getIdParametroAsociacion() {
 		return idParametroAsociacion;
 	}
@@ -36,12 +50,12 @@ public class ParametroAsociacion implements Serializable {
 	public void setIdParametroAsociacion(long idParametroAsociacion) {
 		this.idParametroAsociacion = idParametroAsociacion;
 	}
-	
-	public Cuenta getCuenta() {
+
+	public CuentaRfr getCuenta() {
 		return cuenta;
 	}
 
-	public void setCuenta(Cuenta cuenta) {
+	public void setCuenta(CuentaRfr cuenta) {
 		this.cuenta = cuenta;
 	}
 

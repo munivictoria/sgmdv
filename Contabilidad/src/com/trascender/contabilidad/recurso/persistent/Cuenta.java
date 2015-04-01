@@ -28,6 +28,7 @@ import javax.persistence.Transient;
 import com.trascender.compras.recurso.persistent.suministros.LineaFactura;
 import com.trascender.compras.recurso.persistent.suministros.LineaOrdenCompra;
 import com.trascender.framework.recurso.persistent.Area;
+import com.trascender.framework.recurso.persistent.referencia.CuentaRfr;
 
 @Entity
 @Table(name = "CUENTA")
@@ -354,5 +355,14 @@ public class Cuenta implements Serializable, Cloneable{
 	public void setListaLineasOrdenCompra(
 			Set<LineaOrdenCompra> listaLineasOrdenCompra) {
 		this.listaLineasOrdenCompra = listaLineasOrdenCompra;
+	}
+	public CuentaRfr getCuentaRfr() {
+		CuentaRfr cuentaRfr = new CuentaRfr();
+		cuentaRfr.setAbreviatura(getAbreviatura());
+		cuentaRfr.setCodigoImputacion(getCodigoImputacion());
+		cuentaRfr.setNombre(getNombre());
+		cuentaRfr.setIdCuenta(getIdCuenta());
+		cuentaRfr.setCodigoImputacionCompleto(getCodigoImputacionCompleto());
+		return cuentaRfr;
 	}
 }
