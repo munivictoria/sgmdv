@@ -306,3 +306,5 @@ references plantilla_plan_de_pago(id_plantilla_plan_de_pago) on update cascade o
 alter table parametro_asociacion add id_plantilla clave;
 alter table parametro_asociacion add constraint fK_par_asociacion_plantilla foreign key (id_plantilla) 
 references plantilla_plan_de_pago(id_plantilla_plan_de_pago) on update cascade on delete restrict;
+
+insert into log_scripts_corridos values(117,117,now());
