@@ -1135,14 +1135,14 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 	@SuppressWarnings("unchecked")
 	private LiquidacionTasa newLiquidacionTasa(LiquidacionTasa pLiquidacionTasa, List<ParametroValuado> pListaParametrosValuados, List<AlicuotaLiquidada> pListaAlicuotasLiquidadas,
 			boolean pAplicarInteres) throws Exception {
-		List<String> listaVariablesVencimiento = new ArrayList<String>(TipoParametroVencimiento.TipoAtributoVencimiento.values().length);
+		List<String> listaVariablesVencimiento = new ArrayList<String>(TipoParametroVencimiento.getAtributosCalculoManual().size());
 
-		for(TipoAtributoVencimiento cadaAtributoVencimiento : TipoParametroVencimiento.TipoAtributoVencimiento.values()) {
+		for(TipoAtributoVencimiento cadaAtributoVencimiento : TipoParametroVencimiento.getAtributosCalculoManual()) {
 			listaVariablesVencimiento.add(Util.getEnumNameFromString(cadaAtributoVencimiento.toString()));
 		}
 
 		for(ParametroValuado cadaParametroValuado : pListaParametrosValuados) {
-			// significa que no pertenece a los parámetros de los vencimientos
+			// Si estan en la lista hay que calcularlos luego, a mano.
 			if(!listaVariablesVencimiento.contains(cadaParametroValuado.getNombreParametro())) {
 				this.jep.addVariable(cadaParametroValuado.getNombreParametro(), cadaParametroValuado.getValorParametro());
 			}
