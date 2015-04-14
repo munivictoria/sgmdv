@@ -1518,7 +1518,11 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.ANULADA) {
 			throw new TrascenderContabilidadException(103);
 		}
-
+		
+		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.VENCIDA) {
+			throw new TrascenderContabilidadException(102);
+		}
+		
 		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA || locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA_ANUAL
 				|| locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA_BIMESTRAL
 				|| locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA_EN_TERCIOS) {
