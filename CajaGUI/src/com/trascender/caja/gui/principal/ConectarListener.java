@@ -69,6 +69,7 @@ public class ConectarListener implements ActionListener {
 					
 					CajaGUI.getInstance().getAdminSystemsCaja().getSystemAdministracionPlanillaDiaria().getCajaActual(CajaGUI.getInstance().getCaja().getIpAddress());
 					CajaGUI.getInstance().getAdminSystemsCaja().getSystemAdministracionIngresos().setSystemPlanillaDiaria(CajaGUI.getInstance().getAdminSystemsCaja().getSystemAdministracionPlanillaDiaria());
+					CajaGUI.getInstance().setMunicipalidad(CajaGUI.getInstance().getAdminSystems().getSystemMunicipalidad().getMunicipalidad());
 				}
 			}
 			else {

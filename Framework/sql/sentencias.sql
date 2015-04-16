@@ -426,4 +426,4 @@ $BODY$
 ALTER FUNCTION p_estado_cuenta_persona(numeric)
   OWNER TO vipians;
 
-  insert into log_scripts_corridos values(116,116,now());
+insert into log_scripts_corridos values(117,117,now());

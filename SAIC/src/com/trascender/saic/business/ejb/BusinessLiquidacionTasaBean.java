@@ -467,6 +467,13 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 						continue;
 					}
 					
+					if (cadaTipoParametro instanceof TipoParametroVencimiento) {
+						TipoParametroVencimiento tpv = (TipoParametroVencimiento) cadaTipoParametro;
+						if (!tpv.calculoNormal()) {
+							continue;
+						}
+					}
+					
 					TipoParametro locTipoParametro = this.tiposParametros.get(cadaTipoParametro.getNombreVariable());
 					
 					if(locTipoParametro == null) {
@@ -912,6 +919,10 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		for(TipoModificador locTipoModificador : listaModificadoresSobreTasa) {
 
 			Double valor = calcularValorTipoModificador(locTipoModificador);
+			
+			if (valor.isNaN()) {
+				System.out.println("NaN");
+			}
 
 			if(valor.equals(0d)) { // Si el valor del modificador es 0 significa q no es aplicable
 				continue;
@@ -1052,6 +1063,12 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		for(TipoParametro locTipoParametro : pLiquidacionTasa.getTipoTasa().getListaParametros()) {
 			// fuerzo la recuperación de la clase del tipo de parámetro, porque sinó no me sirve la comparación
 			if(Hibernate.getClass(locTipoParametro).equals(TipoParametroVencimiento.class)) {
+				TipoParametroVencimiento tpv = (TipoParametroVencimiento) locTipoParametro;
+				
+				//Si es calculo normal, lo salteamos porque ya fue calculado.
+				if (tpv.calculoNormal()) {
+					continue;
+				}
 				Calendar locFechaLiquidacion = Calendar.getInstance();
 				locFechaLiquidacion.setTime(pLiquidacionTasa.getFechaEmision());
 
@@ -1060,7 +1077,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				// debo obtener la fecha del primer vencimiento directamente del tipo de vencimiento y la liquidacion
 				Double locValorParametroValuado = new Double(0);
 
-				switch(((TipoParametroVencimiento) locTipoParametro).getAtributoVencimiento()) {
+				switch(tpv.getAtributoVencimiento()) {
 					case IMPORTE_PRIMER_VENCIMIENTO:
 						locValorParametroValuado = pLiquidacionTasa.getValorTotal().doubleValue();
 						if(locValorParametroValuado == null)
@@ -1105,12 +1122,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				locParametro.setValorParametro(locValorParametroValuado);
 				locParametro.setLiquidacionTasa(pLiquidacionTasa);
 
-				// if(this.listaParametrosValuados.containsKey(locParametro.hashCode())){
-				// locParametro = (ParametroValuadoDouble) this.listaParametrosValuados.get(locParametro.hashCode());
-				// }
-				// else{
-				// this.listaParametrosValuados.put(locParametro.hashCode(), locParametro);
-				// }
 				pLiquidacionTasa.getListaParametrosValuados().add(locParametro);
 			}
 		}

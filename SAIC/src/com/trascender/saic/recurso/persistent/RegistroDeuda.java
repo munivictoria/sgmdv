@@ -75,7 +75,7 @@ public class RegistroDeuda implements Serializable, Pagable {
 	@Column(name = "FECHA_EMISION")
 	private Date fechaEmision;
 
-	@Column(name = "NRO_REG_DEUDA", nullable = false)
+	@Column(name = "NRO_REG_DEUDA")
 	private Integer numeroRegistroDeuda;
 
 	@ManyToOne

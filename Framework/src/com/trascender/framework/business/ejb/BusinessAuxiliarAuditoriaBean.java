@@ -1,5 +1,6 @@
 package com.trascender.framework.business.ejb;
 
+import java.io.File;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;

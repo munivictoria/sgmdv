@@ -1,6 +1,8 @@
 package com.trascender.habilitaciones.recurso.persistent;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -64,6 +66,27 @@ public class TipoParametroVencimiento extends TipoParametro {
 			default:
 				return 0D;
 			}
+	}
+	
+	//Pues hay parametros de vencimiento que se calculan normalmente, y otros que se calculan a mano en la liquidacion.
+	public boolean calculoNormal() {
+		return getAtributosCalculoNormal().contains(atributoVencimiento);
+	}
+	
+	public static List<TipoAtributoVencimiento> getAtributosCalculoManual() {
+		return Arrays.asList(new TipoAtributoVencimiento[]{
+			TipoAtributoVencimiento.IMPORTE_PRIMER_VENCIMIENTO, 
+			TipoAtributoVencimiento.IMPORTE_BASICO_PRIMER_VENCIMIENTO, 
+			TipoAtributoVencimiento.MESES_DESDE_INICIO_PERIODO,
+			TipoAtributoVencimiento.DIAS_DESDE_INICIO_PERIODO, 
+			TipoAtributoVencimiento.MESES_DESDE_PRIMER_VENCIMIENTO, 
+			TipoAtributoVencimiento.DIAS_DESDE_PRIMER_VENCIMIENTO});
+	}
+	
+	public static List<TipoAtributoVencimiento> getAtributosCalculoNormal() {
+		return Arrays.asList(new TipoAtributoVencimiento[]{TipoAtributoVencimiento.NUMERO_CUOTA, 
+			TipoAtributoVencimiento.NUMERO_PERIODO, 
+			TipoAtributoVencimiento.FECHA_VENCIMIENTO_CUOTA});
 	}
 	
 	@Override

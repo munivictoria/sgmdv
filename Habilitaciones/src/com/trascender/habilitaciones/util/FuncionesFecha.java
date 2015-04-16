@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Stack;
 
-import javax.xml.crypto.Data;
-
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.function.PostfixMathCommand;
 
@@ -14,7 +12,6 @@ import com.trascender.framework.util.Util;
 
 public class FuncionesFecha {
 	
-	//Las fechas siempre se manejan como un String con formateo dd/MM/yyyy
 	private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private Calendar parsear(Object fecha) throws ParseException{
