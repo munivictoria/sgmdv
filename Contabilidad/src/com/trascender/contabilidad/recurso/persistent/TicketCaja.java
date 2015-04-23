@@ -22,7 +22,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.trascender.framework.recurso.persistent.Usuario;
-import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado;
 import com.trascender.saic.recurso.interfaces.Pagable;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -220,10 +219,10 @@ public class TicketCaja implements Serializable{
 	
 	public Double getImporteInteres() {
 		Double interes = new Double(0);
-		List<Pagable> pagables = Util.getListaPropiedad(detalles, "deuda");
-		List<Double> intereses = Util.getListaPropiedad(pagables, "interes");
-		for (Double cadaInteres : intereses) {
-			interes += cadaInteres;
+		for (DetalleTicketCaja cadaDetalle : detalles) {
+			if (cadaDetalle.getDeuda() instanceof RegistroDeuda) {
+				interes += ((RegistroDeuda)cadaDetalle.getDeuda()).getInteres();
+			}
 		}
 		return interes;
 	}

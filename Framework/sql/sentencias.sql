@@ -427,3 +427,178 @@ ALTER FUNCTION p_estado_cuenta_persona(numeric)
   OWNER TO vipians;
 
 insert into log_scripts_corridos values(117,117,now());
+
+﻿-- Function: select corregir_liquidaciones_diario_manual()
+
+-- DROP FUNCTION corregir_liquidaciones_diario_manual();
+
+CREATE OR REPLACE FUNCTION corregir_liquidaciones_diario_manual()
+  RETURNS void AS
+$BODY$
+BEGIN
+/*
+Esto no es un procedure como tal, pues contiene DDL's por lo que debe ejecutarse manualmente.
+Usar este cuando el diario normal demora demasiado por la cantidad de registros a borrar.
+*/
+
+-- Vencimientos:
+drop table if exists aux_vencimientos;
+create temp table aux_vencimientos as (
+select min(id_vencimiento) as id_vencimiento, fecha, nombre, valor from vencimiento
+group by fecha,nombre,numero, valor);
+
+update rela_venc_liq_t set id_vencimiento = aux.id_vencimiento
+from vencimiento venc, aux_vencimientos aux
+where rela_venc_liq_t.id_vencimiento = venc.id_vencimiento
+and venc.nombre = aux.nombre and venc.fecha = aux.fecha and venc.valor = aux.valor
+and venc.id_vencimiento <> aux.id_vencimiento;
+
+--dropeamos la constraint fk de la tabla rela registro_deuda vencimientos.
+alter table rela_venc_liq_t drop constraint if exists fk_rela_venc_liq_t_id_vencimiento;
+
+alter table vencimiento drop constraint if exists pk_vencimiento;
+
+CREATE TABLE vencimiento_2
+(
+  id_vencimiento clave NOT NULL,
+  fecha date NOT NULL,
+  valor importe NOT NULL,
+  nombre nombre,
+  numero integer,
+  CONSTRAINT pk_vencimiento PRIMARY KEY (id_vencimiento)
+);
+
+insert into vencimiento_2 (select * from vencimiento where id_vencimiento in (select id_vencimiento from rela_venc_liq_t group by id_vencimiento));
+drop table vencimiento;
+alter table vencimiento_2 rename to vencimiento;
+
+--Volvemos a crear la constraint fk de la tabla rela registro_deuda vencimientos.
+alter table rela_venc_liq_t add CONSTRAINT fk_rela_venc_liq_t_id_vencimiento FOREIGN KEY (id_vencimiento)
+      REFERENCES vencimiento (id_vencimiento) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT;
+
+--Modificadores
+drop table if exists aux_modificadores;
+
+create temp table aux_modificadores as (
+select min(id_modificador_liquidacion) as id_modificador_liquidacion, nombre, valor, id_tipo_modificador, tipo_modificador
+from modificador_liquidacion where tipo_modificador = 'F'
+group by id_tipo_modificador, nombre, valor, tipo_modificador);
+
+update rela_modif_liq_liq_t set id_modificador_liquidacion = aux.id_modificador_liquidacion
+from modificador_liquidacion mod, aux_modificadores aux
+where rela_modif_liq_liq_t.id_modificador_liquidacion = mod.id_modificador_liquidacion
+and mod.nombre = aux.nombre and mod.valor = aux.valor and mod.id_tipo_modificador = aux.id_tipo_modificador
+and mod.id_modificador_liquidacion <> aux.id_modificador_liquidacion;
+
+--Dropeamos constraint que referencian a la tabla modificador_liquidacion
+alter table rela_modif_liq_liq_t drop CONSTRAINT fk_rela_modif;
+
+--Dropeamos la constraint primaria de modificador_liquidacion
+alter table modificador_liquidacion drop constraint pk_modificador_liquidacion;
+
+--Creamos modificador_liquidacion_2
+CREATE TABLE modificador_liquidacion_2
+(
+  id_modificador_liquidacion clave NOT NULL,
+  nombre nombre,
+  valor importe NOT NULL,
+  sobre_saldo_neto boolean,
+  id_tipo_modificador clave,
+  tipo_modificador character(1) NOT NULL,
+  enum_tipo_modificador estado,
+  CONSTRAINT pk_modificador_liquidacion PRIMARY KEY (id_modificador_liquidacion ),
+  CONSTRAINT fk_tipo_mod_mod_liq FOREIGN KEY (id_tipo_modificador)
+      REFERENCES tipo_modificador (id_tipo_modificador) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE NO ACTION
+);
+
+--La llanamos.
+insert into modificador_liquidacion_2 
+(id_modificador_liquidacion, nombre, valor, sobre_saldo_neto, id_tipo_modificador, tipo_modificador, enum_tipo_modificador) 
+(select id_modificador_liquidacion, nombre, valor, sobre_saldo_neto, id_tipo_modificador, tipo_modificador, enum_tipo_modificador from modificador_liquidacion 
+where id_modificador_liquidacion 
+in (select id_modificador_liquidacion from rela_modif_liq_liq_t group by id_modificador_liquidacion));
+
+--Borramos modificador_liquidacion
+drop table modificador_liquidacion; 
+
+--Renombramos modificador_liquidacion_2
+alter table modificador_liquidacion_2 rename to modificador_liquidacion;
+
+--Volvemos a crear la constraint que referencia a modificador_liquidacion
+alter table rela_modif_liq_liq_t add
+CONSTRAINT fk_rela_modif FOREIGN KEY (id_modificador_liquidacion)
+      REFERENCES modificador_liquidacion (id_modificador_liquidacion) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT;
+
+-- Parametros Valuados.
+drop table if exists aux_parametros_double;
+create temp table aux_parametros_double as (
+select min(id_parametro_valuado) as id_parametro_valuado, nombre_parametro, valor_parametro_double
+from parametro_valuado
+where tipo = 'DOUBLE'
+group by nombre_parametro, valor_parametro_double);
+
+update rela_par_val_liq_t set id_parametro_valuado = aux.id_parametro_valuado
+from parametro_valuado par, aux_parametros_double aux
+where rela_par_val_liq_t.id_parametro_valuado = par.id_parametro_valuado
+and par.nombre_parametro = aux.nombre_parametro 
+and par.valor_parametro_double = aux.valor_parametro_double
+and par.id_parametro_valuado <> aux.id_parametro_valuado;
+
+drop table if exists aux_parametros_string;
+create temp table aux_parametros_string as (
+select min(id_parametro_valuado) as id_parametro_valuado, nombre_parametro, valor_parametro_string
+from parametro_valuado
+where tipo = 'STRING'
+group by nombre_parametro, valor_parametro_string);
+
+update rela_par_val_liq_t set id_parametro_valuado = aux.id_parametro_valuado
+from parametro_valuado par, aux_parametros_string aux
+where rela_par_val_liq_t.id_parametro_valuado = par.id_parametro_valuado
+and par.nombre_parametro = aux.nombre_parametro 
+and par.valor_parametro_string = aux.valor_parametro_string
+and par.id_parametro_valuado <> aux.id_parametro_valuado;
+
+--Dropeamos constraint que referencian a la tabla parametro_valuado
+alter table rela_par_val_liq_t drop
+CONSTRAINT fk_rela_par_par_v;
+--Dropeamos la constraint primaria de parametro_valuado
+alter table parametro_valuado drop constraint pk_parametro_valuado;
+
+--Creamos parametro_valuado_2
+CREATE TABLE parametro_valuado_2
+(
+  id_parametro_valuado clave NOT NULL,
+  valor_parametro_double importe,
+  nombre_parametro nombre,
+  valor_parametro_string character varying(200),
+  tipo character varying(10),
+  CONSTRAINT pk_parametro_valuado PRIMARY KEY (id_parametro_valuado )
+);
+
+--La llanamos.
+insert into parametro_valuado_2 (select * from parametro_valuado where id_parametro_valuado 
+in (select id_parametro_valuado from rela_par_val_liq_t group by id_parametro_valuado));
+
+--Borramos parametro_valuado;
+drop table parametro_valuado;
+
+--Renombramos modificador_liquidacion_2
+alter table parametro_valuado_2 rename to parametro_valuado;
+
+--Volvemos a crear la constraint que referencia a modificador_liquidacion
+alter table rela_par_val_liq_t add
+CONSTRAINT fk_rela_par_par_v FOREIGN KEY (id_parametro_valuado)
+      REFERENCES parametro_valuado (id_parametro_valuado) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE NO ACTION;
+
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION corregir_liquidaciones_diario_manual()
+  OWNER TO vipians;
+  
+  insert into log_scripts_corridos values(118,118,now());
