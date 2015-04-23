@@ -2067,7 +2067,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	}
 
 	public Map<String, CalendarioMunicipal> getMapaCalendariosTGI(String pAnio) {
-		if(pAnio != null) {
+		if(pAnio != null && !pAnio.isEmpty()) {
 			mapaCalendariosTGI = getMapaCalendariosPorTasa("TGI", pAnio);
 		}
 		return mapaCalendariosTGI;

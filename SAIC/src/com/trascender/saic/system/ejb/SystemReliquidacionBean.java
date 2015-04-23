@@ -9,7 +9,7 @@ import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Permiso;
@@ -36,7 +36,7 @@ import com.trascender.saic.system.interfaces.SystemReliquidacion;
  *           type="Stateful"
  *           view-type="remote"
  */
-@Stateful(name="ejb/SystemReliquidacion")
+@Stateless(name="ejb/SystemReliquidacion")
 public class SystemReliquidacionBean implements SystemReliquidacion {
 
 	private static final long serialVersionUID = -43603628275582398L;

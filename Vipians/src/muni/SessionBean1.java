@@ -474,9 +474,7 @@ public class SessionBean1 extends AbstractSessionBean {
 
 	public Set<AtributoConsultable> getAtributosConsultables(Long pIdRecurso) {
 		try {
-			System.out.println("   =======================>>> Recurso = " + pIdRecurso);
 			ConfiguracionRecurso locConfiguracion = this.getConfiguracionRecurso(pIdRecurso);
-			System.out.println("       |==========================>>> ConfiguracionRecurso = " + locConfiguracion);
 
 			// Si existen configuraciones de recursos para ese recurso, se cargan... Sino se traen las por defecto.
 			if(locConfiguracion != null) {
