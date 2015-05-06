@@ -602,3 +602,82 @@ ALTER FUNCTION corregir_liquidaciones_diario_manual()
   OWNER TO vipians;
   
   insert into log_scripts_corridos values(118,118,now());
+
+drop function p_estado_cuenta_parcela(numeric);
+
+CREATE OR REPLACE FUNCTION p_estado_cuenta_parcela(IN p_id_parcela numeric, IN p_ids_excluidos numeric[] default ARRAY[-50])
+  RETURNS TABLE(id_persona clave, id_parcela clave, tipo_obligacion character varying, id_registro_deuda clave) AS
+$BODY$
+DECLARE
+tipo_ob Varchar(50);
+cont Int4;
+BEGIN
+ cont := 0;
+ return query SELECT pers.id_persona, par.id_parcela,
+        case when doc.tipo_doc_hab_especializado = 'OYSP' then 'OSP'
+       when doc.tipo_doc_hab_especializado = 'PLAN_FINANCIACION_OBRA' then 'PO'
+       else doc.tipo_doc_hab_especializado end,
+        rd.id_registro_deuda
+ FROM doc_hab_especializado AS doc
+ INNER JOIN obligacion AS ob ON ob.id_obligacion = doc.id_obligacion
+ INNER JOIN parcela AS par ON par.id_parcela = doc.id_parcela
+ INNER JOIN titulo_propiedad AS tp ON tp.id_titulo_propiedad = par.id_titulo_propiedad
+ INNER JOIN registro_propietario AS rp ON rp.id_titulo_propiedad = tp.id_titulo_propiedad
+ inner join persona AS pers on pers.id_persona = rp.id_persona
+ INNER JOIN doc_generador_deuda AS doc_gen ON doc_gen.id_obligacion = ob.id_obligacion
+ INNER JOIN registro_deuda AS rd ON rd.id_doc_generador_deuda = doc_gen.id_doc_generador_deuda
+ INNER JOIN liquidacion_tasa as liq on liq.id_registro_deuda = rd.id_registro_deuda
+ INNER JOIN cuota_liquidacion cuota on cuota.id_cuota_liquidacion = liq.id_cuota_liquidacion
+ INNER JOIN RELA_CUOTA_FECHA_VENCIMIENTO rela on rela.id_cuota_liquidacion = cuota.id_cuota_liquidacion
+ WHERE rd.id_registro_cancelacion IS NULL 
+	AND PAR.id_parcela = p_id_parcela
+       and not rd.id_registro_deuda = ANY (p_ids_excluidos)
+ GROUP BY pers.id_persona, par.id_parcela,
+          doc.tipo_doc_hab_especializado,
+          rd.id_registro_deuda
+ HAVING MIN(FECHA_VENCIMIENTO) < CURRENT_DATE
+ORDER BY rd.id_registro_deuda;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION p_estado_cuenta_parcela(numeric, numeric[])
+  OWNER TO vipians;
+  
+   DROP FUNCTION p_estado_cuenta_persona(numeric);
+
+CREATE OR REPLACE FUNCTION p_estado_cuenta_persona(IN p_id_persona numeric, IN p_ids_excluidos numeric[] default ARRAY[-50])
+  RETURNS TABLE(id_persona clave, id_parcela clave, tipo_obligacion character varying, id_registro_deuda clave) AS
+$BODY$
+DECLARE
+tipo_ob Varchar(50);
+cont Int4;
+BEGIN
+ return query SELECT ob.id_persona, doc.id_parcela,
+        case when doc.tipo_doc_hab_especializado = 'OYSP' then 'OSP'
+       when doc.tipo_doc_hab_especializado = 'PLAN_FINANCIACION_OBRA' then 'PO'
+       else doc.tipo_doc_hab_especializado end,
+        rd.id_registro_deuda
+ FROM doc_hab_especializado AS doc
+ INNER JOIN obligacion AS ob ON ob.id_obligacion = doc.id_obligacion
+ INNER JOIN doc_generador_deuda AS doc_gen ON doc_gen.id_obligacion = ob.id_obligacion
+ INNER JOIN registro_deuda AS rd ON rd.id_doc_generador_deuda = doc_gen.id_doc_generador_deuda
+ INNER JOIN liquidacion_tasa as liq on liq.id_registro_deuda = rd.id_registro_deuda
+ INNER JOIN cuota_liquidacion cuota on cuota.id_cuota_liquidacion = liq.id_cuota_liquidacion
+ INNER JOIN RELA_CUOTA_FECHA_VENCIMIENTO rela on rela.id_cuota_liquidacion = cuota.id_cuota_liquidacion
+ WHERE rd.id_registro_cancelacion IS NULL AND
+       ob.id_persona = p_id_persona
+       and not rd.id_registro_deuda = ANY (p_ids_excluidos)
+ GROUP BY ob.id_persona, doc.id_parcela,
+          doc.tipo_doc_hab_especializado,
+          rd.id_registro_deuda
+ HAVING MIN(FECHA_VENCIMIENTO) < CURRENT_DATE
+ ORDER BY rd.id_registro_deuda;
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION p_estado_cuenta_persona(numeric, numeric[])
+  OWNER TO vipians;
