@@ -23,6 +23,7 @@ import com.trascender.contabilidad.recurso.persistent.TicketCancelado;
 import com.trascender.contabilidad.recurso.transients.ResumenActualCajaDataSource;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.transients.AuxIdEntidad;
 import com.trascender.saic.recurso.interfaces.Pagable;
 
 /**
@@ -342,4 +343,6 @@ public interface SystemAdministracionIngresos
 	
 	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
 			throws Exception;
+	
+	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena) throws Exception;
 }

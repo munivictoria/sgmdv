@@ -11,6 +11,7 @@ import com.trascender.contabilidad.recurso.filtros.FiltroConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.filtros.FiltroIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.transients.AuxIdEntidad;
 
 /**
  * Local interface for BusinessIngresoVario.
@@ -47,6 +48,8 @@ public interface BusinessIngresoVarioLocal
     * @return 
     * @throws java.lang.Exception    */
    public com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario getConceptoIngresoVarioByID( java.lang.Long pIdConceptoIngresoVario ) throws java.lang.Exception;
+   
+   public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena, Usuario pUsuario);
 
    /**
     * Business method

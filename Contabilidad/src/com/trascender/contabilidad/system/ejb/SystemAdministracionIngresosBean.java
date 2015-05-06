@@ -32,6 +32,7 @@ import com.trascender.contabilidad.system.interfaces.SystemAdministracionPlanill
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.transients.AuxIdEntidad;
 import com.trascender.framework.system.interfaces.SystemUsuario;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.persistent.Sellado;
@@ -1026,6 +1027,12 @@ public class SystemAdministracionIngresosBean implements SystemAdministracionIng
 	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
 			throws Exception{
 		return this.locCaja.generarReporteCajaPorIngresoVario(pIdUsuario, pIdCaja, pFechaDesde, pFechaHasta);
+	}
+
+	@Override
+	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena) throws Exception{
+		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(llave);
+		return locIngresoVario.findListaAuxIdConceptoIngresoVario(cadena, locUsuario);
 	}
 	
 }

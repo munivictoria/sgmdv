@@ -26,9 +26,11 @@ import com.trascender.contabilidad.recurso.persistent.ImputacionIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario.Estado;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.CodigoCiiu;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
+import com.trascender.framework.recurso.transients.AuxIdEntidad;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Recurso;
 import com.trascender.framework.util.SecurityMgr;
@@ -132,6 +134,22 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		locConceptoIngresoVario.getListaRoles().size();
 		locConceptoIngresoVario.getListaUsuarios().size();
 		return locConceptoIngresoVario;
+	}
+	
+	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena, Usuario pUsuario) {
+		Criterio locCriterio = Criterio.getInstance(entity, ConceptoIngresoVario.class);
+		locCriterio.add(Restriccion.ILIKE("nombre", cadena).SIN_PROCESAR_ENTIDADES());
+		if (!pUsuario.getUser().equals("root")) {
+			locCriterio.crearAlias("listaUsuarios", "cadaUsuario")
+				.crearAlias("listaRoles", "cadaRol")
+				.add(Restriccion.IGUAL("cadaUsuario", pUsuario))
+//				.add(Restriccion.EN("cadaRol", pUsuario.getListaRoles())
+						;
+		}
+		locCriterio.setProyeccion(Proyeccion.NEW(AuxIdEntidad.class, "idConceptoIngresoVario", "nombre").SIN_PROCESAR_ENTIDADES());
+		locCriterio.setModoDebug(true);
+		List<AuxIdEntidad> locListaResultado = locCriterio.list();
+		return locListaResultado;
 	}
 
 	public com.trascender.contabilidad.recurso.persistent.IngresoVario addIngresoVario(com.trascender.contabilidad.recurso.persistent.IngresoVario pIngresoVario)
