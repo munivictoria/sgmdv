@@ -34,6 +34,7 @@ import com.trascender.contabilidad.recurso.filtros.FiltroIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario.Estado;
+import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.util.FiltroAbstracto;
@@ -56,6 +57,24 @@ public class AdminIngresoVario extends AdminPageBean {
 	private SingleSelectOptionsList ddConceptoIngresoVarioOptions = new SingleSelectOptionsList();
 	private ObjectListDataProvider ldpIngresosVarios = new ObjectListDataProvider();
 	private Button btnImprimir = new Button();
+	private HtmlAjaxCommandButton btnLimpiarConcepto = new HtmlAjaxCommandButton();
+	private TextField tfConcepto = new TextField();
+	
+	public HtmlAjaxCommandButton getBtnLimpiarConcepto() {
+		return btnLimpiarConcepto;
+	}
+
+	public void setBtnLimpiarConcepto(HtmlAjaxCommandButton btnLimpiarConcepto) {
+		this.btnLimpiarConcepto = btnLimpiarConcepto;
+	}
+
+	public TextField getTfConcepto() {
+		return tfConcepto;
+	}
+
+	public void setTfConcepto(TextField tfConcepto) {
+		this.tfConcepto = tfConcepto;
+	}
 
 	public Button getBtnImprimir() {
 		return btnImprimir;
@@ -221,7 +240,6 @@ public class AdminIngresoVario extends AdminPageBean {
 		locFiltro.setListaIdPersonas(this.getSessionBean1().getListaIdPersonas());
 
 		locFiltro.setEstado(getDDEnumValue(this.getDdEstado(), IngresoVario.Estado.class));
-		locFiltro.setConceptoIngresoVario(this.getDDObjectValue(getDdConceptoIngresoVario(), getCommunicationCajaBean().getMapaConceptosIngresosVarios()));
 		
 		locFiltro.setFechaDesde(this.getTextFieldValueDate(this.tfFechaDesde));
 		locFiltro.setFechaHasta(this.getTextFieldValueDate(this.tfFechaHasta));
@@ -236,7 +254,7 @@ public class AdminIngresoVario extends AdminPageBean {
 		}
 
 		if(locFiltro.getConceptoIngresoVario() != null) {
-			this.getDdConceptoIngresoVario().setSelected(locFiltro.getConceptoIngresoVario().getNombre());
+			this.getTfConcepto().setText(locFiltro.getConceptoIngresoVario().getNombre());
 		}
 
 		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado() == null ? IngresoVario.Estado.CREADO : locFiltro.getEstado())));
@@ -294,7 +312,7 @@ public class AdminIngresoVario extends AdminPageBean {
 			// CAMBIAR: Especificar objet
 			FiltroIngresoVario locFiltro = this.getFiltro();
 			locFiltro.setConceptoIngresoVario(null);
-			this.getTfConceptoIngresoVario();
+			this.getTfConceptoIngresoVario().setText("");
 			this.guardarEstadoObjetosUsados();
 		} else {
 			retorno = this.prepararCaducidad();
@@ -478,6 +496,22 @@ public class AdminIngresoVario extends AdminPageBean {
 
 		locFiltro.setPersona(locPersona);
 		this.getSessionBean1().setPersonaSeleccionada(locPersona);
+	}
+	
+	public void setConceptoAutocompletar(String pId, String pIdSubSession) { // aunque no se usa el ID de subsession
+		FiltroIngresoVario locFiltro = this.getFiltro();
+		Long id = Long.parseLong(pId);
+		ConceptoIngresoVario locConcepto = null;
+
+		try {
+			locConcepto = (ConceptoIngresoVario) getCommunicationContabilidadBean().getRemoteSystemAdministracionIngresos().getConceptoIngresoVarioByID(id);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		} catch (TrascenderException e) {
+			e.printStackTrace();
+		}
+
+		locFiltro.setConceptoIngresoVario(locConcepto);
 	}
 
 	@Override

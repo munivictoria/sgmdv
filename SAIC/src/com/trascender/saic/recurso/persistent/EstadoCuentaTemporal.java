@@ -1,6 +1,8 @@
 package com.trascender.saic.recurso.persistent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -115,5 +117,29 @@ public class EstadoCuentaTemporal implements Serializable{
 			resultado = resultado && other.idRegistroDeuda != this.idRegistroDeuda;
 		return resultado;
 	}
+	
+	public static void main(String... args) {
+		//Las que estarian en la base.
+		List<EstadoCuentaTemporal> lista = new ArrayList<EstadoCuentaTemporal>();
+		lista.add(new EstadoCuentaTemporalTGI(null, 22l, "TGI", 1968544));
+		lista.add(new EstadoCuentaTemporalOSP(null, 22l, "OSP", 2074330));
+		
+		//Quiero reliquidar la TGI, voy a preguntar por los dos parametros.
+		
+		EstadoCuentaTemporal locEstado = new EstadoCuentaTemporal();
+		locEstado.setTipoObligacion("TGI");
+		locEstado.setIdParcela(22l);
+		locEstado.setIdRegistroDeuda(1968544);
+		
+		boolean esta = lista.contains(locEstado);
+		System.out.println("Debe TGI ? " + esta);
+		
+		//Pregunto si debe OSP.
+		locEstado.setTipoObligacion("OSP");
+		esta = lista.contains(locEstado);
+		System.out.println("Debe OSP ? " + esta);
+		
+	}
+	
 
 }

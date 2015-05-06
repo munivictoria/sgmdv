@@ -7,6 +7,7 @@
 
 package muni;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -19,7 +20,9 @@ import com.sun.rave.web.ui.appbase.AbstractSessionBean;
 import com.trascender.contabilidad.recurso.filtros.FiltroCuenta;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
 import com.trascender.contabilidad.system.interfaces.SystemAdministracionConsultaContable;
+import com.trascender.contabilidad.system.interfaces.SystemAdministracionIngresos;
 import com.trascender.contabilidad.system.interfaces.SystemReportesContabilidad;
+import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.system.interfaces.SystemParametro;
 import com.trascender.presentacion.abstracts.PaginatedTable;
 import com.trascender.presentacion.utiles.Constantes;
@@ -67,8 +70,8 @@ public class CommunicationContabilidadBean extends AbstractSessionBean {
 			this.remoteSystemAdministracionConsultaContable = (SystemAdministracionConsultaContable) ctx.lookup(SystemAdministracionConsultaContable.JNDI_NAME);
 			this.remoteSystemReportesContabilidad = (SystemReportesContabilidad) ctx.lookup(SystemReportesContabilidad.JNDI_NAME);
 			this.remoteSystemParametro = (SystemParametro) ctx.lookup(SystemParametro.JNDI_NAME);
+			this.remoteSystemAdministracionIngresos = (SystemAdministracionIngresos) ctx.lookup(SystemAdministracionIngresos.JNDI_NAME);
 
-			System.out.println("CommunicationContabilidadBean");
 			// TABLAS
 			FiltroCuenta locFiltroCuenta = new FiltroCuenta();
 			locFiltroCuenta.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
@@ -167,14 +170,9 @@ public class CommunicationContabilidadBean extends AbstractSessionBean {
 	public void destroy() {
 	}
 
-	//
-	// Interfaces
-	//
-
 	/**
 	 * Definicion de la interfaz remota SystemAdministracionConsultaContable, para invocar la logica de negocio.
 	 */
-	// @EJB
 	private SystemParametro remoteSystemParametro = null;
 
 	public SystemParametro getRemoteSystemParametro() {
@@ -183,6 +181,24 @@ public class CommunicationContabilidadBean extends AbstractSessionBean {
 
 	public void setRemoteSystemParametro(SystemParametro remoteSystemParametro) {
 		this.remoteSystemParametro = remoteSystemParametro;
+	}
+	
+	private SystemAdministracionIngresos remoteSystemAdministracionIngresos = null;
+	
+	public SystemAdministracionIngresos getRemoteSystemAdministracionIngresos() {
+		try {
+			this.remoteSystemAdministracionIngresos.setLlave(this.getSessionBean1().getLlave());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (TrascenderException e) {
+			e.printStackTrace();
+		}
+		return remoteSystemAdministracionIngresos;
+	}
+
+	public void setRemoteSystemAdministracionIngresos(
+			SystemAdministracionIngresos remoteSystemAdministracionIngresos) {
+		this.remoteSystemAdministracionIngresos = remoteSystemAdministracionIngresos;
 	}
 
 	private SystemAdministracionConsultaContable remoteSystemAdministracionConsultaContable = null;

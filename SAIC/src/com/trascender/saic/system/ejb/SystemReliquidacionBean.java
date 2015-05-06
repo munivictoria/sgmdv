@@ -121,20 +121,9 @@ public class SystemReliquidacionBean implements SystemReliquidacion {
 		try{
 			if (SecurityMgr.getInstance().getPermiso(this.llave,Reliquidacion.serialVersionUID,Permiso.Accion.INSERT)){
 				this.reliquidacionBean.setLlave(this.llave);
-				//Si es una LiquidacionAgrupada, debo llamar al metodo varias veces.
-				if (pLiquidacionTasa instanceof LiquidacionTasaAgrupada){
-					for (LiquidacionTasa cadaLiquidacion : 
-						((LiquidacionTasaAgrupada) pLiquidacionTasa).getListaLiquidacionesTasa()){
-						this.reliquidacionBean.reliquidarObligacion(cadaLiquidacion, 
-								pFechaReLiquidacion, pListaNombresNuevosParametrosValuados, 
-								pListaNuevosParametrosAlicuotas, pMapaValoresFijos, pDigestoMunicipal, pAplicarIntereses, true);
-					}
-					return null;
-				} else {
-					return this.reliquidacionBean.reliquidarObligacion(pLiquidacionTasa, 
-							pFechaReLiquidacion,pListaNombresNuevosParametrosValuados, 
-							pListaNuevosParametrosAlicuotas, pMapaValoresFijos, pDigestoMunicipal,pAplicarIntereses ,true);
-				}
+				return this.reliquidacionBean.reliquidarObligacion(pLiquidacionTasa, 
+						pFechaReLiquidacion,pListaNombresNuevosParametrosValuados, 
+						pListaNuevosParametrosAlicuotas, pMapaValoresFijos, pDigestoMunicipal,pAplicarIntereses ,true);
 			}
 			else{
 				throw new SaicException(772);

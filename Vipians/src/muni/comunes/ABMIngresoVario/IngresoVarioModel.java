@@ -43,7 +43,7 @@ public class IngresoVarioModel extends ABMModel{
         nomNoVacios[pos++] = "Fecha de Emisi\363n";
         noVacios[pos] = getBeanConcepto().getTfPersona();
         nomNoVacios[pos++] = "Persona";
-        noVacios[pos] = getBeanConcepto().getDdConceptoIngresoVario();
+        noVacios[pos] = getBeanConcepto().getTfConcepto();
         nomNoVacios[pos++] = "Concepto";
                    
         pos = 0;
@@ -78,7 +78,7 @@ public class IngresoVarioModel extends ABMModel{
 		getBeanConcepto().getBtnSeleccionarPersonaJuridica().setRendered(false);
 		getBeanConcepto().getTfMonto().setDisabled(true);
 		getBeanConcepto().getPgImputaciones().setRendered(false);
-		getBeanConcepto().getDdConceptoIngresoVario().setDisabled(true);
+		getBeanConcepto().getTfConcepto().setDisabled(true);
 		getBeanConcepto().getTcRbImputaciones().setRendered(false);
 		getBeanConcepto().getTfMonto().setStyleClass("textFieldDisabled");
 	}

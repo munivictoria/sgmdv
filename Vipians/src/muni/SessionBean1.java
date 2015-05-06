@@ -544,6 +544,16 @@ public class SessionBean1 extends AbstractSessionBean {
 	private List<Long> listaIdBienes = new ArrayList<Long>();
 	private List<Long> listaIdModelosVehiculo = new ArrayList<Long>();
 	private List<Long> listaIdCodigoCiiu = new ArrayList<Long>();
+	private List<Long> listaIdsConceptoIngresoVario = new ArrayList<Long>();
+	
+	public List<Long> getListaIdsConceptoIngresoVario() {
+		return listaIdsConceptoIngresoVario;
+	}
+
+	public void setListaIdsConceptoIngresoVario(
+			List<Long> listaIdsConceptoIngresoVario) {
+		this.listaIdsConceptoIngresoVario = listaIdsConceptoIngresoVario;
+	}
 
 	public List<Long> getListaIdPersonas() {
 		return listaIdPersonas;

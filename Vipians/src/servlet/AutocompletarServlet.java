@@ -110,6 +110,23 @@ public class AutocompletarServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			else if(strTipoRequest.equals("conceptoIngresoVario")) {
+				try {
+					this.getCommunicationContabilidadBean().getRemoteSystemAdministracionIngresos().setLlave(this.getSessionBean1().getLlave());
+					try {
+						locListaValores = this.getCommunicationContabilidadBean().getRemoteSystemAdministracionIngresos().findListaAuxIdConceptoIngresoVario(strValor);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					this.getSessionBean1().getListaIdsConceptoIngresoVario().clear();
+					for(AuxIdEntidad cadaAux : locListaValores) {
+						this.getSessionBean1().getListaIdsConceptoIngresoVario().add(cadaAux.getId());
+					}
+				} catch(TrascenderException e) {
+					e.printStackTrace();
+				}
+			}
 
 			Collections.sort(locListaValores, new Comparator<AuxIdEntidad>() {
 				public int compare(AuxIdEntidad o1, AuxIdEntidad o2) {
@@ -162,6 +179,10 @@ public class AutocompletarServlet extends HttpServlet {
 
 	private muni.CommunicationComprasBean getCommunicationComprasBean() {
 		return (muni.CommunicationComprasBean) findBean("CommunicationComprasBean");
+	}
+	
+	private muni.CommunicationContabilidadBean getCommunicationContabilidadBean() {
+		return (muni.CommunicationContabilidadBean) findBean("CommunicationContabilidadBean");
 	}
 
 	private muni.CommunicationHabilitacionesBean getCommunicationHabilitacionesBean() {

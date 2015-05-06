@@ -71,6 +71,8 @@ public interface BusinessLiquidacionTasaLocal {
 	// public List<EstadoCuentaTemporalSHPS> getListaEstadoCuentasSHPS();
 	// public LinkedHashMap<Integer, EstadoCuentaTemporalPFO> getListaEstadoCuentasPFO();
 
+	public void ejecutarProcedimientoActualizacionDeuda(Persona pPersona, Parcela pParcela, List<LiquidacionTasa> listaLiquidacionesExcluir) throws Exception;
+	
 	public void ejecutarProcedimientoActualizacionDeuda(Persona pPersona, Parcela pParcela) throws Exception;
 
 	public List<EstadoCuentaTemporal> getListaEstadoCuentasTemporales();

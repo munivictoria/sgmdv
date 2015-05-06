@@ -13,6 +13,7 @@
 
 					function cargarComportamientoJQuery() {
 						autoCompletarEnTextField("#form1:tfPersonaSeleccionada", "persona", nombreBean, "setPersonaAutocompletar");
+						autoCompletarEnTextField("#form1:tfConceptoIngresoVario", "conceptoIngresoVario", nombreBean, "setConceptoAutocompletar");
 						calendarioEnTextField("#form1:tfFechaDesde");
 						calendarioEnTextField("#form1:tfFechaHasta");
 					}
@@ -70,14 +71,21 @@
 														</td>
 													</tr>
 													<tr>
-														<td align="right" nowrap="true">
-															<ui:label binding="#{comunes$ABMIngresoVario$AdminIngresoVario.label1}" for="tfConceptoIngresoVario" id="label1" style=""
-																styleClass="label" text="Concepto" />
+														<td align="right" nowrap="nowrap">
+															<ui:label for="tfConceptoIngresoVario" id="lblConceptoIngresoVario" styleClass="label" text="Concepto" />
 														</td>
 														<td>
-															<ui:dropDown binding="#{comunes$ABMIngresoVario$AdminIngresoVario.ddConceptoIngresoVario}" id="ddConceptoIngresoVario"
-																items="#{comunes$ABMIngresoVario$AdminIngresoVario.ddConceptoIngresoVarioOptions.options}" styleClass="textField" />
+															<ui:textField binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfConcepto}" columns="40" id="tfConceptoIngresoVario"
+																styleClass="#{comunes$ABMIngresoVario$AdminIngresoVario.paginatedTable.filtro.conceptoIngresoVario != null ? 'textFieldDisabled' : 'textField'}"
+																disabled="#{comunes$ABMIngresoVario$AdminIngresoVario.paginatedTable.filtro.conceptoIngresoVario != null}" />
+															<a4j:commandButton id="btnLimpiarConcepto" reRender="form1:tfConceptoIngresoVario" title="Limpiar"
+																binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnLimpiarConcepto}"
+																action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnLimpiarConceptoIngresoVario_action}" 
+																styleClass="buttonLimpiarAjax"
+																oncomplete="cargarComportamientoJQuery(); focusearTfConcepto();"/>
 														</td>
+													</tr>
+													<tr>
 														<td align="right" nowrap="true">
 															<ui:label binding="#{comunes$ABMIngresoVario$AdminIngresoVario.lblEstado}" for="ddEstado" id="lblEstado" styleClass="label"
 																text="Estado" />

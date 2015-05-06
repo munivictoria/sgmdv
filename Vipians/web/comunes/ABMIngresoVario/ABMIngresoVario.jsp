@@ -13,10 +13,15 @@
 						
 						function cargarComportamientoJQuery() {
 							autoCompletarEnTextField("#form1:tfPersona", "persona", nombreBean, "setPersonaAutocompletar");
+							autoCompletarEnTextField("#form1:tfConceptoIngresoVario", "conceptoIngresoVario", nombreBean, "setConceptoAutocompletar", null, "#form1:btnSeleccionConcepto");
 						}
 						
 						function focusearTfPersonaSeleccionada() {
 							$("#form1\\:tfPersona").focus();
+						}
+
+						function focusearTfConcepto() {
+							$("#form1\\:tfConceptoIngresoVario").focus();
 						}
 						
 						$(document).ready(function() {
@@ -112,16 +117,19 @@
 								</tr>
 								<tr>
 									<td align="right" nowrap="nowrap">
-										<ui:label binding="#{comunes$ABMIngresoVario$ABMIngresoVario.label2}" for="tfConceptoIngresoVario" id="label2"
-											styleClass="label" text="Concepto" />
+										<ui:label for="tfConceptoIngresoVario" id="lblConceptoIngresoVario" styleClass="label" text="Concepto" />
 									</td>
 									<td>
-										<ui:dropDown binding="#{comunes$ABMIngresoVario$ABMIngresoVario.ddConceptoIngresoVario}" id="ddConceptoIngresoVario"
-													items="#{comunes$ABMIngresoVario$ABMIngresoVario.ddConceptoIngresoVarioOptions.options}" styleClass="textField"
-													onChange="#{comunes$ABMIngresoVario$ABMIngresoVario.seleccionarConcepto}"/>
-										<!--<ui:button action="#{comunes$ABMIngresoVario$ABMIngresoVario.btnSeleccionarConceptoIngresoVario_action}"
-											binding="#{comunes$ABMIngresoVario$ABMIngresoVario.btnSeleccionarConceptoIngresoVario}" escape="false"
-											id="btnSeleccionarConceptoIngresoVario" mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />-->
+										<ui:textField binding="#{comunes$ABMIngresoVario$ABMIngresoVario.tfConcepto}" columns="40" id="tfConceptoIngresoVario"
+											styleClass="#{comunes$ABMIngresoVario$ABMIngresoVario.hayConcepto ? 'textFieldDisabled' : 'textField'}"
+											disabled="#{comunes$ABMIngresoVario$ABMIngresoVario.hayConcepto}" />
+										<a4j:commandButton id="btnLimpiarConcepto" reRender="form1:tfConceptoIngresoVario, form1:tablaImputaciones" title="Limpiar"
+											binding="#{comunes$ABMIngresoVario$ABMIngresoVario.btnLimpiarConcepto}"
+											action="#{comunes$ABMIngresoVario$ABMIngresoVario.btnLimpiarConceptoIngresoVario_action}" 
+											styleClass="buttonLimpiarAjax"
+											oncomplete="cargarComportamientoJQuery(); focusearTfConcepto();"/>
+										<a4j:commandButton id="btnSeleccionConcepto" reRender="form1:tablaImputaciones" style="visibility: hidden;" 
+											action="#{comunes$ABMIngresoVario$ABMIngresoVario.seleccionarConcepto_action}"/>
 									</td>
 								</tr>
 								<tr>

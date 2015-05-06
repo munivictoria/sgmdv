@@ -50,23 +50,12 @@ public class ABMIngresoVario extends ABMPageBean {
 
 	@Override
 	protected void _init() throws Exception {
-		System.out.println("3");
 		if(this.getListaDelCommunicationImputaciones() != null) {
 			this.getObjectListDataProviderImputaciones().setList(this.getListaDelCommunicationImputaciones());
 		}
-
-		Set<String> locListaConceptos = this.getCommunicationCajaBean().getMapaConceptosIngresosVarios().keySet();
-		Option[] opConceptos = new Option[locListaConceptos.size() + 1];
-		int i = 0;
-		opConceptos[i++] = new Option("", "");
-		for(String cadaConcepto : locListaConceptos) {
-			opConceptos[i++] = new Option(cadaConcepto, cadaConcepto);
-		}
-		ddConceptoIngresoVarioOptions.setOptions(opConceptos);
-
 		Set<String> locListaRelas = this.getCommunicationCajaBean().getMapaRelaConceptoIngresoVarioCuenta().keySet();
 		Option[] opRelas = new Option[locListaRelas.size() + 1];
-		i = 0;
+		int i = 0;
 		opRelas[i++] = new Option("", "");
 		for(String cadaRela : locListaRelas) {
 			opRelas[i++] = new Option(cadaRela, cadaRela);
@@ -90,13 +79,29 @@ public class ABMIngresoVario extends ABMPageBean {
 	private PanelGroup pgImputaciones = new PanelGroup();
 	private Button btnAgregarCuenta = new Button();
 	private HtmlAjaxCommandButton btnQuitarCuenta = new HtmlAjaxCommandButton();
-	private DropDown ddConceptoIngresoVario = new DropDown();
-	private SingleSelectOptionsList ddConceptoIngresoVarioOptions = new SingleSelectOptionsList();
 	private DropDown ddTodasRelasDelConceptoSeleccionado = new DropDown();
 	private SingleSelectOptionsList ddTodasRelasDelConceptoSeleccionadoOptions = new SingleSelectOptionsList();
 	private HtmlAjaxCommandButton btnAgregarRelaSeleccionada = new HtmlAjaxCommandButton();
 	private Label lblTotal = new Label();
 	private StaticText stTotal = new StaticText();
+	private TextField tfConcepto = new TextField();
+	private HtmlAjaxCommandButton btnLimpiarConcepto = new HtmlAjaxCommandButton();
+	
+	public HtmlAjaxCommandButton getBtnLimpiarConcepto() {
+		return btnLimpiarConcepto;
+	}
+
+	public void setBtnLimpiarConcepto(HtmlAjaxCommandButton btnLimpiarConcepto) {
+		this.btnLimpiarConcepto = btnLimpiarConcepto;
+	}
+
+	public TextField getTfConcepto() {
+		return tfConcepto;
+	}
+
+	public void setTfConcepto(TextField tfConcepto) {
+		this.tfConcepto = tfConcepto;
+	}
 
 	public HtmlAjaxCommandButton getBtnQuitarCuenta() {
 		return btnQuitarCuenta;
@@ -144,22 +149,6 @@ public class ABMIngresoVario extends ABMPageBean {
 
 	public void setDdTodasRelasDelConceptoSeleccionadoOptions(SingleSelectOptionsList ddTodasRelasDelConceptoSeleccionadoOptions) {
 		this.ddTodasRelasDelConceptoSeleccionadoOptions = ddTodasRelasDelConceptoSeleccionadoOptions;
-	}
-
-	public DropDown getDdConceptoIngresoVario() {
-		return ddConceptoIngresoVario;
-	}
-
-	public void setDdConceptoIngresoVario(DropDown ddConceptoIngresoVario) {
-		this.ddConceptoIngresoVario = ddConceptoIngresoVario;
-	}
-
-	public SingleSelectOptionsList getDdConceptoIngresoVarioOptions() {
-		return ddConceptoIngresoVarioOptions;
-	}
-
-	public void setDdConceptoIngresoVarioOptions(SingleSelectOptionsList ddConceptoIngresoVarioOptions) {
-		this.ddConceptoIngresoVarioOptions = ddConceptoIngresoVarioOptions;
 	}
 
 	public RadioButton getRbImputaciones() {
@@ -511,7 +500,7 @@ public class ABMIngresoVario extends ABMPageBean {
 			persona = null;
 		ingresoVario.setPersona(persona);
 
-		ingresoVario.setConceptoIngresoVario(this.getDDObjectValue(getDdConceptoIngresoVario(), getCommunicationCajaBean().getMapaConceptosIngresosVarios()));
+		ingresoVario.setConceptoIngresoVario(conceptoIngresoVario);
 
 		this.getObjectListDataProviderImputaciones().commitChanges();
 		ingresoVario.setListaImputacionIngresos(this.getObjectListDataProviderImputaciones().getList());
@@ -545,7 +534,9 @@ public class ABMIngresoVario extends ABMPageBean {
 		if(persona != null)
 			this.getTfPersona().setText(persona.toString());
 
-		this.getDdConceptoIngresoVario().setSelected(conceptoIngresoVario.getNombre());
+		if (conceptoIngresoVario != null) {
+			this.getTfConcepto().setText(conceptoIngresoVario.getNombre());
+		}
 
 		this.getTfEstado().setText(ingresoVario.getEstado().toString());
 
@@ -589,8 +580,13 @@ public class ABMIngresoVario extends ABMPageBean {
 		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
 		if(ultimo) {
 			// CAMBIAR: Especificar objeto
-			this.limpiarObjeto(2, this.getDdConceptoIngresoVario());
+			this.limpiarObjeto(2, this.getTfConcepto());
+			this.setListaDelCommunicationImputaciones(null);
+			this.getLdpImputaciones().getList().clear();
+			this.getDdTodasRelasDelConceptoSeleccionadoOptions().setOptions(null);
+			this.getCommunicationCajaBean().setConceptoSeleccionado(null);
 			this.guardarEstadoObjetosUsados();
+			this.getCommunicationCajaBean().getMapaRelaConceptoIngresoVarioCuenta().clear();
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -677,20 +673,14 @@ public class ABMIngresoVario extends ABMPageBean {
 		return retorno;
 	}
 
-	public String getSeleccionarConcepto() {
-		ConceptoIngresoVario locConceptoSeleccionado = this.getDDObjectValue(getDdConceptoIngresoVario(), getCommunicationCajaBean().getMapaConceptosIngresosVarios());
+	public String seleccionarConcepto_action() {
 
-		System.out.println("1");
-		if(locConceptoSeleccionado != null && this.getCommunicationCajaBean().getConceptoSeleccionado() != null
-				&& locConceptoSeleccionado.equals(this.getCommunicationCajaBean().getConceptoSeleccionado())) {
-			return "this.form.submit()";
-		}
-
+		ConceptoIngresoVario locConcepto = (ConceptoIngresoVario) obtenerObjetoDelElementoPila(2);
 		// List<ImputacionIngresoVario> locListaImputaciones = this.getObjectListDataProviderImputaciones().getList();
 		List<ImputacionIngresoVario> locLista = new ArrayList();// this.getLdpImputaciones().getList();
 		Map<String, RelaConceptoIngresoVarioCuenta> locMapaRelas = new HashMap<String, RelaConceptoIngresoVarioCuenta>();
-		if(locConceptoSeleccionado != null) {
-			for(RelaConceptoIngresoVarioCuenta cadaRelacion : locConceptoSeleccionado.getListaRelaConceptoIngresoVarioCuenta()) {
+		if(locConcepto != null) {
+			for(RelaConceptoIngresoVarioCuenta cadaRelacion : locConcepto.getListaRelaConceptoIngresoVarioCuenta()) {
 				boolean yaEsta = false;
 				// for(ImputacionIngresoVario cadaImputacion : locLista){
 				// if(cadaImputacion.getCuenta().equals(cadaCuenta)){
@@ -701,19 +691,13 @@ public class ABMIngresoVario extends ABMPageBean {
 					ImputacionIngresoVario nuevaImputacion = new ImputacionIngresoVario();
 					nuevaImputacion.setCuenta(cadaRelacion.getCuenta());
 					nuevaImputacion.setMonto(cadaRelacion.getMontoPorDefecto());
-					// this.getObjectListDataProviderImputaciones().getList().add(nuevaImputacion);
-					// this.setListaDelCommunicationImputaciones(this.getObjectListDataProviderImputaciones().getList());
 					locLista.add(nuevaImputacion);
 				}
 			}
-			// for(Object o : this.getObjectListDataProviderImputaciones().getList()){
-			// System.out.println("o: " + ((ImputacionIngresoVario)o).getCuenta());
-			// }
-			// locLista.addAll(this.getObjectListDataProviderImputaciones().getList());
 			this.getObjectListDataProviderImputaciones().setList(new ArrayList(locLista));
 			this.setListaDelCommunicationImputaciones(new ArrayList<ImputacionIngresoVario>(locLista));
 
-			for(RelaConceptoIngresoVarioCuenta cadaRela : locConceptoSeleccionado.getListaRelaConceptoIngresoVarioCuenta()) {
+			for(RelaConceptoIngresoVarioCuenta cadaRela : locConcepto.getListaRelaConceptoIngresoVarioCuenta()) {
 				locMapaRelas.put(cadaRela.getCuenta().getNombre(), cadaRela);
 			}
 
@@ -733,9 +717,9 @@ public class ABMIngresoVario extends ABMPageBean {
 
 		this.getCommunicationCajaBean().setMapaRelaConceptoIngresoVarioCuenta(locMapaRelas);
 
-		System.out.println("2");
-		this.getCommunicationCajaBean().setConceptoSeleccionado(locConceptoSeleccionado);
-		return "this.form.submit()";
+		this.getCommunicationCajaBean().setConceptoSeleccionado(locConcepto);
+		
+		return null;
 	}
 
 	public void setSeleccionarConcepto() {
@@ -839,10 +823,31 @@ public class ABMIngresoVario extends ABMPageBean {
 		this.setIdSubSesion(Long.parseLong(pIdSubSesion));
 		this.getElementoPila().getObjetos().set(1, locPersona);
 	}
+	
+	public void setConceptoAutocompletar(String pId, String pIdSubSesion) throws Exception {
+		Long id = Long.parseLong(pId);
+		ConceptoIngresoVario locConcepto = null;
+
+		try {
+			locConcepto = (ConceptoIngresoVario) this.getCommunicationContabilidadBean().getRemoteSystemAdministracionIngresos().getConceptoIngresoVarioByID(id);
+		} catch(TrascenderFrameworkException e) {
+			e.printStackTrace();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
+
+		this.setIdSubSesion(Long.parseLong(pIdSubSesion));
+		this.getElementoPila().getObjetos().set(2, locConcepto);
+	}
 
 	public boolean isHayPersona() {
 		Persona locPersona = (Persona) this.obtenerObjetoDelElementoPila(1);
 		return(locPersona != null && locPersona.getIdPersona() != -1);
+	}
+	
+	public boolean isHayConcepto() {
+		ConceptoIngresoVario locConcepto = (ConceptoIngresoVario) this.obtenerObjetoDelElementoPila(2);
+		return(locConcepto != null && locConcepto.getIdConceptoIngresoVario() != -1);
 	}
 
 	@Override
