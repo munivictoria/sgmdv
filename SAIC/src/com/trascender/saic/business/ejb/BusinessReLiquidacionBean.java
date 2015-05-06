@@ -80,6 +80,7 @@ import com.trascender.saic.recurso.persistent.Tasa;
 import com.trascender.saic.recurso.persistent.TasaTGI;
 import com.trascender.saic.recurso.persistent.Vencimiento;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
+import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 import com.trascender.saic.util.ValorBasicoTasaFuncion;
 import com.trascender.saic.util.ValorModificadorFuncion;
 
@@ -118,6 +119,8 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 
 	@SuppressWarnings("unchecked")
 	private List listaDiasFeriados;
+	
+	private List<LiquidacionTasa> listaAReliquidar = null;
 
 	private JEP jep;
 	
@@ -202,254 +205,257 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 	public List<Reliquidacion> reliquidarObligacion(LiquidacionTasa pLiquidacionTasa, java.util.Date pFechaReLiquidacion, List<String> pListaNombresNuevosParametrosValuados,
 			List<ParametroValuadoAlicuota> pListaNuevosParametrosAlicuotas, Map<String, Object> pMapaValoresFijos,
 			com.trascender.framework.recurso.persistent.DigestoMunicipal pDigestoMunicipal, boolean pAplicarIntereses, boolean pGuardarReliquidacion) throws Exception {
-		System.out.println("Fecha de vencimiento nueva");
-		System.out.println(pFechaReLiquidacion);
-		if(pLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.RELIQUIDADA)) {
-			throw new SaicException(72);
-		}
-
-		if(pLiquidacionTasa.getEstado().toString().contains("Pagada")) {
-			throw new SaicException(73);
-		}
-
+		listaAReliquidar = new ArrayList<LiquidacionTasa>();
 		List<Reliquidacion> locListaReliquidaciones = new ArrayList<Reliquidacion>();
-
+		if (pLiquidacionTasa instanceof LiquidacionTasaAgrupada) {
+			LiquidacionTasaAgrupada lta = (LiquidacionTasaAgrupada) pLiquidacionTasa;
+			listaAReliquidar.addAll(lta.getListaLiquidacionesTasa());
+		} else {
+			listaAReliquidar.add(pLiquidacionTasa);
+		}
 		this.isListaParametrosCargada = false;
-
-		// this.listaLiquidacionesTasaAnteriores = this.getListaRegistrosDeudaAsociados(pLiquidacionTasa, null);
-		listaLiquidacionesTasaAnteriores = new ArrayList<RegistroDeuda>();
-		listaLiquidacionesTasaAnteriores.add(this.levantarDeuda(pLiquidacionTasa));
-
-		for(Object cadaObject : this.listaLiquidacionesTasaAnteriores) {
-			System.out.println("Entro al for de la listaliq");
-			pLiquidacionTasa = (LiquidacionTasa) cadaObject;
-			pLiquidacionTasa.toString();
-			pLiquidacionTasa = this.entityManager.merge(pLiquidacionTasa);
-
-			pLiquidacionTasa.getListaModificadoresLiquidacion().toString();
-			for(ModificadorLiquidacion cadaModificador : pLiquidacionTasa.getListaModificadoresLiquidacion()) {
-				cadaModificador.toString();
+		for (LiquidacionTasa cadaLiquidacionTasa : listaAReliquidar) {
+		
+			if(cadaLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.RELIQUIDADA)) {
+				throw new SaicException(72);
 			}
-
-			pLiquidacionTasa.getListaAlicuotasLiquidadas().size();
-			pLiquidacionTasa.getListaParametrosValuados().toString();
-			pLiquidacionTasa.getListaVencimientos().toString();
-			pLiquidacionTasa.getTipoTasa().toString();
-			pLiquidacionTasa.getTipoTasa().getListaVencimientos().toString();
-			pLiquidacionTasa.getTipoTasa().getListaParametros().size();
-			pLiquidacionTasa.getTipoTasa().getListaParamatrosAlicuota().size();
-			pLiquidacionTasa.getDocGeneradorDeuda().toString();
-			pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().toString();
-			if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion() != null) {
-				pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion().toString();
+	
+			if(cadaLiquidacionTasa.getEstado().toString().contains("Pagada")) {
+				throw new SaicException(73);
 			}
-			this.entityManager.detach(ParametroValuado.class);
-			for(ParametroValuado cadaParametro : pLiquidacionTasa.getListaParametrosValuados()) {
-				this.entityManager.detach(cadaParametro);
-			}
-			
-			this.entityManager.detach(pLiquidacionTasa);
-
-			System.out.println("Preparando lista de Exenciones Vigentes...");
-			this.prepararListaExencionesRegistrosDeuda();
-
-			System.out.println("Fuerzo el recupero de datos");
-			this.guardarReliquidacion = pGuardarReliquidacion;
-
-			if(pFechaReLiquidacion != null) {
-				this.fechaReLiquidacion = pFechaReLiquidacion;
-				// Vence el mismo dia que se reliquida
-				this.fechaNuevoVencimiento = pFechaReLiquidacion;
-				// this.validarPreCondicionesReliquidacion(pLiquidacionTasa, pFechaReLiquidacion);
-			}
-			this.fechaVencimientoOriginal = (Date) this.entityManager.createNativeQuery("SELECT fecha FROM p_fecha_vencimiento_original(:id_deuda)")
-					.setParameter("id_deuda", pLiquidacionTasa.getIdRegistroDeuda()).getSingleResult();
-
-			// Inicializo listas a utilizar
-			// this.listaParametrosValuados = new LinkedHashMap<Integer, ParametroValuado>();
-			// this.listaVencimientos = new LinkedHashMap<Integer, Vencimiento>();
-			// this.listaModificadoresLiquidacion = new LinkedHashMap<Integer, ModificadorLiquidacion>();
-			this.listaAlicuotasLiquidadas = new LinkedHashMap<Integer, AlicuotaLiquidada>();
-
-			List<ParametroValuado> locListadoParametrosValuados = this.getListaParametrosValuados(pLiquidacionTasa, pListaNombresNuevosParametrosValuados, pMapaValoresFijos);
-			List<AlicuotaLiquidada> locListaAlicuotasLiquidadas = this.getListaAlicuotasLiquidadas(pLiquidacionTasa, pListaNuevosParametrosAlicuotas);
-
-			pLiquidacionTasa = entityManager.merge(pLiquidacionTasa);
-			Reliquidacion locReliquidacion = this.reliquidarObligacion(pLiquidacionTasa, locListadoParametrosValuados, locListaAlicuotasLiquidadas, pAplicarIntereses);
-
-			if(pDigestoMunicipal != null && pDigestoMunicipal.getIdDigestoMunicipal() != -1) {
-				locReliquidacion.setDigestoMunicipal(pDigestoMunicipal);
-			} else {
-				locReliquidacion.setDigestoMunicipal(null);
-			}
-			LiquidacionTasa locLiquidacionTasa = locReliquidacion.getLiquidacionTasa();
-			
-			pLiquidacionTasa = entityManager.merge(pLiquidacionTasa);
-			// pLiquidacionTasa
-			// Se mueve la creacion de los nuevos vencimientos al metodo newLiquidacionTasa()
-			// for(Vencimiento locNuevoVencimiento : this.crearNuevosVencimientos(pLiquidacionTasa,this.fechaNuevoVencimiento)){
-			// locNuevoVencimiento.setValor(locLiquidacionTasa.getMonto()); //Setearle los montos correspondientes dentro del metodo, para recrear los
-			// originales.
-			//
-			// // if(!this.listaVencimientos.isEmpty() && this.listaVencimientos.containsKey(locNuevoVencimiento.hashCode())){
-			// // locNuevoVencimiento = this.listaVencimientos.get(locNuevoVencimiento.hashCode());
-			// // }
-			//
-			// locLiquidacionTasa.getListaVencimientos().add(locNuevoVencimiento);
-			// this.entityManager.merge(locNuevoVencimiento);
-			// }
-			System.out.println("Salio del for de crearVencimientos");
-			for(ParametroValuado cadaParametroValuado : locLiquidacionTasa.getListaParametrosValuados()) {
-
-				// if(!this.listaParametrosValuados.isEmpty() && this.listaParametrosValuados.containsKey(cadaParametroValuado.hashCode())){
-				// cadaParametroValuado = this.listaParametrosValuados.get(cadaParametroValuado.hashCode());
-				// }
-				if(!locLiquidacionTasa.getListaParametrosValuados().contains(cadaParametroValuado)) {
-					locLiquidacionTasa.getListaParametrosValuados().add(cadaParametroValuado);
+	
+			// this.listaLiquidacionesTasaAnteriores = this.getListaRegistrosDeudaAsociados(cadaLiquidacionTasa, null);
+			listaLiquidacionesTasaAnteriores = new ArrayList<RegistroDeuda>();
+			listaLiquidacionesTasaAnteriores.add(this.levantarDeuda(cadaLiquidacionTasa));
+	
+			for(Object cadaObject : this.listaLiquidacionesTasaAnteriores) {
+				System.out.println("Entro al for de la listaliq");
+				cadaLiquidacionTasa = (LiquidacionTasa) cadaObject;
+				cadaLiquidacionTasa.toString();
+				cadaLiquidacionTasa = this.entityManager.merge(cadaLiquidacionTasa);
+	
+				cadaLiquidacionTasa.getListaModificadoresLiquidacion().toString();
+				for(ModificadorLiquidacion cadaModificador : cadaLiquidacionTasa.getListaModificadoresLiquidacion()) {
+					cadaModificador.toString();
 				}
-				cadaParametroValuado.setLiquidacionTasa(pLiquidacionTasa);
-				this.entityManager.merge(cadaParametroValuado);
-			}
-
-			for(AlicuotaLiquidada cadaAlicuotaLiquidada : locLiquidacionTasa.getListaAlicuotasLiquidadas()) {
-				if(cadaAlicuotaLiquidada.getIdAlicuotaLiquidada() == -1) {
-					this.entityManager.persist(cadaAlicuotaLiquidada);
+	
+				cadaLiquidacionTasa.getListaAlicuotasLiquidadas().size();
+				cadaLiquidacionTasa.getListaParametrosValuados().toString();
+				cadaLiquidacionTasa.getListaVencimientos().toString();
+				cadaLiquidacionTasa.getTipoTasa().toString();
+				cadaLiquidacionTasa.getTipoTasa().getListaVencimientos().toString();
+				cadaLiquidacionTasa.getTipoTasa().getListaParametros().size();
+				cadaLiquidacionTasa.getTipoTasa().getListaParamatrosAlicuota().size();
+				cadaLiquidacionTasa.getDocGeneradorDeuda().toString();
+				cadaLiquidacionTasa.getDocGeneradorDeuda().getObligacion().toString();
+				if(cadaLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion() != null) {
+					cadaLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion().toString();
 				}
-			}
-
-			Iterator<ModificadorLiquidacion> locListModificadores = locLiquidacionTasa.getListaModificadoresLiquidacion().iterator();
-			System.out.println("Cantidad de Modificadores: " + locLiquidacionTasa.getListaModificadoresLiquidacion().size());
-			int locIndex = 1;
-			while(locListModificadores.hasNext()) {
-				ModificadorLiquidacion cadaModificadorLiquidacion = locListModificadores.next();
-				// if(!this.listaModificadoresLiquidacion.isEmpty() && this.listaModificadoresLiquidacion.containsKey(cadaModificadorLiquidacion.hashCode())){
-				// cadaModificadorLiquidacion = this.listaModificadoresLiquidacion.get(cadaModificadorLiquidacion.hashCode());
+				this.entityManager.detach(ParametroValuado.class);
+				for(ParametroValuado cadaParametro : cadaLiquidacionTasa.getListaParametrosValuados()) {
+					this.entityManager.detach(cadaParametro);
+				}
+				
+				this.entityManager.detach(cadaLiquidacionTasa);
+	
+				System.out.println("Preparando lista de Exenciones Vigentes...");
+				this.prepararListaExencionesRegistrosDeuda();
+	
+				System.out.println("Fuerzo el recupero de datos");
+				this.guardarReliquidacion = pGuardarReliquidacion;
+	
+				if(pFechaReLiquidacion != null) {
+					this.fechaReLiquidacion = pFechaReLiquidacion;
+					// Vence el mismo dia que se reliquida
+					this.fechaNuevoVencimiento = pFechaReLiquidacion;
+					// this.validarPreCondicionesReliquidacion(cadaLiquidacionTasa, pFechaReLiquidacion);
+				}
+				this.fechaVencimientoOriginal = (Date) this.entityManager.createNativeQuery("SELECT fecha FROM p_fecha_vencimiento_original(:id_deuda)")
+						.setParameter("id_deuda", cadaLiquidacionTasa.getIdRegistroDeuda()).getSingleResult();
+	
+				// Inicializo listas a utilizar
+				this.listaAlicuotasLiquidadas = new LinkedHashMap<Integer, AlicuotaLiquidada>();
+	
+				List<ParametroValuado> locListadoParametrosValuados = this.getListaParametrosValuados(cadaLiquidacionTasa, pListaNombresNuevosParametrosValuados, pMapaValoresFijos);
+				List<AlicuotaLiquidada> locListaAlicuotasLiquidadas = this.getListaAlicuotasLiquidadas(cadaLiquidacionTasa, pListaNuevosParametrosAlicuotas);
+	
+				cadaLiquidacionTasa = entityManager.merge(cadaLiquidacionTasa);
+				Reliquidacion locReliquidacion = this.reliquidarObligacion(cadaLiquidacionTasa, locListadoParametrosValuados, locListaAlicuotasLiquidadas, pAplicarIntereses);
+	
+				if(pDigestoMunicipal != null && pDigestoMunicipal.getIdDigestoMunicipal() != -1) {
+					locReliquidacion.setDigestoMunicipal(pDigestoMunicipal);
+				} else {
+					locReliquidacion.setDigestoMunicipal(null);
+				}
+				LiquidacionTasa locLiquidacionTasa = locReliquidacion.getLiquidacionTasa();
+				
+				cadaLiquidacionTasa = entityManager.merge(cadaLiquidacionTasa);
+				// cadaLiquidacionTasa
+				// Se mueve la creacion de los nuevos vencimientos al metodo newLiquidacionTasa()
+				// for(Vencimiento locNuevoVencimiento : this.crearNuevosVencimientos(cadaLiquidacionTasa,this.fechaNuevoVencimiento)){
+				// locNuevoVencimiento.setValor(locLiquidacionTasa.getMonto()); //Setearle los montos correspondientes dentro del metodo, para recrear los
+				// originales.
+				//
+				// // if(!this.listaVencimientos.isEmpty() && this.listaVencimientos.containsKey(locNuevoVencimiento.hashCode())){
+				// // locNuevoVencimiento = this.listaVencimientos.get(locNuevoVencimiento.hashCode());
+				// // }
+				//
+				// locLiquidacionTasa.getListaVencimientos().add(locNuevoVencimiento);
+				// this.entityManager.merge(locNuevoVencimiento);
 				// }
-				System.out.println("Mod " + (locIndex) + " [cadaModificadorLiquidacion]" + "*******************************************");
-				// if(! (pLiquidacionTasa.isVencida()
-				// && cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente"))){
-				// if(!locLiquidacionTasa.getListaModificadoresLiquidacion().contains(cadaModificadorLiquidacion)){
-				// locLiquidacionTasa.getListaModificadoresLiquidacion().add(cadaModificadorLiquidacion);
-				// cadaModificadorLiquidacion.setLiquidacionTasa(pLiquidacionTasa);
-				// System.out.println("MODIFICADOR AGREGADO: "+cadaModificadorLiquidacion.getNombre() +
-				// " Valor: "+cadaModificadorLiquidacion.getValorModificador());
-				// }else{
-				// if(cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente")){
-				// if(pLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.VENCIDA)){
-				// locListModificadores.remove();
-				// System.out.println("Se saco el modificador: "+ cadaModificadorLiquidacion.getNombre() + " por que la liq estaba vencida.");
+				System.out.println("Salio del for de crearVencimientos");
+				for(ParametroValuado cadaParametroValuado : locLiquidacionTasa.getListaParametrosValuados()) {
+	
+					// if(!this.listaParametrosValuados.isEmpty() && this.listaParametrosValuados.containsKey(cadaParametroValuado.hashCode())){
+					// cadaParametroValuado = this.listaParametrosValuados.get(cadaParametroValuado.hashCode());
+					// }
+					if(!locLiquidacionTasa.getListaParametrosValuados().contains(cadaParametroValuado)) {
+						locLiquidacionTasa.getListaParametrosValuados().add(cadaParametroValuado);
+					}
+					cadaParametroValuado.setLiquidacionTasa(cadaLiquidacionTasa);
+					this.entityManager.merge(cadaParametroValuado);
+				}
+	
+				for(AlicuotaLiquidada cadaAlicuotaLiquidada : locLiquidacionTasa.getListaAlicuotasLiquidadas()) {
+					if(cadaAlicuotaLiquidada.getIdAlicuotaLiquidada() == -1) {
+						this.entityManager.persist(cadaAlicuotaLiquidada);
+					}
+				}
+	
+				Iterator<ModificadorLiquidacion> locListModificadores = locLiquidacionTasa.getListaModificadoresLiquidacion().iterator();
+				System.out.println("Cantidad de Modificadores: " + locLiquidacionTasa.getListaModificadoresLiquidacion().size());
+				int locIndex = 1;
+				while(locListModificadores.hasNext()) {
+					ModificadorLiquidacion cadaModificadorLiquidacion = locListModificadores.next();
+					// if(!this.listaModificadoresLiquidacion.isEmpty() && this.listaModificadoresLiquidacion.containsKey(cadaModificadorLiquidacion.hashCode())){
+					// cadaModificadorLiquidacion = this.listaModificadoresLiquidacion.get(cadaModificadorLiquidacion.hashCode());
+					// }
+					System.out.println("Mod " + (locIndex) + " [cadaModificadorLiquidacion]" + "*******************************************");
+					// if(! (cadaLiquidacionTasa.isVencida()
+					// && cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente"))){
+					// if(!locLiquidacionTasa.getListaModificadoresLiquidacion().contains(cadaModificadorLiquidacion)){
+					// locLiquidacionTasa.getListaModificadoresLiquidacion().add(cadaModificadorLiquidacion);
+					// cadaModificadorLiquidacion.setLiquidacionTasa(cadaLiquidacionTasa);
+					// System.out.println("MODIFICADOR AGREGADO: "+cadaModificadorLiquidacion.getNombre() +
+					// " Valor: "+cadaModificadorLiquidacion.getValorModificador());
+					// }else{
+					// if(cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente")){
+					// if(cadaLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.VENCIDA)){
+					// locListModificadores.remove();
+					// System.out.println("Se saco el modificador: "+ cadaModificadorLiquidacion.getNombre() + " por que la liq estaba vencida.");
+					// }
+					// }
+					// }
+					//
+					// }else{
+					// System.out.println("NOT (liq isVencida? "+cadaLiquidacionTasa.isVencida(Calendar.getInstance().getTime())+") "
+					// +"es buen contribuyente? "+ cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente")+")" );
+					// if(cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente")){
+					// if(cadaLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.VENCIDA)){
+					// locListModificadores.remove();
+					// System.out.println("Se saco el modificador: "+ cadaModificadorLiquidacion.getNombre() + " por que la liq estaba vencida.");
+					// }
+					// }
+					// }
+					this.entityManager.merge(cadaModificadorLiquidacion);
+					System.out.println("Fin mod " + (locIndex++) + "*******************************");
+				}
+	
+				System.out.println("Salio del for de modificadores liq - Cantidad de modificadores despues de la liquidacion: "
+						+ locLiquidacionTasa.getListaModificadoresLiquidacion().size() + locLiquidacionTasa.getListaModificadoresLiquidacion().toString());
+	
+				// una vez que reliquido cancelo la liquidación tasa
+				// this.entityManager.refresh(locReliquidacion);
+				// acaa
+				cadaLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
+				System.out.println("id registro cancelacion = " + locReliquidacion.getIdRegistroCancelacion());
+	
+				/*
+				 * Al Final de la reliquidacion se busca si la obligacion posee alguna exencion para el periodo a liquidar de ser asi se liquida solo el porcentaje
+				 * especificado si dicho porcentaje es 100 el monto de la liquidacion es 0
+				 */
+				// if(cadaLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion() != null &&
+				// !cadaLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion().isEmpty()){
+				// /*
+				// * Al Final de la liquidacion se busca si la obligacion posee alguna exencion para el periodo a liquidar
+				// * de ser asi se liquida solo el porcentaje especificado si dicho porcentaje es 100 el monto de la liquidacion es 0
+				// */
+				// //if(pObligacion.getListaRegistrosExencion() != null && !pObligacion.getListaRegistrosExencion().isEmpty()){
+				// boolean locIsExentoPeriodo = false;
+				// RegistroExencionObligacion locRegistroExencion = null;
+				// Iterator<RegistroExencionObligacion> locIterador =
+				// cadaLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion().iterator();
+				// while(locIterador.hasNext() && !locIsExentoPeriodo){
+				// locRegistroExencion = locIterador.next();
+				// if(locRegistroExencion.getExencionObligacion().getEstado().equals(Estado.VIGENTE)){
+				// //Se controla si el periodo es igual o si se trata de una exencion anual y el año del periodo es igual al del parametro
+				// // if(locRegistroExencion.getExencionObligacion().getCuotaLiquidacion().equals(cadaLiquidacionTasa.getCuotaLiquidacion())
+				// // || (locRegistroExencion.getExencionObligacion().getTipoExencion().equals(Tipo.ANIO)
+				// // && locRegistroExencion.getExencionObligacion().getCuotaLiquidacion().getPeriodo().getFechaInicio().get(Calendar.YEAR)
+				// // == cadaLiquidacionTasa.getCuotaLiquidacion().getPeriodo().getFechaInicio().get(Calendar.YEAR)) ){
+				// // locIsExentoPeriodo = true;
+				// // }
 				// }
 				// }
+				// System.out.println("Es periodo exento " + locIsExentoPeriodo);
+				//
+				// if(locIsExentoPeriodo && locRegistroExencion != null){
+				// ExencionRegistroDeuda locExencionRegistroDeuda = new ExencionRegistroDeuda();
+				// if(locRegistroExencion.getExencionObligacion().getDigestoMunicipal() != null){
+				// locExencionRegistroDeuda.setDigestoMunicipal(locRegistroExencion.getExencionObligacion().getDigestoMunicipal());
+				// }
+				// locExencionRegistroDeuda.setNombre("Exención creada Automáticamente en Fecha ["+Util.getStringFechaYHora(Calendar.getInstance().getTime())
+				// +"] para la Tasa ["+locLiquidacionTasa.getTipoTasa().getNombre()+"]");
+				// locExencionRegistroDeuda.setMotivo("Exención de Registros de Deuda creada Automáticamente duránte un proceso de Reliquidación.");
+				// locExencionRegistroDeuda.setPorcentaje(locRegistroExencion.getExencionObligacion().getPorcentaje());
+				// locExencionRegistroDeuda.setTipoExencion(locRegistroExencion.getExencionObligacion().getTipoExencion());
+				// locExencionRegistroDeuda.setCuotaLiquidacion(locLiquidacionTasa.getCuotaLiquidacion());
+				// // locExencionRegistroDeuda.setPeriodicidadCuotas(locLiquidacionTasa.getTipoTasa().getPeriodicidadCuotas());
+				//
+				// try{
+				// if(locExencionRegistroDeuda != null && this.listaExencionesRegistrosDeuda.containsKey(locExencionRegistroDeuda.hashCode())){
+				// locExencionRegistroDeuda = this.listaExencionesRegistrosDeuda.get(locExencionRegistroDeuda.hashCode());
+				// }
+				// }
+				// catch (Exception e) {
 				// }
 				//
-				// }else{
-				// System.out.println("NOT (liq isVencida? "+pLiquidacionTasa.isVencida(Calendar.getInstance().getTime())+") "
-				// +"es buen contribuyente? "+ cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente")+")" );
-				// if(cadaModificadorLiquidacion.getNombre().trim().equalsIgnoreCase("Descuento Buen Contribuyente")){
-				// if(pLiquidacionTasa.getEstado().equals(EstadoRegistroDeuda.VENCIDA)){
-				// locListModificadores.remove();
-				// System.out.println("Se saco el modificador: "+ cadaModificadorLiquidacion.getNombre() + " por que la liq estaba vencida.");
+				// RegistroExencionRegistroDeuda locRegistroExencionRegistroDeuda = new RegistroExencionRegistroDeuda();
+				// locRegistroExencionRegistroDeuda.setExencionRegistroDeuda(locExencionRegistroDeuda);
+				// locRegistroExencionRegistroDeuda.setRegistroDeuda(locLiquidacionTasa);
+				// //Coloco la misma nota de referencia que tenía la obligación
+				// locRegistroExencionRegistroDeuda.setReferenciaNotaHCD(locRegistroExencion.getReferenciaNotaHCD());
+				//
+				// locExencionRegistroDeuda.addRegistroDeudaExento(locRegistroExencionRegistroDeuda);
+				//
+				// this.listaExencionesRegistrosDeuda.put(locExencionRegistroDeuda.hashCode(), locExencionRegistroDeuda);
 				// }
 				// }
-				// }
-				this.entityManager.merge(cadaModificadorLiquidacion);
-				System.out.println("Fin mod " + (locIndex++) + "*******************************");
+				System.out.println("Paso lo de las exenciones");
+	
+				// estado que toma la liquidación tasa reliquidada
+				cadaLiquidacionTasa.setEstado(EstadoRegistroDeuda.RELIQUIDADA);
+				locLiquidacionTasa.recalcularMonto();
+				// Actualizo la lista de exenciones de registros de deuda solo si no son reliquidaciones temporales
+				locListaReliquidaciones.add(locReliquidacion);
+				if (pGuardarReliquidacion) {
+					this.businessLiquidacionTasaLocal.generarLogLiquidacion(locLiquidacionTasa, SecurityMgr.getInstance().getUsuario(llave), LogLiquidacion.Evento.RELIQUIDO, null);
+				}
 			}
-
-			System.out.println("Salio del for de modificadores liq - Cantidad de modificadores despues de la liquidacion: "
-					+ locLiquidacionTasa.getListaModificadoresLiquidacion().size() + locLiquidacionTasa.getListaModificadoresLiquidacion().toString());
-
-			// una vez que reliquido cancelo la liquidación tasa
-			// this.entityManager.refresh(locReliquidacion);
-			// acaa
-			pLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
-			System.out.println("id registro cancelacion = " + locReliquidacion.getIdRegistroCancelacion());
-
-			/*
-			 * Al Final de la reliquidacion se busca si la obligacion posee alguna exencion para el periodo a liquidar de ser asi se liquida solo el porcentaje
-			 * especificado si dicho porcentaje es 100 el monto de la liquidacion es 0
-			 */
-			// if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion() != null &&
-			// !pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion().isEmpty()){
-			// /*
-			// * Al Final de la liquidacion se busca si la obligacion posee alguna exencion para el periodo a liquidar
-			// * de ser asi se liquida solo el porcentaje especificado si dicho porcentaje es 100 el monto de la liquidacion es 0
-			// */
-			// //if(pObligacion.getListaRegistrosExencion() != null && !pObligacion.getListaRegistrosExencion().isEmpty()){
-			// boolean locIsExentoPeriodo = false;
-			// RegistroExencionObligacion locRegistroExencion = null;
-			// Iterator<RegistroExencionObligacion> locIterador =
-			// pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getListaRegistrosExencion().iterator();
-			// while(locIterador.hasNext() && !locIsExentoPeriodo){
-			// locRegistroExencion = locIterador.next();
-			// if(locRegistroExencion.getExencionObligacion().getEstado().equals(Estado.VIGENTE)){
-			// //Se controla si el periodo es igual o si se trata de una exencion anual y el año del periodo es igual al del parametro
-			// // if(locRegistroExencion.getExencionObligacion().getCuotaLiquidacion().equals(pLiquidacionTasa.getCuotaLiquidacion())
-			// // || (locRegistroExencion.getExencionObligacion().getTipoExencion().equals(Tipo.ANIO)
-			// // && locRegistroExencion.getExencionObligacion().getCuotaLiquidacion().getPeriodo().getFechaInicio().get(Calendar.YEAR)
-			// // == pLiquidacionTasa.getCuotaLiquidacion().getPeriodo().getFechaInicio().get(Calendar.YEAR)) ){
-			// // locIsExentoPeriodo = true;
-			// // }
-			// }
-			// }
-			// System.out.println("Es periodo exento " + locIsExentoPeriodo);
-			//
-			// if(locIsExentoPeriodo && locRegistroExencion != null){
-			// ExencionRegistroDeuda locExencionRegistroDeuda = new ExencionRegistroDeuda();
-			// if(locRegistroExencion.getExencionObligacion().getDigestoMunicipal() != null){
-			// locExencionRegistroDeuda.setDigestoMunicipal(locRegistroExencion.getExencionObligacion().getDigestoMunicipal());
-			// }
-			// locExencionRegistroDeuda.setNombre("Exención creada Automáticamente en Fecha ["+Util.getStringFechaYHora(Calendar.getInstance().getTime())
-			// +"] para la Tasa ["+locLiquidacionTasa.getTipoTasa().getNombre()+"]");
-			// locExencionRegistroDeuda.setMotivo("Exención de Registros de Deuda creada Automáticamente duránte un proceso de Reliquidación.");
-			// locExencionRegistroDeuda.setPorcentaje(locRegistroExencion.getExencionObligacion().getPorcentaje());
-			// locExencionRegistroDeuda.setTipoExencion(locRegistroExencion.getExencionObligacion().getTipoExencion());
-			// locExencionRegistroDeuda.setCuotaLiquidacion(locLiquidacionTasa.getCuotaLiquidacion());
-			// // locExencionRegistroDeuda.setPeriodicidadCuotas(locLiquidacionTasa.getTipoTasa().getPeriodicidadCuotas());
-			//
-			// try{
-			// if(locExencionRegistroDeuda != null && this.listaExencionesRegistrosDeuda.containsKey(locExencionRegistroDeuda.hashCode())){
-			// locExencionRegistroDeuda = this.listaExencionesRegistrosDeuda.get(locExencionRegistroDeuda.hashCode());
-			// }
-			// }
-			// catch (Exception e) {
-			// }
-			//
-			// RegistroExencionRegistroDeuda locRegistroExencionRegistroDeuda = new RegistroExencionRegistroDeuda();
-			// locRegistroExencionRegistroDeuda.setExencionRegistroDeuda(locExencionRegistroDeuda);
-			// locRegistroExencionRegistroDeuda.setRegistroDeuda(locLiquidacionTasa);
-			// //Coloco la misma nota de referencia que tenía la obligación
-			// locRegistroExencionRegistroDeuda.setReferenciaNotaHCD(locRegistroExencion.getReferenciaNotaHCD());
-			//
-			// locExencionRegistroDeuda.addRegistroDeudaExento(locRegistroExencionRegistroDeuda);
-			//
-			// this.listaExencionesRegistrosDeuda.put(locExencionRegistroDeuda.hashCode(), locExencionRegistroDeuda);
-			// }
-			// }
-			System.out.println("Paso lo de las exenciones");
-
-			// estado que toma la liquidación tasa reliquidada
-			pLiquidacionTasa.setEstado(EstadoRegistroDeuda.RELIQUIDADA);
-			locLiquidacionTasa.recalcularMonto();
-			// Actualizo la lista de exenciones de registros de deuda solo si no son reliquidaciones temporales
-			locListaReliquidaciones.add(locReliquidacion);
-			if (pGuardarReliquidacion) {
-				this.businessLiquidacionTasaLocal.generarLogLiquidacion(locLiquidacionTasa, SecurityMgr.getInstance().getUsuario(llave), LogLiquidacion.Evento.RELIQUIDO, null);
+	
+			if(pGuardarReliquidacion) {
+				this.entityManager.merge(cadaLiquidacionTasa);
+				System.out.println("Reliquidaciones guardadas...");
+				this.entityManager.flush();
+				this.guardarOActualizarExenciones();
+			} else {
+				// this.entityManager.clear();
+				System.out.println("Reliquidaciones temporales eliminadas...");
 			}
-		}
-
-		if(pGuardarReliquidacion) {
-			this.entityManager.merge(pLiquidacionTasa);
-			System.out.println("Reliquidaciones guardadas...");
-			this.entityManager.flush();
-			this.guardarOActualizarExenciones();
-		} else {
-			// this.entityManager.clear();
-			System.out.println("Reliquidaciones temporales eliminadas...");
+			entityManager.clear();
 		}
 		// System.out.println(locListaReliquidaciones.size() +
 		// " devolucion de deudas reliquidadas ///**"+ locListaReliquidaciones.get(0).toString());
-		entityManager.clear();
 		return locListaReliquidaciones;
 	}
 
@@ -624,66 +630,73 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 	public List<Reliquidacion> reliquidarObligacion(LiquidacionTasa pLiquidacionTasa, java.util.Date pFechaReLiquidacion, java.util.Date pFechaNuevoVencimiento,
 			boolean pAplicarIntereses) throws Exception {
 		List<Reliquidacion> locListaReliquidaciones = new ArrayList<Reliquidacion>();
+		List<LiquidacionTasa> listaAReliquidar = new ArrayList<LiquidacionTasa>();
 
-		// this.isListaParametrosCargada = false;
-		// Si es TGI Recupero las liquidaciones Anual, Bimestral y las 3 de Tercios.
-		this.listaLiquidacionesTasaAnteriores = this.getListaRegistrosDeudaAsociados(pLiquidacionTasa, null);
-
-		for(Object cadaObject : this.listaLiquidacionesTasaAnteriores) {
-			pLiquidacionTasa = (LiquidacionTasa) cadaObject;
-			pLiquidacionTasa.toString();
-			this.validarPreCondicionesReliquidacion(pLiquidacionTasa, pFechaNuevoVencimiento);
-			if(pFechaNuevoVencimiento != null) {
-				this.fechaNuevoVencimiento = pFechaNuevoVencimiento;
-			}
-
-			else {
-				this.fechaNuevoVencimiento = pLiquidacionTasa.getFechaVencimiento();
-			}
-			// this.fechaReLiquidacion = pLiquidacionTasa.getPeriodo().getFechaInicio().getTime();
-			// if(pFechaReLiquidacion != null){
-			this.fechaReLiquidacion = pFechaReLiquidacion;
-			// }
-
-			List<ParametroValuado> locListadoParametrosValuados = this.getListaParametrosValuados(pLiquidacionTasa, null, null);
-			// TODO Aqui se toman las alicuotas liquidadas directamente, pero deberia darse al usuario la opcion de que tomen nuevos valores.
-			List<AlicuotaLiquidada> locListaAlicuotasLiquidadas = new ArrayList<AlicuotaLiquidada>(pLiquidacionTasa.getListaAlicuotasLiquidadas());
-			Reliquidacion locReliquidacion = this.reliquidarObligacion(pLiquidacionTasa, locListadoParametrosValuados, locListaAlicuotasLiquidadas, pAplicarIntereses);// ,
-																																										// pDigestoMunicipal);
-
-			LiquidacionTasa locLiquidacionTasa = locReliquidacion.getLiquidacionTasa();
-			locLiquidacionTasa.setTipoTasa(locReliquidacion.getLiquidacionTasa().getTipoTasa());
-
-			for(Vencimiento locNuevoVencimiento : this.crearNuevosVencimientos(pLiquidacionTasa, this.fechaNuevoVencimiento)) {
-				locNuevoVencimiento.setValor(0D);
-				locLiquidacionTasa.getListaVencimientos().add(locNuevoVencimiento);
-
-				if(locNuevoVencimiento.getIdVencimiento() != -1) {
+		if (pLiquidacionTasa instanceof LiquidacionTasaAgrupada) {
+			LiquidacionTasaAgrupada lta = (LiquidacionTasaAgrupada) pLiquidacionTasa;
+			listaAReliquidar.addAll(lta.getListaLiquidacionesTasa());
+		} else {
+			listaAReliquidar.add(pLiquidacionTasa);
+		}
+		for (LiquidacionTasa cadaLiquidacionTasa : listaAReliquidar) {
+			this.listaLiquidacionesTasaAnteriores = this.getListaRegistrosDeudaAsociados(cadaLiquidacionTasa, null);
+	
+			for(Object cadaObject : this.listaLiquidacionesTasaAnteriores) {
+				cadaLiquidacionTasa = (LiquidacionTasa) cadaObject;
+				cadaLiquidacionTasa.toString();
+				this.validarPreCondicionesReliquidacion(cadaLiquidacionTasa, pFechaNuevoVencimiento);
+				if(pFechaNuevoVencimiento != null) {
+					this.fechaNuevoVencimiento = pFechaNuevoVencimiento;
+				}
+	
+				else {
+					this.fechaNuevoVencimiento = cadaLiquidacionTasa.getFechaVencimiento();
+				}
+				// this.fechaReLiquidacion = cadaLiquidacionTasa.getPeriodo().getFechaInicio().getTime();
+				// if(pFechaReLiquidacion != null){
+				this.fechaReLiquidacion = pFechaReLiquidacion;
+				// }
+	
+				List<ParametroValuado> locListadoParametrosValuados = this.getListaParametrosValuados(cadaLiquidacionTasa, null, null);
+				// TODO Aqui se toman las alicuotas liquidadas directamente, pero deberia darse al usuario la opcion de que tomen nuevos valores.
+				List<AlicuotaLiquidada> locListaAlicuotasLiquidadas = new ArrayList<AlicuotaLiquidada>(cadaLiquidacionTasa.getListaAlicuotasLiquidadas());
+				Reliquidacion locReliquidacion = this.reliquidarObligacion(cadaLiquidacionTasa, locListadoParametrosValuados, locListaAlicuotasLiquidadas, pAplicarIntereses);// ,
+																																											// pDigestoMunicipal);
+	
+				LiquidacionTasa locLiquidacionTasa = locReliquidacion.getLiquidacionTasa();
+				locLiquidacionTasa.setTipoTasa(locReliquidacion.getLiquidacionTasa().getTipoTasa());
+	
+				for(Vencimiento locNuevoVencimiento : this.crearNuevosVencimientos(cadaLiquidacionTasa, this.fechaNuevoVencimiento)) {
+					locNuevoVencimiento.setValor(0D);
+					locLiquidacionTasa.getListaVencimientos().add(locNuevoVencimiento);
+	
+					if(locNuevoVencimiento.getIdVencimiento() != -1) {
+						this.entityManager.merge(locNuevoVencimiento);
+					}
 					this.entityManager.merge(locNuevoVencimiento);
 				}
-				this.entityManager.merge(locNuevoVencimiento);
+	
+				for(ParametroValuado cadaParametroValuado : locLiquidacionTasa.getListaParametrosValuados()) {
+					if(cadaParametroValuado.getIdParametroValuado() != -1) {
+						this.entityManager.merge(cadaParametroValuado);
+					} else
+						this.entityManager.merge(cadaParametroValuado);
+				}
+	
+				for(ModificadorLiquidacion cadaModificadorLiquidacion : locLiquidacionTasa.getListaModificadoresLiquidacion()) {
+					if(cadaModificadorLiquidacion.getIdModificadorLiquidacion() != -1) {
+						this.entityManager.merge(cadaModificadorLiquidacion);
+					} else
+						this.entityManager.merge(cadaModificadorLiquidacion);
+				}
+	
+				// una vez que reliquido cancelo la liquidación tasa
+				this.entityManager.refresh(locReliquidacion);
+				cadaLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
+				this.entityManager.merge(cadaLiquidacionTasa);
+	
+				locListaReliquidaciones.add(locReliquidacion);
 			}
-
-			for(ParametroValuado cadaParametroValuado : locLiquidacionTasa.getListaParametrosValuados()) {
-				if(cadaParametroValuado.getIdParametroValuado() != -1) {
-					this.entityManager.merge(cadaParametroValuado);
-				} else
-					this.entityManager.merge(cadaParametroValuado);
-			}
-
-			for(ModificadorLiquidacion cadaModificadorLiquidacion : locLiquidacionTasa.getListaModificadoresLiquidacion()) {
-				if(cadaModificadorLiquidacion.getIdModificadorLiquidacion() != -1) {
-					this.entityManager.merge(cadaModificadorLiquidacion);
-				} else
-					this.entityManager.merge(cadaModificadorLiquidacion);
-			}
-
-			// una vez que reliquido cancelo la liquidación tasa
-			this.entityManager.refresh(locReliquidacion);
-			pLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
-			this.entityManager.merge(pLiquidacionTasa);
-
-			locListaReliquidaciones.add(locReliquidacion);
 		}
 
 		return locListaReliquidaciones;
@@ -954,7 +967,6 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 	 * @return
 	 * @throws Exception
 	 */
-	// TODO Auxiliar
 	private List<ParametroValuado> getListaParametrosValuados(LiquidacionTasa pLiquidacionTasa, List<String> pListaParametrosValuadosNuevos, Map<String, Object> pMapaValoresFijos)
 			throws Exception {
 		this.jep = MotorFormulas.initializeJEP();
@@ -1064,29 +1076,25 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 
 	private void prepararParametros(LiquidacionTasa pLiquidacionTasa) throws Exception {
 		if(!this.isListaParametrosCargada) {
-			this.prepararListaParametrosValuados();
-
-			this.prepararListaVencimientos();
-
-			this.prepararListaModificadoresLiquidacion();
 
 			this.prepararListaAlicuotasLiquidadas();
 
 			System.out.println("entra a llamar al procedimiento actualizacion");
-			if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoTGI) {
-				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), pLiquidacionTasa.getDocGeneradorDeuda().getObligacion()
-						.getDocumentoEspecializado().getParcela());
-			} else if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoOSP) {
-				System.out.println("entra a llamar al procedimiento actualizacion OSP");
-				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), pLiquidacionTasa.getDocGeneradorDeuda().getObligacion()
-						.getDocumentoEspecializado().getParcela());
-			} else if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoSHPS) {
-				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), null);
-			} else if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoPlanObra) {
-				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), pLiquidacionTasa.getDocGeneradorDeuda().getObligacion()
-						.getDocumentoEspecializado().getParcela());
-			}
-
+			this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), 
+					pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado().getParcela(), this.listaAReliquidar);
+//			if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoTGI) {
+//				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), pLiquidacionTasa.getDocGeneradorDeuda().getObligacion()
+//						.getDocumentoEspecializado().getParcela());
+//			} else if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoOSP) {
+//				System.out.println("entra a llamar al procedimiento actualizacion OSP");
+//				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), pLiquidacionTasa.getDocGeneradorDeuda().getObligacion()
+//						.getDocumentoEspecializado().getParcela());
+//			} else if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoSHPS) {
+//				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), null);
+//			} else if(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoPlanObra) {
+//				this.businessLiquidacionTasaLocal.ejecutarProcedimientoActualizacionDeuda(pLiquidacionTasa.getPersona(), pLiquidacionTasa.getDocGeneradorDeuda().getObligacion()
+//						.getDocumentoEspecializado().getParcela());
+//			}
 			System.out.println("termina procedimiento actualizacion");
 			this.isListaParametrosCargada = true;
 		}

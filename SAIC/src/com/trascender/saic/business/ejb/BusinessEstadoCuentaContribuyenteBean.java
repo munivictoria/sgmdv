@@ -25,6 +25,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import org.hibernate.mapping.Array;
 
 import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Orden;
@@ -700,7 +701,13 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			NomenclaturaCatastral locNomenclatura = new NomenclaturaCatastral();
 			locNomenclatura.setNroParcela(pFiltro.getNumeroParcela());
 			locFiltro.setNomenClaturaCatastral(locNomenclatura);
-			for(Parcela cadaParcela : businessParcela.findListaParcelas(locFiltro).getListaResultados()) {
+			locFiltro = businessParcela.findListaParcelas(locFiltro);
+			//Si no hay parcelas no se sigue con la busqueda.
+			if (locFiltro.getListaResultados().isEmpty()) {
+				pFiltro.setListaResultados(new ArrayList<LiquidacionTasaRefer>());
+				return pFiltro;
+			}
+			for(Parcela cadaParcela : locFiltro.getListaResultados()) {
 				locMapaParcelas.put(cadaParcela.getIdParcela(), cadaParcela);
 			}
 		}

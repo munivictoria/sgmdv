@@ -4,6 +4,9 @@ package com.trascender.saic.business.ejb;
 import java.io.File;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.annotation.Resource;
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -28,6 +32,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 
 import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.TransactionTimeout;
@@ -201,6 +206,9 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	public List<EstadoCuentaTemporal> getListaEstadoCuentasTemporales() {
 		return listaEstadoCuentasTemporales;
 	}
+	
+	@Resource(mappedName = "java:/vipiansDS", shareable = true)
+	private DataSource datasource;
 
 	// Map utilizado para agregar o actualizar Exenciones de Registros de Deuda al finalizar un proceso de liquidación.
 	private LinkedHashMap<Integer, ExencionRegistroDeuda> listaExencionesRegistrosDeuda = new LinkedHashMap<Integer, ExencionRegistroDeuda>();
@@ -1182,28 +1190,61 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			}
 		});
 	}
+	
+	
+	public void ejecutarProcedimientoActualizacionDeuda(Persona pPersona, Parcela pParcela) throws Exception{
+		this.ejecutarProcedimientoActualizacionDeuda(pPersona, pParcela, null);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void ejecutarProcedimientoActualizacionDeuda(Persona pPersona, Parcela pParcela) throws Exception {
+	public void ejecutarProcedimientoActualizacionDeuda(Persona pPersona, Parcela pParcela, 
+			List<LiquidacionTasa> listaLiquidacionesExcluir) throws Exception {
+		Long[] listaIds = null;
+		if (listaLiquidacionesExcluir != null && !listaLiquidacionesExcluir.isEmpty()) {
+			listaIds = new Long[listaLiquidacionesExcluir.size()];
+			for (int i = 0 ; i < listaLiquidacionesExcluir.size() ; i++) {
+				listaIds[i] = listaLiquidacionesExcluir.get(i).getIdRegistroDeuda();
+			}
+		}
 		try {
-			Query query;
+			Connection con = datasource.getConnection();
+			CallableStatement cs = null;
 			if(pParcela != null) {
-				System.out.println("Entro a la parcela");
-				query = this.entityManager.createNativeQuery("SELECT * FROM P_ESTADO_CUENTA_PARCELA(:param1)").setParameter("param1", pParcela.getIdParcela());
+				cs = con.prepareCall("SELECT * FROM P_ESTADO_CUENTA_PARCELA(?"+(listaIds != null ? ",?" : "") + ")");
+				cs.setLong(1, pParcela.getIdParcela());
+				if (listaIds != null) {
+					cs.setArray(2, con.createArrayOf("numeric", listaIds));
+				}
 			} else if(pPersona != null) {
 				System.out.println("Entro a la persona");
-				query = this.entityManager.createNativeQuery("SELECT * FROM P_ESTADO_CUENTA_PERSONA(:param1)").setParameter("param1", pPersona.getIdPersona());
+				cs = con.prepareCall("SELECT * FROM P_ESTADO_CUENTA_PERSONA(?"+(listaIds != null ? ",?" : "") + ")");
+				cs.setLong(1, pPersona.getIdPersona());
+				if (listaIds != null) {
+					cs.setArray(2, con.createArrayOf("numeric", listaIds));
+				}
 			} else {
 				System.out.println("Entro al else");
-				query = this.entityManager.createNativeQuery("SELECT * FROM P_ESTADO_CUENTA()");
+				cs = con.prepareCall("SELECT * FROM P_ESTADO_CUENTA()");
 			}
 			System.out.println("Ejecutando procedure...");
-			List<Object[]> lista = query.getResultList();
+			
+			ResultSet rs = cs.executeQuery();
+			List<Object[]> lista = new ArrayList<Object[]>();
+			while (rs.next()) {
+				Object[] cadaLinea = new Object[4];
+				cadaLinea[0] = rs.getLong(1);
+				cadaLinea[1] = rs.getLong(2);
+				cadaLinea[2] = rs.getString(3);
+				cadaLinea[3] = rs.getLong(4);
+				lista.add(cadaLinea);
+			}
 
 			System.out.println("Armando lista de estado cuenta temporal...");
 			this.listaEstadoCuentasTemporales = armarListaEstadoCuentaTemporal(lista);
 			System.out.println("Fin ejecución procedimiento actualización estado de cuentas. Preparando listado...");
+			rs.close();
+			con.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -1349,15 +1390,15 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	// }
 
 	private List<EstadoCuentaTemporal> armarListaEstadoCuentaTemporal(List<Object[]> pLista) {
-		List<EstadoCuentaTemporal> locListaEstadoCuentaTemporal = new ArrayList<EstadoCuentaTemporal>();
+		List<EstadoCuentaTemporal> locListaEstadoCuentaTemporal = new ArrayList<EstadoCuentaTemporal>(pLista.size());
 		for(Object[] cadaLinea : pLista) {
 			EstadoCuentaTemporal cadaEstado = new EstadoCuentaTemporal();
-			cadaEstado.setIdPersona(((BigDecimal) cadaLinea[0]).longValue());
+			cadaEstado.setIdPersona((Long) cadaLinea[0]);
 			Object bdParcela = cadaLinea[1];
 			if(bdParcela != null)
-				cadaEstado.setIdParcela(((BigDecimal) bdParcela).longValue());
+				cadaEstado.setIdParcela((Long) bdParcela);
 			cadaEstado.setTipoObligacion((String) cadaLinea[2]);
-			cadaEstado.setIdRegistroDeuda(((BigDecimal) cadaLinea[3]).longValue());
+			cadaEstado.setIdRegistroDeuda((Long) cadaLinea[3]);
 			locListaEstadoCuentaTemporal.add(cadaEstado);
 		}
 		return locListaEstadoCuentaTemporal;
@@ -4718,6 +4759,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			for(LiquidacionTasaAgrupada cadaLiqTasaAgrupada : listaLiquidacionTasa) {
 				for(LiquidacionTasa cadaLiq : cadaLiqTasaAgrupada.getListaLiquidacionesTasa()) {
 					cadaLiq.setRegistroCancelacion(locRegistro);
+					cadaLiq.setEstadoAnterior(cadaLiq.getEstado());
 					cadaLiq.setEstado(RegistroDeuda.EstadoRegistroDeuda.PAGADA);
 					entityManager.merge(cadaLiq);
 					this.generarLogLiquidacion(cadaLiq, pUsuario, LogLiquidacion.Evento.MARCO_PAGA, comentario);
@@ -4726,6 +4768,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		} else {
 			for(LiquidacionTasa cadaLiquidacion : pListaLiquidacion) {
 				cadaLiquidacion.setRegistroCancelacion(locRegistro);
+				cadaLiquidacion.setEstadoAnterior(cadaLiquidacion.getEstado());
 				cadaLiquidacion.setEstado(RegistroDeuda.EstadoRegistroDeuda.PAGADA);
 				entityManager.merge(cadaLiquidacion);
 				this.generarLogLiquidacion(cadaLiquidacion, pUsuario, LogLiquidacion.Evento.MARCO_PAGA, comentario);
