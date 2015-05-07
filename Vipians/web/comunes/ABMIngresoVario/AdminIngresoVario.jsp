@@ -22,6 +22,10 @@
 						$("#form1\\:tfPersonaSeleccionada").focus();
 					}
 
+					function focusearTfConcepto() {
+						$("#form1\\:tfConceptoIngresoVario").focus();
+					}
+
 					$(document).ready(function() {
 						cargarComportamientoJQuery();
 					});

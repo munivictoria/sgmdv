@@ -158,16 +158,6 @@ public class AdminIngresoVario extends AdminPageBean {
 		this.staticText2 = st;
 	}
 
-	private TextField tfConceptoIngresoVario = new TextField();
-
-	public TextField getTfConceptoIngresoVario() {
-		return tfConceptoIngresoVario;
-	}
-
-	public void setTfConceptoIngresoVario(TextField tf) {
-		this.tfConceptoIngresoVario = tf;
-	}
-
 	private HtmlAjaxCommandButton btnLimpiarConceptoIngresoVario = new HtmlAjaxCommandButton();
 
 	public HtmlAjaxCommandButton getBtnLimpiarConceptoIngresoVario() {
@@ -278,7 +268,7 @@ public class AdminIngresoVario extends AdminPageBean {
 		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(IngresoVario.Estado.CREADO)));
 		this.getDdEstadoDefaultOptions().setSelectedValue(Util.getEnumNameFromString(String.valueOf(IngresoVario.Estado.CREADO)));
 		this.getTfPersonaSeleccionada().setText(null);
-		this.getTfConceptoIngresoVario().setText(null);
+		this.getTfConcepto().setText(null);
 		
 		this.setTextFieldValueDate(this.tfFechaDesde, new Date());
 		this.setTextFieldValueDate(this.tfFechaHasta, new Date());
@@ -312,8 +302,7 @@ public class AdminIngresoVario extends AdminPageBean {
 			// CAMBIAR: Especificar objet
 			FiltroIngresoVario locFiltro = this.getFiltro();
 			locFiltro.setConceptoIngresoVario(null);
-			this.getTfConceptoIngresoVario().setText("");
-			this.guardarEstadoObjetosUsados();
+			this.getTfConcepto().setText("");
 		} else {
 			retorno = this.prepararCaducidad();
 		}
