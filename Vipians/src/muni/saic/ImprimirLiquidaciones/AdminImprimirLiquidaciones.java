@@ -128,7 +128,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 		RegistroDeuda.EstadoRegistroDeuda[] estados = new RegistroDeuda.EstadoRegistroDeuda[] {RegistroDeuda.EstadoRegistroDeuda.PAGADA, RegistroDeuda.EstadoRegistroDeuda.VENCIDA,
 				RegistroDeuda.EstadoRegistroDeuda.VIGENTE, RegistroDeuda.EstadoRegistroDeuda.ANULADA, RegistroDeuda.EstadoRegistroDeuda.RELIQUIDADA,
 				RegistroDeuda.EstadoRegistroDeuda.REFINANCIADA, RegistroDeuda.EstadoRegistroDeuda.NO_OPTADA, 
-				RegistroDeuda.EstadoRegistroDeuda.PRESCRITA};
+				RegistroDeuda.EstadoRegistroDeuda.PRESCRIPTA};
 		opEstado = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(estados, "cap");
 
 		Option[] opTipo = null;

@@ -1523,13 +1523,11 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			throw new TrascenderContabilidadException(102);
 		}
 		
-		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA || locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA_ANUAL
-				|| locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA_BIMESTRAL
-				|| locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA_EN_TERCIOS) {
+		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.PAGADA) {
 			throw new TrascenderContabilidadException(106, locRegistroDeuda.getEstado(), null);
 		}
 
-		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.REFINANCIADA || locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.REFINANCIADA_BIMESTRAL) {
+		if(locRegistroDeuda.getEstado() == RegistroDeuda.EstadoRegistroDeuda.REFINANCIADA) {
 			throw new TrascenderContabilidadException(104);
 		}
 

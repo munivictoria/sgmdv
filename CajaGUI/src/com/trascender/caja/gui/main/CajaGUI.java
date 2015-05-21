@@ -1,5 +1,6 @@
 package com.trascender.caja.gui.main;
 
+import java.awt.Font;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -12,12 +13,12 @@ import javax.swing.UIManager;
 
 import com.trascender.caja.gui.principal.MainCaja;
 import com.trascender.contabilidad.recurso.persistent.Caja;
+import com.trascender.contabilidad.recurso.persistent.Caja.Estado;
 import com.trascender.contabilidad.recurso.persistent.CajaChica;
 import com.trascender.contabilidad.recurso.persistent.ConceptoMovimientoCajaChica;
 import com.trascender.contabilidad.recurso.persistent.Moneda;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaChica;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
-import com.trascender.contabilidad.recurso.persistent.Caja.Estado;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Constantes;
@@ -61,9 +62,22 @@ public class CajaGUI extends AppManager {
 
 	}
 
+	private static void setearFuentesGenerales() {
+		Font fuente = new Font("Verdana",Font.BOLD,14);
+		UIManager.put("Table.font", fuente);
+		UIManager.put("Button.font", fuente);
+		UIManager.put("TextField.font", fuente);
+		UIManager.put("TextArea.font", fuente);
+		UIManager.put("Label.font", fuente);
+		UIManager.put("ComboBox.font", fuente);
+		UIManager.put("MenuItem.font", fuente);
+		UIManager.put("TableHeader.font", fuente);
+		UIManager.put("Menu.font", fuente);
+	}
 
 	public static void main (String[] args) {
-		try {				
+		try {			
+			setearFuentesGenerales();
 			MainCaja main = CajaGUI.getInstance().getMainController();
 
 //			boolean habilitar = false;

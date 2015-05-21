@@ -43,7 +43,7 @@ public class LoginView extends JDialog {
 	}
 	
 	private void initialize() {
-		setSize(new Dimension(393, 200));
+		setSize(new Dimension(480, 200));
 		this.setResizable(false);
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -54,19 +54,17 @@ public class LoginView extends JDialog {
 		
 		this.tfUsuario = new JTextField();
 		tfUsuario.setColumns(12);
-		tfUsuario.setBounds(249, 42, 128, 23);
-//		tfUsuario.setText("root");
+		tfUsuario.setBounds(300, 42, 128, 23);
 		getContentPane().add(tfUsuario);
 		
 		pfClave = new JPasswordField();
 		pfClave.setColumns(12);
-		pfClave.setBounds(249, 85, 128, 23);
-//		pfClave.setText("Emilia15");
+		pfClave.setBounds(300, 85, 128, 23);
 		getContentPane().add(pfClave);
 		
 		this.btnIngresar = new JButton();
 		btnIngresar.setText("Ingresar");
-		btnIngresar.setBounds(164, 134, 100, 23);
+		btnIngresar.setBounds(180, 134, 100, 23);
 		getContentPane().add(btnIngresar);
 
 		lblImagen = new JLabel();
@@ -79,21 +77,21 @@ public class LoginView extends JDialog {
 		
 		btnCancelar = new JButton();
 		btnCancelar.setText("Cancelar");
-		btnCancelar.setBounds(277, 134, 100, 23);
+		btnCancelar.setBounds(290, 134, 100, 23);
 		getContentPane().add(btnCancelar);
 		
 		lblUsuario = new JLabel();
 		lblUsuario.setLabelFor(tfUsuario);
-		lblUsuario.setFont(new Font("Verdana", Font.PLAIN, 10));
+//		lblUsuario.setFont(new Font("Verdana", Font.PLAIN, 10));
 		lblUsuario.setText("Usuario:");
-		lblUsuario.setBounds(188, 46, 55, 15);
+		lblUsuario.setBounds(188, 46, 100, 15);
 		getContentPane().add(lblUsuario);
 		
 		lblClave = new JLabel();
 		lblClave.setLabelFor(pfClave);
-		lblClave.setFont(new Font("Verdana", Font.PLAIN, 10));
+//		lblClave.setFont(new Font("Verdana", Font.PLAIN, 10));
 		lblClave.setText("Contraseña:");
-		lblClave.setBounds(168, 89, 75, 15);
+		lblClave.setBounds(168, 89, 100, 15);
 		getContentPane().add(lblClave);
 		
 		//getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] {tfUsuario, pfClave, btnIngresar, btnCancelar}));

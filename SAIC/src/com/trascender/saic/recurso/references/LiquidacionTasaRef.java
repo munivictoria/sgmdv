@@ -102,16 +102,12 @@ public class LiquidacionTasaRef {
 		}
 		
 		if(this.estado.equals(EstadoRegistroDeuda.PAGADA)
-				|| this.estado.equals(EstadoRegistroDeuda.PAGADA_ANUAL)
-				|| this.estado.equals(EstadoRegistroDeuda.PAGADA_BIMESTRAL)
-				|| this.estado.equals(EstadoRegistroDeuda.PAGADA_EN_TERCIOS)
 				|| this.estado.equals(EstadoRegistroDeuda.CANCELADA)){
 		
 		this.estadoChar = 'A';
 		}
 		else
 			if(this.estado.equals(EstadoRegistroDeuda.REFINANCIADA)
-					|| this.estado.equals(EstadoRegistroDeuda.REFINANCIADA_BIMESTRAL)
 					|| this.estado.equals(EstadoRegistroDeuda.RELIQUIDADA)){
 				this.estadoChar = 'R';
 			}

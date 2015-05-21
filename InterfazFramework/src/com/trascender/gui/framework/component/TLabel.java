@@ -11,7 +11,7 @@ public class TLabel extends JLabel {
 
 	private static final long serialVersionUID = 1435950300412317020L;
 
-	private static final Font font = new Font("Verdana", 0, 12);
+	private static final Font font = new Font("Verdana", Font.BOLD, 14);
 
 	public static final String AGREGADO = " : ";
 

@@ -158,7 +158,7 @@ if (v_cantidad > 0) then begin
 	returning id_registro_cancelacion into v_id_registro_cancelacion;
 	insert into registro_cancelacion_manual values (v_id_registro_cancelacion, 1, 'Cancelacion por deuda prescripta');
 
-	update registro_deuda rd set estado = 'PRESCRITA', id_registro_cancelacion = v_id_registro_cancelacion
+	update registro_deuda rd set estado = 'PRESCRIPTA', id_registro_cancelacion = v_id_registro_cancelacion
 	from temp_table_prescripciones tempo where rd.id_registro_deuda = tempo.id_registro_deuda;
 
 	return 'Finalizado, '||v_cantidad||' liquidaciones actualizadas.';
