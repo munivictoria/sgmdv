@@ -3144,7 +3144,7 @@ public class ABMParcela extends ABMPageBean {
 		// Compatibilidad Numerica
 		parcela.setNroPartidaProvincial(this.getTextFieldValue(getTfNroPartida()));
 		parcela.setNroRegistro(this.getTextFieldValue(getTfNroRegistro()));
-		parcela.setNroMatricula(this.getTextFieldValue(getTfNroMatricula()));
+//		parcela.setNroMatricula(this.getTextFieldValue(getTfNroMatricula()));
 		parcela.setNroCuenta(this.getTextFieldValueInteger(getTfNroCuenta()));
 		//
 
@@ -3344,6 +3344,7 @@ public class ABMParcela extends ABMPageBean {
 		if(tituloPropiedad != null) {
 			if(tituloPropiedad.getTitulo() != null) {
 				this.getTfTitulo().setText(tituloPropiedad.getTitulo());
+				this.getTfNroMatricula().setText(tituloPropiedad.getTitulo());
 			}
 			if(tituloPropiedad.getFechaInscripcion() != null) {
 				this.getTfFechaInscripcion().setText(Conversor.getStringDeFechaCorta(tituloPropiedad.getFechaInscripcion()));
@@ -3460,9 +3461,11 @@ public class ABMParcela extends ABMPageBean {
 		if(parcela.getNroRegistro() != null) {
 			this.getTfNroRegistro().setText(parcela.getNroRegistro().toString());
 		}
-		if(parcela.getNroMatricula() != null) {
-			this.getTfNroMatricula().setText(parcela.getNroMatricula().toString());
-		}
+//		if(parcela.getNroMatricula() != null) {
+//			this.getTfNroMatricula().setText(parcela.getNroMatricula().toString());
+//		} 
+		// este text field ahora muestyra el valor de titulo en titulo propiedad
+		
 		if(parcela.getNroCuenta() != null) {
 			this.getTfNroCuenta().setText(parcela.getNroCuenta().toString());
 		}

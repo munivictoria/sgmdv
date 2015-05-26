@@ -92,7 +92,7 @@
 																	</td>
 																	<td>
 																		<ui:textField binding="#{catastro$ABMParcela$ABMParcela.tfNroMatricula}" maxLength="10" id="tfNroMatricula"
-																			styleClass="textField" />
+																			styleClass="textFieldDisabled" disabled="true" />
 																	</td>
 																	<td>
 																		<ui:textField binding="#{catastro$ABMParcela$ABMParcela.tfNroCuenta}" maxLength="10" id="tfNroCuenta"
@@ -1081,7 +1081,7 @@
 														</tr>
 														<tr>
 															<td align="right" nowrap="nowrap">
-																<ui:label binding="#{catastro$ABMParcela$ABMParcela.label49}" for="tfTitulo" id="label49" styleClass="label" text="Título" />
+																<ui:label binding="#{catastro$ABMParcela$ABMParcela.label49}" for="tfTitulo" id="label49" styleClass="label" text="Nº de Matrícula" />
 															</td>
 															<td>
 																<ui:textField binding="#{catastro$ABMParcela$ABMParcela.tfTitulo}" columns="40" id="tfTitulo" styleClass="textField" />
@@ -1123,7 +1123,7 @@
 														</tr>
 														<tr>
 															<td align="right" nowrap="nowrap">
-																<ui:label binding="#{catastro$ABMParcela$ABMParcela.label54}" for="tfArea" id="label54" styleClass="label" text="Área" />
+																<ui:label binding="#{catastro$ABMParcela$ABMParcela.label54}" for="tfArea" id="label54" styleClass="label" text="Sup. afectada" />
 															</td>
 															<td>
 																<ui:textField binding="#{catastro$ABMParcela$ABMParcela.tfArea}" columns="20" id="tfArea" styleClass="textField" />
