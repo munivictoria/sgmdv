@@ -39,10 +39,11 @@ public class TituloPropiedadParcelario extends TituloPropiedad{
 	 */
 	public enum TipoTransaccionCatastral{
 		COMPRAVENTA,
-		SEGREGACION,
+		PROPIEDAD_HORIZONTAL,
 		CESION,
 		DONACION,
-		AGRUPACION,
+		DIVISION,
+		ADJUDICACIÓN,
 		LIQ_SOC_GANANCIALES,
 		VENTA_JUDICIAL,
 		PART_HEREDITARIA,
