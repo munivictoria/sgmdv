@@ -9,7 +9,7 @@
 				<ui:link binding="#{comunes$ABMIngresoVario$AdminIngresoVario.link1}" id="link1" url="/resources/stylesheet.css" />
 				<script>
 					<![CDATA[
-					var nombreBean = "comunes$ABMIngresoVario$AdminIngresoVario";
+					var nombreBean = "excepciones$ABMIngresoVario$AdminIngresoVario";
 
 					function cargarComportamientoJQuery() {
 						autoCompletarEnTextField("#form1:tfPersonaSeleccionada", "persona", nombreBean, "setPersonaAutocompletar");

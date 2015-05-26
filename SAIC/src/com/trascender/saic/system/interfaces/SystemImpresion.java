@@ -13,19 +13,17 @@ import net.sf.jasperreports.engine.JasperPrint;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.Usuario;
-import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
-import com.trascender.framework.recurso.transients.Calendario;
 import com.trascender.framework.util.Periodicidad;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionSHPS;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
-import com.trascender.habilitaciones.recurso.persistent.PeriodoLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionSHPS;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
+import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 
@@ -75,7 +73,7 @@ public interface SystemImpresion
 			boolean pIgualFormaPago,
 			TipoDeuda pTipoDeuda) throws Exception;
 
-	public JasperPrint getReporteListadoCuotasRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion) 
+	public JasperPrint getReporteListadoCuotasRefinanciacion(List<CuotaRefinanciacion> pListaCuotasRefinanciacion) 
 			throws Exception;
 
 	public JasperPrint getReporteReliquidacion(RegistroDeuda pRegistroDeuda,

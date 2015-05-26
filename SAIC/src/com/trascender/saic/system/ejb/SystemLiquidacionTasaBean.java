@@ -40,6 +40,7 @@ import com.trascender.saic.recurso.filtros.FiltroLiquidacionSHPS;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTGI;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaMenor;
 import com.trascender.saic.recurso.filtros.FiltroLogLiquidacion;
+import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.persistent.CobroExterno;
 import com.trascender.saic.recurso.persistent.CobroExterno.EntidadRecaudadora;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -637,10 +638,10 @@ public class SystemLiquidacionTasaBean implements SystemLiquidacionTasa {
 	 * @ejb.interface-method view-type = "remote"
 	 */
 	@Override
-	public List<DocumentoRefinanciacion> findListaRefinanciaciones(Persona pPersona, Integer pNumeroRefinanciacion) throws Exception {
+	public FiltroRefinanciacion findListaRefinanciaciones(FiltroRefinanciacion pFiltro) throws Exception {
 		try {
 			if(SecurityMgr.getInstance().getPermiso(this.llave, DocumentoRefinanciacion.serialVersionUID, Permiso.Accion.SELECT)) {
-				return this.businessRefinanciacionLocal.findListaRefinanciaciones(pPersona, pNumeroRefinanciacion);
+				return this.businessRefinanciacionLocal.findListaRefinanciaciones(pFiltro);
 			} else {
 				throw new SaicException(772);
 			}

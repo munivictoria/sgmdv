@@ -333,6 +333,8 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		Recurso locRefinanciacion = new Recurso();
 		locRefinanciacion.setIdRecurso(DocumentoRefinanciacion.serialVersionUID);
 		locRefinanciacion.setNombre("Refinanciación");
+		locRefinanciacion.setAtributosConsultables("Nº de Refinanciación", "numeroRefinanciacion", "Contribuyente", "stringPersona", Tipo.TEXTO_LARGO, "Mes/Año de Inicio", "stringMesAnioInicio",
+				"Total A Pagar", "totalAPagar", Tipo.MONTO, "Estado", "stringEstadoRefinanciacion");
 		locRefinanciacion.setClase(DocumentoRefinanciacion.class);
 		grupo.getListaRecursos().add(locRefinanciacion);
 

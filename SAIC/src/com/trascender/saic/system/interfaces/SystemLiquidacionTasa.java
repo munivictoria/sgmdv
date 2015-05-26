@@ -35,6 +35,7 @@ import com.trascender.saic.recurso.filtros.FiltroLiquidacionSHPS;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTGI;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaMenor;
 import com.trascender.saic.recurso.filtros.FiltroLogLiquidacion;
+import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.persistent.CobroExterno;
 import com.trascender.saic.recurso.persistent.CobroExterno.EntidadRecaudadora;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -148,7 +149,7 @@ public interface SystemLiquidacionTasa {
 
 	public Set calcularCuotasRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion) throws TrascenderException, RemoteException;
 
-	public List<DocumentoRefinanciacion> findListaRefinanciaciones(Persona pPersona, Integer pNumeroRefinanciacion) throws Exception, RemoteException;
+	public FiltroRefinanciacion findListaRefinanciaciones(FiltroRefinanciacion pFiltro) throws Exception, RemoteException;
 
 	public boolean comprobarObra(Obra pObra) throws Exception, RemoteException;
 

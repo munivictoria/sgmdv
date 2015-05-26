@@ -451,6 +451,7 @@ function calendarioEnTextField(idComponente) {
 		buttonImageOnly: true,
 		showAnim: "slideDown",
 		dateFormat: "dd/mm/yy",
+		yearRange:"-100:+5",
 		changeYear: true,
 		minDate: "-100y",
 		maxDate: "+10y",

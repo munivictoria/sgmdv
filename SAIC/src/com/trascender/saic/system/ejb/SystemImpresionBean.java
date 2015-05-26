@@ -34,6 +34,7 @@ import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
+import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 import com.trascender.saic.system.interfaces.SystemImpresion;
@@ -138,9 +139,8 @@ public class SystemImpresionBean implements SystemImpresion {
 		return this.businessImpresionLocal.getReporteTGI(pCuota, pPersona, pParcela, pPeriodicidad, pNumeroCuota, pEstadoRegistroDeuda, pIgualFormaPago, pTipoDeuda);
 	}
 
-	@Override
-	public JasperPrint getReporteListadoCuotasRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion) throws Exception{
-		return businessImpresionLocal.getReporteListadoCuotasRefinanciacion(pDocumentoRefinanciacion);
+	public JasperPrint getReporteListadoCuotasRefinanciacion(List<CuotaRefinanciacion> pListaCuotasRefinanciacion) throws Exception{
+		return businessImpresionLocal.getReporteListadoCuotasRefinanciacion(pListaCuotasRefinanciacion);
 	}
 
 	@Override

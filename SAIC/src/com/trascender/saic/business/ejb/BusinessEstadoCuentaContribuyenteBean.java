@@ -240,7 +240,7 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			if(cadaObject instanceof CuotaRefinanciacion) {
 				CuotaRefinanciacion locCuotaRefinanciacion = (CuotaRefinanciacion) cadaObject;
 				locCuotaRefinanciacion.toString();
-				locCuotaRefinanciacion.getValor();
+				locCuotaRefinanciacion.getValorCuota();
 				locCuotaRefinanciacion.getDocGeneradorDeuda().toString();
 				locCuotaRefinanciacion.getDocGeneradorDeuda().getObligacion().toString();
 				if(locCuotaRefinanciacion.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.VENCIDA)) {

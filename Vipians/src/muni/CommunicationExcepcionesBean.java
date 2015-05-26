@@ -174,13 +174,13 @@ public class CommunicationExcepcionesBean extends AbstractSessionBean {
     /**
      * Conserva el valor de la propiedad listaObligacionesRefinanciacion.
      */
-    private ArrayList listaObligacionesRefinanciacion;
+    private List listaObligacionesRefinanciacion;
 
     /**
      * Getter para propiedad listaObligacionesRefinanciacion.
      * @return Valor de la propiedad listaObligacionesRefinanciacion.
      */
-    public ArrayList getListaObligacionesRefinanciacion() {
+    public List getListaObligacionesRefinanciacion() {
 
         return this.listaObligacionesRefinanciacion;
     }
@@ -189,7 +189,7 @@ public class CommunicationExcepcionesBean extends AbstractSessionBean {
      * Setter para propiedad listaObligacionesRefinanciacion.
      * @param listaObligacionesRefinanciacion Nuevo valor de la propiedad listaObligacionesRefinanciacion.
      */
-    public void setListaObligacionesRefinanciacion(ArrayList listaObligacionesRefinanciacion) {
+    public void setListaObligacionesRefinanciacion(List listaObligacionesRefinanciacion) {
 
         this.listaObligacionesRefinanciacion = listaObligacionesRefinanciacion;
     }

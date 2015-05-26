@@ -1,72 +1,64 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.saic.reporte.dataSource;
 
-import java.net.URL;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
 import com.trascender.framework.util.TrascenderDataSource;
-import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
-import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
-public class CuotaRefinanciacionDS extends TrascenderDataSource{
-	
-	private DocumentoRefinanciacion documentoRefinanciacion;
-	private CuotaRefinanciacion cuotaRefinanciacion;
-	
-	private Map<String, Object> mapaParametros = new HashMap<String, Object>();
-	
-	public CuotaRefinanciacionDS(CuotaRefinanciacion pCuotaRefinanciacion, DocumentoRefinanciacion pDocumentoRefinanciacion){
-		this.documentoRefinanciacion = pDocumentoRefinanciacion;
-		this.cuotaRefinanciacion = pCuotaRefinanciacion;
-		this.armarParametros();
+public class CuotaRefinanciacionDS extends TrascenderDataSource {
+
+	private int lineaActual = -1;
+	private Map<String, Object> parametros;
+	private List<Map<String, Object>> filas = new ArrayList<Map<String, Object>>();
+
+	public CuotaRefinanciacionDS(List<CuotaRefinanciacion> pListaCuotasRefinanciacion, String pTitulo) {
+		DocumentoRefinanciacion pDocumento = (DocumentoRefinanciacion) pListaCuotasRefinanciacion.get(0).getDocGeneradorDeuda();
+		
+		parametros = new HashMap<String, Object>();
+		parametros.put("P_TITULO", pTitulo.toUpperCase());
+		parametros.put("P_DOCUMENTO_REFINANCIACION", pDocumento);
+
+		for(CuotaRefinanciacion cadaCuota : pListaCuotasRefinanciacion) {
+			Map<String, Object> locMapa = new HashMap<String, Object>();
+			
+			locMapa.put("F_CUOTA_REFINANCIACION", cadaCuota);
+//			locMapa.put("F_NUMERO_EN_TEXTO", NumberToText.numeroATexto(new BigDecimal(cadaCuota.getMonto())));
+			
+			filas.add(locMapa);
+		}
 	}
-	
-	private void armarParametros(){
-		this.mapaParametros.put("PAR_IMAGEN", this.getLogoMunicipalidad());
-		this.mapaParametros.put("PAR_TITULO", this.getTituloReporte());
-		this.mapaParametros.put("PAR_SUBTITULO", this.getSubtituloReporte());
-		this.mapaParametros.put("PAR_TASA", this.documentoRefinanciacion.getStringNombreRefinanciacion());
-		this.mapaParametros.put("PAR_APELLIDO_NOMBRE", " "+this.documentoRefinanciacion.getObligacion().getPersona().toString());
-		this.mapaParametros.put("PAR_INMUEBLES", this.documentoRefinanciacion.getStringInmuebles());
-		this.mapaParametros.put("PAR_COMERCIOS", this.documentoRefinanciacion.getStringComercios());
-		this.mapaParametros.put("PAR_NRO_REFINANCIACION", this.documentoRefinanciacion.getNumeroRefinanciacion());
-		this.mapaParametros.put("PAR_NRO_CUOTA", this.cuotaRefinanciacion.getNumeroCuota());
-		this.mapaParametros.put("PAR_MONTO_CUOTA", this.cuotaRefinanciacion.getValor());
-		this.mapaParametros.put("PAR_CANTIDAD_CUOTAS", this.documentoRefinanciacion.getCantidadCuotas());
-		this.mapaParametros.put("PAR_FECHA_VENCIMIENTO", this.cuotaRefinanciacion.getFechaVencimiento());
-		this.mapaParametros.put("PAR_CODIGO_BARRAS", "1"+com.trascender.framework.util.Util.formatString(18, String.valueOf(this.cuotaRefinanciacion.getIdRegistroDeuda())));
-	}
-	
-	@Override
-	public Object getFieldValue(JRField field) throws JRException {
-		return null;
+
+	public Object getFieldValue(JRField arg0) throws JRException {
+		return filas.get(lineaActual).get(arg0.getName());
 	}
 
 	@Override
 	public boolean next() throws JRException {
-		return false;
+		return ++lineaActual < filas.size();
 	}
 
 	@Override
 	public Map<String, Object> getMapaParametros() {
-		return mapaParametros;
+		return parametros;
 	}
 
 	@Override
 	public String getNombreReporte() {
 		return "Reporte_Cuotas_Refinanciacion.jasper";
 	}
-	
-	public CuotaRefinanciacion getCuotaRefinanciacion(){
-		return this.cuotaRefinanciacion;
-	}
-	
-	
 
 }

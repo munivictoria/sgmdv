@@ -293,7 +293,7 @@ public class AuditoriaTributaria implements Serializable{
 			if(cadaRegistro instanceof LiquidacionTasa){
 				locMonto += ((LiquidacionTasa)cadaRegistro).getValor();
 			}else if (cadaRegistro instanceof CuotaRefinanciacion){
-				locMonto += ((CuotaRefinanciacion)cadaRegistro).getValor();
+				locMonto += ((CuotaRefinanciacion)cadaRegistro).getValorCuota();
 			}
 		}
 		

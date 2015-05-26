@@ -12,6 +12,7 @@ import ar.trascender.criterio.clases.Restriccion;
 
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
+import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
@@ -36,7 +37,7 @@ public interface BusinessRefinanciacionLocal
    
    public DocumentoRefinanciacion getDocumentoRefinanciacion(long pIdDocGeneradorDeuda) throws Exception;
 		   
-   public List<DocumentoRefinanciacion> findListaRefinanciaciones(Persona pPersona, Integer pNumeroRefinanciacion) throws Exception;
+   public FiltroRefinanciacion findListaRefinanciaciones(FiltroRefinanciacion pFiltro) throws Exception;
    
    public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla);
 	

@@ -654,7 +654,7 @@ public class AdminRefinanciacion extends AdminPageBean {
 
 	@Override
 	public String getNombreBean() {
-		return "#{saic$ABMRefinanciacion$AdminRefinanciacion}";
+		return "#{excepciones$ABMRefinanciacion$AdminRefinanciacion}";
 	}
 
 	@Override
@@ -737,20 +737,20 @@ public class AdminRefinanciacion extends AdminPageBean {
 					}
 
 					if(!error) {
-						LibreDeuda locLibreDeuda = new LibreDeuda();
-
-						locLibreDeuda.setSolicitante(this.getTextFieldValue(this.getTfSolicitante()));
-						locLibreDeuda.setMotivo(this.getTextFieldValue(this.getTfMotivo()));
-						locLibreDeuda.setObservaciones(this.getTextFieldValue(this.getTfObservaciones()));
-
-						locLibreDeuda.setUsuario(this.getSessionBean1().getUsuario());
-						locLibreDeuda.setFechaGenerada(new Date());
-						locLibreDeuda.setFechaSolicitada(fecha);
-
-						this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
-						JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteReconocimientoDeuda(documentoRefinanciacion, locLibreDeuda);
-
-						this.subirReporteASesion("Reporte_ReconocimientoDeudas", ConstantesReportes.PDF, jp);
+//						LibreDeuda locLibreDeuda = new LibreDeuda();
+//
+//						locLibreDeuda.setSolicitante(this.getTextFieldValue(this.getTfSolicitante()));
+//						locLibreDeuda.setMotivo(this.getTextFieldValue(this.getTfMotivo()));
+//						locLibreDeuda.setObservaciones(this.getTextFieldValue(this.getTfObservaciones()));
+//
+//						locLibreDeuda.setUsuario(this.getSessionBean1().getUsuario());
+//						locLibreDeuda.setFechaGenerada(new Date());
+//						locLibreDeuda.setFechaSolicitada(fecha);
+//
+//						this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
+//						JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteReconocimientoDeuda(documentoRefinanciacion, locLibreDeuda);
+//
+//						this.subirReporteASesion("Reporte_ReconocimientoDeudas", ConstantesReportes.PDF, jp);
 					} else {
 						warn("No se puede imprimir el reporte porque posee cuotas IMPAGAS antes de la fecha.");
 						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
@@ -783,11 +783,11 @@ public class AdminRefinanciacion extends AdminPageBean {
 					locRefinanciacion = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().getDocumentoRefinanciacion(locRefinanciacion.getIdDocGeneradorDeuda());
 
 					this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
-					JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteConstanciaRefinanciacion(locRefinanciacion);
+//					JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteConstanciaRefinanciacion(locRefinanciacion);
 
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.PDF);
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_ConstanciaRefinanciacion");
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
+//					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.PDF);
+//					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_ConstanciaRefinanciacion");
+//					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
 				} else {
 					errorEnReporte = true;
 				}

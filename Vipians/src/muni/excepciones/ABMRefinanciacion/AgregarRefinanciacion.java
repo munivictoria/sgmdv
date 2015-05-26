@@ -1226,7 +1226,7 @@ public class AgregarRefinanciacion extends AbstractPageBean {
         return this.getLdpObligaciones();
     }
 
-    private ArrayList getListaDelCommunication() {
+    private List getListaDelCommunication() {
         // CAMBIAR: Utilizar la Lista del Comunication que corresponda
         return this.getCommunicationExcepcionesBean().getListaObligacionesRefinanciacion();
     }

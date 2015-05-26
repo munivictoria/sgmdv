@@ -851,38 +851,25 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 
 	@Override
 	public JasperPrint getReporteListadoCuotasRefinanciacion(
-			DocumentoRefinanciacion pDocumentoRefinanciacion) throws Exception {
+			List<CuotaRefinanciacion> pListaCuotasRefinanciacion) throws Exception {
 		try {
-			DocumentoRefinanciacion locDocumento = Criterio.getInstance(entityManager, DocumentoRefinanciacion.class)
-					.add(Restriccion.IGUAL("idDocGeneradorDeuda", pDocumentoRefinanciacion.getIdDocGeneradorDeuda()))
-					.uniqueResult();
+			CuotaRefinanciacionDS cuotasDS = new CuotaRefinanciacionDS(pListaCuotasRefinanciacion, this.getTituloReporte());
+			JasperPrint jp = this.getJasperPrint2(cuotasDS);
 
-			if (locDocumento != null) {
-				locDocumento.toString();
-				locDocumento.getRegCancelacionPorRefinanciacion()
-				.getDigestoMunicipal().toString();
-				locDocumento.getObligacion().getPersona().toString();
-				locDocumento.getListaRegistrosDeuda().toString();
-				List<CuotaRefinanciacionDS> locListaCuotasDS = new ArrayList<CuotaRefinanciacionDS>();
-				for (RegistroDeuda cadaRegistroDeuda : locDocumento
-						.getListaRegistrosDeuda()) {
-					CuotaRefinanciacion locCuotaRefinanciacion = (CuotaRefinanciacion) cadaRegistroDeuda;
-					this.entityManager.merge(locCuotaRefinanciacion);
-					CuotaRefinanciacionDS cadaDS = new CuotaRefinanciacionDS(
-							locCuotaRefinanciacion, locDocumento);
-					locListaCuotasDS.add(cadaDS);
-				}
-				this.ordenarListaCuotas(locListaCuotasDS);
-				CuotaRefinanciacionAgrupadaDS cuotasAgrupadasDS = new CuotaRefinanciacionAgrupadaDS(
-						locListaCuotasDS);
-				JasperPrint jp = this.getJasperPrint(cuotasAgrupadasDS);
-				return jp;
-			}
-			return null;
-		} catch (Exception e) {
+			return jp;
+		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+	
+	private JasperPrint getJasperPrint2(TrascenderDataSource pTrascenderDataSource) throws Exception {
+		File locFile = new File(SecurityMgr.getInstance().getMunicipalidad().getRutaReportes() + pTrascenderDataSource.getNombreReporte());
+		JasperReport reporte = (JasperReport) JRLoader.loadObject(locFile);
+		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, pTrascenderDataSource.getMapaParametros(), pTrascenderDataSource);
+		
+		return jasperPrint;
 	}
 
 	@Override
@@ -976,8 +963,8 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			} else if (locDocHabilitanteEspecializado instanceof DocumentoRef) {
 				DocumentoRefinanciacion locDocumento = (DocumentoRefinanciacion) pRegistroDeuda
 						.getDocGeneradorDeuda();
-				return this
-						.getReporteListadoCuotasRefinanciacion(locDocumento);
+//				return this
+//						.getReporteListadoCuotasRefinanciacion(locDocumento.getListaRegistrosDeuda());
 			}
 		}
 		return null;
@@ -1027,14 +1014,14 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 		return jasperPrint;
 	}
 
-	private void ordenarListaCuotas(List<CuotaRefinanciacionDS> pListaCuotasRefinanciacionDS){
-		Collections.sort(pListaCuotasRefinanciacionDS, new Comparator<CuotaRefinanciacionDS>() {
-			@Override
-			public int compare(CuotaRefinanciacionDS o1, CuotaRefinanciacionDS o2) {
-				return o1.getCuotaRefinanciacion().getNumeroCuota().compareTo(o2.getCuotaRefinanciacion().getNumeroCuota());
-			}
-		});
-	}
+//	private void ordenarListaCuotas(List<CuotaRefinanciacionDS> pListaCuotasRefinanciacionDS){
+//		Collections.sort(pListaCuotasRefinanciacionDS, new Comparator<CuotaRefinanciacionDS>() {
+//			@Override
+//			public int compare(CuotaRefinanciacionDS o1, CuotaRefinanciacionDS o2) {
+//				return o1.getCuotaRefinanciacion().getNumeroCuota().compareTo(o2.getCuotaRefinanciacion().getNumeroCuota());
+//			}
+//		});
+//	}
 
 	private byte[] getLogoMunicipalidad() {
 		return SecurityMgr.getInstance().getMunicipalidad().getLogo();

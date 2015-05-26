@@ -16,11 +16,9 @@ import javax.persistence.PersistenceContext;
 import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
-import ar.trascender.criterio.interfaces.Restringible;
 
 import com.trascender.framework.business.interfaces.BusinessCalendarioLocal;
 import com.trascender.framework.exception.TrascenderException;
-import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TrascenderEnverListener;
 import com.trascender.habilitaciones.business.interfaces.BusinessObligacionLocal;
@@ -34,6 +32,7 @@ import com.trascender.saic.business.interfaces.BusinessRefinanciacionLocal;
 import com.trascender.saic.business.interfaces.BusinessRegistroValuadoLocal;
 import com.trascender.saic.exception.SaicException;
 import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
+import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
@@ -334,64 +333,79 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 //		}
 	}
 	
-	/**
-	 * 
-	 * @ejb.interface-method view-type = "local"
-	 */
+	@Override
 	public DocumentoRefinanciacion getDocumentoRefinanciacion(long pIdDocGeneradorDeuda) throws Exception {
-		DocumentoRefinanciacion locDocumentoRetorno = (DocumentoRefinanciacion) Criterio.getInstance(this.entityManager, DocumentoRefinanciacion.class)	
-			.add(Restriccion.IGUAL("idDocGeneradorDeuda", pIdDocGeneradorDeuda))
-			.uniqueResult();
-		
-		if (locDocumentoRetorno != null){
+		DocumentoRefinanciacion locDocumentoRetorno = (DocumentoRefinanciacion) Criterio.getInstance(this.entityManager, DocumentoRefinanciacion.class)
+				.add(Restriccion.IGUAL("idDocGeneradorDeuda", pIdDocGeneradorDeuda))
+				.uniqueResult();
+
+		if(locDocumentoRetorno != null) {
 			locDocumentoRetorno.toString();
-			locDocumentoRetorno.getObligacion().getPersona().toString();
+			if(locDocumentoRetorno.getObligacion() != null) {
+//				locDocumentoRetorno.getObligacion().getListaLibresDeuda().size();
+				if(locDocumentoRetorno.getObligacion().getPersona() != null) {
+					locDocumentoRetorno.getObligacion().getPersona().toString();
+					locDocumentoRetorno.getObligacion().getPersona().getDomicilio().toString();
+					locDocumentoRetorno.getObligacion().getPersona().getDomicilio().getLocalidad().toString();
+				}
+			}
 			locDocumentoRetorno.getStringNombreRefinanciacion();
 			locDocumentoRetorno.getStringInmuebles();
 			locDocumentoRetorno.getStringComercios();
 			locDocumentoRetorno.getRegCancelacionPorRefinanciacion().getMultasTotal();
-			
-			for(RegistroDeuda cadaRegistro : locDocumentoRetorno.getListaRegistrosDeuda()){
+			if(locDocumentoRetorno.getRegCancelacionPorRefinanciacion().getDigestoMunicipal() != null) {
+				locDocumentoRetorno.getRegCancelacionPorRefinanciacion().getDigestoMunicipal().toString();
+			}
+
+			for(RegistroDeuda cadaRegistro : locDocumentoRetorno.getListaRegistrosDeuda()) {
 				cadaRegistro.toString();
 				cadaRegistro.getStringPeriodoLiquidado();
-				if (cadaRegistro instanceof LiquidacionTasa){
+//				cadaRegistro.getConceptoDeuda();
+				if(cadaRegistro instanceof LiquidacionTasa) {
 					businessLiquidacionTasa.getLiquidacionTasaCompleta((LiquidacionTasa) cadaRegistro);
 				}
 			}
-			
-			if(locDocumentoRetorno.getRegCancelacionPorRefinanciacion() != null){
-				for(RegistroDeuda cadaRegDeuda : locDocumentoRetorno.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()){
+
+			if(locDocumentoRetorno.getRegCancelacionPorRefinanciacion() != null) {
+				for(RegistroDeuda cadaRegDeuda : locDocumentoRetorno.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
 					cadaRegDeuda.getStringPeriodoLiquidado();
 					cadaRegDeuda.getStringObligacion();
+//					cadaRegDeuda.getConceptoDeuda();
 				}
 			}
+			
+//			if(locDocumentoRetorno.getListaLiquidacionesRefinanciadas() != null) {
+//				locDocumentoRetorno.getListaLiquidacionesRefinanciadas().size();
+//				for(RegistroDeuda cadaRegDeuda : locDocumentoRetorno.getListaLiquidacionesRefinanciadas()) {
+//					cadaRegDeuda.getStringPeriodoLiquidado();
+//					cadaRegDeuda.getStringObligacion();
+//				}
+//			}
+			
 		}
-			
-			
+
 		return locDocumentoRetorno;
 	}
 	
-	/**
-	 * 
-	 * @ejb.interface-method view-type = "local"
-	 */
-	@SuppressWarnings("unchecked")
-	public List<DocumentoRefinanciacion> findListaRefinanciaciones(Persona pPersona, 
-				Integer pNumeroRefinanciacion) throws Exception {
-		List<DocumentoRefinanciacion> locListaDocumentoRefinanciacion = new ArrayList<DocumentoRefinanciacion>();
-			Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoRefinanciacion.class)	
-				.add(Restriccion.IGUAL("obligacion.persona", pPersona))
-				.add(Restriccion.IGUAL("numeroRefinanciacion", pNumeroRefinanciacion));
-			
-			locListaDocumentoRefinanciacion = locCriterio.list();
-			
-			for (DocumentoRefinanciacion documentoRefinanciacion : locListaDocumentoRefinanciacion ) {
-				documentoRefinanciacion.getListaRegistrosDeuda().size();
-				documentoRefinanciacion.getObligacion().toString();
-				documentoRefinanciacion.getObligacion().getPersona().toString();
-			}
-			
-		return locListaDocumentoRefinanciacion;
+	@Override
+	public FiltroRefinanciacion findListaRefinanciaciones(FiltroRefinanciacion pFiltro) throws Exception {
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoRefinanciacion.class)
+				.add(Restriccion.IGUAL("numeroRefinanciacion", pFiltro.getNroRefinanciacion()))
+				.add(Restriccion.IGUAL("estadoRefinanciacion", pFiltro.getEstado()));
+
+		if(pFiltro.getPersona() != null) {
+			locCriterio.add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()));
+		}
+		
+		pFiltro.procesarYListar(locCriterio);
+				
+		for(DocumentoRefinanciacion documentoRefinanciacion : pFiltro.getListaResultados()) {
+			documentoRefinanciacion.getListaRegistrosDeuda().size();
+			documentoRefinanciacion.getObligacion().toString();
+			documentoRefinanciacion.getObligacion().getPersona().toString();
+		}
+
+		return pFiltro;
 	}
 	
 	/**

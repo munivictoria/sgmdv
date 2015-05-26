@@ -1254,7 +1254,8 @@ public class EnJuicioAuditoriaTributaria extends AbstractPageBean {
 
     private ArrayList getListaDelCommunication() {
         // CAMBIAR: Utilizar la Lista del Comunication que corresponda
-        return this.getCommunicationExcepcionesBean().getListaObligacionesRefinanciacion();
+//        return this.getCommunicationExcepcionesBean().getListaObligacionesRefinanciacion();
+    	return null;
     }
 
     private void setListaDelCommunication(ArrayList lista) {

@@ -34,6 +34,7 @@ import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.Periodo;
+import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.recurso.filtros.FiltroExencionObligacion;
 import com.trascender.habilitaciones.recurso.persistent.CalendarioMunicipal;
 import com.trascender.habilitaciones.recurso.persistent.CondicionAplicacionExencionNumeroCuota;
@@ -145,7 +146,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 			FiltroRefinanciacion locFiltroRefinanciacion = new FiltroRefinanciacion();
 			locFiltroRefinanciacion.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaRefinanciacion = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(DocumentoRefinanciacion.serialVersionUID),
-					"#{saic$ABMRefinanciacion$AdminRefinanciacion}", locFiltroRefinanciacion);
+					"#{excepciones$ABMRefinanciacion$AdminRefinanciacion}", locFiltroRefinanciacion);
 
 
 			FiltroExencionObligacion locFiltroExencion = new FiltroExencionObligacion();
@@ -2218,6 +2219,41 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	public void setListaParametrosAsociacionPlantilla(
 			List<ParametroAsociacion> listaParametrosAsociacionPlantilla) {
 		this.listaParametrosAsociacionPlantilla = listaParametrosAsociacionPlantilla;
+	}
+	
+	private Map<String, PlantillaPlanDePago> mapaPlantillasPlanDePago;
+
+	public Map<String, PlantillaPlanDePago> getMapaPlantillasPlanDePago() {
+		if(this.mapaPlantillasPlanDePago == null) {
+			try {
+				this.mapaPlantillasPlanDePago = new LinkedHashMap<String, PlantillaPlanDePago>();
+				this.getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
+				
+				FiltroPlantillaPlanDePago locFiltro = new FiltroPlantillaPlanDePago();
+				List<PlantillaPlanDePago> locListaPlantillas = this.getRemoteSystemEstadoCuentaContribuyente().findListaPlantillaPlanDePago(locFiltro).getListaResultados();
+				
+				Collections.sort(locListaPlantillas, new Comparator<PlantillaPlanDePago>() {
+
+					@Override
+					public int compare(PlantillaPlanDePago o1, PlantillaPlanDePago o2) {
+
+						// para comparar sin acentos
+						String plantilla1 = Util.reemplazarAcentos(o1.getNombre());
+						String plantilla2 = Util.reemplazarAcentos(o2.getNombre());
+
+						return plantilla1.compareToIgnoreCase(plantilla2);
+					}
+				});
+				
+				for(PlantillaPlanDePago cadaPlantilla : locListaPlantillas) {
+					mapaPlantillasPlanDePago.put(cadaPlantilla.getNombre(), cadaPlantilla);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return mapaPlantillasPlanDePago;
 	}
 
 }

@@ -2094,11 +2094,11 @@ public class ConsultarRefinanciacion extends AbstractPageBean {
                 documentoRefinanciacion = (DocumentoRefinanciacion) this.obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
 
                 this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
-                JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteListadoCuotasRefinanciacion(documentoRefinanciacion);
-
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.XLSX);
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_CuotasRefinanciacion");
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
+//                JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteListadoCuotasRefinanciacion(documentoRefinanciacion);
+//
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.XLSX);
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_CuotasRefinanciacion");
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
 
             } catch (Exception e) {
                 log(CASO_NAVEGACION + "_ReporteDinamicoError: ", e);

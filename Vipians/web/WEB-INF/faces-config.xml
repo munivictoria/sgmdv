@@ -756,8 +756,8 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>excepciones$ABMRefinanciacion$AgregarRefinanciacion</managed-bean-name>
-		<managed-bean-class>muni.excepciones.ABMRefinanciacion.AgregarRefinanciacion</managed-bean-class>
+		<managed-bean-name>excepciones$ABMRefinanciacion$GenerarRefinanciacion</managed-bean-name>
+		<managed-bean-class>muni.excepciones.ABMRefinanciacion.GenerarRefinanciacion</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
@@ -766,8 +766,8 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>excepciones$ABMRefinanciacion$ConsultarRefinanciacion</managed-bean-name>
-		<managed-bean-class>muni.excepciones.ABMRefinanciacion.ConsultarRefinanciacion</managed-bean-class>
+		<managed-bean-name>excepciones$ABMRefinanciacion$ABMRefinanciacion</managed-bean-name>
+		<managed-bean-class>muni.excepciones.ABMRefinanciacion.ABMRefinanciacion</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<!-- /Refinanciacion -->

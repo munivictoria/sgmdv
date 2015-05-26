@@ -1614,17 +1614,17 @@
 			<to-view-id>/excepciones/ABMRefinanciacion/AdminRefinanciacion.jsp</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>AgregarRefinanciacion</from-outcome>
-			<to-view-id>/excepciones/ABMRefinanciacion/AgregarRefinanciacion.jsp</to-view-id>
-		</navigation-case>
+		   <from-outcome>AgregarPlanPagoRefinanciacion</from-outcome>
+		   <to-view-id>/excepciones/ABMRefinanciacion/AgregarPlanPagoRefinanciacion.jsp</to-view-id>
+		  </navigation-case>
 		<navigation-case>
-			<from-outcome>AgregarPlanPagoRefinanciacion</from-outcome>
-			<to-view-id>/excepciones/ABMRefinanciacion/AgregarPlanPagoRefinanciacion.jsp</to-view-id>
-		</navigation-case>
+	   		<from-outcome>GenerarRefinanciacion</from-outcome>
+	   		<to-view-id>/excepciones/ABMRefinanciacion/GenerarRefinanciacion.jsp</to-view-id>
+  		</navigation-case>
 		<navigation-case>
-			<from-outcome>ConsultarRefinanciacion</from-outcome>
-			<to-view-id>/excepciones/ABMRefinanciacion/ConsultarRefinanciacion.jsp</to-view-id>
-		</navigation-case>
+   			<from-outcome>ABMRefinanciacion</from-outcome>
+   			<to-view-id>/excepciones/ABMRefinanciacion/ABMRefinanciacion.jsp</to-view-id>
+ 		</navigation-case>
 	</navigation-rule>
 	<!-- Compras - Bien -->
 	<navigation-rule>

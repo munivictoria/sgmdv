@@ -16,8 +16,9 @@ public class DocumentoRefinanciacionBusquedaModel extends TAbstractBusquedaModel
 	@Override
 	public List<DocumentoRefinanciacion> buscar() throws Exception {
 		SystemLiquidacionTasa locSystem = ContabilidadGUI.getInstance().getAdminSystemsLiquidacionTasa().getSystemLiquidacionTasa();
-		List<DocumentoRefinanciacion> locList = locSystem.findListaRefinanciaciones(this.getPersona(), this.getNumeroRefinanciacion());
-		return locList;
+//		List<DocumentoRefinanciacion> locList = locSystem.findListaRefinanciaciones(this.getPersona(), this.getNumeroRefinanciacion());
+//		return locList;
+		return null;
 	}
 
 	@Override

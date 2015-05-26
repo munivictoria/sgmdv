@@ -362,22 +362,22 @@ public class DocumentoRefinanciacion extends DocGeneradorDeuda {
 
 	public String getStringInmuebles() {
 		String locInmuebles = "";
-		for (RegistroDeuda cadaRegistroDeuda : this
-				.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
-			// Es un inmueble si no pertenece a un comercio y se agrega si
-			// todavía no está en el String.
-			if (!(cadaRegistroDeuda.getDocGeneradorDeuda().getObligacion()
-					.getDocumentoEspecializado() instanceof DocumentoSHPS)
-					&& !locInmuebles.contains(cadaRegistroDeuda
-							.getDocGeneradorDeuda().getObligacion()
-							.getDocumentoEspecializado().getDomicilio()
-							.toString())) {
-				locInmuebles += " "
-						+ cadaRegistroDeuda.getDocGeneradorDeuda()
-								.getObligacion().getDocumentoEspecializado()
-								.getDomicilio().toString() + "\n";
-			}
-		}
+//		for (RegistroDeuda cadaRegistroDeuda : this
+//				.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
+//			// Es un inmueble si no pertenece a un comercio y se agrega si
+//			// todavía no está en el String.
+//			if (!(cadaRegistroDeuda.getDocGeneradorDeuda().getObligacion()
+//					.getDocumentoEspecializado() instanceof DocumentoSHPS)
+//					&& !locInmuebles.contains(cadaRegistroDeuda
+//							.getDocGeneradorDeuda().getObligacion()
+//							.getDocumentoEspecializado().getDomicilio()
+//							.toString())) {
+//				locInmuebles += " "
+//						+ cadaRegistroDeuda.getDocGeneradorDeuda()
+//								.getObligacion().getDocumentoEspecializado()
+//								.getDomicilio().toString() + "\n";
+//			}
+//		}
 		return locInmuebles;
 	}
 
