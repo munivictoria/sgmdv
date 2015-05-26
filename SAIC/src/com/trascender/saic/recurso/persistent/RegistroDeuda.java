@@ -89,7 +89,7 @@ public class RegistroDeuda implements Serializable, Pagable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "ESTADO")
-	private EstadoRegistroDeuda estado = EstadoRegistroDeuda.VIGENTE;
+	protected EstadoRegistroDeuda estado = EstadoRegistroDeuda.VIGENTE;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "ESTADO_ANTERIOR", nullable = false)

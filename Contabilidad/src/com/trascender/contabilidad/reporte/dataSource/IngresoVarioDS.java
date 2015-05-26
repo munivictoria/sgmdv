@@ -30,7 +30,7 @@ public class IngresoVarioDS extends TrascenderDataSource{
 		parametros = new HashMap<String, Object> ();
 		locIngresoVario = pIngresoVario;
 		
-        locCodigoBarra = rellenarCodigoBarra(String.valueOf(locIngresoVario.getIdIngresoVario()));
+        locCodigoBarra = rellenarCodigoBarra(String.valueOf(locIngresoVario.getIdRegistroDeuda()));
 				
 		parametros.put("PAR_IMAGEN", this.getLogoMunicipalidad());
 		parametros.put("PAR_TITULO", this.getTituloReporte());
@@ -51,7 +51,7 @@ public class IngresoVarioDS extends TrascenderDataSource{
 		parametros.put("PAR_FECHA_EMISION", locIngresoVario.getFechaEmision());
 		parametros.put("PAR_FECHA_IMPRESION", new Date());
 //		parametros.put("PAR_OBS", locIngresoVario.getObservaciones());
-		parametros.put("PAR_CODIGOBARRA_INGRESO_VARIO", "2"+ Util.formatString(18, String.valueOf(locIngresoVario.getIdIngresoVario())));
+		parametros.put("PAR_CODIGOBARRA_INGRESO_VARIO", "2"+ Util.formatString(18, String.valueOf(locIngresoVario.getIdRegistroDeuda())));
 		parametros.put("PAR_IMPUTACIONES_DS", new ImputacionesIngresoVarioDS(locIngresoVario));
 	}
 	

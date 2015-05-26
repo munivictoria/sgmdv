@@ -10,6 +10,7 @@ package muni.comunes.ABMIngresoVario;
 import jasper.ConstantesReportes;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,6 @@ import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.contabilidad.recurso.filtros.FiltroIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario;
-import com.trascender.contabilidad.recurso.persistent.IngresoVario.Estado;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.Persona;
@@ -43,6 +43,7 @@ import com.trascender.presentacion.abstracts.AdminPageBean;
 import com.trascender.presentacion.abstracts.PaginatedTable;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.reportes.ImpresionReporteDinamico;
+import com.trascender.saic.recurso.persistent.RegistroDeuda;
 
 public class AdminIngresoVario extends AdminPageBean {
 
@@ -59,6 +60,15 @@ public class AdminIngresoVario extends AdminPageBean {
 	private Button btnImprimir = new Button();
 	private HtmlAjaxCommandButton btnLimpiarConcepto = new HtmlAjaxCommandButton();
 	private TextField tfConcepto = new TextField();
+	private Button btnRefinanciar = new Button();
+	
+	public Button getBtnRefinanciar() {
+		return btnRefinanciar;
+	}
+
+	public void setBtnRefinanciar(Button btnRefinanciar) {
+		this.btnRefinanciar = btnRefinanciar;
+	}
 	
 	public HtmlAjaxCommandButton getBtnLimpiarConcepto() {
 		return btnLimpiarConcepto;
@@ -199,7 +209,7 @@ public class AdminIngresoVario extends AdminPageBean {
 	@Override
 	protected void _init() throws Exception {
 		Option[] op = null;
-		op = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(IngresoVario.Estado.values(), "may");
+		op = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(RegistroDeuda.EstadoRegistroDeuda.values(), "may");
 		ddEstadoDefaultOptions.setOptions(op);
 
 		Set<String> locListaConceptos = this.getCommunicationCajaBean().getMapaConceptosIngresosVarios().keySet();
@@ -229,7 +239,7 @@ public class AdminIngresoVario extends AdminPageBean {
 		borrarListIdAuxPersonas(this.tfPersonaSeleccionada, locFiltro.getPersona());
 		locFiltro.setListaIdPersonas(this.getSessionBean1().getListaIdPersonas());
 
-		locFiltro.setEstado(getDDEnumValue(this.getDdEstado(), IngresoVario.Estado.class));
+		locFiltro.setEstado(getDDEnumValue(this.getDdEstado(), RegistroDeuda.EstadoRegistroDeuda.class));
 		
 		locFiltro.setFechaDesde(this.getTextFieldValueDate(this.tfFechaDesde));
 		locFiltro.setFechaHasta(this.getTextFieldValueDate(this.tfFechaHasta));
@@ -247,7 +257,7 @@ public class AdminIngresoVario extends AdminPageBean {
 			this.getTfConcepto().setText(locFiltro.getConceptoIngresoVario().getNombre());
 		}
 
-		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado() == null ? IngresoVario.Estado.CREADO : locFiltro.getEstado())));
+		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado() == null ? RegistroDeuda.EstadoRegistroDeuda.VIGENTE : locFiltro.getEstado())));
 		this.getDdEstadoDefaultOptions().setSelectedValue(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado())));
 		
 		setTextFieldValueDate(this.tfFechaDesde, locFiltro.getFechaDesde());
@@ -259,14 +269,14 @@ public class AdminIngresoVario extends AdminPageBean {
 	protected void limpiarObjetosUsados() {
 		FiltroIngresoVario locFiltro = this.getFiltro();
 		locFiltro.setConceptoIngresoVario(null);
-		locFiltro.setEstado(IngresoVario.Estado.CREADO);
+		locFiltro.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
 		locFiltro.setPersona(null);
 
 		this.getSessionBean1().setPersonaSeleccionada(null);
 		this.getSessionBean1().getListaIdPersonas().clear();
 		// CAMBIAR: Limpiar los textField y dropDown
-		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(IngresoVario.Estado.CREADO)));
-		this.getDdEstadoDefaultOptions().setSelectedValue(Util.getEnumNameFromString(String.valueOf(IngresoVario.Estado.CREADO)));
+		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(RegistroDeuda.EstadoRegistroDeuda.VIGENTE)));
+		this.getDdEstadoDefaultOptions().setSelectedValue(Util.getEnumNameFromString(String.valueOf(RegistroDeuda.EstadoRegistroDeuda.VIGENTE)));
 		this.getTfPersonaSeleccionada().setText(null);
 		this.getTfConcepto().setText(null);
 		
@@ -332,7 +342,7 @@ public class AdminIngresoVario extends AdminPageBean {
 					int index = getNroFila(rk.toString());
 					Object obj = this.getObjectListDataProvider().getObjects()[index];
 					IngresoVario locIngresoVario = (IngresoVario) obj;
-					if(locIngresoVario.getEstado() != null && !locIngresoVario.getEstado().equals(Estado.CREADO)) {
+					if(locIngresoVario.getEstado() != null && !locIngresoVario.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.VIGENTE)) {
 						warn("Solo se pueden eliminar los Ingresos Varios que esten en estado CREADO.");
 
 						return null;
@@ -404,7 +414,7 @@ public class AdminIngresoVario extends AdminPageBean {
 					Object obj = this.getObjectListDataProvider().getObjects()[index];
 					IngresoVario locIngresoVario = (IngresoVario) obj;
 					this.getCommunicationContabilidadBean().getRemoteSystemReportesContabilidad().setLlave(this.getSessionBean1().getLlave());
-					JasperPrint jp = this.getCommunicationContabilidadBean().getRemoteSystemReportesContabilidad().getReporteIngresoVario(locIngresoVario.getIdIngresoVario());
+					JasperPrint jp = this.getCommunicationContabilidadBean().getRemoteSystemReportesContabilidad().getReporteIngresoVario(locIngresoVario.getIdRegistroDeuda());
 
 					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.PDF);
 					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_Ingreso_Vario");
@@ -430,7 +440,7 @@ public class AdminIngresoVario extends AdminPageBean {
 	protected Object getObjectPorId(Object pObject) throws Exception {
 		IngresoVario locIngreso = (IngresoVario) pObject;
 		this.getCommunicationCajaBean().getRemoteSystemAdministracionIngresos().setLlave(this.getSessionBean1().getLlave());
-		return this.getCommunicationCajaBean().getRemoteSystemAdministracionIngresos().getIngresoVarioByID(locIngreso.getIdIngresoVario());
+		return this.getCommunicationCajaBean().getRemoteSystemAdministracionIngresos().getIngresoVarioByID(locIngreso.getIdRegistroDeuda());
 	}
 
 	@Override
@@ -468,6 +478,48 @@ public class AdminIngresoVario extends AdminPageBean {
 	@Override
 	protected String getCasoNavegacion() {
 		return "AdminIngresoVario";
+	}
+	
+	public String btnRefinanciar_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		this.guardarEstadoObjetosUsados();
+
+		if(ultimo) {
+			RowKey rk = null;
+
+			try {
+				rk = this.getSeleccionado();
+				if(rk != null) {
+					int index = getNroFila(rk.toString());
+					Object obj = this.getObjectListDataProvider().getObjects()[index];
+					IngresoVario locIngresoVario = (IngresoVario) obj;
+					if(locIngresoVario.getEstado() != null 
+							&& !locIngresoVario.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.VIGENTE)) {
+						warn("Solo se pueden refinanciar los Ingresos Varios que esten en estado VIGENTE.");
+						return null;
+					}
+
+					this.setRowKeySeleccionado(this.getSeleccionado());
+					List<RegistroDeuda> listaRegistros = new ArrayList<RegistroDeuda>();
+					listaRegistros.add(locIngresoVario);
+					this.getRequestBean1().setObjetoABM(listaRegistros);
+					this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+
+					retorno = "AgregarPlanPagoRefinanciacion";
+				}
+			} catch(Exception ex) {
+				log(CASO_NAVEGACION + "_EliminarError:", ex);
+				error(NOMBRE_PAGINA + " - Eliminar: " + ex.getMessage());
+			}
+			
+		} else {
+			warn("Debe seleccionar una liquidación");
+			retorno = this.prepararCaducidad();
+		}
+
+		return retorno;
 	}
 
 	public void setPersonaAutocompletar(String pId, String pIdSubSession) { // aunque no se usa el ID de subsession

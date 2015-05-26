@@ -31,7 +31,7 @@ import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 @Inheritance (strategy = InheritanceType.JOINED)
 public class DocGeneradorDeuda implements Serializable{
 
-	public enum TipoDocGeneradorDeuda{SELLADO,TASA,MIGRACION,REFINANCIACION}
+	public enum TipoDocGeneradorDeuda{SELLADO,TASA,MIGRACION,REFINANCIACION,INGRESO_VARIO}
 
 	private static final long serialVersionUID = -8706846311834524781L;
 

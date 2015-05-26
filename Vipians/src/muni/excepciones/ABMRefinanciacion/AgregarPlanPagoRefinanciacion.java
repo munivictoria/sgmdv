@@ -1589,6 +1589,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				locListaRetorno.add(
 						getCommunicationSAICBean().getRemoteSystemReliquidacion()
 						.calcularIntereses(cadaLiquidacion, new Date(), true, true));
+			} else {
+				locListaRetorno.add(cadaObject);
 			}
 		}
     	return locListaRetorno;

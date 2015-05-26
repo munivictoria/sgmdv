@@ -242,9 +242,9 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			
 			System.out.println(pDocumentoRefinanciacion.getObligacion());
 
-			RegistroDeuda locRegistroDeuda = pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda().iterator().next();
+//			RegistroDeuda locRegistroDeuda = pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda().iterator().next();
 			//si se trata de reliquidaciones tgi q solo traiga las reliquidaciones de esta y asi si son liquidaciones
-			List<RegistroDeuda> locListaRegistrosDeudaAsociados = this.businessReLiquidacionTasa.getListaRegistrosDeudaAsociados(locRegistroDeuda, locRegistroDeuda.getTipoDeuda());
+//			List<RegistroDeuda> locListaRegistrosDeudaAsociados = this.businessReLiquidacionTasa.getListaRegistrosDeudaAsociados(locRegistroDeuda, locRegistroDeuda.getTipoDeuda());
 
 //			if(locRegistroDeuda.getDocGeneradorDeuda() instanceof TasaTGI){
 //				//Tomo el primer registro deuda a refinanciar, ese me sirve para saber si es tercio o bimestre la deuda q se refinancia

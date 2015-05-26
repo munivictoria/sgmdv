@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario;
-import com.trascender.contabilidad.recurso.persistent.IngresoVario.Estado;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.util.FiltroAbstracto;
+import com.trascender.saic.recurso.persistent.RegistroDeuda;
+import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 
 public class FiltroIngresoVario extends FiltroAbstracto<IngresoVario>{
 
@@ -18,7 +19,7 @@ public class FiltroIngresoVario extends FiltroAbstracto<IngresoVario>{
 
 	private Persona persona;
 	private ConceptoIngresoVario conceptoIngresoVario;
-	private IngresoVario.Estado estado;
+	private RegistroDeuda.EstadoRegistroDeuda estado;
 	private List<Long> listaIdPersonas;
 	private Date fechaDesde, fechaHasta;
 	
@@ -42,7 +43,7 @@ public class FiltroIngresoVario extends FiltroAbstracto<IngresoVario>{
 	}
 
 	public FiltroIngresoVario(Persona persona,
-			ConceptoIngresoVario conceptoIngresoVario, Estado estado) {
+			ConceptoIngresoVario conceptoIngresoVario, EstadoRegistroDeuda estado) {
 		super();
 		this.persona = persona;
 		this.conceptoIngresoVario = conceptoIngresoVario;
@@ -65,11 +66,11 @@ public class FiltroIngresoVario extends FiltroAbstracto<IngresoVario>{
 		this.conceptoIngresoVario = conceptoIngresoVario;
 	}
 
-	public IngresoVario.Estado getEstado() {
+	public RegistroDeuda.EstadoRegistroDeuda getEstado() {
 		return estado;
 	}
 
-	public void setEstado(IngresoVario.Estado estado) {
+	public void setEstado(RegistroDeuda.EstadoRegistroDeuda estado) {
 		this.estado = estado;
 	}
 

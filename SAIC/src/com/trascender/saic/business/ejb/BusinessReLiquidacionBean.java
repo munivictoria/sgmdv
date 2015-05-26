@@ -561,10 +561,11 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 			locCriterio = Criterio.getInstance(this.entityManager, CuotaRefinanciacion.class);
 		}
 
-		if(pRegistroDeuda != null) {
-			locCriterio.add(Restriccion.IGUAL("cuotaLiquidacion", pRegistroDeuda.getCuotaLiquidacion()));
-		}
-		locCriterio.add(Restriccion.IGUAL("docGeneradorDeuda.obligacion", pRegistroDeuda.getDocGeneradorDeuda().getObligacion())).add(Restriccion.IGUAL("tipoDeuda", pTipoDeuda))
+//		if(pRegistroDeuda != null) {
+//			locCriterio.add(Restriccion.IGUAL("cuotaLiquidacion", pRegistroDeuda.getCuotaLiquidacion()));
+//		}
+		locCriterio.add(Restriccion.IGUAL("docGeneradorDeuda.obligacion", 
+				pRegistroDeuda.getDocGeneradorDeuda().getObligacion())).add(Restriccion.IGUAL("tipoDeuda", pTipoDeuda))
 				.add(Restriccion.NULO("registroCancelacion"));
 		// .setModoDebug(true);
 

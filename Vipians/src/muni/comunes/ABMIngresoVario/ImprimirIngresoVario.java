@@ -199,7 +199,7 @@ public class ImprimirIngresoVario extends AbstractPageBean {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             this.fechaEmision = formato.format(ingresoVario.getFechaEmision());
             this.fechaVencimiento = this.getFechaEmision();
-            locCodigoBarra = String.valueOf(ingresoVario.getIdIngresoVario());
+            locCodigoBarra = String.valueOf(ingresoVario.getIdRegistroDeuda());
             this.codigoBarras = this.rellenarCodigoBarra(locCodigoBarra);
             if(ingresoVario.getObservaciones() == null) ingresoVario.setObservaciones(" ");
             this.observaciones = ingresoVario.getObservaciones().toString();

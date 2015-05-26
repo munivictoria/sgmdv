@@ -681,3 +681,11 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION p_estado_cuenta_persona(numeric, numeric[])
   OWNER TO vipians;
+  
+insert into log_scripts_corridos values(119,119,now());
+  
+alter table ingreso_vario rename column id_ingreso_vario to id_registro_deuda;
+alter table ingreso_vario drop id_registro_cancelacion;
+alter table ingreso_vario drop id_persona;
+
+  insert into log_scripts_corridos values(120,120,now());

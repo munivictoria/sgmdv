@@ -24,9 +24,7 @@ import com.trascender.contabilidad.recurso.filtros.FiltroIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ImputacionIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario;
-import com.trascender.contabilidad.recurso.persistent.IngresoVario.Estado;
 import com.trascender.framework.exception.TrascenderException;
-import com.trascender.framework.recurso.persistent.CodigoCiiu;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
@@ -34,6 +32,8 @@ import com.trascender.framework.recurso.transients.AuxIdEntidad;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Recurso;
 import com.trascender.framework.util.SecurityMgr;
+import com.trascender.habilitaciones.recurso.persistent.Obligacion;
+import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 
 @Stateless(name = "ejb/BusinessIngresoVarioLocal")
 public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
@@ -160,6 +160,10 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 			locNumero = new Integer(1);
 		}
 		pIngresoVario.setNumero(locNumero + 1);
+		Obligacion locObligacion = pIngresoVario.getDocGeneradorDeuda().getObligacion();
+		locObligacion.setNombre("Ingreso vario");
+		locObligacion = entity.merge(locObligacion);
+		pIngresoVario.getDocGeneradorDeuda().setObligacion(locObligacion);
 		entity.persist(pIngresoVario);
 		return pIngresoVario;
 	}
@@ -187,7 +191,7 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 
 	public void deleteIngresoVario(IngresoVario pIngresoVario) throws Exception {
 		this.validarEliminarIngresoVario(pIngresoVario);
-		pIngresoVario.setEstado(Estado.ANULADO);
+		pIngresoVario.setEstado(EstadoRegistroDeuda.ANULADA);
 		this.entity.merge(pIngresoVario);
 	}
 
@@ -203,7 +207,7 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 			throw new TrascenderContabilidadException(42);
 		}
 
-		if(!pIngresoVario.getEstado().equals(IngresoVario.Estado.CREADO)) {
+		if(!pIngresoVario.getEstado().equals(EstadoRegistroDeuda.VIGENTE)) {
 			throw new TrascenderContabilidadException(41);
 		}
 

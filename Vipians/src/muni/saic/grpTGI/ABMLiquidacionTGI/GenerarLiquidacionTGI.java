@@ -1125,7 +1125,7 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 								getSessionBean1().getLlave(), 
 								LiquidacionTasa.codigoLiquidarSinParametros, 
 								Permiso.Accion.INSERT)) {
-					error("Debe seleccionar una Persona o Número de Inscripción");
+					error("Debe seleccionar una Persona o Parcela");
 					return null;
 				}
 

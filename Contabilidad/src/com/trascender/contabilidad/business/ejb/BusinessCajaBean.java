@@ -480,7 +480,8 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				// Saldo la deuda
 				IngresoVario locDeuda = (IngresoVario) locDetalle.getDeuda();
 				locDeuda.setRegistroCancelacion(locDetalle);
-				locDeuda.setEstado(IngresoVario.Estado.PAGADO);
+				locDeuda.setEstado(RegistroDeuda.EstadoRegistroDeuda.PAGADA);
+				locDeuda.setEstado(RegistroDeuda.EstadoRegistroDeuda.PAGADA);
 				locDetalle.setDeuda(locDeuda);
 				this.entity.merge(locDeuda);
 			}
@@ -1203,7 +1204,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			IngresoVario locIngresoVario = Criterio.getInstance(entity, IngresoVario.class).add(Restriccion.IGUAL("registroCancelacion", locDetalleTicketCaja)).uniqueResult();
 			if(locIngresoVario != null) {
 				locIngresoVario.setRegistroCancelacion(null);
-				locIngresoVario.setEstado(IngresoVario.Estado.CREADO);
+				locIngresoVario.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
 				this.entity.merge(locIngresoVario);
 			}
 		}
@@ -1573,7 +1574,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			throw new TrascenderContabilidadException(413); // TODO:VER SOLUCION EN ESTO... ME DA PROBLEMA CUANDO QUIERA OBTENER UN INGRESO VARIO PAGADO Y
 															// CANCELADO PARA REIMPRIMIR
 		}
-		if(locIngresoVario.getEstado().equals(IngresoVario.Estado.ANULADO)) {
+		if(locIngresoVario.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.ANULADA)) {
 			throw new TrascenderContabilidadException(47);
 		}
 		// //Validacion de la asociacion de cuentas.

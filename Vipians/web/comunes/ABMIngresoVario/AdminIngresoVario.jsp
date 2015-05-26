@@ -164,6 +164,10 @@
 													<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnConsultar_action}"
 														binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnConsultar}" id="btnConsultar" styleClass="button" text="Consultar" />
 													<ui:staticText text="#{comunes$ABMIngresoVario$AdminIngresoVario.textoSeparador}" escape="false" id="stSeparador4" />
+													<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnRefinanciar_action}"
+															binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnRefinanciar}"
+															id="btnRefinanciar" styleClass="button"
+															text="Refinanciar" />
 													<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnImprimir_action}"
 														binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnImprimir}"
 														onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')" id="btnImprimir" styleClass="button"

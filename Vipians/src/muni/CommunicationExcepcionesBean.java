@@ -9,6 +9,8 @@ package muni;
 import com.sun.rave.web.ui.appbase.AbstractSessionBean;
 import com.sun.rave.web.ui.event.TableSelectPhaseListener;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.FacesException;
 
 /**
@@ -126,13 +128,13 @@ public class CommunicationExcepcionesBean extends AbstractSessionBean {
     /**
      * Conserva el valor de la propiedad listaRefinanciaciones.
      */
-    private ArrayList listaRefinanciaciones;
+    private List listaRefinanciaciones;
 
     /**
      * Getter para propiedad listaRefinanciaciones.
      * @return Valor de la propiedad listaRefinanciaciones.
      */
-    public ArrayList getListaRefinanciaciones() {
+    public List getListaRefinanciaciones() {
 
         return this.listaRefinanciaciones;
     }
@@ -141,7 +143,7 @@ public class CommunicationExcepcionesBean extends AbstractSessionBean {
      * Setter para propiedad listaRefinanciaciones.
      * @param listaRefinanciaciones Nuevo valor de la propiedad listaRefinanciaciones.
      */
-    public void setListaRefinanciaciones(ArrayList listaRefinanciaciones) {
+    public void setListaRefinanciaciones(List listaRefinanciaciones) {
 
         this.listaRefinanciaciones = listaRefinanciaciones;
     }

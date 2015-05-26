@@ -60,6 +60,7 @@ import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaMenor;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaRefer;
 import com.trascender.saic.recurso.filtros.FiltroLogLiquidacion;
 import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
+import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.filtros.FiltroValorMedidor;
 import com.trascender.saic.recurso.persistent.AlicuotaLiquidada;
 import com.trascender.saic.recurso.persistent.CobroExterno;
@@ -68,6 +69,7 @@ import com.trascender.saic.recurso.persistent.LogLiquidacion;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.Reliquidacion;
+import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 import com.trascender.saic.system.interfaces.SystemAuditoriaTributaria;
 import com.trascender.saic.system.interfaces.SystemEstadoCuentaContribuyente;
 import com.trascender.saic.system.interfaces.SystemExencionRegistroDeuda;
@@ -139,6 +141,12 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 			locFiltroValorMedidor.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaValorMedidor = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(ValorMedidor.serialVersionUID),
 					"#{saic$grpOSP$ABMValorMedidor$AdminValorMedidor}", locFiltroValorMedidor);
+			
+			FiltroRefinanciacion locFiltroRefinanciacion = new FiltroRefinanciacion();
+			locFiltroRefinanciacion.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
+			this.tablaRefinanciacion = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(DocumentoRefinanciacion.serialVersionUID),
+					"#{saic$ABMRefinanciacion$AdminRefinanciacion}", locFiltroRefinanciacion);
+
 
 			FiltroExencionObligacion locFiltroExencion = new FiltroExencionObligacion();
 			locFiltroExencion.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
@@ -1125,6 +1133,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	}
 
 	private PaginatedTable tablaLiquidacionTGI;
+	private PaginatedTable tablaRefinanciacion;
 	private PaginatedTable tablaLiquidacionArrendamiento;
 	private PaginatedTable tablaLiquidacionSHPS;
 	private PaginatedTable tablaLiquidacionOSP;
@@ -1398,6 +1407,10 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 
 	private muni.SessionBean1 getSessionBean1() {
 		return (muni.SessionBean1) getBean("SessionBean1");
+	}
+	
+	public PaginatedTable getTablaRefinanciacion() {
+		return tablaRefinanciacion;
 	}
 	
 	public Boolean getEsAdministradorReliquidaciones() {
