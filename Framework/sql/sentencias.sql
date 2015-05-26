@@ -603,7 +603,7 @@ ALTER FUNCTION corregir_liquidaciones_diario_manual()
   
   insert into log_scripts_corridos values(118,118,now());
 
-drop function p_estado_cuenta_parcela(numeric);
+drop function if exists p_estado_cuenta_parcela(numeric);
 
 CREATE OR REPLACE FUNCTION p_estado_cuenta_parcela(IN p_id_parcela numeric, IN p_ids_excluidos numeric[] default ARRAY[-50])
   RETURNS TABLE(id_persona clave, id_parcela clave, tipo_obligacion character varying, id_registro_deuda clave) AS
@@ -645,7 +645,7 @@ $BODY$
 ALTER FUNCTION p_estado_cuenta_parcela(numeric, numeric[])
   OWNER TO vipians;
   
-   DROP FUNCTION p_estado_cuenta_persona(numeric);
+   DROP FUNCTION if exists p_estado_cuenta_persona(numeric);
 
 CREATE OR REPLACE FUNCTION p_estado_cuenta_persona(IN p_id_persona numeric, IN p_ids_excluidos numeric[] default ARRAY[-50])
   RETURNS TABLE(id_persona clave, id_parcela clave, tipo_obligacion character varying, id_registro_deuda clave) AS
@@ -689,3 +689,16 @@ alter table ingreso_vario drop id_registro_cancelacion;
 alter table ingreso_vario drop id_persona;
 
   insert into log_scripts_corridos values(120,120,now());
+  
+  -- ACTUALIZA LOSREGISTROS DE TITULO DE PROPIEDAD A LOS NNUEVOS VALORES INDICADOS POR CLAUDIO RIOS
+update titulo_propiedad  
+set
+	tipo_transaccion_catastral  = 'PROPIEDAD_HORIZONTAL'
+Where
+	tipo_transaccion_catastral  = 'SEGREGACION';
+	
+ insert into log_scripts_corridos values(121,121,now());
+ 
+ alter table cuota_refinanciac add column recargo importe;
+ 
+ insert into log_scripts_corridos values(122,122,now());
