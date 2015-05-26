@@ -40,7 +40,9 @@ import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.filtros.FiltroObligacionSHPS;
 import com.trascender.habilitaciones.recurso.persistent.CalendarioMunicipal;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
@@ -53,6 +55,7 @@ import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.utiles.PanelAtributoDinamico;
 import com.trascender.presentacion.validadores.Validador;
 import com.trascender.saic.exception.ResultadoLiquidacion;
+import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 
 /**
  * <p>
@@ -1350,8 +1353,22 @@ public class GenerarLiquidacionSHPS extends AbstractPageBean {
 
 				CuotaLiquidacion[] cuotas = new CuotaLiquidacion[1];
 				cuotas[0] = locCuota;
+				
+				/**
+				 * Chequear permiso para liquidar sin parametros.
+				 */
+				if (persona == null 
+						&& locFiltro.getNumeroInscripcion() == null
+						&& !SecurityMgr.getInstance().getPermiso(
+								getSessionBean1().getLlave(), 
+								LiquidacionTasa.codigoLiquidarSinParametros, 
+								Permiso.Accion.INSERT)) {
+					error("Debe seleccionar una Persona o Número de Inscripción");
+					return null;
+				}
 
-				ResultadoLiquidacion locResultadoLiquidacion = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().liquidarSHPS(persona, cuotas, locFiltro, locIgnorarPlan);
+				ResultadoLiquidacion locResultadoLiquidacion = 
+						this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().liquidarSHPS(persona, cuotas, locFiltro, locIgnorarPlan);
 
 				totalGenerados = locResultadoLiquidacion.getCantidadLiquidadas();
 

@@ -350,6 +350,12 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 				Tipo.TEXTO_LARGO);
 		locLogLiquidaciones.setClase(LogLiquidacion.class);
 		grupo.getListaRecursos().add(locLogLiquidaciones);
+		
+		Recurso liquidarSinParametros = new Recurso();
+		liquidarSinParametros.setNombre("Liquidar sin parametros");
+		liquidarSinParametros.setIdRecurso(LiquidacionTasa.codigoLiquidarSinParametros);
+		liquidarSinParametros.setClase(LiquidacionTasa.class);
+		grupo.getListaRecursos().add(liquidarSinParametros);
 
 		SecurityMgr.getInstance().addGrupo(grupo);
 	}

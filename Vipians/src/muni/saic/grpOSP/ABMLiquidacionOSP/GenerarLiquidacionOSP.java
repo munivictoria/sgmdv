@@ -40,7 +40,9 @@ import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.catastro.recurso.persistent.Calle;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.persistent.CalendarioMunicipal;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.PeriodoLiquidacion;
@@ -51,6 +53,7 @@ import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.utiles.PanelAtributoDinamico;
 import com.trascender.presentacion.validadores.Validador;
 import com.trascender.saic.exception.ResultadoLiquidacion;
+import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -1308,8 +1311,6 @@ public class GenerarLiquidacionOSP extends AbstractPageBean {
 					locCuota = null;
 				}
 
-				this.getCommunicationSAICBean().desactivarButton(this.btnCancelar);
-				// trato de obtener un per�odo
 
 				int totalGenerados = 0;
 
@@ -1335,6 +1336,19 @@ public class GenerarLiquidacionOSP extends AbstractPageBean {
 				this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
 
 				CuotaLiquidacion[] cuotas = new CuotaLiquidacion[]{locCuota};
+				
+				/**
+				 * Chequear permiso para liquidar sin parametros.
+				 */
+				if (persona == null 
+						&& parcela == null
+						&& !SecurityMgr.getInstance().getPermiso(
+								getSessionBean1().getLlave(), 
+								LiquidacionTasa.codigoLiquidarSinParametros, 
+								Permiso.Accion.INSERT)) {
+					error("Debe seleccionar una Persona o Número de Inscripción");
+					return null;
+				}
 
 				ResultadoLiquidacion locResultadoLiquidacion = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().liquidarOSP(servicioOSP, calle, cuotas, persona, parcela, locIgnorarPlan);
 				totalGenerados = locResultadoLiquidacion.getCantidadLiquidadas();

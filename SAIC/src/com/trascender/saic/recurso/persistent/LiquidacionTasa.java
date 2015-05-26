@@ -46,10 +46,9 @@ import com.trascender.saic.util.VencimientoComparator;
 @Cacheable
 public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 
-	/**
-	 * 
-	 */
+
 	public static final long serialVersionUID = -3440227850979583798L;
+	public static final long codigoLiquidarSinParametros = serialVersionUID - 1;
 	public static final long codigoTGI = serialVersionUID;
 	public static final long codigoSHPS = serialVersionUID + 1;
 	public static final long codigoOSP = serialVersionUID + 2;
@@ -63,7 +62,7 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 	public static final long codigoCementerio = serialVersionUID + 7;
 	public static final long codigoAutomotor = serialVersionUID + 8;
 	public static final long codigoArrendamiento = serialVersionUID + 9;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CUOTA_LIQUIDACION", nullable = true)
 	private CuotaLiquidacion cuotaLiquidacion;

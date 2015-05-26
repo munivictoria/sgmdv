@@ -74,6 +74,7 @@ public class SaicException extends TrascenderException{
 		case 5071: this.msg = "Debe seleccionar una Persona o un Período para poder realizar la búsqueda.";break;
 		case 5072: this.msg = "No se puede reliquidar una obligación con estado Reliquidada.";break;
 		case 5073: this.msg = "No se puede reliquidar una obligación con estado Pagada.";break;
+		case 5074: this.msg = "No se ha podido Actualizar, una o mas liquidaciones ya fue cancelada.";break;
 
 		//BusinessEstadoCuenta
 		case 5080: this.msg = "La cantidad mínima de cuotas para una refinanciación es una cuota."; break;

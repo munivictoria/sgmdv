@@ -39,7 +39,9 @@ import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
 import com.trascender.presentacion.navegacion.ElementoPila;
@@ -47,6 +49,7 @@ import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.utiles.PanelAtributoDinamico;
 import com.trascender.presentacion.validadores.Validador;
 import com.trascender.saic.exception.ResultadoLiquidacion;
+import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -1101,8 +1104,6 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 				Persona persona = (Persona) this.obtenerObjetoDelElementoPila(3, Persona.class);
 				Parcela parcela = (Parcela) this.obtenerObjetoDelElementoPila(4, Parcela.class);
 				Boolean locIgnorarPlan = (Boolean) this.obtenerObjetoDelElementoPila(7, Boolean.class);
-				this.getCommunicationSAICBean().desactivarButton(this.btnCancelar);
-
 
 				if ((cuota != null) && (cuota.toString().length() > 0)) {
 					locCuota = this.getRecuperarCuotaPorPeriodo(cuota);
@@ -1114,9 +1115,21 @@ public class GenerarLiquidacionTGI extends AbstractPageBean {
 				if (parcela.getIdParcela() == -1) {
 					parcela = null;
 				}
+				
+				/**
+				 * Chequear permiso para liquidar sin parametros.
+				 */
+				if (persona == null 
+						&& parcela == null
+						&& !SecurityMgr.getInstance().getPermiso(
+								getSessionBean1().getLlave(), 
+								LiquidacionTasa.codigoLiquidarSinParametros, 
+								Permiso.Accion.INSERT)) {
+					error("Debe seleccionar una Persona o Número de Inscripción");
+					return null;
+				}
 
 				int totalGenerados = 0;
-				// CAMBIAR: Utilizar el EJBClient adecuado.
 				
 				this.getComunicationBean().getRemoteSystemPeriodo().setLlave(this.getSessionBean1().getLlave());
 				locCuota = this.getComunicationBean().getRemoteSystemPeriodo().getCuotaPorId(locCuota.getIdCuotaLiquidacion());

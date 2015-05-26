@@ -1611,7 +1611,12 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 
 		// Si es durante una reliquidacion, estos datos ya estan levantados.
 		if(!duranteReliquidacion) {
-			pLiquidacionTasa = entityManager.merge(pLiquidacionTasa);
+			//Recargo la liquidacion para validar estado, pues a veces se pagó por caja o algo.
+			pLiquidacionTasa = entityManager.find(LiquidacionTasa.class, pLiquidacionTasa.getIdRegistroDeuda());
+			if(!pLiquidacionTasa.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.VENCIDA) 
+					&& !pLiquidacionTasa.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.VIGENTE)) {
+				throw new SaicException(74);
+			}
 			// Se usa "fechaReLiquidacion" como fecha para el calculo del interes.
 			this.fechaReLiquidacion = pFecha;
 			this.fechaNuevoVencimiento = pFecha;
