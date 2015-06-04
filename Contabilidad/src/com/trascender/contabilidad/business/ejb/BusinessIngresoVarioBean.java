@@ -176,7 +176,13 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 	}
 
 	public com.trascender.contabilidad.recurso.persistent.IngresoVario getIngresoVarioByID(Long pIdIngresoVario) throws java.lang.Exception {
-		IngresoVario locIngresoVario = entity.find(IngresoVario.class, pIdIngresoVario);
+		
+		Criterio locCriterio = Criterio.getInstance(entity, IngresoVario.class)
+//				.add(Restriccion.IGUAL("idRegistroDeuda", pIdIngresoVario))
+				.add(Restriccion.ID(pIdIngresoVario))
+				.crearFetchAlias("docGeneradorDeuda.obligacion.persona", "persona")
+				.setModoDebug(true);
+		IngresoVario locIngresoVario = locCriterio.uniqueResult();
 		if(locIngresoVario != null) {
 			locIngresoVario.getConceptoIngresoVario();
 			locIngresoVario.getFechaEmision();

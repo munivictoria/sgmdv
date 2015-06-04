@@ -40,31 +40,11 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 	private Date fechaEmision;
 	private Integer numero = 0;
 
-//	public enum Estado {
-//		CREADO, ANULADO, PAGADO;
-//
-//		@Override
-//		public String toString() {
-//			return Util.capitalizeEnumName(super.toString());
-//		}
-//	}
-
-//	@Enumerated(EnumType.STRING)
-//	private Estado estado = Estado.CREADO;
-	
 	// Relacion con otros objetos
 
 	@ManyToOne
 	@JoinColumn(name = "ID_CONCEPTO_INGRESO_VARIO")
 	private ConceptoIngresoVario conceptoIngresoVario;
-
-//	@ManyToOne
-//	@JoinColumn(name = "ID_PERSONA")
-//	private Persona persona;
-
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "ID_REGISTRO_CANCELACION")
-//	private RegistroCancelacion registroCancelacion;
 
 	private String observaciones;
 
@@ -90,26 +70,6 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 	public void setListaImputacionIngresos(List<ImputacionIngresoVario> listaImputacionIngresos) {
 		this.listaImputacionIngresos = listaImputacionIngresos;
 	}
-	
-	
-
-//	@Override
-//	public RegistroCancelacion getRegistroCancelacion() {
-//		return registroCancelacion;
-//	}
-//
-//	@Override
-//	public void setRegistroCancelacion(RegistroCancelacion registroCancelacion) {
-//		this.registroCancelacion = registroCancelacion;
-//	}
-
-//	public long getIdIngresoVario() {
-//		return idIngresoVario;
-//	}
-//
-//	public void setIdIngresoVario(long idIngresoVario) {
-//		this.idIngresoVario = idIngresoVario;
-//	}
 
 	@Override
 	public EstadoRegistroDeuda getEstado() {
@@ -123,15 +83,6 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 	public void setConceptoIngresoVario(ConceptoIngresoVario conceptoIngresoVario) {
 		this.conceptoIngresoVario = conceptoIngresoVario;
 	}
-
-//	@Override
-//	public Estado getEstado() {
-//		return estado;
-//	}
-//
-//	public void setEstado(Estado estado) {
-//		this.estado = estado;
-//	}
 
 	@Override
 	public Date getFechaEmision() {

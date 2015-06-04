@@ -57,6 +57,7 @@ import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCancelado;
 import com.trascender.contabilidad.recurso.transients.ResumenActualCajaDataSource;
 import com.trascender.contabilidad.recurso.transients.ResumenActualCajaIngresoVarioDS;
+import com.trascender.contabilidad.reporte.dataSource.PlanillaDiariaCajaIngresoVarioDS;
 import com.trascender.contabilidad.reporte.dataSource.ReporteCajaDinamico;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
@@ -1060,6 +1061,9 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	 * @param listaTickets
 	 */
 	private void setDeudasPorParche(List<TicketCaja> listaTickets) {
+		if (listaTickets == null || listaTickets.isEmpty()) {
+			return;
+		}
 		Set<Long> listaIdsRegCancelacion = new HashSet<Long>();
 		for (TicketCaja cadaTicketCaja : listaTickets) {
 			for (DetalleTicketCaja cadaDetalle : cadaTicketCaja.getDetalles()) {
@@ -1567,7 +1571,8 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	}
 
 	private Pagable getIngresoVario(Long pId) throws TrascenderException {
-		IngresoVario locIngresoVario = Criterio.getInstance(entity, IngresoVario.class).add(Restriccion.IGUAL("idIngresoVario", pId)).uniqueResult();
+		IngresoVario locIngresoVario = Criterio.getInstance(entity, IngresoVario.class)
+				.add(Restriccion.ID(pId)).uniqueResult();
 		locIngresoVario.getValor();
 		locIngresoVario.toString();
 		if(locIngresoVario.getRegistroCancelacion() != null) {
@@ -1660,10 +1665,10 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				.add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
 				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja))
 				.add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
-				.add(Restriccion.MENOR("detalles.fechaCancelacion", pFechaHasta));
-		// .add(Restriccion.OR(
-		// Restriccion.LIKE("codigoBarras", "1", false, Posicion.AL_PRINCIPIO),
-		// Restriccion.LIKE("codigoBarras", "3", false, Posicion.AL_PRINCIPIO)));
+				.add(Restriccion.MENOR("detalles.fechaCancelacion", pFechaHasta))
+				.add(Restriccion.OR(
+					 Restriccion.LIKE("codigoBarras", "1", false, Posicion.AL_PRINCIPIO),
+					 Restriccion.LIKE("codigoBarras", "3", false, Posicion.AL_PRINCIPIO)));
 
 		List<TicketCaja> listaTickets = locCriterio.list();
 		Iterator<TicketCaja> itTicketCaja = listaTickets.iterator();
@@ -1688,7 +1693,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 
 	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
 		throws Exception{
-		ResumenActualCajaIngresoVarioDS dataSource = null;
+		PlanillaDiariaCajaIngresoVarioDS dataSource = null;
 		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class)
 				.setDistinct(true)
 				.setModoDebug(true)
@@ -1712,7 +1717,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				return o1.getNumero().compareTo(o2.getNumero());
 			}
 		});
-		dataSource = new ResumenActualCajaIngresoVarioDS(listaTickets);
+		dataSource = new PlanillaDiariaCajaIngresoVarioDS(listaTickets);
 		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
 		File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
 		JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
@@ -1747,7 +1752,9 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	}
 
 	private void setIngresoAlTicket(DetalleTicketCaja locDetalle) {
-		LiquidacionTasa locIngreso = Criterio.getInstance(entity, IngresoVario.class).add(Restriccion.IGUAL("registroCancelacion", locDetalle)).uniqueResult();
+		IngresoVario locIngreso = Criterio.getInstance(entity, IngresoVario.class)
+				.add(Restriccion.IGUAL("registroCancelacion", locDetalle))
+				.uniqueResult();
 		if(locIngreso != null) {
 			locDetalle.setDeuda(locIngreso);
 		}
