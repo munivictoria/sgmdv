@@ -21,6 +21,7 @@ import com.trascender.framework.business.interfaces.BusinessCalendarioLocal;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TrascenderEnverListener;
+import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.business.interfaces.BusinessObligacionLocal;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado.Estado;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
@@ -37,6 +38,7 @@ import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGenerador
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
+import com.trascender.saic.recurso.persistent.PlantillaPlanDePago.TipoCalculoInteres;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
@@ -110,7 +112,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 //		}
 		
 		Set<CuotaRefinanciacion> locListaCuotasRefinanciacion = new HashSet<CuotaRefinanciacion>();
-		Double cuotaPura = this.calcularCuotaPura(pDocumentoRefinanciacion.getTasaNominalAnual(), capital, pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas());
+		Double cuotaPura = this.calcularCuotaPura(pDocumentoRefinanciacion.getTasaNominalAnual(), capital, pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas(), pDocumentoRefinanciacion.getPlantilla().getTipoCalculoInteres());
 		
 		Calendar locCalendar = Calendar.getInstance();
 		locCalendar.set(pDocumentoRefinanciacion.getAnioInicioRefinanciacion(), pDocumentoRefinanciacion.getMesInicioRefinanciacion()-1, pDocumentoRefinanciacion.getDiaVencimiento());
@@ -123,22 +125,23 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			locCuotaRefinanciacion.setNumeroCuota(i);
 			locCuotaRefinanciacion.setDocGeneradorDeuda(pDocumentoRefinanciacion);
 			locCuotaRefinanciacion.setValorCuota(cuotaPura);
-			locCuotaRefinanciacion.setInteres(this.calcularInteresCuota(pDocumentoRefinanciacion.getTasaNominalAnual(), pDocumentoRefinanciacion.getCapital(), pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas(), i) );
+			locCuotaRefinanciacion.setInteres(this.calcularInteresCuota(pDocumentoRefinanciacion.getTasaNominalAnual(), pDocumentoRefinanciacion.getCapital(), pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas(), i, pDocumentoRefinanciacion.getPlantilla().getTipoCalculoInteres()));
 			locCuotaRefinanciacion.setSaldoCapital(this.calcularSaldoCapitalCuota(pDocumentoRefinanciacion.getTasaNominalAnual(), pDocumentoRefinanciacion.getCapital(), pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas(), i));
 			locCuotaRefinanciacion.setTipoDeuda(TipoDeuda.REFINANCIACION);
-			locCuotaRefinanciacion.setFechaVencimiento(locCalendar.getTime());
+			
+			// Si es la primer cuota, su vencimiento es el dia de hoy...
+			Date fecha = new Date();
+			if(i > 1) {
+				fecha = locCalendar.getTime();
+				fecha = Util.llevarFechaALunes(fecha);
+				locCalendar.add(Calendar.MONTH, 1);
+			}
+			locCuotaRefinanciacion.setFechaVencimiento(fecha);
 			
 			locCuotaRefinanciacion.setNumeroRegistroDeuda(i);
 			
 			locListaCuotasRefinanciacion.add(locCuotaRefinanciacion);
 
-//			Periodo locPeriodo = this.businessCalendario.getPeriodo(null,
-//					locCalendar.get(Calendar.MONTH)+1,	
-//					locCalendar.get(Calendar.YEAR),
-//					Periodicidad.MENSUAL,
-//					this.businessObligacion.getTipoObligacionFromObligacion(locCuotaRefinanciacion.getDocGeneradorDeuda().getObligacion()).getIdTipoObligacion());
-			//FIXME cambio periodo
-//			locCuotaRefinanciacion.setCuotaLiquidacion((CuotaLiquidacion)locPeriodo);
 			locCalendar.add(Calendar.MONTH,1);
 		}
 		
@@ -415,13 +418,17 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 	 * @param pCantidadCuotas
 	 * @return
 	 */
-	private Double calcularCuotaPura(Double pTasaNominalAnual, Double pCapital, Integer pCuotasPorAnio, Integer pCantidadCuotas){
-		Double locDivision = (pTasaNominalAnual/pCuotasPorAnio/100);
-		if (Math.pow(locDivision+1,pCantidadCuotas)-1 == 0){
-			return pCapital/pCantidadCuotas;
+	private Double calcularCuotaPura(Double pTasaNominalAnual, Double pCapital, Integer pCuotasPorAnio, Integer pCantidadCuotas, TipoCalculoInteres tipoCalculo){
+		if (tipoCalculo == TipoCalculoInteres.FRANCÉS || tipoCalculo == TipoCalculoInteres.ALEMÁN) {
+			Double locDivision = (pTasaNominalAnual / pCuotasPorAnio / 100);
+			if(Math.pow(locDivision + 1, pCantidadCuotas) - 1 == 0) {
+				return pCapital / pCantidadCuotas;
+			} else {
+				return new Double(pCapital * locDivision * Math.pow(locDivision + 1, pCantidadCuotas) / (Math.pow(locDivision + 1, pCantidadCuotas) - 1)).doubleValue();
+			}
 		}
-		else{
-			return new Double(pCapital*locDivision* Math.pow(locDivision+1, pCantidadCuotas)/(Math.pow(locDivision+1,pCantidadCuotas)-1)).doubleValue(); 
+		else {
+			return new Double(pCapital / pCantidadCuotas);
 		}
 	}
 	
@@ -438,14 +445,20 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 										Double pCapital, 
 										Integer pCuotasPorAnio, 
 										Integer pCantidadCuotas,
-										Integer pNumeroCuota){
+										Integer pNumeroCuota,
+										TipoCalculoInteres tipoInteres){
 		
 		Double locDivisor = pTasaNominalAnual / pCuotasPorAnio / 100;
-		if (Math.pow(locDivisor+1,pCantidadCuotas)-1 == 0){
-			return 0d;
-		}
-		else{
-			return new Double(pCapital * locDivisor *(Math.pow(locDivisor+1, pCantidadCuotas) - Math.pow(locDivisor+1, pNumeroCuota-1)) / (Math.pow(locDivisor+1, pCantidadCuotas)-1)).doubleValue(); 
+		if (tipoInteres == TipoCalculoInteres.FRANCÉS || tipoInteres == TipoCalculoInteres.ALEMÁN) {
+			//TODO Hacer el aleman.
+			if(Math.pow(locDivisor + 1, pCantidadCuotas) - 1 == 0) {
+				return 0d;
+			} else {
+				return new Double(pCapital * locDivisor * (Math.pow(locDivisor + 1, pCantidadCuotas) - Math.pow(locDivisor + 1, pNumeroCuota - 1))
+						/ (Math.pow(locDivisor + 1, pCantidadCuotas) - 1)).doubleValue();
+			}
+		} else {
+			return new Double(pCapital * (pTasaNominalAnual / 100) / pCantidadCuotas);
 		}
 	}
 	

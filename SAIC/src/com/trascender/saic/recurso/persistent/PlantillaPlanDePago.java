@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,6 +62,27 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plantilla", orphanRemoval = true)
 	private List<ParametroAsociacion> listaParametrosAsociacion = new ArrayList<ParametroAsociacion>();
+	
+	public enum TipoCalculoInteres {
+		FRANCÉS, ALEMÁN, DIRECTO;
+		
+		@Override
+		public String toString() {
+			return super.toString();
+		}
+	}
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "TIPO_CALCULO_INTERES")
+	private TipoCalculoInteres tipoCalculoInteres = TipoCalculoInteres.DIRECTO;
+	
+	public TipoCalculoInteres getTipoCalculoInteres() {
+		return tipoCalculoInteres;
+	}
+
+	public void setTipoCalculoInteres(TipoCalculoInteres tipoCalculoInteres) {
+		this.tipoCalculoInteres = tipoCalculoInteres;
+	}
 	
 	public List<ParametroAsociacion> getListaParametrosAsociacion() {
 		return listaParametrosAsociacion;
