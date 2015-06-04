@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Planilla_Diaria_Caja_Ingresos_Varios" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<field name="F_CONCEPTO" class="java.lang.String"/>
+	<field name="F_INGRESO" class="java.lang.Integer"/>
+	<field name="F_CUENTA" class="java.lang.String"/>
+	<field name="F_MONTO_IMPUTACION" class="java.lang.Double"/>
+	<field name="F_NRO_TICKET" class="java.lang.Integer"/>
+	<field name="F_PERSONA" class="java.lang.String"/>
+	<field name="F_CUIT" class="java.lang.String"/>
+	<variable name="F_NRO_TICKET_1" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$F{F_NRO_TICKET}]]></variableExpression>
+	</variable>
+	<variable name="F_PERSONA_1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{F_PERSONA}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="48" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="842" height="48"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="49" y="0" width="34" height="39" backcolor="#DCDCDC"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="false"/>
+							</textElement>
+							<text><![CDATA[Nro Ticket]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="49" height="39" backcolor="#DCDCDC"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="false"/>
+							</textElement>
+							<text><![CDATA[Nro Ingreso]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="128" y="0" width="60" height="39" backcolor="#DCDCDC"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="false"/>
+							</textElement>
+							<text><![CDATA[Persona]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="83" y="0" width="45" height="39" backcolor="#DCDCDC"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="false"/>
+							</textElement>
+							<text><![CDATA[CUIT]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="F_INGRESO" width="49" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{F_INGRESO}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="49" height="10"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_INGRESO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="F_NRO_TICKET" width="34">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{F_NRO_TICKET}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="34" height="10"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_NRO_TICKET}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="F_CUIT" width="45">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_CUIT}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="45" height="10"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_CUIT}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="F_PERSONA" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_PERSONA}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="10"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_PERSONA}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="F_CUENTA" height="39" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_CUENTA}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="45" height="39" backcolor="#DCDCDC"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="5" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_CUENTA}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="29" height="39" backcolor="#DCDCDC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Courier New" size="5" isBold="false"/>
+								</textElement>
+								<text><![CDATA[Total Ingreso]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="F_MONTO_IMPUTACIONMeasure" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{F_MONTO_IMPUTACION}]]></measureExpression>
+				</measure>
+				<crosstabCell width="45" height="10">
+					<cellContents>
+						<textField pattern="###0.00">
+							<reportElement style="Crosstab Data Text" x="7" y="0" width="28" height="10"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{F_MONTO_IMPUTACIONMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="29" height="10" columnTotalGroup="F_CUENTA">
+					<cellContents>
+						<textField pattern="###0.00">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="29" height="10"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{F_MONTO_IMPUTACIONMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="45" height="12" rowTotalGroup="F_INGRESO">
+					<cellContents mode="Opaque">
+						<textField pattern="###0.00">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="7" y="0" width="28" height="12" backcolor="#DCDCDC"/>
+							<box>
+								<topPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{F_MONTO_IMPUTACIONMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="29" height="12" rowTotalGroup="F_INGRESO" columnTotalGroup="F_CUENTA">
+					<cellContents mode="Opaque">
+						<textField pattern="###0.00">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="29" height="12" backcolor="#DCDCDC"/>
+							<box>
+								<topPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="5" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{F_MONTO_IMPUTACIONMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="35" height="16" rowTotalGroup="F_PERSONA">
+					<cellContents mode="Opaque">
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="209" height="12"/>
+							<textElement/>
+							<text><![CDATA[Static text]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>
