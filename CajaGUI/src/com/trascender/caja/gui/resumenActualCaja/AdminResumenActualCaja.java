@@ -258,7 +258,7 @@ public class AdminResumenActualCaja extends AdminController<TicketCaja> {
 	void imprimirResumenes() throws Exception {
 //		this.imprimirPlanillaDiaria();
 		this.imprimirPlanillaDiariaPorTasa();
-//		this.imprimirPlanillaDiariaPorIngresos();
+		this.imprimirPlanillaDiariaPorIngresos();
 	}
 	
 	
