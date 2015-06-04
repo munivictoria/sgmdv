@@ -40,6 +40,22 @@ public class Util {
 	public static boolean isFechaBetweenNoTima(Date pFecha, Date pFechaMenor, Date pFechaMayor) {
 		return compareDate(pFecha, pFechaMenor) > -1 && compareDate(pFecha, pFechaMayor) < 1;
 	}
+	
+	/**
+	 * Si la fecha es Sabado o Domingo, la lleva al dia lunes.
+	 * @param pDate
+	 * @return
+	 */
+	public static synchronized Date llevarFechaALunes(Date pDate) {
+		Calendar calendario = Calendar.getInstance();
+		calendario.setTime(pDate);
+		int diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
+		if (diaSemana == Calendar.SATURDAY)
+			calendario.add(Calendar.DAY_OF_MONTH, 2);
+		if (diaSemana == Calendar.SUNDAY)
+			calendario.add(Calendar.DAY_OF_MONTH, 1);
+		return calendario.getTime();
+	}
 
 	/**
 	 * 
