@@ -702,3 +702,7 @@ Where
  alter table cuota_refinanciac add column recargo importe;
  
  insert into log_scripts_corridos values(122,122,now());
+ 
+ alter table plantilla_plan_de_pago add tipo_calculo_interes varchar(20) not null default 'DIRECTO';
+ 
+ insert into log_scripts_corridos values(123,123,now());

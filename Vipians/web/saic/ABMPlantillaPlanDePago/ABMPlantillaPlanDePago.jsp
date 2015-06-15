@@ -94,6 +94,18 @@
 									</td>
 								</tr>
 								<tr>
+												<td align="right">
+													<ui:label id="lblTipoCalculoInteres" for="ddTipoCalculoInteres" styleClass="label" text="Tipo Calculo de Interes" />
+												</td>
+												<td align="left">
+													<ui:dropDown binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.ddTipoCalculoInteres}"
+														id="ddTipoCalculoInteres"
+														items="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.ddTipoCalculoInteresDefaultOptions.options}" 
+														styleClass="textField" />
+												</td>
+												<td></td><td></td>
+											</tr>
+									<tr>
 									<td align="right" nowrap="nowrap">
 										<ui:label for="tfCantidadDiasCese" id="lblCantidadDiasCese" styleClass="label" text="Cantidad Dias Cese" />
 									</td>

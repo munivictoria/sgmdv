@@ -290,7 +290,7 @@
 															selected="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.currentRowSelected}" sourceData="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.ldpCuotasGeneradas}"
 															sourceVar="currentRow">
 															<ui:tableColumn align="center" binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.tableColumn1}" id="tableColumn1" valign="middle" width="10">
-																<ui:checkbox binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.cbSeleccion}" id="cbSeleccion" label="" name="buttonGroupCB" onClick="checkUncheck(this)"
+																<ui:checkbox binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.cbSeleccion}" id="cbSeleccion" label="" name="buttonGroupCB"
 																	selected="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.selected}" selectedValue="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.selectedValue}" />
 															</ui:tableColumn>
 															<ui:tableColumn binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.tableColumn2}" headerText="Cuota Nº" id="tableColumn2" sort="numeroCuota">

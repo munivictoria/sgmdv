@@ -855,7 +855,6 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 		try {
 			CuotaRefinanciacionDS cuotasDS = new CuotaRefinanciacionDS(pListaCuotasRefinanciacion, this.getTituloReporte());
 			JasperPrint jp = this.getJasperPrint2(cuotasDS);
-
 			return jp;
 		} catch(Exception e) {
 			e.printStackTrace();

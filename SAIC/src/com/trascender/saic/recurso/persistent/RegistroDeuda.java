@@ -355,5 +355,18 @@ public class RegistroDeuda implements Serializable, Pagable {
 
 	public void setStringObligacion(String pString) {
 	}
+	
+	public String getCodigoBarrasEstandar() {
+		String idCadena = String.valueOf(this.idRegistroDeuda);
+		String retorno = "";
+		int locTamanio=idCadena.length();
+		int agregar = 18 - locTamanio;
+		if (agregar>0){
+			for (int i=0;i<agregar;i++){
+				retorno += "0";
+			}
+		}
+		return "1"+retorno+idCadena;
+	}
 
 }

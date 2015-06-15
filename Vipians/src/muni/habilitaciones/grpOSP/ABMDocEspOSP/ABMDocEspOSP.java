@@ -39,6 +39,7 @@ import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.catastro.recurso.persistent.RegistroPropietario;
 import com.trascender.catastro.recurso.persistent.SubParcela;
+import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.Domicilio;
 import com.trascender.framework.recurso.persistent.Localidad;
@@ -48,6 +49,7 @@ import com.trascender.framework.util.LogAuditoria;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.habilitaciones.recurso.filtros.FiltroConsumoBasico;
 import com.trascender.habilitaciones.recurso.persistent.AsocRegAlicuota;
+import com.trascender.habilitaciones.recurso.persistent.FiltroObligacionTGI;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.habilitaciones.recurso.persistent.PlantillaObligacion;
 import com.trascender.habilitaciones.recurso.persistent.osp.AsocServicioOsp;
@@ -1282,6 +1284,7 @@ public class ABMDocEspOSP extends ABMPageBean {
 		ep.getObjetos().add(ind++, new ArrayList());// AtributosDinamicos
 		ep.getObjetos().add(ind++, null);// 8 subparcela
 		ep.getObjetos().add(ind++, null); // 9 FiltroLogLiquidacion
+		ep.getObjetos().add(ind++, null); //10 Obligacion TGI
 
 		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
 		// seleccionado.
@@ -2268,7 +2271,6 @@ public class ABMDocEspOSP extends ABMPageBean {
 			// parcela
 		} else {
 			if(pObject instanceof Parcela) {
-				System.out.println("es PARCELA");
 				this.setRBSelected((new Long(0)).toString());
 				Parcela parcela = (Parcela) pObject;
 
@@ -2281,6 +2283,28 @@ public class ABMDocEspOSP extends ABMPageBean {
 
 				if(parcela.getTituloPropiedad() != null) {
 					this.getElementoPila().getObjetos().set(3, parcela);
+					
+					/*
+					 * Buscamos una obligacion TGI, si la hay, tenemos que tomar la persona y el domicilio
+					 * de la misma, y no se puede cambiar.
+					 */
+					FiltroObligacionTGI locFiltro = new FiltroObligacionTGI();
+					locFiltro.setParcela(parcela);
+					locFiltro.setEstado(Obligacion.Estado.CREADO);
+					try {
+						getCommunicationHabilitacionesBean().getRemoteSystemObligacion().setLlave(this.getSessionBean1().getLlave());
+						locFiltro = getCommunicationHabilitacionesBean().getRemoteSystemObligacion().findListaObligacionesTGI(locFiltro);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (!locFiltro.getListaResultados().isEmpty()) {
+						Obligacion locObligacion = locFiltro.getListaResultados().iterator().next();
+						this.getElementoPila().getObjetos().set(2, locObligacion.getPersona());
+						this.getElementoPila().getObjetos().set(4, locObligacion.getDocumentoEspecializado().getDomicilio());
+						this.getElementoPila().getObjetos().set(10, locObligacion);
+						this.getStDomicilioPostal().setText(locObligacion.getDocumentoEspecializado().getDomicilio().getDomicilioArmado());
+						return;
+					}
 				} else {
 					this.getRequestBean1().setObjetoSeleccion(null);
 					this.getElementoPila().getObjetos().set(3, null);

@@ -202,7 +202,8 @@ public class BusinessDocumentoTGIBean implements BusinessDocumentoTGILocal {
 	 * @ejb.interface-method view-type = "local"
 	 */
 	public FiltroObligacionTGI findListaDocumentosTGI(FiltroObligacionTGI pFiltro) throws Exception {
-		Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoTGI.class).add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()))
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoTGI.class)
+				.add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()))
 				.add(Restriccion.IGUAL("parcela.nroRegistro", ((pFiltro.getNumeroRegistro() != null) ? pFiltro.getNumeroRegistro().toString() : null)))
 				.add(Restriccion.IGUAL("obligacion.estado", pFiltro.getEstado()));
 

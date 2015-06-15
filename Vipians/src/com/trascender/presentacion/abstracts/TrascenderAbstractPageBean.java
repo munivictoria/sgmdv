@@ -644,6 +644,12 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 		}
 	}
 	
+	protected <T extends Enum<T>> void setDDEnumValue(DropDown dd, T valor) {
+		if (dd != null && valor != null) {
+			dd.setSelected(valor.toString());
+		}
+	}
+	
 	public void subirReporteASesion(String nombreReporte, int formatoReporte, JasperPrint reporte) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, formatoReporte);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", nombreReporte);

@@ -14,6 +14,7 @@ import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Button;
 import com.sun.rave.web.ui.component.Checkbox;
+import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.MessageGroup;
 import com.sun.rave.web.ui.component.PanelGroup;
 import com.sun.rave.web.ui.component.RadioButton;
@@ -22,9 +23,9 @@ import com.sun.rave.web.ui.component.TableColumn;
 import com.sun.rave.web.ui.component.TableRowGroup;
 import com.sun.rave.web.ui.component.TextArea;
 import com.sun.rave.web.ui.component.TextField;
-import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
+import com.sun.rave.web.ui.model.Option;
+import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
-import com.trascender.contabilidad.recurso.persistent.RelaConceptoIngresoVarioCuenta;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
@@ -45,6 +46,9 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		if(this.getListaDelCommunicationParametrosAsociacion() != null) {
 			this.ldpCuentas.setList(this.getListaDelCommunicationParametrosAsociacion());
 		}
+		Option[] opciones = null;
+		opciones = this.getApplicationBean1().getMgrDropDown().armarArrayOptionsList(PlantillaPlanDePago.TipoCalculoInteres.values(), "cap");
+		ddTipoCalculoInteresDefaultOptions.setOptions(opciones);
 	}
 
 	private ObjectListDataProvider ldpCuentas = new ObjectListDataProvider();
@@ -70,7 +74,26 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	private PanelGroup pgCuentas = new PanelGroup();
 	private Button btnAgregarCuenta = new Button();
 	private HtmlAjaxCommandButton btnQuitarCuenta = new HtmlAjaxCommandButton();
+	private DropDown ddTipoCalculoInteres = new DropDown();
+	private SingleSelectOptionsList ddTipoCalculoInteresDefaultOptions = new SingleSelectOptionsList();
 	
+	public DropDown getDdTipoCalculoInteres() {
+		return ddTipoCalculoInteres;
+	}
+
+	public void setDdTipoCalculoInteres(DropDown ddTipoCalculoInteres) {
+		this.ddTipoCalculoInteres = ddTipoCalculoInteres;
+	}
+
+	public SingleSelectOptionsList getDdTipoCalculoInteresDefaultOptions() {
+		return ddTipoCalculoInteresDefaultOptions;
+	}
+
+	public void setDdTipoCalculoInteresDefaultOptions(
+			SingleSelectOptionsList ddTipoCalculoInteresDefaultOptions) {
+		this.ddTipoCalculoInteresDefaultOptions = ddTipoCalculoInteresDefaultOptions;
+	}
+
 	public PanelGroup getPgCuentas() {
 		return pgCuentas;
 	}
@@ -311,6 +334,7 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		plantillaPlanDePago.setTasaNominalAnual(getTextFieldValueDouble(tfTasaNominalAnual));
 		plantillaPlanDePago.setCantidadCuotasCese(getTextFieldValueInteger(tfCantidadCuotasCese));
 		plantillaPlanDePago.setCantidadDiasCese(getTextFieldValueInteger(tfCantidadDiasCese));
+		plantillaPlanDePago.setTipoCalculoInteres(getDDEnumValue(getDdTipoCalculoInteres(), PlantillaPlanDePago.TipoCalculoInteres.class));
 
 		this.getLdpCuentas().commitChanges();
 		plantillaPlanDePago.setListaParametrosAsociacion(this.getLdpCuentas().getList());
@@ -338,6 +362,8 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		
 		this.setTextFieldValueInteger(tfCantidadCuotasCese, plantillaPlanDePago.getCantidadCuotasCese());
 		this.setTextFieldValueInteger(tfCantidadDiasCese, plantillaPlanDePago.getCantidadDiasCese());
+		
+		this.setDDEnumValue(getDdTipoCalculoInteres(), plantillaPlanDePago.getTipoCalculoInteres());
 		
 		this.getLdpCuentas().setList(plantillaPlanDePago.getListaParametrosAsociacion());
 		this.setListaDelCommunicationParametrosAsociacion(getLdpCuentas().getList());

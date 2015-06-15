@@ -214,6 +214,7 @@ public class DocEspOSPModel extends ABMModel {
 			abmDocEspOSP.getTablaLogs().setRendered(false);
 
 			alternarServiciosOSP();
+			deshabilitarPorObligacionTGIEncontrada();
 		}
 
 		@Override
@@ -247,6 +248,7 @@ public class DocEspOSPModel extends ABMModel {
 			getBeanDocEspOSP().getBtnLimpiarSubParcela().setRendered(false);
 
 			alternarServiciosOSP();
+			deshabilitarPorObligacionTGIEncontrada();
 		}
 
 		@Override
@@ -369,12 +371,19 @@ public class DocEspOSPModel extends ABMModel {
 		} else {
 			abmDocEspOSP.getGroupPanel2().setRendered(false);
 			abmDocEspOSP.getGroupPanel1().setRendered(true);
-
-			List listaServicios = new ArrayList(getBeanDocEspOSP().obtenerObjetoDelElementoPila(1, DocumentoOSP.class).getListaRegAlicuotas());
-			// listaServicios.get(0);
-
 		}
-		System.out.println("///////////////////////////////// varios servicios OSP = " + SecurityMgr.getInstance().getMunicipalidad().isVariosServiciosOSP());
+	}
+	
+	private void deshabilitarPorObligacionTGIEncontrada() {
+		ABMDocEspOSP bean = getBeanDocEspOSP();
+		Obligacion obligacionTGI = (Obligacion) bean.getElementoPila().getObjetos().get(10);
+		if (obligacionTGI != null) {
+			bean.getBtnLimpiarDomicilioPostal().setRendered(false);
+			bean.getBtnSeleccionarDomicilioParcela().setRendered(false);
+			bean.getBtnSeleccionarDomicilioPostal().setRendered(false);
+			bean.getBtnSeleccionarDomicilioSolicitante().setRendered(false);
+			bean.getCheckbox1().setDisabled(true);
+		}
 	}
 
 	@Override

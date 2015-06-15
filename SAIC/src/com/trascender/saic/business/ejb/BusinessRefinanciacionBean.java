@@ -134,7 +134,6 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			if(i > 1) {
 				fecha = locCalendar.getTime();
 				fecha = Util.llevarFechaALunes(fecha);
-				locCalendar.add(Calendar.MONTH, 1);
 			}
 			locCuotaRefinanciacion.setFechaVencimiento(fecha);
 			
@@ -428,7 +427,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			}
 		}
 		else {
-			return new Double(pCapital / pCantidadCuotas);
+			return Util.redondear(new Double(pCapital / pCantidadCuotas), 2);
 		}
 	}
 	
@@ -458,7 +457,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 						/ (Math.pow(locDivisor + 1, pCantidadCuotas) - 1)).doubleValue();
 			}
 		} else {
-			return new Double(pCapital * (pTasaNominalAnual / 100) / pCantidadCuotas);
+			return Util.redondear(new Double(pCapital * pTasaNominalAnual / 12 / 100), 2);
 		}
 	}
 	
