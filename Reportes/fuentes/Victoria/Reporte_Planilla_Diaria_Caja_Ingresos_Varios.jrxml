@@ -29,28 +29,28 @@
 						<staticText>
 							<reportElement style="Crosstab Data Text" mode="Opaque" x="49" y="0" width="34" height="39" backcolor="#DCDCDC"/>
 							<textElement verticalAlignment="Middle">
-								<font fontName="Courier New" size="5" isBold="false"/>
+								<font fontName="Courier New" size="7" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Nro Ticket]]></text>
 						</staticText>
 						<staticText>
 							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="49" height="39" backcolor="#DCDCDC"/>
 							<textElement verticalAlignment="Middle">
-								<font fontName="Courier New" size="5" isBold="false"/>
+								<font fontName="Courier New" size="7" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Nro Ingreso]]></text>
 						</staticText>
 						<staticText>
 							<reportElement style="Crosstab Data Text" mode="Opaque" x="128" y="0" width="60" height="39" backcolor="#DCDCDC"/>
 							<textElement verticalAlignment="Middle">
-								<font fontName="Courier New" size="5" isBold="false"/>
+								<font fontName="Courier New" size="7" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Persona]]></text>
 						</staticText>
 						<staticText>
 							<reportElement style="Crosstab Data Text" mode="Opaque" x="83" y="0" width="45" height="39" backcolor="#DCDCDC"/>
 							<textElement verticalAlignment="Middle">
-								<font fontName="Courier New" size="5" isBold="false"/>
+								<font fontName="Courier New" size="7" isBold="true"/>
 							</textElement>
 							<text><![CDATA[CUIT]]></text>
 						</staticText>
@@ -141,7 +141,7 @@
 							<textField>
 								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="45" height="39" backcolor="#DCDCDC"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Courier New" size="5" isBold="false"/>
+									<font fontName="Courier New" size="5" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{F_CUENTA}]]></textFieldExpression>
 							</textField>
@@ -152,7 +152,7 @@
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="29" height="39" backcolor="#DCDCDC"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Courier New" size="5" isBold="false"/>
+									<font fontName="Courier New" size="5" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Total Ingreso]]></text>
 							</staticText>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteResumenCajaMaestro" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORTE_LIQUIDACIONES" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SUBREPORTE_INGRESOS" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SUBREPORTE_REFINANCIACIONES" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATASOURCE_LIQUIDACIONES" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DATASOURCE_INGRESOS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DATASOURCE_REFINANCIACIONES" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="MAPA_LIQUIDACIONES" class="java.util.Map"/>
+	<parameter name="MAPA_INGRESOS" class="java.util.Map"/>
+	<parameter name="MAPA_REFINANCIACIONES" class="java.util.Map"/>
+	<title>
+		<band height="792">
+			<subreport>
+				<reportElement x="0" y="0" width="612" height="100"/>
+				<parametersMapExpression><![CDATA[$P{MAPA_LIQUIDACIONES}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[$P{DATASOURCE_LIQUIDACIONES}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORTE_LIQUIDACIONES}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="101" width="612" height="100"/>
+				<parametersMapExpression><![CDATA[$P{MAPA_INGRESOS}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[$P{DATASOURCE_INGRESOS}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORTE_INGRESOS}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="202" width="612" height="100"/>
+				<parametersMapExpression><![CDATA[$P{MAPA_REFINANCIACIONES}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[$P{DATASOURCE_REFINANCIACIONES}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORTE_REFINANCIACIONES}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="100" width="100" height="1"/>
+			</break>
+			<break>
+				<reportElement x="0" y="201" width="100" height="1"/>
+			</break>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="ID_USUARIO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ID_CAJA" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PAR_IMAGEN" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+
+pf.nombre||' '||pf.apellido as "nombre y apellido", us.usuario as "usuario",
+caj.nombre as "caja", caj.numero as "numero caja", tc.fecha as "ticket fecha",
+tc.numero as "ticket numero", tc.importe as "ticket importe", tc.estado
+
+from caja caj
+inner join ticket_caja tc on tc.id_caja = caj.id_caja
+inner join detalle_ticket_caja dtc on dtc.id_ticket_caja = tc.id_ticket_caja
+inner join planilla_diaria_caja pl on pl.id_planilla_diaria_caja = tc.id_planilla_diaria_caja
+inner join usuario us on us.id_usuario = tc.id_usuario
+inner join persona_fisica pf on pf.id_persona = us.id_persona
+where us.id_usuario = $P{ID_USUARIO} and caj.id_caja = $P{ID_CAJA} and tc.fecha = current_date
+and tc.estado = 'ACTIVO'
+order by tc.fecha, tc.numero]]>
+	</queryString>
+	<field name="nombre y apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="caja" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero caja" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ticket fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ticket numero" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ticket importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ESTADO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="ticket importe_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{ticket importe}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="0" width="66" height="63"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="67" y="0" width="291" height="45"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Monospace" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Municipalidad de Crespo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="45" width="291" height="18"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="monospaced" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[25 de Mayo 943 - I.V.A. Exento - C.U.I.T. Nº 30-99905389-7]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="358" y="0" width="197" height="63"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="358" y="0" width="197" height="63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Monospace" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planilla Diaria de Caja]]></text>
+			</staticText>
+			<image vAlign="Middle" onErrorType="Blank">
+				<reportElement x="8" y="0" width="52" height="63"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="70" splitType="Stretch">
+			<rectangle>
+				<reportElement x="358" y="0" width="197" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="358" y="0" width="55" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Usuario: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="413" y="0" width="142" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="358" y="20" width="197" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="161" y="20" width="197" height="16"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="20" width="160" height="16"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="36" width="161" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{caja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="36" width="197" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero caja}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="358" y="36" width="197" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ticket fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="20" width="161" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Caja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="161" y="20" width="197" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Número de Caja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="358" y="20" width="197" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Fecha ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="51" width="555" height="3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="54" width="554" height="16"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="358" y="54" width="197" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Importe de Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="54" width="198" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Número de Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="198" y="54" width="160" height="16" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace"/>
+				</textElement>
+				<text><![CDATA[ Detalle del Ticket]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="198" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ticket numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00">
+				<reportElement x="358" y="1" width="197" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ticket importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="1" width="160" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTADO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="89" splitType="Stretch">
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="519" y="70" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Monospace" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="340" y="70" width="179" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Monospace" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="358" y="6" width="197" height="50"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="363" y="26" width="46" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Monospace" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="$#,##0.00">
+				<reportElement x="409" y="26" width="146" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ticket importe_1}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="6" width="358" height="50"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="26" width="105" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Monospace" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma de :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="26" width="227" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Monospace"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre y apellido}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

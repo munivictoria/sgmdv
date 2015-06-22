@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportePlanillaDiariaCajaIngresosVariosMaestro" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true">
-	<property name="ireport.zoom" value="1.2100000000000013"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportePlantillaDiariaCajaRefinanciacion" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.9090909090909095"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="35"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -83,209 +83,152 @@
 	<parameter name="PAR_CAJERO" class="java.lang.String"/>
 	<parameter name="PAR_PERSONA" class="java.lang.String"/>
 	<parameter name="PAR_LISTA_IMPUTACIONES" class="java.util.List"/>
-	<parameter name="CANCELADOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<parameter name="TIPOS_PAGOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="CANCELADOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<field name="F_DETALLE_TICKET" class="com.trascender.contabilidad.recurso.persistent.DetalleTicketCaja"/>
-	<field name="F_INGRESO_VARIO" class="com.trascender.contabilidad.recurso.persistent.IngresoVario"/>
+	<field name="F_CUOTA" class="com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion"/>
 	<variable name="CANTIDAD_TICKETS" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{F_DETALLE_TICKET}]]></variableExpression>
 	</variable>
 	<variable name="IMPORTE_TOTAL" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{F_DETALLE_TICKET}.getImporte()]]></variableExpression>
 	</variable>
-	<pageHeader>
-		<band height="52">
+	<title>
+		<band height="52" splitType="Stretch">
+			<textField>
+				<reportElement x="458" y="31" width="73" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="0" width="56" height="20" backcolor="#DCDCDC"/>
+				<reportElement mode="Opaque" x="189" y="0" width="67" height="20" backcolor="#DCDCDC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[Persona]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="531" y="31" width="40" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_NRO_CAJA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h:mm" isBlankWhenNull="false">
+				<reportElement x="521" y="0" width="50" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="20" width="56" height="20" backcolor="#DCDCDC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[Cajero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="56" height="20" backcolor="#DCDCDC"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<text><![CDATA[Nº Caja]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="57" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_NRO_CAJA}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="2" y="20" width="55" height="20" backcolor="#DCDCDC"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<text><![CDATA[Cajero]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="57" y="20" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_CAJERO}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="190" y="0" width="67" height="20" backcolor="#DCDCDC"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<text><![CDATA[Persona]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="257" y="0" width="226" height="20"/>
+				<reportElement x="256" y="0" width="226" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{PAR_PERSONA}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h:mm" isBlankWhenNull="false">
-				<reportElement x="522" y="0" width="50" height="31"/>
+			<textField>
+				<reportElement x="56" y="20" width="100" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="459" y="31" width="73" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="532" y="31" width="40" height="20"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{PAR_CAJERO}]]></textFieldExpression>
 			</textField>
 		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="20">
+		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="80" height="20"/>
+				<reportElement x="208" y="0" width="206" height="20"/>
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
-				<text><![CDATA[Ticket]]></text>
+				<text><![CDATA[En concepto de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="0" width="125" height="20"/>
+				<reportElement x="83" y="0" width="125" height="20"/>
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
 				<text><![CDATA[Apellido y Nombres]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="411" y="1" width="100" height="19"/>
+				<reportElement x="3" y="0" width="80" height="20"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="0" width="100" height="20"/>
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
 				<text><![CDATA[Importe]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="205" y="0" width="206" height="20"/>
-				<textElement>
-					<font fontName="Courier New"/>
-				</textElement>
-				<text><![CDATA[Concepto]]></text>
-			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21">
-			<textField>
-				<reportElement x="2" y="0" width="78" height="20"/>
-				<textElement>
-					<font fontName="Courier New"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{F_DETALLE_TICKET}.getTicketCaja().getNumero()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="78" y="0" width="127" height="20"/>
-				<textElement>
-					<font fontName="Courier New"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{F_INGRESO_VARIO}.getPersona().getDenominacion()]]></textFieldExpression>
-			</textField>
+		<band height="20" splitType="Stretch">
 			<textField pattern="$ #,##0.00">
-				<reportElement x="411" y="1" width="100" height="20"/>
+				<reportElement x="414" y="0" width="100" height="20"/>
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_DETALLE_TICKET}.getTicketCaja().getImporteTotal()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="1" width="206" height="20"/>
+				<reportElement x="83" y="0" width="127" height="20"/>
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_INGRESO_VARIO}.getConceptoIngresoVario().getNombre()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_CUOTA}.getPersona()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="0" width="80" height="20"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DETALLE_TICKET}.getTicketCaja().getNumero()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="204" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{F_DETALLE_TICKET}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
-		<band height="452">
-			<componentElement>
-				<reportElement key="table" style="table" x="0" y="332" width="570" height="50"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Table Dataset 1">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{PAR_LISTA_IMPUTACIONES})]]></dataSourceExpression>
-					</datasetRun>
-					<jr:column width="90">
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell style="table_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement>
-									<font fontName="Courier New"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{cuenta}.getAbreviatura()]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="352">
-						<jr:columnFooter height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="264" y="0" width="88" height="30"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Courier New"/>
-								</textElement>
-								<text><![CDATA[Total]]></text>
-							</staticText>
-						</jr:columnFooter>
-						<jr:detailCell style="table_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="352" height="20"/>
-								<textElement textAlignment="Center" verticalAlignment="Top">
-									<font fontName="Courier New"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{cuenta}.getNombre()]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="124">
-						<jr:columnFooter height="30" rowSpan="1">
-							<textField pattern="$ #,##0.00">
-								<reportElement x="0" y="0" width="124" height="30"/>
-								<textElement>
-									<font fontName="Courier New"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{V_TOTAL_IMPUTACIONES}]]></textFieldExpression>
-							</textField>
-						</jr:columnFooter>
-						<jr:detailCell style="table_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="124" height="20"/>
-								<textElement/>
-								<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
+		<band height="365" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="266" y="127" width="306" height="21" backcolor="#D4D4D4"/>
+				<reportElement mode="Opaque" x="266" y="138" width="306" height="21" backcolor="#D4D4D4"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -298,48 +241,6 @@
 				</textElement>
 				<text><![CDATA[Total de Ticket Cobrados al Día]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="483" y="105" width="89" height="22"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{CANTIDAD_TICKETS}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="266" y="105" width="217" height="22" backcolor="#D4D4D4"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cantidad de Tickets Cobrados]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="266" y="180" width="306" height="21" backcolor="#D4D4D4"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Detalles de los cobros]]></text>
-			</staticText>
-			<rectangle>
-				<reportElement x="0" y="106" width="266" height="95"/>
-			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="572" height="20" backcolor="#D4D4D4"/>
 				<box>
@@ -353,8 +254,22 @@
 				</textElement>
 				<text><![CDATA[Tickets Cancelados]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="266" y="116" width="217" height="22" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad de Tickets Cobrados]]></text>
+			</staticText>
 			<textField pattern="$ #,##0.00">
-				<reportElement x="266" y="148" width="306" height="32"/>
+				<reportElement x="266" y="159" width="306" height="32"/>
 				<box>
 					<rightPen lineWidth="1.0"/>
 				</box>
@@ -363,30 +278,106 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{IMPORTE_TOTAL}]]></textFieldExpression>
 			</textField>
+			<rectangle>
+				<reportElement x="0" y="117" width="266" height="95"/>
+			</rectangle>
 			<staticText>
-				<reportElement x="1" y="107" width="88" height="20"/>
+				<reportElement mode="Opaque" x="266" y="191" width="306" height="21" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalles de los cobros]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="483" y="116" width="89" height="22"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{CANTIDAD_TICKETS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="118" width="88" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observaciones:]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="295" width="571" height="50"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{PAR_LISTA_IMPUTACIONES})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{cuenta}.getAbreviatura()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="372">
+						<jr:columnFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="309" y="0" width="63" height="30"/>
+								<textElement/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="372" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{cuenta}.getNombre()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108">
+						<jr:columnFooter height="30" rowSpan="1">
+							<textField pattern="$ #,##0.00">
+								<reportElement x="0" y="0" width="108" height="30"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$V{V_TOTAL_IMPUTACIONES}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="108" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 			<staticText>
-				<reportElement x="0" y="312" width="100" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Courier New" isBold="true"/>
-				</textElement>
+				<reportElement x="3" y="275" width="100" height="20"/>
+				<textElement/>
 				<text><![CDATA[Imputaciones]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="2" y="20" width="568" height="85"/>
+				<reportElement key="table 1" style="table 1" x="0" y="20" width="572" height="96"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table Dataset 2">
 						<dataSourceExpression><![CDATA[$P{CANCELADOS_DS}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="122">
+					<jr:column width="166">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="122" height="30" backcolor="#D4D4D4"/>
+								<reportElement mode="Opaque" x="0" y="0" width="166" height="30" backcolor="#D4D4D4"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -401,18 +392,16 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="122" height="20"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Courier New"/>
-								</textElement>
+								<reportElement x="0" y="0" width="166" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{F_NUMERO_TICKET}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="208">
+					<jr:column width="206">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="208" height="30" backcolor="#D4D4D4"/>
+								<reportElement mode="Opaque" x="0" y="0" width="206" height="30" backcolor="#D4D4D4"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -427,18 +416,16 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="208" height="20"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Courier New"/>
-								</textElement>
+								<reportElement x="0" y="0" width="206" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{F_IMPORTE_TICKET}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="235">
+					<jr:column width="197">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="235" height="30" backcolor="#D4D4D4"/>
+								<reportElement mode="Opaque" x="0" y="0" width="197" height="30" backcolor="#D4D4D4"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -453,10 +440,8 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="235" height="20"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Courier New"/>
-								</textElement>
+								<reportElement x="0" y="0" width="197" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{F_FECHA_CANCELACION}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -464,29 +449,25 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="266" y="201" width="304" height="111"/>
+				<reportElement key="table 2" style="table 2" x="266" y="212" width="305" height="83"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table Dataset 3">
 						<dataSourceExpression><![CDATA[$P{TIPOS_PAGOS_DS}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="167">
-						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+					<jr:column width="132">
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="167" height="21"/>
-								<textElement>
-									<font fontName="Courier New"/>
-								</textElement>
+								<reportElement x="0" y="0" width="132" height="20"/>
+								<textElement/>
 								<textFieldExpression><![CDATA[$F{F_NOMBRE_TIPO_PAGO}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="131">
-						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+					<jr:column width="171">
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="131" height="21"/>
-								<textElement>
-									<font fontName="Courier New"/>
-								</textElement>
+								<reportElement x="0" y="0" width="171" height="20"/>
+								<textElement/>
 								<textFieldExpression><![CDATA[$F{F_MONTO_TIPO_PAGO}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
