@@ -706,3 +706,20 @@ Where
  alter table plantilla_plan_de_pago add tipo_calculo_interes varchar(20) not null default 'DIRECTO';
  
  insert into log_scripts_corridos values(123,123,now());
+ 
+ create table tasa_nominal_anual(
+id_tasa_nominal_anual clave not null primary key,
+cuotas_hasta integer not null,
+interes numeric(10,2) not null,
+id_plantilla_plan_de_pago clave not null,
+constraint fk_tan_id_plantilla foreign key (id_plantilla_plan_de_pago) 
+references plantilla_plan_de_pago (id_plantilla_plan_de_pago) on delete restrict on update cascade
+);
+
+alter table tasa_nominal_anual owner to vipians;
+
+create sequence gen_id_tasa_nominal_anual;
+
+alter sequence gen_id_tasa_nominal_anual owner to vipians;
+
+ insert into log_scripts_corridos values(124,124,now());
