@@ -16,6 +16,7 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import com.sun.data.provider.RowKey;
@@ -1606,18 +1607,18 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		
 		String[] errores = new String[2];
 		int i = 0;
-		if(documentoRefinanciacion.getPlantilla() != null 
-				&& documentoRefinanciacion.getCantidadCuotas() != null) {
-			if(documentoRefinanciacion.getCantidadCuotas() < 1 
-					|| documentoRefinanciacion.getCantidadCuotas() > documentoRefinanciacion.getPlantilla().getCantidadCuotas()) {
-				documentoRefinanciacion.setCantidadCuotas(null);
-
-				errores[i++] = "La cantidad de cuotas debe estar dentro del rango definido por la plantilla [1 - " 
-						+ documentoRefinanciacion.getPlantilla().getCantidadCuotas() + "]";
-			} else {
-				documentoRefinanciacion.setCantidadCuotas(Conversor.getIntegerDeString(cantidadCuotas.toString()));
-			}
-		}
+//		if(documentoRefinanciacion.getPlantilla() != null 
+//				&& documentoRefinanciacion.getCantidadCuotas() != null) {
+//			if(documentoRefinanciacion.getCantidadCuotas() < 1 
+//					|| documentoRefinanciacion.getCantidadCuotas() > documentoRefinanciacion.getPlantilla().getCantidadCuotas()) {
+//				documentoRefinanciacion.setCantidadCuotas(null);
+//
+//				errores[i++] = "La cantidad de cuotas debe estar dentro del rango definido por la plantilla [1 - " 
+//						+ documentoRefinanciacion.getPlantilla().getCantidadCuotas() + "]";
+//			} else {
+//				documentoRefinanciacion.setCantidadCuotas(Conversor.getIntegerDeString(cantidadCuotas.toString()));
+//			}
+//		}
 		
 		if(this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {
 			Calendar calHoy = Calendar.getInstance();
@@ -1674,7 +1675,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		 * documentoRefinanciacion.getRegCancelacionPorRefinanciacion().setDigestoMunicipal(null); this.getTfDigesto().setText(" "); }
 		 */
 		regCancelacionPorRefinanciacion.setDocumentoRefinanciacion(documentoRefinanciacion);
-
+		
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, periodosAdeudados);
 		this.getElementoPila().getObjetos().set(ind++, digestoMunicipal);
@@ -1918,8 +1919,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			if(plantilla.getCantidadCuotas() != null) {
 				tfCantidadCuotas.setText(plantilla.getCantidadCuotas());
 			}
-			if(plantilla.getTasaNominalAnual() != null) {
-				tfTasaNominalAnual.setText(plantilla.getTasaNominalAnual());
+			if(plantilla.getInteresTNASegunCantidadCuota(plantilla.getCantidadCuotas()) != null) {
+				tfTasaNominalAnual.setText(plantilla.getInteresTNASegunCantidadCuota(plantilla.getCantidadCuotas()));
 			}
 			if(plantilla.getInteresPunitorio() != null) {
 				tfInteresPunitorio.setText(plantilla.getInteresPunitorio());
@@ -1957,6 +1958,25 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		}
 
 		this.guardarEstadoObjetosUsados();
+	}
+	
+	public void cantidadCuotasActionListener(ActionEvent evento) {
+		Object valor = tfCantidadCuotas.getText();
+		if (valor == null || valor.toString().trim().isEmpty()) {
+			return;
+		}
+		Integer cantidadCuotas = Integer.valueOf(valor.toString());
+		setTNAPorCuota(cantidadCuotas);
+	}
+	
+	public void setTNAPorCuota(Integer pCantidadCuota) {
+		DocumentoRefinanciacion doc = (DocumentoRefinanciacion) this.obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
+		Double interes = doc.getPlantilla().getInteresTNASegunCantidadCuota(pCantidadCuota);
+		if (interes == null) {
+			return;
+		}
+		this.tfTasaNominalAnual.setText(interes.toString());
+		doc.setTasaNominalAnual(interes);
 	}
 
 	private ObjectListDataProvider getObjectListDataProvider() {
@@ -2254,15 +2274,15 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				}
 
 				DocumentoRefinanciacion documentoRefinanciacion = (DocumentoRefinanciacion) this.obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
-				if(documentoRefinanciacion.getCantidadCuotas() != null) {
-					if(documentoRefinanciacion.getCantidadCuotas() < 1 
-							|| documentoRefinanciacion.getCantidadCuotas() > documentoRefinanciacion.getPlantilla().getCantidadCuotas()) {
-						locValidador.getErrores().add(
-								"La cantidad de cuotas debe estar dentro del rango definido por la plantilla [1 - " + documentoRefinanciacion.getPlantilla().getCantidadCuotas() + "]");
-					}
-				} else {
-					return null;
-				}
+//				if(documentoRefinanciacion.getCantidadCuotas() != null) {
+//					if(documentoRefinanciacion.getCantidadCuotas() < 1 
+//							|| documentoRefinanciacion.getCantidadCuotas() > documentoRefinanciacion.getPlantilla().getCantidadCuotas()) {
+//						locValidador.getErrores().add(
+//								"La cantidad de cuotas debe estar dentro del rango definido por la plantilla [1 - " + documentoRefinanciacion.getPlantilla().getCantidadCuotas() + "]");
+//					}
+//				} else {
+//					return null;
+//				}
 				
 				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
 					if(this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {
@@ -2290,6 +2310,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				}
 
 				// fin de la validacion.
+				
+				setTNAPorCuota(documentoRefinanciacion.getCantidadCuotas());
 
 				this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
 				Set listaCuotasGeneradas = this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().calcularCuotasRefinanciacion(documentoRefinanciacion);
@@ -2408,15 +2430,15 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				DocumentoRefinanciacion documentoRefinanciacion = (DocumentoRefinanciacion) this.obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
 				Persona suscriptor = (Persona) this.obtenerObjetoDelElementoPila(11, Persona.class);
 				
-				if(documentoRefinanciacion.getCantidadCuotas() != null) {
-					if(documentoRefinanciacion.getCantidadCuotas() < 1 
-							|| documentoRefinanciacion.getCantidadCuotas() > documentoRefinanciacion.getPlantilla().getCantidadCuotas()) {
-						v.getErrores().add(
-								"La cantidad de cuotas debe estar dentro del rango definido por la plantilla [1 - " + documentoRefinanciacion.getPlantilla().getCantidadCuotas() + "]");
-					}
-				} else {
-					return null;
-				}
+//				if(documentoRefinanciacion.getCantidadCuotas() != null) {
+//					if(documentoRefinanciacion.getCantidadCuotas() < 1 
+//							|| documentoRefinanciacion.getCantidadCuotas() > documentoRefinanciacion.getPlantilla().getCantidadCuotas()) {
+//						v.getErrores().add(
+//								"La cantidad de cuotas debe estar dentro del rango definido por la plantilla [1 - " + documentoRefinanciacion.getPlantilla().getCantidadCuotas() + "]");
+//					}
+//				} else {
+//					return null;
+//				}
 				
 				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
 					if(this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {

@@ -30,6 +30,7 @@ import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
+import com.trascender.saic.recurso.persistent.TasaNominalAnual;
 
 /**
  * <p>
@@ -46,12 +47,16 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		if(this.getListaDelCommunicationParametrosAsociacion() != null) {
 			this.ldpCuentas.setList(this.getListaDelCommunicationParametrosAsociacion());
 		}
+		if(this.getCommunicationSAICBean().getListaTasaNominalAnualPlantilla() != null) {
+			this.ldpTasas.setList(this.getCommunicationSAICBean().getListaTasaNominalAnualPlantilla());
+		}
 		Option[] opciones = null;
 		opciones = this.getApplicationBean1().getMgrDropDown().armarArrayOptionsList(PlantillaPlanDePago.TipoCalculoInteres.values(), "cap");
 		ddTipoCalculoInteresDefaultOptions.setOptions(opciones);
 	}
 
 	private ObjectListDataProvider ldpCuentas = new ObjectListDataProvider();
+	private ObjectListDataProvider ldpTasas = new ObjectListDataProvider();
 	private TextField tfNombre = new TextField();
 	private TextField tfMontoCondonacionImporte = new TextField();
 	private TextField tfMontoCondonacionInteres = new TextField();
@@ -76,7 +81,69 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	private HtmlAjaxCommandButton btnQuitarCuenta = new HtmlAjaxCommandButton();
 	private DropDown ddTipoCalculoInteres = new DropDown();
 	private SingleSelectOptionsList ddTipoCalculoInteresDefaultOptions = new SingleSelectOptionsList();
+	private Table tablaTasas = new Table();
+	private TableRowGroup trgTasas = new TableRowGroup();
+	private RadioButton rbTasas = new RadioButton();
+	private PanelGroup pgTasas = new PanelGroup();
+	private HtmlAjaxCommandButton btnAgregarTasa = new HtmlAjaxCommandButton();
+	private HtmlAjaxCommandButton btnQuitarTasa = new HtmlAjaxCommandButton();
 	
+	public HtmlAjaxCommandButton getBtnAgregarTasa() {
+		return btnAgregarTasa;
+	}
+
+	public void setBtnAgregarTasa(HtmlAjaxCommandButton btnAgregarTasa) {
+		this.btnAgregarTasa = btnAgregarTasa;
+	}
+
+	public HtmlAjaxCommandButton getBtnQuitarTasa() {
+		return btnQuitarTasa;
+	}
+
+	public void setBtnQuitarTasa(HtmlAjaxCommandButton btnQuitarTasa) {
+		this.btnQuitarTasa = btnQuitarTasa;
+	}
+
+	public PanelGroup getPgTasas() {
+		return pgTasas;
+	}
+
+	public void setPgTasas(PanelGroup pgTasas) {
+		this.pgTasas = pgTasas;
+	}
+
+	public RadioButton getRbTasas() {
+		return rbTasas;
+	}
+
+	public void setRbTasas(RadioButton rbTasas) {
+		this.rbTasas = rbTasas;
+	}
+
+	public ObjectListDataProvider getLdpTasas() {
+		return ldpTasas;
+	}
+
+	public void setLdpTasas(ObjectListDataProvider ldpTasas) {
+		this.ldpTasas = ldpTasas;
+	}
+
+	public Table getTablaTasas() {
+		return tablaTasas;
+	}
+
+	public void setTablaTasas(Table tablaTasas) {
+		this.tablaTasas = tablaTasas;
+	}
+
+	public TableRowGroup getTrgTasas() {
+		return trgTasas;
+	}
+
+	public void setTrgTasas(TableRowGroup trgTasas) {
+		this.trgTasas = trgTasas;
+	}
+
 	public DropDown getDdTipoCalculoInteres() {
 		return ddTipoCalculoInteres;
 	}
@@ -331,13 +398,16 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		plantillaPlanDePago.setCantidadCuotas(getTextFieldValueInteger(tfCantidadCuotas));
 		plantillaPlanDePago.setDiaVencimiento(getTextFieldValueInteger(tfDiaVencimiento));
 		plantillaPlanDePago.setInteresPunitorio(getTextFieldValueDouble(tfInteresPunitorio));
-		plantillaPlanDePago.setTasaNominalAnual(getTextFieldValueDouble(tfTasaNominalAnual));
 		plantillaPlanDePago.setCantidadCuotasCese(getTextFieldValueInteger(tfCantidadCuotasCese));
 		plantillaPlanDePago.setCantidadDiasCese(getTextFieldValueInteger(tfCantidadDiasCese));
 		plantillaPlanDePago.setTipoCalculoInteres(getDDEnumValue(getDdTipoCalculoInteres(), PlantillaPlanDePago.TipoCalculoInteres.class));
 
 		this.getLdpCuentas().commitChanges();
 		plantillaPlanDePago.setListaParametrosAsociacion(this.getLdpCuentas().getList());
+		
+		this.getLdpTasas().commitChanges();
+		plantillaPlanDePago.setListaTasaNominalAnual(this.getLdpTasas().getList());
+		this.getCommunicationSAICBean().setListaTasaNominalAnualPlantilla(plantillaPlanDePago.getListaTasaNominalAnual());
 
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, plantillaPlanDePago);
@@ -358,7 +428,6 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		this.setTextFieldValueInteger(tfDiaVencimiento, plantillaPlanDePago.getDiaVencimiento());
 		
 		this.setTextFieldValueDouble(tfInteresPunitorio, plantillaPlanDePago.getInteresPunitorio());
-		this.setTextFieldValueDouble(tfTasaNominalAnual, plantillaPlanDePago.getTasaNominalAnual());
 		
 		this.setTextFieldValueInteger(tfCantidadCuotasCese, plantillaPlanDePago.getCantidadCuotasCese());
 		this.setTextFieldValueInteger(tfCantidadDiasCese, plantillaPlanDePago.getCantidadDiasCese());
@@ -367,6 +436,9 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		
 		this.getLdpCuentas().setList(plantillaPlanDePago.getListaParametrosAsociacion());
 		this.setListaDelCommunicationParametrosAsociacion(getLdpCuentas().getList());
+		
+		this.getLdpTasas().setList(plantillaPlanDePago.getListaTasaNominalAnual());
+		this.getCommunicationSAICBean().setListaTasaNominalAnualPlantilla(getLdpTasas().getList());
 	}
 
 	@Override
@@ -450,6 +522,26 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	public void setCurrentRowCuentas(int row) {
 	}
 	
+	private Object lastSelectedTasas = null;
+
+	public Object getRBSelectedTasas() {
+		String sv = (String) rbTasas.getSelectedValue();
+		return sv.equals(lastSelectedTasas) ? sv : null;
+	}
+
+	public void setRBSelectedTasas(Object selected) {
+		if(selected != null) {
+			lastSelectedTasas = selected;
+		}
+	}
+	
+	public String getCurrentRowTasas() {
+		return trgTasas.getRowKey().getRowId();
+	}
+
+	public void setCurrentRowTasas(int row) {
+	}
+	
 	public String btnAgregarCuenta_action() {
 		return navegarParaSeleccionar("AdminCuenta");
 	}
@@ -458,6 +550,16 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		RowKey rk = null;
 		try {
 			String aRowId = (String) RadioButton.getSelected("buttonGroupCuentas");
+			rk = this.getLdpCuentas().getRowKey(aRowId);
+		} catch(Exception ex) {
+		}
+		return rk;
+	}
+	
+	public RowKey getSeleccionadoTasas() {
+		RowKey rk = null;
+		try {
+			String aRowId = (String) RadioButton.getSelected("buttonGroupTasas");
 			rk = this.getLdpCuentas().getRowKey(aRowId);
 		} catch(Exception ex) {
 		}
@@ -493,5 +595,55 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 
 		return retorno;
 	}
+	
+	public String btnAgregarTasa_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
 
+		this.guardarEstadoObjetosUsados();
+
+		if(ultimo) {
+			TasaNominalAnual tna = new TasaNominalAnual();
+			this.getLdpTasas().getList().add(tna);
+			
+			this.guardarEstadoObjetosUsados();
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+
+		return retorno;
+	}
+	
+	public String btnQuitarTasa_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		this.guardarEstadoObjetosUsados();
+
+		if(ultimo) {
+			RowKey rk = null;
+
+			try {
+				rk = this.getSeleccionadoCuentas();
+				if(rk != null) {
+					int index = getNroFila(rk.toString());
+					Object obj = this.getLdpTasas().getObjects()[index];
+					PlantillaPlanDePago locPlantilla = this.obtenerObjetoDelElementoPila(0, PlantillaPlanDePago.class);
+					locPlantilla.getListaParametrosAsociacion().remove(obj);
+				}
+			} catch(Exception ex) {
+			}
+
+			this.guardarEstadoObjetosUsados();
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+
+		return retorno;
+	}
+	
 }

@@ -123,6 +123,126 @@
 								</tr>
 								<tr>
 									<td colspan="2">
+										<ui:label id="lblTasas" styleClass="label57" text="Tasa Nominal Anual" />
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<ui:table augmentTitle="false" binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tablaTasas}"
+											id="tablaTasas">
+											<script>
+												<![CDATA[
+												/* ----- Functions for Table Preferences Panel ----- */
+												/*
+												 * Toggle the table preferences panel open or closed
+												 */
+												function togglePreferencesPanel() {
+													var table = document
+															.getElementById("form1:tablaTasas");
+													table
+															.toggleTblePreferencesPanel();
+												}
+												/* ----- Functions for Filter Panel ----- */
+												/*
+												 * Return true if the filter menu has actually changed,
+												 * so the corresponding event should be allowed to continue.
+												 */
+												function filterMenuChanged() {
+													var table = document
+															.getElementById("form1:tablaTasas");
+													return table
+															.filterMenuChanged();
+												}
+												/*
+												 * Toggle the custom filter panel (if any) open or closed.
+												 */
+												function toggleFilterPanel() {
+													var table = document
+															.getElementById("form1:tablaTasas");
+													return table
+															.toggleTableFilterPanel();
+												}
+												/* ----- Functions for Table Actions ----- */
+												/*
+												 * Initialize all rows of the table when the state
+												 * of selected rows changes.
+												 */
+												function initAllRows() {
+													var table = document
+															.getElementById("form1:tablaTasas");
+													table.initAllRows();
+												}
+												/*
+												 * Set the selected state for the given row groups
+												 * displayed in the table.  This functionality requires
+												 * the 'selectId' of the tableColumn to be set.
+												 *
+												 * @param rowGroupId HTML element id of the tableRowGroup component
+												 * @param selected Flag indicating whether components should be selected
+												 */
+												function selectGroupRows(
+														rowGroupId, selected) {
+													var table = document
+															.getElementById("form1:tablaTasas");
+													table.selectGroupRows(
+															rowGroupId,
+															selected);
+												}
+												/*
+												 * Disable all table actions if no rows have been selected.
+												 */
+												function disableActions() {
+													// Determine whether any rows are currently selected
+													var table = document
+															.getElementById("form1:tablaTasas");
+													var disabled = (table
+															.getAllSelectedRowsCount() > 0) ? false
+															: true;
+													// Set disabled state for top actions
+													document
+															.getElementById(
+																	"form1:tablaTasas:tableActionsTop:deleteTop")
+															.setDisabled(
+																	disabled);
+													// Set disabled state for bottom actions
+													document
+															.getElementById(
+																	"form1:tablaTasas:tableActionsBottom:deleteBottom")
+															.setDisabled(
+																	disabled);
+												}
+												]]>
+											</script>
+											<ui:tableRowGroup binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.trgTasas}" id="trgTasas"
+												sourceData="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.ldpTasas}" sourceVar="currentRowTasas">
+												<ui:tableColumn align="center" id="tcRbTasas"
+													valign="middle" width="10">
+													<ui:radioButton binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.rbTasas}" id="rbTasas" label=""
+														name="buttonGroupTasas" selected="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.RBSelectedTasas}"
+														selectedValue="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.currentRowTasas}" />
+												</ui:tableColumn>
+												<ui:tableColumn headerText="Hasta Cuotas" id="tcHastaCuotas" sort="cuotasHasta">
+													<ui:textField id="tfCuotasHasta" text="#{currentRowTasas.value['cuotasHasta']}"/>
+												</ui:tableColumn>
+												<ui:tableColumn headerText="Interes" id="tcInteres" sort="interes">
+													<ui:textField  id="tfInteres" text="#{currentRowTasas.value['interes']}"/>
+												</ui:tableColumn>
+											</ui:tableRowGroup>
+											<f:facet name="actionsTop">
+												<ui:panelGroup binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.pgTasas}" id="pgTasasAction">
+													<a4j:commandButton action="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnAgregarTasa_action}"
+														binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnAgregarTasa}" id="btnAgregarTasa" 
+														value="Agregar" styleClass="btnAjax" reRender="tablaTasas" />
+													<a4j:commandButton action="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnQuitarTasa_action}"
+														binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.btnQuitarTasa}" id="btnQuitarTasa" 
+														value="Quitar" styleClass="btnAjax" reRender="tablaTasas" />
+												</ui:panelGroup>
+											</f:facet>
+										</ui:table>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
 										<ui:label id="lblCuentas" styleClass="label57" text="Cuentas" />
 									</td>
 								</tr>

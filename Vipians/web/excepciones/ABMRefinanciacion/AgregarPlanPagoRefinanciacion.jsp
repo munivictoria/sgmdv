@@ -405,7 +405,10 @@
 												</td>
 												<td align="left" nowrap="nowrap">
 													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfCantidadCuotas}" columns="6" id="tfCantidadCuotas"
-														onKeyPress="return ValidarNum(event,this)" style="&lt;Valores diferentes&gt;" styleClass="textField" />
+														onKeyPress="return ValidarNum(event,this)" style="&lt;Valores diferentes&gt;" styleClass="textField">
+														<a4j:support event="onChange" actionListener="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.cantidadCuotasActionListener}"
+															reRender="tfTasaNominalAnual"/>
+													</ui:textField>
 												</td>
 												<td align="right" nowrap="nowrap">
 													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblCapitalARefinanciar}" for="tfTotalARefinanciar" id="lblCapitalARefinanciar" styleClass="label2"

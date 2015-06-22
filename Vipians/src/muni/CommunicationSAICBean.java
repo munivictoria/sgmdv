@@ -70,6 +70,7 @@ import com.trascender.saic.recurso.persistent.LogLiquidacion;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.Reliquidacion;
+import com.trascender.saic.recurso.persistent.TasaNominalAnual;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 import com.trascender.saic.system.interfaces.SystemAuditoriaTributaria;
 import com.trascender.saic.system.interfaces.SystemEstadoCuentaContribuyente;
@@ -2210,6 +2211,17 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		return mapaPlantillas;
 	}
 	
+	private List<TasaNominalAnual> listaTasaNominalAnualPlantilla;
+	
+	public List<TasaNominalAnual> getListaTasaNominalAnualPlantilla() {
+		return listaTasaNominalAnualPlantilla;
+	}
+
+	public void setListaTasaNominalAnualPlantilla(
+			List<TasaNominalAnual> listaTasaNominalAnualPlantilla) {
+		this.listaTasaNominalAnualPlantilla = listaTasaNominalAnualPlantilla;
+	}
+
 	private List<ParametroAsociacion> listaParametrosAsociacionPlantilla;
 
 	public List<ParametroAsociacion> getListaParametrosAsociacionPlantilla() {
