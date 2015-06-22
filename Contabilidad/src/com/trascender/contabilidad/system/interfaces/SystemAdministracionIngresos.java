@@ -341,7 +341,10 @@ public interface SystemAdministracionIngresos
 	
 	public List<MovimientoCajaIngreso> getListaMovimientosCaja(List<Pagable> pListaDeudas, boolean conIntereses) throws Exception;
 	
-	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
+	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta)
+			throws Exception;
+	
+	public List<JasperPrint> generarReporteCajaGeneral(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
 			throws Exception;
 	
 	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena) throws Exception;

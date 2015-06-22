@@ -361,4 +361,8 @@ public interface BusinessCajaLocal
 	
 	public JasperPrint generarReporteCajaPorIngresoVario(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
 			throws Exception;
+
+
+	public List<JasperPrint> generarReporteCajaGeneral(Long pIdUsuario, Long pIdCaja,
+			Date pFechaDesde, Date pFechaHasta);
 }

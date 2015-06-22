@@ -23,6 +23,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -56,9 +57,10 @@ import com.trascender.contabilidad.recurso.persistent.PlanillaDiariaCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCancelado;
 import com.trascender.contabilidad.recurso.transients.ResumenActualCajaDataSource;
-import com.trascender.contabilidad.recurso.transients.ResumenActualCajaIngresoVarioDS;
 import com.trascender.contabilidad.reporte.dataSource.PlanillaDiariaCajaIngresoVarioDS;
+import com.trascender.contabilidad.reporte.dataSource.PlanillaDiariaCajaRefinanciacionDS;
 import com.trascender.contabilidad.reporte.dataSource.ReporteCajaDinamico;
+import com.trascender.contabilidad.reporte.dataSource.ResumenCajaGeneralDS;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.Usuario;
@@ -78,7 +80,6 @@ import com.trascender.saic.recurso.persistent.LogLiquidacion;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacion;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacionFormula;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
-import com.trascender.saic.recurso.persistent.RegistroCancelacion;
 import com.trascender.saic.recurso.persistent.RegistroCancelacionManual;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
@@ -704,31 +705,14 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			locMovimientoCajaIngreso.setImporte(importeTotal);
 			locListaRetorno.add(locMovimientoCajaIngreso);
 		} else if(locDeuda instanceof CuotaRefinanciacion) {
-			AsociacionRefinanciacion locAsociacionRefinanciacion = this.getAsociacionRefinanciacion((DocumentoRefinanciacion) ((CuotaRefinanciacion) locDeuda).getDocGeneradorDeuda());// toma
-																																														// pa
-																																														// vo'
-																																														// ahorramos
-																																														// un
-																																														// par
-																																														// de
-																																														// lineas
-																																														// y
-																																														// metimos
-																																														// doble
-																																														// casteo!!
-																																														// futuro
-																																														// pasante!!
-																																														// esto
-																																														// es
-																																														// java
-																																														// (Jose
-																																														// -
-																																														// Nacho)
-			for(CuentaRefinanciacion cadaCuentaRefinanciacion : locAsociacionRefinanciacion.getListaCuentaRefinanciacion()) {
+			//Los ingresos son los mismos que las liquidaciones normales. Solamente se imputan a otra cuenta el recargo por refinanciacion.
+			
+			DocumentoRefinanciacion locDocumento = ((DocumentoRefinanciacion) ((CuotaRefinanciacion) locDeuda).getDocGeneradorDeuda());// toma
+			for(ParametroAsociacion cadaParam : locDocumento.getPlantilla().getListaParametrosAsociacion()) {
 				MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
-				locMovimientoCajaIngreso.setCuenta(cadaCuentaRefinanciacion.getCuenta());
+				locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, cadaParam.getCuenta().getIdCuenta()));
 				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
-				locMovimientoCajaIngreso.setImporte(cadaCuentaRefinanciacion.getImporte());
+				locMovimientoCajaIngreso.setImporte(locDeuda.getMonto());
 				locListaRetorno.add(locMovimientoCajaIngreso);
 			}
 		} else if(locDeuda instanceof IngresoVario) {
@@ -1566,6 +1550,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			}
 			return locLiquidacion;
 		} else {
+			locRegistroDeuda.getPersona().toString();
 			return locRegistroDeuda;
 		}
 	}
@@ -1675,7 +1660,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		while(itTicketCaja.hasNext()) {
 			TicketCaja locTicket = itTicketCaja.next();
 			for(DetalleTicketCaja locDetalle : locTicket.getDetalles()) {
-				this.setLiquidacionAlTicket(locDetalle);
+				this.setRegistroDeudaAlTicket(locDetalle);
 			}
 		}
 		Collections.sort(listaTickets, new Comparator<TicketCaja>() {
@@ -1725,30 +1710,106 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource);
 		return jasperPrint;
 	}
-
-	private void setLiquidacionAlTicket(DetalleTicketCaja locDetalle) {
-		LiquidacionTasa locLiquidacion = Criterio.getInstance(entity, LiquidacionTasa.class)
-				.add(Restriccion.IGUAL("registroCancelacion", locDetalle))
-				.uniqueResult();
-		if(locLiquidacion == null && locDetalle.getTicketCaja().getEstado() == TicketCaja.Estado.ACTIVO) {
-			//Si la liquidacion es nula pero el ticket esta ACTIVO, hubo algún problema,
-			//recuperamos la deuda de nuevo.
-			locLiquidacion = Criterio.getInstance(entity, LiquidacionTasa.class)
-					.add(Restriccion.IGUAL("idRegistroDeuda", locDetalle.getIdRegistroDeuda()))
-					.uniqueResult();
-			if (locLiquidacion != null) {
-				locDetalle.setRegistroDeudaReatachado(true);
-				//Marcar paga de nuevo
-				this.actualizarPlanes(locLiquidacion, locDetalle.getTicketCaja().getUsuario());
-				businessLiquidacionTasa.generarLogLiquidacion(locLiquidacion, 
-						locDetalle.getTicketCaja().getUsuario(), LogLiquidacion.Evento.PAGO_CAJA, null);
-				locLiquidacion.setRegistroCancelacion(locDetalle);
-				locLiquidacion.setEstado(EstadoRegistroDeuda.PAGADA);
-				
-				entity.merge(locDetalle);
+	
+	@Override
+	public List<JasperPrint> generarReporteCajaGeneral(Long pIdUsuario,
+			Long pIdCaja, Date pFechaDesde, Date pFechaHasta) {
+		Criterio locCriterio = Criterio.getInstance(entity, TicketCaja.class)
+				.setDistinct(true)
+				.setModoDebug(true)
+				.add(Restriccion.IGUAL("usuario.idUsuario", pIdUsuario))
+				.add(Restriccion.IGUAL("caja.idCaja", pIdCaja))
+				.add(Restriccion.MAYOR("detalles.fechaCancelacion", pFechaDesde))
+				.add(Restriccion.MENOR("detalles.fechaCancelacion", pFechaHasta));
+		List<TicketCaja> listaTickets = locCriterio.list();
+		
+		Collections.sort(listaTickets, new Comparator<TicketCaja>() {
+			@Override
+			public int compare(TicketCaja o1, TicketCaja o2) {
+				return o1.getNumero().compareTo(o2.getNumero());
+			}
+		});
+		
+		Iterator<TicketCaja> itTicketCaja = listaTickets.iterator();
+		
+		List<TicketCaja> listaTicketsLiquidaciones = new ArrayList<TicketCaja>();
+		List<TicketCaja> listaTicketsIngresos = new ArrayList<TicketCaja>();
+		List<TicketCaja> listaTicketsRefinaciaciones = new ArrayList<TicketCaja>();
+		
+		while(itTicketCaja.hasNext()) {
+			TicketCaja locTicket = itTicketCaja.next();
+			RegistroDeuda locRegistro = null;
+			for(DetalleTicketCaja locDetalle : locTicket.getDetalles()) {
+				locRegistro = this.setRegistroDeudaAlTicket(locDetalle);
+			}
+			if (locRegistro instanceof LiquidacionTasa) {
+				listaTicketsLiquidaciones.add(locTicket);
+			} else if (locRegistro instanceof IngresoVario) {
+				listaTicketsIngresos.add(locTicket);
+			} else if (locRegistro instanceof CuotaRefinanciacion) {
+				listaTicketsRefinaciaciones.add(locTicket);
 			}
 		}
-		locDetalle.setDeuda(locLiquidacion);
+
+		List<JasperPrint> listaResultado = new ArrayList<JasperPrint>();
+		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+		try {
+			ResumenCajaGeneralDS dataSource = new ResumenActualCajaDataSource(listaTicketsLiquidaciones, this);
+			File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+			JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+			reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+			listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			
+			dataSource = new PlanillaDiariaCajaIngresoVarioDS(listaTicketsIngresos);
+			rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+			fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+			reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+			reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+			listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			
+			dataSource = new PlanillaDiariaCajaRefinanciacionDS(listaTicketsRefinaciaciones);
+			rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+			fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+			reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+			reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+			listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			
+			return listaResultado;
+		
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private RegistroDeuda setRegistroDeudaAlTicket(DetalleTicketCaja locDetalle) {
+		RegistroDeuda locRegistroDeuda = Criterio.getInstance(entity, RegistroDeuda.class)
+				.add(Restriccion.IGUAL("registroCancelacion", locDetalle))
+				.uniqueResult();
+		if(locRegistroDeuda == null && locDetalle.getTicketCaja().getEstado() == TicketCaja.Estado.ACTIVO) {
+			//Si la liquidacion es nula pero el ticket esta ACTIVO, hubo algún problema,
+			//recuperamos la deuda de nuevo.
+			locRegistroDeuda = Criterio.getInstance(entity, RegistroDeuda.class)
+					.add(Restriccion.IGUAL("idRegistroDeuda", locDetalle.getIdRegistroDeuda()))
+					.uniqueResult();
+			
+			if (locRegistroDeuda != null) {
+				locDetalle.setRegistroDeudaReatachado(true);
+				locRegistroDeuda.setEstado(EstadoRegistroDeuda.PAGADA);
+				locRegistroDeuda.setRegistroCancelacion(locDetalle);
+				if (locRegistroDeuda instanceof LiquidacionTasa) {
+					LiquidacionTasa locLiquidacion = (LiquidacionTasa) locRegistroDeuda;
+					//Marcar paga de nuevo
+					this.actualizarPlanes(locLiquidacion, locDetalle.getTicketCaja().getUsuario());
+					businessLiquidacionTasa.generarLogLiquidacion(locLiquidacion, 
+							locDetalle.getTicketCaja().getUsuario(), LogLiquidacion.Evento.PAGO_CAJA, null);
+				}
+				entity.merge(locDetalle);
+				
+			}
+		}
+		locDetalle.setDeuda(locRegistroDeuda);
+		return locRegistroDeuda;
 	}
 
 	private void setIngresoAlTicket(DetalleTicketCaja locDetalle) {
@@ -1781,7 +1842,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		while(itTicketCaja.hasNext()) {
 			TicketCaja locTicket = itTicketCaja.next();
 			for(DetalleTicketCaja locDetalle : locTicket.getDetalles()) {
-				this.setLiquidacionAlTicket(locDetalle);
+//				this.setLiquidacionAlTicket(locDetalle);
 			}
 		}
 		Collections.sort(listaTickets, new Comparator<TicketCaja>() {
@@ -1794,4 +1855,5 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		ReporteCajaDinamico reporte = new ReporteCajaDinamico(null, listaTickets);
 		return null;
 	}
+	
 }

@@ -1028,6 +1028,11 @@ public class SystemAdministracionIngresosBean implements SystemAdministracionIng
 			throws Exception{
 		return this.locCaja.generarReporteCajaPorIngresoVario(pIdUsuario, pIdCaja, pFechaDesde, pFechaHasta);
 	}
+	
+	public List<JasperPrint> generarReporteCajaGeneral(Long pIdUsuario, Long pIdCaja, Date pFechaDesde, Date pFechaHasta) 
+			throws Exception{
+		return this.locCaja.generarReporteCajaGeneral(pIdUsuario, pIdCaja, pFechaDesde, pFechaHasta);
+	}
 
 	@Override
 	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena) throws Exception{

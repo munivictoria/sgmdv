@@ -1,6 +1,5 @@
 package com.trascender.contabilidad.recurso.transients;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,27 +8,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
 import com.trascender.contabilidad.business.interfaces.BusinessCajaLocal;
 import com.trascender.contabilidad.recurso.persistent.DetalleTicketCaja;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
-import com.trascender.contabilidad.recurso.persistent.PagoTicket;
-import com.trascender.contabilidad.recurso.persistent.PagoTicketCheque;
-import com.trascender.contabilidad.recurso.persistent.PagoTicketCompensacion;
-import com.trascender.contabilidad.recurso.persistent.PagoTicketDeposito;
-import com.trascender.contabilidad.recurso.persistent.PagoTicketEfectivo;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
-import com.trascender.framework.util.THashMap;
+import com.trascender.contabilidad.reporte.dataSource.ResumenCajaGeneralDS;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
 import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
 import com.trascender.saic.recurso.interfaces.Pagable;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacion;
 
-public class ResumenActualCajaDataSource implements JRDataSource, Serializable{
+public class ResumenActualCajaDataSource extends ResumenCajaGeneralDS{
 	private static final long serialVersionUID = 5578570120563068456L;
 	private int linea = -1;
 	private List<HashMap<String, Object>> lineas = new ArrayList<HashMap<String, Object>>();
@@ -38,32 +31,24 @@ public class ResumenActualCajaDataSource implements JRDataSource, Serializable{
 	private Map<TipoObligacion, Double> mapaImportePorTasa = new HashMap<TipoObligacion, Double>();
 	private Map<TipoObligacion, Integer> mapaCantidadPorTasa = new HashMap<TipoObligacion, Integer>();
 	private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-	private TiposPagoDS tipoPagoDS;
-	private CanceladosDS canceladosDS;
 	private List<MovimientoCajaIngreso> listaMovimientoCajaIngreso;
 	
 	public ResumenActualCajaDataSource(List<TicketCaja> pListaTicketsCaja, BusinessCajaLocal pBusinessCajaLocal){
-		List<TicketCaja> locListaTicketsCancelados = new ArrayList<TicketCaja>();
+		super(pListaTicketsCaja);
 		List<Pagable> locListaLiquidacionTasa = new ArrayList<Pagable>();
 		cantidadTickets = pListaTicketsCaja.size();
-		THashMap<String> mapaTiposPago = new THashMap<String>();
 		Double interesTasa = null;
 		Double adicionalBaldio = null;
 		Double obraNueva = null;
 		Double fondoBomberos = null;
 		Double fondoPromocion = null;
 		for (TicketCaja cadaTicketCaja : pListaTicketsCaja){
-			//Si es Cancelado no lo proceso, solo lo agrego
 			if (!cadaTicketCaja.getEstado().equals(TicketCaja.Estado.ACTIVO)){
-				locListaTicketsCancelados.add(cadaTicketCaja);
 				continue;
 			}
 			//Datos comunes a todos los detalles.
 			importeTotal = importeTotal + cadaTicketCaja.getImporteTotal();
-			//Añado todos los pagos al mapa
-			for (PagoTicket cadaPago : cadaTicketCaja.getListaPagosTicket()){
-				mapaTiposPago.add(getNombreTipoPago(cadaPago), cadaPago.getMonto());
-			}
+			
 			DetalleTicketCaja detalleEjemplo = cadaTicketCaja.getDetalles().iterator().next();
 			LiquidacionTasa liquidacionEjemplo = (LiquidacionTasa) detalleEjemplo.getDeuda();
 			HashMap<String, Object> locLineaLiquidacion = new HashMap<String, Object>();
@@ -132,8 +117,6 @@ public class ResumenActualCajaDataSource implements JRDataSource, Serializable{
 			}
 			
 		});
-		this.tipoPagoDS = new TiposPagoDS(mapaTiposPago);
-		this.canceladosDS = new CanceladosDS(locListaTicketsCancelados);
 		try {
 			listaMovimientoCajaIngreso = pBusinessCajaLocal.getListaMovimientosCaja(locListaLiquidacionTasa, false);
 			Collections.sort(listaMovimientoCajaIngreso, new Comparator<MovimientoCajaIngreso>() {
@@ -157,26 +140,6 @@ public class ResumenActualCajaDataSource implements JRDataSource, Serializable{
 		return pTipoObligacion.getNombre();
 	}
 	
-	private String getNombreTipoPago(PagoTicket pPagoTicket){
-		if (pPagoTicket instanceof PagoTicketEfectivo) {
-			return "EFECTIVO";
-		}
-		if (pPagoTicket instanceof PagoTicketCheque) {
-			return "CHEQUE";
-		}
-		if (pPagoTicket instanceof PagoTicketCompensacion) {
-			return "COMPENSACION";
-		}
-		if (pPagoTicket instanceof PagoTicketDeposito) {
-			return "DEPOSITO";
-		}
-		return "";
-	}
-	
-	public TiposPagoDS getTipoPagoDS() {
-		return tipoPagoDS;
-	}
-
 	private Double getValorModificadorPorNombre(String pNombre, LiquidacionTasa pLiquidacion){
 		for (ModificadorLiquidacion cadaModificador : pLiquidacion.getListaModificadoresLiquidacion()){
 			if (pNombre.equals("F_MOD_ADIC_BALDIO") && 
@@ -305,74 +268,14 @@ public class ResumenActualCajaDataSource implements JRDataSource, Serializable{
 		return ++linea < lineas.size();
 	}
 	
-	public CanceladosDS getCanceladosDS() {
-		return canceladosDS;
-	}
-
 	public List<MovimientoCajaIngreso> getListaMovimientoCajaIngreso() {
 		return listaMovimientoCajaIngreso;
 	}
 
-	class CanceladosDS implements JRDataSource, Serializable {
-
-		private static final long serialVersionUID = 7405351023172707970L;
-		private int lineaActual = -1;
-		private List<TicketCaja> listaTicketsCaja;
-		
-		public CanceladosDS(List<TicketCaja> pListaCancelados){
-			this.listaTicketsCaja = pListaCancelados;
-		}
-
-		@Override
-		public Object getFieldValue(JRField field) throws JRException {
-			if (field.getName().equals("F_NUMERO_TICKET")){
-				return listaTicketsCaja.get(lineaActual).getNumero();
-			}
-			if (field.getName().equals("F_IMPORTE_TICKET")){
-				return listaTicketsCaja.get(lineaActual).getImporteTotal();
-			}
-			if (field.getName().equals("F_FECHA_CANCELACION")){
-				return listaTicketsCaja.get(lineaActual).getDetalles().iterator().next().getFechaCancelacion();
-			}
-			return "";
-		}
-
-		@Override
-		public boolean next() throws JRException {
-			return ++lineaActual < listaTicketsCaja.size();
-		}
-		
+	@Override
+	public String getNombreReporte() {
+		return "Reporte_Planilla_Diaria_Caja_Tasa.jasper";
 	}
-	
-	class TiposPagoDS implements JRDataSource, Serializable{
-		private static final long serialVersionUID = 2868139162971633844L;
-		
-		private List<String> listaLlaves;
-		private int lineaActual = -1;
-		private THashMap<String> mapa;
-		
-		public TiposPagoDS(THashMap<String> pMapa){
-			this.listaLlaves = new ArrayList<String>(pMapa.keySet());
-			Collections.sort(listaLlaves);
-			this.mapa = pMapa;
-		}
 
-		@Override
-		public Object getFieldValue(JRField field) throws JRException {
-			if (field.getName().equals("F_NOMBRE_TIPO_PAGO")){
-				return listaLlaves.get(lineaActual);
-			}
-			if (field.getName().equals("F_MONTO_TIPO_PAGO")){
-				return mapa.get(listaLlaves.get(lineaActual));
-			}
-			return null;
-		}
-
-		@Override
-		public boolean next() throws JRException {
-			return ++lineaActual < listaLlaves.size();
-		}
-		
-	}
 
 }
