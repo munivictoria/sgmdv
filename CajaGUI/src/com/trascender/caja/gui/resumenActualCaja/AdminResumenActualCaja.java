@@ -257,8 +257,10 @@ public class AdminResumenActualCaja extends AdminController<TicketCaja> {
 	
 	void imprimirResumenes() throws Exception {
 //		this.imprimirPlanillaDiaria();
-		this.imprimirPlanillaDiariaPorTasa();
+//		this.imprimirPlanillaDiariaPorTasa();
 //		this.imprimirPlanillaDiariaPorIngresos();
+		this.imprimirPlanillaDiariaGeneral();
+		
 	}
 	
 	
@@ -430,6 +432,39 @@ public class AdminResumenActualCaja extends AdminController<TicketCaja> {
 //		ConexionReportes.getInstance().desconectar();		
 	}
 	
+	void imprimirPlanillaDiariaGeneral() throws Exception {
+		
+		this.getView().getTfCaja().setText(AppManager.getInstance().getUsuario().getNombrePersonaFisica()
+				+ " [" 
+				+ AppManager.getInstance().getUsuario().toString() 
+				+ "]");
+		
+
+		this.actualizarBusquedaModel();
+		Date fechaDesde = this.getBusquedaModel().getFechaHoraDesde();
+		Date fechaHasta = this.getBusquedaModel().getFechaHoraHasta();
+		Long idUsuario = CajaGUI.getInstance().getUsuario().getIdUsuario();
+		Long idCaja = CajaGUI.getInstance().getCaja().getIdCaja();
+		
+		List<JasperPrint> listaPrints = CajaGUI.getInstance().getAdminSystemsCaja().getSystemAdministracionIngresos()
+				.generarReporteCajaGeneral(idUsuario, idCaja, fechaDesde, fechaHasta);
+		
+		for (JasperPrint cadaPrint : listaPrints) {
+			// Obtener la resolucion de pantalla del usuario
+		    Toolkit toolkit = Toolkit.getDefaultToolkit();
+		    Dimension dimension = toolkit.getScreenSize();
+	
+			JDialog locDialog = new JDialog(this.view);
+			JRViewer locViewer = new JRViewer(cadaPrint);
+			locDialog.add(locViewer);
+			locDialog.pack();
+			locDialog.setModal(true);
+			locDialog.setSize(dimension.width, dimension.height);
+			locDialog.setTitle("Vista previa de Planilla Diaria de Caja - Ingresos Varios");
+			locDialog.setVisible(true);
+		}
+	}
+	
 	void imprimirPlanillaDiariaPorIngresos() throws Exception {
 		
 		this.getView().getTfCaja().setText(AppManager.getInstance().getUsuario().getNombrePersonaFisica()
@@ -534,4 +569,3 @@ class BtnImprimirListener implements ActionListener {
 	
 	
 }
-
