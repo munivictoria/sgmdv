@@ -48,8 +48,6 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@Column(name = "CANTIDAD_CUOTAS")
 	private Integer cantidadCuotas;
 	
-	@Column(name = "TASA_NOMINAL_ANUAL")
-	private Double tasaNominalAnual;
 	@Column(name = "INTERES_PUNITORIO")
 	private Double interesPunitorio;
 	@Column(name = "DIA_VENCIMIENTO")
@@ -62,6 +60,10 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plantilla", orphanRemoval = true)
 	private List<ParametroAsociacion> listaParametrosAsociacion = new ArrayList<ParametroAsociacion>();
+	
+	@OrderBy("cuotasHasta")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plantilla", orphanRemoval = true)
+	private List<TasaNominalAnual> listaTasaNominalAnual = new ArrayList<TasaNominalAnual>();
 	
 	public enum TipoCalculoInteres {
 		FRANCÉS, ALEMÁN, DIRECTO;
@@ -149,12 +151,13 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 		this.cantidadCuotas = cantidadCuotas;
 	}
 
-	public Double getTasaNominalAnual() {
-		return tasaNominalAnual;
+	public List<TasaNominalAnual> getListaTasaNominalAnual() {
+		return listaTasaNominalAnual;
 	}
 
-	public void setTasaNominalAnual(Double tasaNominalAnual) {
-		this.tasaNominalAnual = tasaNominalAnual;
+	public void setListaTasaNominalAnual(
+			List<TasaNominalAnual> listaTasaNominalAnual) {
+		this.listaTasaNominalAnual = listaTasaNominalAnual;
 	}
 
 	public Double getInteresPunitorio() {
@@ -187,6 +190,15 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 
 	public void setCantidadCuotasCese(Integer cantidadCuotasCese) {
 		this.cantidadCuotasCese = cantidadCuotasCese;
+	}
+	
+	public Double getInteresTNASegunCantidadCuota(Integer cantidadCuotas) {
+		if (cantidadCuotas == null) return null;
+		for (TasaNominalAnual cadaTNA : listaTasaNominalAnual) {
+			if (cadaTNA.getCuotasHasta() >= cantidadCuotas)
+				return cadaTNA.getInteres();
+		}
+		return null;
 	}
 	
 	@Override

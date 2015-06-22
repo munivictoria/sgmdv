@@ -38,6 +38,7 @@ import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGenerador
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
+import com.trascender.saic.recurso.persistent.TasaNominalAnual;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago.TipoCalculoInteres;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
@@ -521,6 +522,10 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		for (ParametroAsociacion cadaParametro : plantilla.getListaParametrosAsociacion()) {
 			cadaParametro.setPlantilla(plantilla);
 		}
+		
+		for (TasaNominalAnual cadaTasa : plantilla.getListaTasaNominalAnual()) {
+			cadaTasa.setPlantilla(plantilla);
+		}
 	}
 	
 	public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) {
@@ -547,6 +552,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		filtro.procesarYListar(locCriterio);
 		for (PlantillaPlanDePago cadaPlantilla : filtro.getListaResultados()) {
 			cadaPlantilla.getListaLogsAuditoria().size();
+			cadaPlantilla.getListaTasaNominalAnual().size();
 			cadaPlantilla.getListaParametrosAsociacion().size();
 		}
 		return filtro;
