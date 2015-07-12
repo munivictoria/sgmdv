@@ -3,7 +3,7 @@ package com.trascender.contabilidad.gui.abmReporteContable.abm;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 
-import com.trascender.contabilidad.recurso.persistent.ParametroReporteContable;
+import com.trascender.framework.recurso.persistent.reporteDinamico.ParametroReporte;
 import com.trascender.gui.framework.model.TDefaultComboBoxModel;
 
 public class ParametroComboBoxCellEditor extends DefaultCellEditor {
@@ -15,7 +15,7 @@ public class ParametroComboBoxCellEditor extends DefaultCellEditor {
 	public ParametroComboBoxCellEditor(JComboBox comboBox) {
 		super(comboBox);
 		this.comboBox = comboBox;
-		comboBox.setModel(new TDefaultComboBoxModel(ParametroReporteContable.Tipo.values()));
+		comboBox.setModel(new TDefaultComboBoxModel(ParametroReporte.Tipo.values()));
 		super.setClickCountToStart(1);
 	}
 	

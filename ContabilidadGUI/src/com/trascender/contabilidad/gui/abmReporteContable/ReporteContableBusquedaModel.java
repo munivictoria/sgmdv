@@ -3,21 +3,21 @@ package com.trascender.contabilidad.gui.abmReporteContable;
 import java.util.List;
 
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
-import com.trascender.contabilidad.recurso.filtros.FiltroReporteContable;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable;
 import com.trascender.contabilidad.system.interfaces.SystemReportesContabilidad;
+import com.trascender.framework.recurso.filtros.FiltroReporte;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.gui.framework.model.TAbstractBusquedaModel;
 
-public class ReporteContableBusquedaModel extends TAbstractBusquedaModel<ReporteContable>{
+public class ReporteContableBusquedaModel extends TAbstractBusquedaModel<Reporte>{
 	
 	private String nombre;
 	
 	@Override
-	public List<ReporteContable> buscar() throws Exception {
+	public List<Reporte> buscar() throws Exception {
 		SystemReportesContabilidad locSystem = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad();  
-		FiltroReporteContable locFiltro = new FiltroReporteContable();
+		FiltroReporte locFiltro = new FiltroReporte();
 		locFiltro.setNombre(this.getNombre());
-		List<ReporteContable> locLista = locSystem.findListaReporteContable(locFiltro).getListaResultados();
+		List<Reporte> locLista = locSystem.findListaReporteContable(locFiltro).getListaResultados();
 		return locLista;
 	}
 

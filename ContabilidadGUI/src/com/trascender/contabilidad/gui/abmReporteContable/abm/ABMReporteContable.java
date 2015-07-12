@@ -13,25 +13,26 @@ import javax.swing.JTextField;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 
-import com.trascender.contabilidad.gui.abmReporteContable.ParametroReporteContableTableModel;
+import com.trascender.contabilidad.gui.abmReporteContable.ParametroReporteTableModel;
 import com.trascender.contabilidad.gui.abmReporteContable.ReporteContableABMModel;
 import com.trascender.contabilidad.gui.abmReporteContable.UsuarioTableModel;
 import com.trascender.contabilidad.gui.abmUsuario.AdminUsuario;
-import com.trascender.contabilidad.recurso.persistent.ParametroReporteContable;
-import com.trascender.contabilidad.recurso.persistent.ParametroReporteContable.Tipo;
+import com.trascender.contabilidad.recurso.persistent.ParametroReporte;
+import com.trascender.contabilidad.recurso.persistent.ParametroReporte.Tipo;
 import com.trascender.contabilidad.recurso.persistent.ReporteContable;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.gui.framework.abmStandard.ABMController;
 import com.trascender.gui.framework.exception.GuiException;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
 import com.trascender.gui.framework.util.Validador;
 
-public abstract class ABMReporteContable extends ABMController<ReporteContable>{
+public abstract class ABMReporteContable extends ABMController<Reporte>{
 	
 	public abstract ABMReporteContableView getView();
 	public abstract ReporteContableABMModel getAbmModel();
-	public abstract ParametroReporteContableTableModel getTableModelParametro();
+	public abstract ParametroReporteTableModel getTableModelParametro();
 	public abstract UsuarioTableModel getTableModelUsuario();
 	
 	@Override
@@ -86,7 +87,7 @@ public abstract class ABMReporteContable extends ABMController<ReporteContable>{
 		}
 		
 		if (this.getAbmModel().getListaParametroReporte() != null && this.getTableModelParametro() != null) {
-			List<ParametroReporteContable> locListaParametros = new ArrayList<ParametroReporteContable>(this.getAbmModel().getListaParametroReporte());
+			List<ParametroReporte> locListaParametros = new ArrayList<ParametroReporte>(this.getAbmModel().getListaParametroReporte());
 //			this.ordenarListaParametros(locListaParametros);
 			//			
 			this.getTableModelParametro().clearTable();
@@ -160,8 +161,8 @@ public abstract class ABMReporteContable extends ABMController<ReporteContable>{
 	}
 	
 	public void openAgregarParametro() throws Exception {
-		this.getAbmModel().getListaParametroReporte().add(new ParametroReporteContable());
-//		this.getTableModelParametro().getListaObjetos().add(new ParametroReporteContable());
+		this.getAbmModel().getListaParametroReporte().add(new ParametroReporte());
+//		this.getTableModelParametro().getListaObjetos().add(new ParametroReporte());
 		actualizarABMModel();
 		this.actualizarView();
 	}
@@ -181,7 +182,7 @@ public abstract class ABMReporteContable extends ABMController<ReporteContable>{
 		
 		if(locParametroSeleccionado > -1){ 
 			if (this.getTableModelParametro() != null) {
-				ParametroReporteContable objetoSeleccionado = this.getTableModelParametro().getRow(locParametroSeleccionado);
+				ParametroReporte objetoSeleccionado = this.getTableModelParametro().getRow(locParametroSeleccionado);
 				this.getAbmModel().getListaParametroReporte().remove(objetoSeleccionado);
 				actualizarABMModel();
 				this.actualizarView();
@@ -202,8 +203,8 @@ public abstract class ABMReporteContable extends ABMController<ReporteContable>{
 		}
 	}
 	
-	public ParametroReporteContable getSelectedRowTablaParametros() {
-		ParametroReporteContable objetoSeleccionado = null;
+	public ParametroReporte getSelectedRowTablaParametros() {
+		ParametroReporte objetoSeleccionado = null;
 		if (this.getView() != null && this.getView().getPnlTablaParametrosReporte().getTblDatos() != null) {
 			int selectedRow = this.getView().getPnlTablaParametrosReporte().getTblDatos().getSelectedRow();
 			if (selectedRow > -1) {
@@ -300,7 +301,7 @@ class ParametroTextFieldCellEditorListener implements CellEditorListener {
 	public void editingStopped(ChangeEvent e) {
 		DefaultCellEditor ce = (DefaultCellEditor)e.getSource();
 		String locNombre = ce.getCellEditorValue().toString();
-		ParametroReporteContable locParametro = this.controller.getSelectedRowTablaParametros();
+		ParametroReporte locParametro = this.controller.getSelectedRowTablaParametros();
 		locParametro.setNombre(locNombre);
 	}
 
@@ -322,7 +323,7 @@ class ParametroComboBoxCellEditorListener implements CellEditorListener {
 	public void editingStopped(ChangeEvent e) {
 		DefaultCellEditor ce = (DefaultCellEditor)e.getSource();
 		Tipo locTipo = (Tipo)ce.getCellEditorValue();
-		ParametroReporteContable locParametro = this.controller.getSelectedRowTablaParametros();
+		ParametroReporte locParametro = this.controller.getSelectedRowTablaParametros();
 		if(locParametro != null){
 			locParametro.setTipo(locTipo);
 		}
@@ -346,7 +347,7 @@ class ParametroCheckBoxCellEditorListener implements CellEditorListener {
 	public void editingStopped(ChangeEvent e) {
 		DefaultCellEditor ce = (DefaultCellEditor)e.getSource();
 		Boolean locRequerido = (Boolean)ce.getCellEditorValue();
-		ParametroReporteContable locParametro = this.controller.getSelectedRowTablaParametros();
+		ParametroReporte locParametro = this.controller.getSelectedRowTablaParametros();
 		locParametro.setRequerido(locRequerido);
 	}
 

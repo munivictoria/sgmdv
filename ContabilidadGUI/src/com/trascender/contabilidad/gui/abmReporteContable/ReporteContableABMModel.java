@@ -3,27 +3,26 @@ package com.trascender.contabilidad.gui.abmReporteContable;
 import java.util.List;
 
 import com.trascender.contabilidad.gui.main.ContabilidadGUI;
-import com.trascender.contabilidad.recurso.persistent.ParametroReporteContable;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable.Estado;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.reporteDinamico.ParametroReporte;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.gui.framework.model.TAbstractABMModel;
 
-public class ReporteContableABMModel extends TAbstractABMModel<ReporteContable>{
+public class ReporteContableABMModel extends TAbstractABMModel<Reporte>{
 	
 	@Override
 	public void agregar() throws Exception {
-/*this.objetoABM = */ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().addReporteContable(this.getObjetoABM());
+///*this.objetoABM = */ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().addReporteContable(this.getObjetoABM());
 	}
 
 	@Override
 	public void eliminar() throws Exception {
-		ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().deleteReporteContable(this.getObjetoABM());
+//		ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().deleteReporteContable(this.getObjetoABM());
 	}
 
 	@Override
 	public void modificar() throws Exception {
-		this.objetoABM = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().updateReporteContable(this.getObjetoABM());
+//		this.objetoABM = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().updateReporteContable(this.getObjetoABM());
 	}
 	
 	public String getNombre() {
@@ -50,11 +49,11 @@ public class ReporteContableABMModel extends TAbstractABMModel<ReporteContable>{
 		this.objetoABM.setListaUsuario(listaUsuario);
 	}
 	
-	public List<ParametroReporteContable> getListaParametroReporte() {
+	public List<ParametroReporte> getListaParametroReporte() {
 		return this.objetoABM.getListaParametroReporte();
 	}
 
-	public void setListaParametroReporte(List<ParametroReporteContable> listaParametroReporte) {
+	public void setListaParametroReporte(List<ParametroReporte> listaParametroReporte) {
 		this.objetoABM.setListaParametroReporte(listaParametroReporte);
 	}
 }
