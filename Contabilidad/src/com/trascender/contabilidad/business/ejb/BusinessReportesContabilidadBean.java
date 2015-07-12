@@ -3,8 +3,6 @@ package com.trascender.contabilidad.business.ejb;
 
 import java.io.File;
 import java.net.URL;
-import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +20,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
-import ar.trascender.criterio.clases.Criterio;
-import ar.trascender.criterio.clases.Orden;
-import ar.trascender.criterio.clases.Restriccion;
 
 import com.trascender.contabilidad.business.interfaces.BusinessBancoLocal;
 import com.trascender.contabilidad.business.interfaces.BusinessCajaLocal;
@@ -34,7 +29,6 @@ import com.trascender.contabilidad.business.interfaces.BusinessPlanDeCuentaLocal
 import com.trascender.contabilidad.business.interfaces.BusinessPresupuestoLocal;
 import com.trascender.contabilidad.business.interfaces.BusinessReportesContabilidadLocal;
 import com.trascender.contabilidad.exception.TrascenderContabilidadException;
-import com.trascender.contabilidad.recurso.filtros.FiltroReporteContable;
 import com.trascender.contabilidad.recurso.persistent.Balance;
 import com.trascender.contabilidad.recurso.persistent.Cheque;
 import com.trascender.contabilidad.recurso.persistent.IngresoVario;
@@ -44,10 +38,8 @@ import com.trascender.contabilidad.recurso.persistent.Mayor;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
 import com.trascender.contabilidad.recurso.persistent.OrdenPago;
 import com.trascender.contabilidad.recurso.persistent.OrdenPagoDevolucion;
-import com.trascender.contabilidad.recurso.persistent.ParametroReporteContable;
 import com.trascender.contabilidad.recurso.persistent.PlanDeCuenta;
 import com.trascender.contabilidad.recurso.persistent.Presupuesto;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.reporte.dataSource.BalanceContableDS;
 import com.trascender.contabilidad.reporte.dataSource.ChequeDS;
@@ -68,7 +60,6 @@ import com.trascender.contabilidad.reporte.dataSource.PresupuestoRecursosDS;
 import com.trascender.contabilidad.reporte.interfaz.InterfazModuloContable;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.Grupo;
-import com.trascender.framework.recurso.transients.Recurso;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TrascenderDataSource;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -102,12 +93,6 @@ public class BusinessReportesContabilidadBean implements BusinessReportesContabi
 		Grupo grupoRecursos = new Grupo();
 		grupoRecursos.setId(BusinessReportesContabilidadBean.serialVersionUID);
 		grupoRecursos.setNombre(BusinessReportesContabilidadBean.NOMBRE);
-
-		Recurso reporteContable = new Recurso();
-		reporteContable.setNombre("Reporte Contable");
-		reporteContable.setIdRecurso(ReporteContable.serialVersionUID);
-		reporteContable.setClase(ReporteContable.class);
-		grupoRecursos.getListaRecursos().add(reporteContable);
 
 		SecurityMgr.getInstance().addGrupo(grupoRecursos);
 	}
@@ -292,76 +277,6 @@ public class BusinessReportesContabilidadBean implements BusinessReportesContabi
 			}
 		}
 		return parametroSubtitulo;
-	}
-
-	@Override
-	public void addReporteContable(ReporteContable pReporteContable) throws Exception {
-		validarReporteContable(pReporteContable);
-		entity.persist(pReporteContable);
-	}
-
-	@Override
-	public ReporteContable updateReporteContable(ReporteContable pReporteContable) throws Exception {
-		validarReporteContable(pReporteContable);
-		return entity.merge(pReporteContable);
-	}
-
-	@Override
-	public void deleteReporteContable(ReporteContable pReporteContable) throws Exception {
-		pReporteContable.setEstado(ReporteContable.Estado.INACTIVO);
-		entity.merge(pReporteContable);
-	}
-
-	@Override
-	public ReporteContable getReporteContableByID(Long pIdReporteContable) throws Exception {
-		ReporteContable locReporteContable = entity.find(ReporteContable.class, pIdReporteContable);
-		locReporteContable.getListaParametroReporte().size();
-		locReporteContable.getListaUsuario().size();
-		return locReporteContable;
-	}
-
-	@Override
-	public FiltroReporteContable findListaReporteContable(FiltroReporteContable pFiltro) {
-		Criterio locCriterio = Criterio.getInstance(this.entity, ReporteContable.class).add(Restriccion.ILIKE("nombre", pFiltro.getNombre()));
-
-		pFiltro.procesarYListar(locCriterio);
-		return pFiltro;
-	}
-
-	private void validarReporteContable(ReporteContable pReporteContable) {
-		for(ParametroReporteContable cadaParametro : pReporteContable.getListaParametroReporte()) {
-			cadaParametro.setReporteContable(pReporteContable);
-		}
-	}
-
-	@Override
-	public List<ReporteContable> getListaMenuReporteContable(Usuario pUsuarioLogueado) {
-		if(pUsuarioLogueado == null) {
-			return new ArrayList<ReporteContable>();
-		}
-
-		Criterio locCriterio = Criterio.getInstance(this.entity, ReporteContable.class).add(Restriccion.IGUAL("estado", ReporteContable.Estado.ACTIVO)).add(Orden.ASC("nombre"))
-				.add(Restriccion.MIEMBRO_DE("listaUsuario", pUsuarioLogueado));
-
-		List<ReporteContable> locListaRetorno = locCriterio.list();
-
-		for(ReporteContable cadaReporte : locListaRetorno) {
-			cadaReporte.getListaParametroReporte().size();
-			cadaReporte.getListaUsuario().size();
-		}
-
-		return locListaRetorno;
-	}
-
-	public JasperPrint getReporteContable(ReporteContable pReporteContable, Map<String, Object> pMapaParametros) throws Exception {
-		setParametrosMunicipalidad(pMapaParametros);
-		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
-		JasperReport reporte = (JasperReport) JRLoader.loadObject(new File(rutaReportes + pReporteContable.getNombreArchivoJasper()));
-		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-		Connection conexion = datasource.getConnection();
-		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, pMapaParametros, conexion);
-		conexion.close();
-		return jasperPrint;
 	}
 
 	private void setParametrosMunicipalidad(Map<String, Object> pMapaParametros) {

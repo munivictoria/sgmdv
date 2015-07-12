@@ -1,7 +1,6 @@
 package com.trascender.contabilidad.system.ejb;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -9,14 +8,10 @@ import javax.ejb.Stateful;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import com.trascender.contabilidad.business.interfaces.BusinessReportesContabilidadLocal;
-import com.trascender.contabilidad.exception.TrascenderContabilidadException;
-import com.trascender.contabilidad.recurso.filtros.FiltroReporteContable;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.reporte.interfaz.InterfazModuloContable;
 import com.trascender.contabilidad.system.interfaces.SystemReportesContabilidad;
 import com.trascender.framework.exception.TrascenderException;
-import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
@@ -102,101 +97,4 @@ public class SystemReportesContabilidadBean implements SystemReportesContabilida
 		return businessReportesContabilidad.getReporteLiquidacionDeuda(pListaLiquidacion);
 	}
 
-	@Override
-	public void addReporteContable(ReporteContable pReporteContable) throws Exception {
-		try{
-			if (SecurityMgr.getInstance().getPermiso(this.llave, ReporteContable.serialVersionUID, Permiso.Accion.INSERT))
-			{
-				this.businessReportesContabilidad.addReporteContable(pReporteContable);
-			} else {
-				throw new TrascenderContabilidadException(900);
-			}
-		} catch (TrascenderException e){
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e){
-			e.printStackTrace();
-			throw new TrascenderContabilidadException(780);
-		}
-	}
-
-	@Override
-	public ReporteContable updateReporteContable(ReporteContable pReporteContable) throws Exception {
-		try{
-			if (SecurityMgr.getInstance().getPermiso(this.llave, ReporteContable.serialVersionUID, Permiso.Accion.UPDATE))
-			{
-				return this.businessReportesContabilidad.updateReporteContable(pReporteContable);
-			} else {
-				throw new TrascenderContabilidadException(900);
-			}
-		} catch (TrascenderException e){
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e){
-			e.printStackTrace();
-			throw new TrascenderContabilidadException(781);
-		}
-	}
-
-	@Override
-	public void deleteReporteContable(ReporteContable pReporteContable) throws Exception {
-		try{
-			if (SecurityMgr.getInstance().getPermiso(this.llave, ReporteContable.serialVersionUID, Permiso.Accion.DELETE))
-			{
-				this.businessReportesContabilidad.deleteReporteContable(pReporteContable);
-			} else {
-				throw new TrascenderContabilidadException(900);
-			}
-		} catch (TrascenderException e){
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e){
-			e.printStackTrace();
-			throw new TrascenderContabilidadException(783);
-		}
-	}
-
-	@Override
-	public ReporteContable getReporteContableByID(Long pIdReporteContable) throws Exception {
-		try{
-			if (SecurityMgr.getInstance().getPermiso(this.llave, ReporteContable.serialVersionUID, Permiso.Accion.SELECT))
-			{
-				return this.businessReportesContabilidad.getReporteContableByID(pIdReporteContable);
-			} else {
-				throw new TrascenderContabilidadException(900);
-			}
-		} catch (TrascenderException e){
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e){
-			e.printStackTrace();
-			throw new TrascenderContabilidadException(784);
-		}
-	}
-
-	@Override
-	public FiltroReporteContable findListaReporteContable(FiltroReporteContable pFiltro) throws Exception{
-		try{
-			if (SecurityMgr.getInstance().getPermiso(this.llave, ReporteContable.serialVersionUID, Permiso.Accion.SELECT))
-			{
-				return this.businessReportesContabilidad.findListaReporteContable(pFiltro);
-			} else {
-				throw new TrascenderContabilidadException(900);
-			}
-		} catch (TrascenderException e){
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e){
-			e.printStackTrace();
-			throw new TrascenderContabilidadException(782);
-		}
-	}
-
-	public List<ReporteContable> getListaMenuReporteContable(Usuario pUsuarioLogueado){
-		return this.businessReportesContabilidad.getListaMenuReporteContable(pUsuarioLogueado);
-	}
-	
-	public JasperPrint getReporteContable(ReporteContable pReporteContable, Map<String, Object> pMapaParametros) throws Exception{
-		return this.businessReportesContabilidad.getReporteContable(pReporteContable, pMapaParametros);
-	}
 }

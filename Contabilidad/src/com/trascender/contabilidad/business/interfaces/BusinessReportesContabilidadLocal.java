@@ -1,14 +1,11 @@
 package com.trascender.contabilidad.business.interfaces;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Local;
 
 import net.sf.jasperreports.engine.JasperPrint;
 
-import com.trascender.contabilidad.recurso.filtros.FiltroReporteContable;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.reporte.interfaz.InterfazModuloContable;
 import com.trascender.framework.recurso.persistent.Usuario;
@@ -45,17 +42,4 @@ public interface BusinessReportesContabilidadLocal {
 	
 	public JasperPrint getReporteLiquidacionDeuda(List<LiquidacionTasaAgrupada> pListaLiquidacion) throws Exception;
 	
-	public void addReporteContable(ReporteContable pReporteContable) throws Exception;
-
-    public ReporteContable updateReporteContable(ReporteContable pReporteContable) throws Exception;
-    
-    public void deleteReporteContable(ReporteContable pReporteContable) throws Exception;
-    
-    public ReporteContable getReporteContableByID(Long pIdReporteContable) throws Exception;
-    
-    public FiltroReporteContable findListaReporteContable(FiltroReporteContable pFiltro);
-    
-    public List<ReporteContable> getListaMenuReporteContable(Usuario pUsuarioLogueado);
-    
-    public JasperPrint getReporteContable(ReporteContable pReporteContable, Map<String, Object> pMapaParametros) throws Exception;
 }
