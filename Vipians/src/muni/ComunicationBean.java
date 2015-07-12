@@ -40,6 +40,7 @@ import com.trascender.framework.recurso.filtros.FiltroPersonaJuridica;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroProvincia;
+import com.trascender.framework.recurso.filtros.FiltroReporte;
 import com.trascender.framework.recurso.filtros.FiltroRol;
 import com.trascender.framework.recurso.filtros.FiltroSecretaria;
 import com.trascender.framework.recurso.filtros.FiltroUsuario;
@@ -62,6 +63,9 @@ import com.trascender.framework.recurso.persistent.SeccionCiiu;
 import com.trascender.framework.recurso.persistent.Secretaria;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.PlantillaAtributoDinamico;
+import com.trascender.framework.recurso.persistent.reporteDinamico.OpcionParametroReporte;
+import com.trascender.framework.recurso.persistent.reporteDinamico.ParametroReporte;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.transients.Calendario;
 import com.trascender.framework.recurso.transients.Periodo;
 import com.trascender.framework.system.interfaces.SystemAuxiliarAuditoria;
@@ -237,6 +241,10 @@ public class ComunicationBean extends AbstractSessionBean {
 			locFiltroDB.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaProcesoDB = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(ProcesoDB.serialVersionUID)
 					, "#{framework$ABMProcesoDB$AdminProcesoDB}", locFiltroDB);
+			
+			FiltroReporte locFiltroReporte = new FiltroReporte();
+			locFiltroReporte.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
+			this.tablaReporte = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(Reporte.serialVersionUID), "#{framework$ABMReporte$AdminReporte}", locFiltroReporte);
 
 		} catch(Exception ex) {
 			// Logger.getLogger(ComunicationBean.class.getName()).log(Level.SEVERE,
@@ -515,6 +523,8 @@ public class ComunicationBean extends AbstractSessionBean {
 		// }
 		return this.remoteSystemRol;
 	}
+	
+	
 
 	public void setRemoteSystemRol(SystemRol pRemoteSystemRol) {
 		this.remoteSystemRol = pRemoteSystemRol;
@@ -1148,6 +1158,7 @@ public class ComunicationBean extends AbstractSessionBean {
 	private PaginatedTable tablaCalendarioMunicipal;
 	private PaginatedTable tablaReporteJasper;
 	private PaginatedTable tablaProcesoDB;
+	private PaginatedTable tablaReporte;
 	
 	public PaginatedTable getTablaProcesoDB() {
 		return tablaProcesoDB;
@@ -1457,6 +1468,52 @@ public class ComunicationBean extends AbstractSessionBean {
 
 	public void setMapaCkbBuscarPorLogs(Map<Long, Checkbox> mapaCkbBuscarPorLogs) {
 		this.mapaCkbBuscarPorLogs = mapaCkbBuscarPorLogs;
+	}
+	
+	private Map<String, Object> mapaParametrosReporte = new HashMap<String, Object>();
+	private List<OpcionParametroReporte> listaOpcionParametroReporte;
+	private List<ParametroReporte> listaParametrosReporte;
+
+	public Map<String, Object> getMapaParametrosReporte() {
+		return mapaParametrosReporte;
+	}
+
+	public void setMapaParametrosReporte(Map<String, Object> mapaParametrosReporte) {
+		this.mapaParametrosReporte = mapaParametrosReporte;
+	}
+
+	public List<OpcionParametroReporte> getListaOpcionParametroReporte() {
+		return listaOpcionParametroReporte;
+	}
+
+	public void setListaOpcionParametroReporte(List<OpcionParametroReporte> listaOpcionParametroReporte) {
+		this.listaOpcionParametroReporte = listaOpcionParametroReporte;
+	}
+
+	public List<ParametroReporte> getListaParametrosReporte() {
+		return listaParametrosReporte;
+	}
+
+	public void setListaParametrosReporte(List<ParametroReporte> listaParametrosReporte) {
+		this.listaParametrosReporte = listaParametrosReporte;
+	}
+	
+	public PaginatedTable getTablaReporte() {
+		return tablaReporte;
+	}
+
+	public void setTablaReporte(PaginatedTable tablaReporte) {
+		this.tablaReporte = tablaReporte;
+	}
+	
+	private List listaReporte = new ArrayList();
+
+	public List getListaReporte() {
+		return listaReporte;
+	}
+
+	public void setListaReporte(List listaReporte) {
+		this.listaReporte = listaReporte;
 	}
 
 }

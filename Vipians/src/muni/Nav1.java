@@ -100,6 +100,7 @@ import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Secretaria;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.PlantillaAtributoDinamico;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.transients.Calendario;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Recurso;
@@ -303,6 +304,7 @@ public class Nav1 extends AbstractPageBean {
 			new Enlace(DigestoMunicipal.serialVersionUID, "/faces/framework/ABMDigestoMunicipal/AdminDigestoMunicipal.jsp"),
 			new Enlace(PlantillaAtributoDinamico.serialVersionUID, "/faces/framework/ABMAtributoDinamico/AdminAtributoDinamico.jsp"),
 			new Enlace(ProcesoDB.serialVersionUID, "/faces/framework/ABMProcesoDB/AdminProcesoDB.jsp"),
+			new Enlace(Reporte.serialVersionUID, "/faces/framework/ABMReporte/AdminReporte.jsp"),
 
 			// Catastro
 			new Enlace(Calle.serialVersionUID, "/faces/catastro/ABMCalle/AdminCalle.jsp"),
@@ -828,28 +830,33 @@ public class Nav1 extends AbstractPageBean {
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	private void agregarGrupoAMetaGrupo(String idMetaGrupo, TreeNode grupo) {
-		int posicion = new Integer(this.metaGrupos.get(idMetaGrupo).toString()).intValue();
+		try{
+			int posicion = new Integer(this.metaGrupos.get(idMetaGrupo).toString()).intValue();
+		
 
-		boolean locGrupoExencionEncontrado = false;
-		int i = 0;
-		while(i < this.listasChildrenMetaGrupos.length && !locGrupoExencionEncontrado) {
-			ArrayList locListaChildren = (ArrayList) this.listasChildrenMetaGrupos[i];
-			int j = 0;
-			while(j < locListaChildren.size() && !locGrupoExencionEncontrado) {
-				TreeNode locTreeNode = (TreeNode) locListaChildren.get(j);
-				if(locTreeNode.getText().equals(grupo.getText())) {
-					grupo.getChildren().addAll(locTreeNode.getChildren());
-					this.listasChildrenMetaGrupos[i].remove(locTreeNode);
-					this.listasChildrenMetaGrupos[i].add(grupo);
-					locGrupoExencionEncontrado = true;
+			boolean locGrupoExencionEncontrado = false;
+			int i = 0;
+			while(i < this.listasChildrenMetaGrupos.length && !locGrupoExencionEncontrado) {
+				ArrayList locListaChildren = (ArrayList) this.listasChildrenMetaGrupos[i];
+				int j = 0;
+				while(j < locListaChildren.size() && !locGrupoExencionEncontrado) {
+					TreeNode locTreeNode = (TreeNode) locListaChildren.get(j);
+					if(locTreeNode.getText().equals(grupo.getText())) {
+						grupo.getChildren().addAll(locTreeNode.getChildren());
+						this.listasChildrenMetaGrupos[i].remove(locTreeNode);
+						this.listasChildrenMetaGrupos[i].add(grupo);
+						locGrupoExencionEncontrado = true;
+					}
+					j++;
 				}
-				j++;
+				i++;
 			}
-			i++;
-		}
-
-		if(!locGrupoExencionEncontrado) {
-			this.listasChildrenMetaGrupos[posicion].add(grupo);
+	
+			if(!locGrupoExencionEncontrado) {
+				this.listasChildrenMetaGrupos[posicion].add(grupo);
+			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 
@@ -863,5 +870,9 @@ public class Nav1 extends AbstractPageBean {
 		MethodExpression methodExpression = elFactory.createMethodExpression(elContext, pValor, null, args);
 		MethodExpressionActionListener listener = new MethodExpressionActionListener(methodExpression);
 		return listener;
+	}
+	
+	public Enlace[] getLinksRecursos() {
+		return linksRecursos;
 	}
 }

@@ -650,6 +650,12 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 		}
 	}
 	
+	protected void setTextFieldValue(TextField tf, String value) {
+		if (value != null && tf != null) {
+			tf.setText(value);
+		}
+	}
+	
 	public void subirReporteASesion(String nombreReporte, int formatoReporte, JasperPrint reporte) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, formatoReporte);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", nombreReporte);

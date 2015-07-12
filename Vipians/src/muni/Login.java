@@ -7,6 +7,8 @@
 
 package muni;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.faces.FacesException;
@@ -34,6 +36,7 @@ import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.TextField;
 import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.system.interfaces.SystemParametro;
 import com.trascender.framework.system.interfaces.SystemUsuario;
 
@@ -486,6 +489,21 @@ public class Login extends AbstractPageBean {
 					this.getSessionBean1().setPersonaUsuario(persona);
 
 					this.getPfPassword().setText(null);
+					
+					// Se recuperan los reportes del usuario y se los filtra por id de recurso en un mapa...
+					List<Reporte> listaReportesDelUsuario = new ArrayList<Reporte>();
+					try {
+						if(this.getRemoteSystemParametro() != null) {
+							this.getRemoteSystemParametro().setLlave(key);
+							listaReportesDelUsuario = this.getRemoteSystemParametro().getListaReportesPorUsuario(user.getIdUsuario());
+						}
+
+						for(Reporte cadaReporte : listaReportesDelUsuario) {
+							this.getSessionBean1().getMapaDeListasReportesDelUsuario().add(cadaReporte.getIdRecurso(), cadaReporte);
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
 
 					retorno = "Login_Page1";
 				}

@@ -2268,4 +2268,14 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		return mapaPlantillasPlanDePago;
 	}
 
+	private List listaUsuariosReporte = null;
+	
+	public List<Usuario> getListaUsuariosReporte() {
+		return listaUsuariosReporte;
+	}
+
+	public void setListaUsuariosReporte(List listaUsuariosReporte) {
+		this.listaUsuariosReporte = listaUsuariosReporte;
+	}
+
 }

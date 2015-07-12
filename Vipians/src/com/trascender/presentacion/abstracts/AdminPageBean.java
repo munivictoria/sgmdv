@@ -17,15 +17,16 @@ import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
-import javax.el.ValueExpression;
 import javax.faces.FacesException;
-import javax.faces.application.Application;
+import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
+import javax.faces.event.ValueChangeEvent;
 
+import muni.framework.ABMReporte.EjecutarReporteModel;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
 
@@ -36,6 +37,7 @@ import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Button;
 import com.sun.rave.web.ui.component.Checkbox;
+import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.Hyperlink;
 import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.PanelGroup;
@@ -58,6 +60,7 @@ import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Permiso.Accion;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.util.BusquedaPorLog;
 import com.trascender.framework.util.FiltroAbstracto;
 import com.trascender.framework.util.SecurityMgr;
@@ -95,6 +98,7 @@ public abstract class AdminPageBean extends TrascenderAbstractPageBean {
 	protected Button btnCancelar = new Button();
 	protected Button btnSeleccionar = new Button();
 	protected Button btnConsultar = new Button();
+	protected Button btnEjecutar = new Button();
 	protected HtmlAjaxCommandButton btnCheckearStock = new HtmlAjaxCommandButton();
 	protected Button btnSeleccionarPersonaFisica = new Button();
 	protected Button btnSeleccionarPersonaJuridica = new Button();
@@ -121,6 +125,8 @@ public abstract class AdminPageBean extends TrascenderAbstractPageBean {
 	protected StaticText stSeparadorAccion = new StaticText();
 
 	protected TableSelectPhaseListener tspl = new TableSelectPhaseListener();
+	
+	protected DropDown ddReportes = new DropDown();
 
 	// private Checkbox ckbBuscarPorLogs = new Checkbox();
 
@@ -133,9 +139,25 @@ public abstract class AdminPageBean extends TrascenderAbstractPageBean {
 	// public void setCkbBuscarPorLogs(Checkbox ckbBuscarPorLogs) {
 	// this.ckbBuscarPorLogs = ckbBuscarPorLogs;
 	// }
-
+	
 	public TableSelectPhaseListener getTspl() {
 		return tspl;
+	}
+
+	public DropDown getDdReportes() {
+		return ddReportes;
+	}
+
+	public void setDdReportes(DropDown ddReportes) {
+		this.ddReportes = ddReportes;
+	}
+
+	public Button getBtnEjecutar() {
+		return btnEjecutar;
+	}
+
+	public void setBtnEjecutar(Button btnEjecutar) {
+		this.btnEjecutar = btnEjecutar;
 	}
 
 	public void setTspl(TableSelectPhaseListener tspl) {
@@ -611,6 +633,74 @@ public abstract class AdminPageBean extends TrascenderAbstractPageBean {
 		this.getPaginatedTable().irUltimaPagina();
 		try {
 			this.refrescarTabla();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void executeDinamicReport_action(ActionEvent actionEvent) {
+		String strIdReporte = this.getDdReportes().getSelected().toString();
+
+		try {
+			if(strIdReporte != "") {
+				this.getComunicationBean().getRemoteSystemParametro().setLlave(this.getSessionBean1().getLlave());
+				Reporte locReporte = this.getComunicationBean().getRemoteSystemParametro().getReporteByID(Long.parseLong(strIdReporte));
+
+				if(locReporte != null) {
+					List listaParaReporte = new ArrayList();
+					boolean selecciona = false;
+					if(locReporte.getSeleccionaEntidad() != null) {
+						if(locReporte.getSeleccionaEntidad().equals(Reporte.SeleccionaEntidad.VARIAS)) {
+							selecciona = true;
+							listaParaReporte.addAll(this.getPaginatedTable().getSeleccionadosSeleccionMultiple());
+						} else if(locReporte.getSeleccionaEntidad().equals(Reporte.SeleccionaEntidad.UNA)) {
+							selecciona = true;
+							Object obj = getObjetoSeleccionado();
+
+							listaParaReporte.add(obj);
+						}
+					}
+
+					if(selecciona && listaParaReporte.size() < 1) {
+						warn("Debe seleccionar al menos un registro.");
+
+						return;
+					}
+
+					this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+					this.getRequestBean1().setObjetoABM(locReporte);
+					this.getRequestBean1().setAbmController(new EjecutarReporteModel().new EjecutarController());
+					this.getRequestBean1().setObjetosSeleccionMultiple(new ArrayList(listaParaReporte));
+
+					FacesContext context = FacesContext.getCurrentInstance();
+					NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
+					navigationHandler.handleNavigation(context, null, "EjecutarReporte");
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void valueChangeReportes(ValueChangeEvent valueChangeEvent) {
+		String strIdReporte = this.getDdReportes().getSelected().toString();
+
+		try {
+			if(strIdReporte != "") {
+				this.getComunicationBean().getRemoteSystemParametro().setLlave(this.getSessionBean1().getLlave());
+				Reporte locReporte = this.getComunicationBean().getRemoteSystemParametro().getReporteByID(Long.parseLong(strIdReporte));
+
+				if(locReporte != null) {
+					boolean selectionMul = false;
+
+					if(locReporte.getSeleccionaEntidad() != null && locReporte.getSeleccionaEntidad().equals(Reporte.SeleccionaEntidad.VARIAS)) {
+						selectionMul = true;
+						// ver como hacer esto...
+					}
+
+					this.getElementoPila().setSeleccionMultiple(selectionMul);
+				}
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -1147,6 +1237,17 @@ public abstract class AdminPageBean extends TrascenderAbstractPageBean {
 			
 			if (this.getTablaBusquedaLogs().getCkbBuscarPorLogs().isChecked()) {
 				armarOpcionesTablaBusqueda();
+			}
+			if(this.getPaginatedTable() != null && this.getSessionBean1().getMapaDeListasReportesDelUsuario() != null) {
+				List<Reporte> listaReportes = this.getSessionBean1().getMapaDeListasReportesDelUsuario().get(getSerialVersionUID());
+
+				if(listaReportes != null && listaReportes.size() > 0) {
+					this.getPaginatedTable().setListaReportes(this.getSessionBean1().getMapaDeListasReportesDelUsuario().get(getSerialVersionUID()));
+					this.getPaginatedTable().cargarDropDownReportes();
+				} else {
+					// no renderizamos el panelgroup
+					this.getPaginatedTable().getDdReportes().getParent().setRendered(false);
+				}
 			}
 		} catch(Exception e) {
 			log(getCasoNavegacion() + " Initialization Failure", e);

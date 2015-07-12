@@ -773,6 +773,22 @@
 	<!-- /Refinanciacion -->
 
 	<!-- FRAMEWORK -->
+	<!-- Reporte -->
+	<managed-bean>
+		<managed-bean-name>framework$ABMReporte$AdminReporte</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMReporte.AdminReporte</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMReporte$ABMReporte</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMReporte.ABMReporte</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>framework$ABMReporte$EjecutarReporte</managed-bean-name>
+		<managed-bean-class>muni.framework.ABMReporte.EjecutarReporte</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 	<!-- Area -->
 	<managed-bean>
 		<managed-bean-name>framework$ABMArea$AdminArea</managed-bean-name>

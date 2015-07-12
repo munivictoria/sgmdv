@@ -35,9 +35,11 @@ import com.trascender.framework.recurso.persistent.ConjuntoAtributoTabla;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.transients.AtributoConsultable;
 import com.trascender.framework.system.interfaces.SystemParametro;
 import com.trascender.framework.util.SecurityMgr;
+import com.trascender.framework.util.TListMap;
 import com.trascender.presentacion.navegacion.MgrPilas;
 
 /**
@@ -617,5 +619,18 @@ public class SessionBean1 extends AbstractSessionBean {
 		this.configuracionAccesosDirectos = locConfiguracionAccesosDirectos;
 	}
 	
+	private TListMap<Long, Reporte> mapaDeListasReportesDelUsuario;
+
+	public TListMap<Long, Reporte> getMapaDeListasReportesDelUsuario() {
+		if(mapaDeListasReportesDelUsuario == null) {
+			mapaDeListasReportesDelUsuario = new TListMap<Long, Reporte>();
+		}
+
+		return mapaDeListasReportesDelUsuario;
+	}
+
+	public void setMapaDeListasReportesDelUsuario(TListMap<Long, Reporte> mapaDeListasReportesDelUsuario) {
+		this.mapaDeListasReportesDelUsuario = mapaDeListasReportesDelUsuario;
+	}
 	
 }

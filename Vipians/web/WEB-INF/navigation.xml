@@ -2243,5 +2243,22 @@
 			<to-view-id>/expedientes/ABMEstadoTramite/ABMEstadoTramite.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<!-- Framework - Reporte -->
+ <navigation-rule>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>AdminReporte</from-outcome>
+   <to-view-id>/framework/ABMReporte/AdminReporte.jsp</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>ABMReporte</from-outcome>
+   <to-view-id>/framework/ABMReporte/ABMReporte.jsp</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>EjecutarReporte</from-outcome>
+   <to-view-id>/framework/ABMReporte/EjecutarReporte.jsp</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <!-- Framework - Reporte -->
 </faces-config>
 

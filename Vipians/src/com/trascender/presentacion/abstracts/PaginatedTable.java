@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.trascender.presentacion.abstracts;
 
 import java.util.ArrayList;
@@ -24,12 +19,17 @@ import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.MethodExpressionActionListener;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
+import org.ajax4jsf.ajax.html.HtmlAjaxSupport;
 
 import com.sun.rave.web.ui.component.Checkbox;
+import com.sun.rave.web.ui.component.DropDown;
 import com.sun.rave.web.ui.component.Hyperlink;
 import com.sun.rave.web.ui.component.ImageHyperlink;
+import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.PanelGroup;
 import com.sun.rave.web.ui.component.RadioButton;
 import com.sun.rave.web.ui.component.StaticText;
@@ -38,21 +38,24 @@ import com.sun.rave.web.ui.component.TableColumn;
 import com.sun.rave.web.ui.component.TableRowGroup;
 import com.sun.rave.web.ui.component.TextArea;
 import com.sun.rave.web.ui.component.TextField;
+import com.sun.rave.web.ui.model.Option;
+import com.sun.rave.web.ui.model.SingleSelectOptionsList;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.transients.AtributoConsultable;
+import com.trascender.framework.system.interfaces.SystemParametro;
 import com.trascender.framework.util.FiltroAbstracto;
 
-/**
- * 
- * @author fer
- */
 public class PaginatedTable extends Table {
 
 	private String nombreBean;
 	private FiltroAbstracto filtro;
+
+	long idRecurso;
+
 	// El mapa que relaciona el nombre interno con el atributo consultable
 	private final Map<String, AtributoConsultable> mapaAtributosConsultables = new LinkedHashMap<String, AtributoConsultable>();
-	// El mapa que relaciona el nombre interno con el nombre de la columna, que
-	// puede variar según se hagla click para ordenar.
+
+	// El mapa que relaciona el nombre interno con el nombre de la columna, que puede variar según se hagla click para ordenar.
 	private Map<String, String> mapaNombreColumnas = new LinkedHashMap<String, String>();
 
 	private final FacesContext context = FacesContext.getCurrentInstance();
@@ -79,6 +82,9 @@ public class PaginatedTable extends Table {
 
 	TableColumn tcSeleccionMultiple;
 
+	DropDown ddReportes;
+	List<Reporte> listaReportes;
+
 	public PaginatedTable() {
 		super();
 	}
@@ -92,10 +98,12 @@ public class PaginatedTable extends Table {
 		}
 		this.nombreBean = pNombreBean;
 		this.filtro = filtroAbstracto;
-		
+
+		this.ddReportes = new DropDown();
+
 		this.setCellPadding("0");
 		this.setCellSpacing("0");
-		
+
 		this.init();
 	}
 
@@ -106,11 +114,11 @@ public class PaginatedTable extends Table {
 
 	private void inicializarColumnas() {
 		TableRowGroup trg = this.getTableRowGroupPaginacion();
-		
-		tcSeleccion = this.getTableColumnSeleccion();
-		trg.getChildren().add(tcSeleccion);
 
+		tcSeleccion = this.getTableColumnSeleccion();
 		tcSeleccionMultiple = this.getTableColumnSeleccionMultiple();
+
+		trg.getChildren().add(tcSeleccion);
 		trg.getChildren().add(tcSeleccionMultiple);
 
 		for(String cadaColumna : mapaAtributosConsultables.keySet()) {
@@ -125,18 +133,21 @@ public class PaginatedTable extends Table {
 		}
 
 		trg.getFacets().put(TableRowGroup.FOOTER_FACET, this.getPanelGroupPaginacion());
+		this.getFacets().put(Table.TITLE_FACET, this.getPanelGroupReportes());
+
 		this.getChildren().add(trg);
 		this.tableRowGroup = trg;
 	}
 
 	private TableColumn getTableColumnPropiedad(String pPropiedad) {
 		TableColumn tc = new TableColumn();
-		tc.setWidth("100");
+		tc.setWidth("1000");
 		tc.setId("tc" + pPropiedad.replace(".", "").replace("'", ""));
 		tc.getFacets().put("header", getHpHeaderColumna(pPropiedad));
 		tc.setHeaderText(this.getMapaNombreColumnas().get(pPropiedad));
 		tc.getChildren().add(getComponenteValorColumna(pPropiedad));
 		tc.setSort(pPropiedad);
+
 		return tc;
 	}
 
@@ -156,6 +167,7 @@ public class PaginatedTable extends Table {
 			case BOOLEANO:
 				return this.getCheckBoxPropiedad(pPropiedad);
 		}
+
 		return null;
 	}
 
@@ -164,6 +176,7 @@ public class PaginatedTable extends Table {
 		cb.setId("ta" + pPropiedad.replace(".", "").replace("'", ""));
 		cb.setDisabled(true);
 		cb.setValueBinding("selected", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return cb;
 	}
 
@@ -172,16 +185,13 @@ public class PaginatedTable extends Table {
 		ta.setId("ta" + pPropiedad.replace(".", "").replace("'", ""));
 		ta.setReadOnly(true);
 		ta.setStyleClass("textFieldDisabled");
-		ta.setRows(1);
-		ta.setColumns(40);
 		ta.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
-		
+
 		TextArea aux = new TextArea();
-		aux.setRows(1);
-		aux.setColumns(40);
+		ta.setStyle("width: 400px; height: 15px;");
 		aux.setDisabled(true);
 		ta.getFacets().put("readOnly", aux);
-		
+
 		return ta;
 	}
 
@@ -189,6 +199,7 @@ public class PaginatedTable extends Table {
 		StaticText st = new StaticText();
 		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
 		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return st;
 	}
 
@@ -200,17 +211,19 @@ public class PaginatedTable extends Table {
 		locConverter.setTimeZone(TimeZone.getDefault());
 		st.setConverter(locConverter);
 		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return st;
 	}
-	
+
 	private StaticText getStaticTextPropiedadFechaHora(String pPropiedad) {
 		StaticText st = new StaticText();
 		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
 		DateTimeConverter locConverter = new DateTimeConverter();
-		locConverter.setPattern("dd/MM/yyyy HH:mm:ss");
+		locConverter.setPattern("dd/MM/yyyy hh:mm:ss");
 		locConverter.setTimeZone(TimeZone.getDefault());
 		st.setConverter(locConverter);
 		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return st;
 	}
 
@@ -221,6 +234,7 @@ public class PaginatedTable extends Table {
 		locConverter.setPattern("$ #,##0.00");
 		st.setConverter(locConverter);
 		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return st;
 	}
 
@@ -228,6 +242,7 @@ public class PaginatedTable extends Table {
 		UIParameter uiParameter = new UIParameter();
 		uiParameter.setName("criterioOrdenamiento");
 		uiParameter.setValue(pPropiedad);
+
 		return uiParameter;
 	}
 
@@ -238,6 +253,7 @@ public class PaginatedTable extends Table {
 		hp.setStyle("font-size: 11pt; margin: 7px; font-weight: bold;");
 		hp.setValueBinding("text", this._getValueBinding(this.armarExpressionEnBean("paginatedTable.mapaNombreColumnas['" + pPropiedad + "']")));
 		this.mapaNombreColumnas.put(pPropiedad, mapaAtributosConsultables.get(pPropiedad).getNombreExterno());
+
 		return hp;
 	}
 
@@ -248,6 +264,8 @@ public class PaginatedTable extends Table {
 		tc.setValign("middle");
 		tc.setWidth("10");
 		tc.getChildren().add(this.getRbSeleccion());
+		// tc.setValueExpression("rendered", this._getValueExpression(this.armarExpressionEnBean("elementoPila.seleccionMultiple")));
+
 		return tc;
 	}
 
@@ -260,6 +278,8 @@ public class PaginatedTable extends Table {
 		tc.getChildren().add(this.getCkbSeleccion());
 		// tc.setSelectId("buttonGroup");
 		tc.setOnClick("function initAllRows() {" + "var table = document.getElementById('form1:table1');" + "table.initAllRows();" + "}" + "setTimeout(initAllRows(), 0);");
+		// tc.setValueExpression("rendered", this._getValueExpression(this.armarExpressionEnBean("elementoPila.seleccionMultiple")));
+		
 		return tc;
 	}
 
@@ -308,8 +328,8 @@ public class PaginatedTable extends Table {
 
 	private String getCurrentRowValue(String pValue) {
 		int indice = pValue.indexOf(".");
-
 		String retorno = "#{currentRow.value['" + (indice != -1 ? pValue.substring(0, indice) + "']" + pValue.substring(indice) + "}" : pValue + "']}");
+
 		return retorno;
 	}
 
@@ -323,6 +343,7 @@ public class PaginatedTable extends Table {
 		locPanelGroup.getChildren().add(getBotonIrPagina());
 		locPanelGroup.getChildren().add(getBotonPaginaSiguiente());
 		locPanelGroup.getChildren().add(getBotonUltimaPagina());
+
 		return locPanelGroup;
 	}
 
@@ -339,12 +360,14 @@ public class PaginatedTable extends Table {
 	private StaticText getStBarraSeparadora() {
 		StaticText st = new StaticText();
 		st.setText(" de ");
+
 		return st;
 	}
 
 	private StaticText getStCantidadPaginas() {
 		StaticText st = new StaticText();
 		st.setValueBinding("text", this._getValueBinding(this.armarExpressionEnBean("paginatedTable.cantidadPaginas")));
+
 		return st;
 	}
 
@@ -416,11 +439,13 @@ public class PaginatedTable extends Table {
 		Class[] args = new Class[] {javax.faces.event.ActionEvent.class};
 		MethodExpression methodExpression = elFactory.createMethodExpression(elContext, pValor, null, args);
 		MethodExpressionActionListener listener = new MethodExpressionActionListener(methodExpression);
+
 		return listener;
 	}
 
 	private ValueExpression _getValueExpression(String pValue) {
 		ValueExpression valueExpresion = application.getExpressionFactory().createValueExpression(elContext, pValue, Object.class);
+
 		return valueExpresion;
 	}
 
@@ -431,6 +456,7 @@ public class PaginatedTable extends Table {
 	private String armarExpressionEnBean(String propiedad) {
 		StringBuilder sb = new StringBuilder(nombreBean);
 		sb.insert(nombreBean.length() - 1, "." + propiedad);
+
 		return sb.toString();
 	}
 
@@ -602,7 +628,6 @@ public class PaginatedTable extends Table {
 	}
 
 	public void setTableRowGroup(TableRowGroup pTableRowGroup) {
-
 	}
 
 	public ImageHyperlink getBotonOrdenamiento() {
@@ -637,6 +662,22 @@ public class PaginatedTable extends Table {
 		this.tcSeleccionMultiple = tcSeleccionMultiple;
 	}
 
+	public DropDown getDdReportes() {
+		return ddReportes;
+	}
+
+	public void setDdReportes(DropDown ddReportes) {
+		this.ddReportes = ddReportes;
+	}
+
+	public List<Reporte> getListaReportes() {
+		return listaReportes;
+	}
+
+	public void setListaReportes(List<Reporte> listaReportes) {
+		this.listaReportes = listaReportes;
+	}
+
 	public Object getObjetoSeleccionado() {
 		return objetoSeleccionado;
 	}
@@ -669,6 +710,74 @@ public class PaginatedTable extends Table {
 		stSeparadorOrdenamiento.setId("stSeparadorOrdenamiento");
 		stSeparadorOrdenamiento.setEscape(false);
 		this.stSeparadorOrdenamiento.setValueExpression("rendered", this._getValueExpression(this.armarExpressionEnBean("paginatedTable.mostrarLimpiarOrdenamiento")));
+	}
+
+	private PanelGroup getPanelGroupReportes() {
+		PanelGroup locPanelGroup = new PanelGroup();
+		locPanelGroup.setId("gpReportes");
+
+		Label lbReportes = new Label();
+		lbReportes.setId("lbReportes");
+		lbReportes.setText("Reportes");
+
+		HtmlAjaxSupport support = new HtmlAjaxSupport();
+		support.setId("supportDdReportes");
+		support.setEvent("onChange");
+		support.setReRender("tableRowGroup1");
+		try {
+			Class[] parameterList = {Class.forName("javax.faces.event.ActionEvent")};
+			support.setActionListener(application.createMethodBinding(this.armarExpressionEnBean("valueChangeReportes(evento)"), parameterList));
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		ddReportes.setId("ddReportes");
+		ddReportes.setValueBinding("binding", this._getValueBinding(this.armarExpressionEnBean("ddReportes")));
+		ddReportes.getChildren().add(support);
+
+		HtmlAjaxCommandButton btnEjecutarReporte = new HtmlAjaxCommandButton();
+		btnEjecutarReporte.setId("btnEjecutarReporte");
+		btnEjecutarReporte.setValue("Ejecutar");
+		btnEjecutarReporte.addActionListener(getActionListenerEnBean("executeDinamicReport_action(evento)"));
+		btnEjecutarReporte.setStyleClass("btnAjax");
+		btnEjecutarReporte.setOncomplete("changeStyleAlIngresar()");
+
+		locPanelGroup.getChildren().add(lbReportes);
+		locPanelGroup.getChildren().add(ddReportes);
+		locPanelGroup.getChildren().add(btnEjecutarReporte);
+
+		return locPanelGroup;
+	}
+
+	public void cargarDropDownReportes() {
+		SingleSelectOptionsList ddReportesOptions = new SingleSelectOptionsList();
+
+		Option[] opReportes = new Option[listaReportes.size() + 1];
+		int i = 0;
+		opReportes[i++] = new Option("", "");
+		for(Reporte cadaReporte : listaReportes) {
+			opReportes[i++] = new Option(cadaReporte.getIdReporte(), cadaReporte.getNombre());
+		}
+		ddReportesOptions.setOptions(opReportes);
+
+		ddReportes.setItems(ddReportesOptions.getOptions());
+	}
+
+	public void ejecutarReporteDinamico() {
+		System.out.println("funcion ejecutarReporteDinamico() en el paginatedTable");
+	}
+
+	public void onChangeDD() {
+		System.out.println("funcion onChangeDD() en el paginatedTable");
+	}
+
+	private SystemParametro getSystemParametro() {
+		try {
+			return (SystemParametro) new InitialContext().lookup(SystemParametro.JNDI_NAME);
+		} catch(NamingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
