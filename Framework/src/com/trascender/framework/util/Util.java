@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -273,6 +274,17 @@ public class Util {
 		}
 		return true;
 	}
+	
+	public static synchronized String getStringDeLista(Collection coleccion, String separador) {
+		String resultado = new String();
+		for(Iterator iterator = coleccion.iterator(); iterator.hasNext();) {
+			Object cadaLinea = iterator.next();
+			resultado += cadaLinea.toString();
+			if(iterator.hasNext())
+				resultado += separador;
+		}
+		return resultado;
+	}
 
 	public static String formatNumero(Double pNumero) {
 
@@ -497,5 +509,13 @@ public class Util {
 		}
 
 		return null;
+	}
+	
+	public static long factorial(long n) {
+		if(n <= 1) {
+			return 1;
+		} else {
+			return n * factorial(n - 1);
+		}
 	}
 }

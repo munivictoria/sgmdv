@@ -723,3 +723,68 @@ create sequence gen_id_tasa_nominal_anual;
 alter sequence gen_id_tasa_nominal_anual owner to vipians;
 
  insert into log_scripts_corridos values(124,124,now());
+
+CREATE TABLE reporte
+(
+  id_reporte clave NOT NULL,
+  id_recurso recurso,
+  seleccionaEntidad character varying(10),
+  nombre character varying(50),
+  nombre_archivo_jasper character varying(50),
+  estado estado,
+  tipo character varying(20),
+  CONSTRAINT reporte_pkey PRIMARY KEY (id_reporte)
+);
+ALTER TABLE reporte OWNER TO vipians;
+
+CREATE TABLE parametro_reporte
+(
+  id_parametro_reporte clave NOT NULL,
+  nombre character varying(50),
+  id_reporte clave,
+  requerido boolean DEFAULT false,
+  tipo character varying(30),
+  id_recurso recurso,
+  CONSTRAINT pk_parametro_reporte PRIMARY KEY (id_parametro_reporte),
+  CONSTRAINT fk_parametro_reporte_reporte FOREIGN KEY (id_reporte)
+      REFERENCES reporte (id_reporte) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+ALTER TABLE parametro_reporte OWNER TO vipians;
+
+CREATE TABLE rela_reporte_usuario
+(
+  id_reporte clave NOT NULL,
+  id_usuario clave NOT NULL,
+  CONSTRAINT fk_reporte_rela_reporte_usuario FOREIGN KEY (id_reporte)
+      REFERENCES reporte (id_reporte) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_usuario_rela_reporte_usuario FOREIGN KEY (id_usuario)
+      REFERENCES usuario (id_usuario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+ALTER TABLE rela_reporte_usuario OWNER TO vipians;
+
+CREATE TABLE opcion_parametro_reporte
+(
+  id_opcion_rp clave NOT NULL,
+  nombre nombre NOT NULL,
+  id_parametro_reporte clave NOT NULL,
+  CONSTRAINT opcion_parametro_reporte_pkey PRIMARY KEY (id_opcion_rp),
+  CONSTRAINT fk_opcion_param_reporte FOREIGN KEY (id_parametro_reporte)
+      REFERENCES parametro_reporte (id_parametro_reporte) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+ALTER TABLE opcion_parametro_reporte OWNER TO vipians;
+
+CREATE SEQUENCE gen_id_reporte;
+ALTER TABLE gen_id_reporte OWNER TO vipians;
+
+CREATE SEQUENCE gen_id_parametro_reporte;
+ALTER TABLE gen_id_parametro_reporte OWNER TO vipians;
+
+CREATE SEQUENCE gen_id_opcion_rp;
+ALTER TABLE gen_id_opcion_rp OWNER TO vipians;
+
+alter table parametro_reporte add column nombre_atributo char varying(50);
+alter table parametro_reporte add column orden clave;

@@ -10,22 +10,27 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 
+import net.sf.jasperreports.engine.JasperPrint;
+
 import com.trascender.framework.business.interfaces.BusinessParametroLocal;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
+import com.trascender.framework.recurso.filtros.FiltroReporte;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
 import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
-import com.trascender.framework.recurso.persistent.ProcesoDB;
+import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Permiso.Accion;
+import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.framework.recurso.persistent.dinamicos.PlantillaAtributoDinamico;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ComponenteValidacion;
 import com.trascender.framework.recurso.transients.AtributoConsultable;
 import com.trascender.framework.recurso.transients.Recurso;
@@ -515,6 +520,105 @@ public class SystemParametroBean implements SystemParametro {
 	public void addAccesoDirecto(Long pIdRecurso) throws TrascenderFrameworkException{
 		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(llave);
 		parametroLocal.addAccesoDirecto(pIdRecurso, locUsuario);
+	}
+	
+	@Override
+	public void addReporte(Reporte pReporte) throws Exception {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Reporte.serialVersionUID, Permiso.Accion.INSERT)) {
+				this.parametroLocal.addReporte(pReporte);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(960);
+		}
+	}
+
+	@Override
+	public Reporte updateReporte(Reporte pReporte) throws Exception {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Reporte.serialVersionUID, Permiso.Accion.UPDATE)) {
+				return this.parametroLocal.updateReporte(pReporte);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(961);
+		}
+	}
+
+	@Override
+	public void deleteReporte(Reporte pReporte) throws Exception {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Reporte.serialVersionUID, Permiso.Accion.DELETE)) {
+				this.parametroLocal.deleteReporte(pReporte);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(963);
+		}
+	}
+
+	@Override
+	public Reporte getReporteByID(Long pIdReporte) throws Exception {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Reporte.serialVersionUID, Permiso.Accion.SELECT)) {
+				return this.parametroLocal.getReporteByID(pIdReporte);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(964);
+		}
+	}
+
+	@Override
+	public FiltroReporte findListaReporte(FiltroReporte pFiltro) throws Exception {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Reporte.serialVersionUID, Permiso.Accion.SELECT)) {
+				return this.parametroLocal.findListaReporte(pFiltro);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(962);
+		}
+	}
+
+	public List<Reporte> getListaMenuReporte(Usuario pUsuarioLogueado) {
+		return this.parametroLocal.getListaMenuReporte(pUsuarioLogueado);
+	}
+
+	public JasperPrint getReporte(Reporte pReporte, Map<String, Object> pMapaParametros) throws Exception {
+		pMapaParametros.put("P_USUARIO", SecurityMgr.getInstance().getUsuario(this.llave).getUser());
+
+		return this.parametroLocal.getReporte(pReporte, pMapaParametros);
+	}
+
+	public List<Reporte> getListaReportesPorUsuario(long idUsuario) throws Exception {
+		return this.parametroLocal.getListaReportesPorUsuario(idUsuario);
 	}
 
 }

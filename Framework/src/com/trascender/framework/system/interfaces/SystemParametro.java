@@ -8,11 +8,14 @@ import java.util.Set;
 
 import javax.ejb.Remote;
 
+import net.sf.jasperreports.engine.JasperPrint;
+
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
+import com.trascender.framework.recurso.filtros.FiltroReporte;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
 import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
@@ -21,6 +24,7 @@ import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.framework.recurso.persistent.dinamicos.PlantillaAtributoDinamico;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ComponenteValidacion;
 import com.trascender.framework.recurso.transients.AtributoConsultable;
 @Remote
@@ -94,4 +98,20 @@ public interface SystemParametro {
 	public ConfiguracionAccesosDirectos getConfiguracionPorUsuario(Long idUsuario) throws TrascenderException;
 
 	public void addAccesoDirecto(Long pIdRecurso) throws TrascenderFrameworkException;
+	
+	public void addReporte(Reporte pReporte) throws Exception;
+
+	public Reporte updateReporte(Reporte pReporte) throws Exception;
+
+	public void deleteReporte(Reporte pReporte) throws Exception;
+
+	public Reporte getReporteByID(Long pIdReporte) throws Exception;
+
+	public FiltroReporte findListaReporte(FiltroReporte pFiltro) throws Exception;
+
+	public List<Reporte> getListaMenuReporte(Usuario pUsuarioLogueado);
+
+	public JasperPrint getReporte(Reporte pReporte, Map<String, Object> pMapaParametros) throws Exception;
+
+	public List<Reporte> getListaReportesPorUsuario(long idUsuario) throws Exception;
 }

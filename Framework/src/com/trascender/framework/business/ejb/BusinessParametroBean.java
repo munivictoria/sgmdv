@@ -1,7 +1,11 @@
 
 package com.trascender.framework.business.ejb;
 
+import java.awt.Image;
+import java.io.File;
 import java.rmi.RemoteException;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,14 +14,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.sql.DataSource;
+import javax.swing.ImageIcon;
 
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
+import net.sf.jasperreports.engine.util.JRLoader;
 import ar.trascender.criterio.clases.Criterio;
+import ar.trascender.criterio.clases.Orden;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
 import ar.trascender.criterio.enums.Posicion;
@@ -27,6 +40,7 @@ import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
+import com.trascender.framework.recurso.filtros.FiltroReporte;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
 import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionAtributoTabla;
@@ -40,6 +54,9 @@ import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamicoBooleano;
 import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamicoCadena;
 import com.trascender.framework.recurso.persistent.dinamicos.PlantillaAtributoDinamico;
+import com.trascender.framework.recurso.persistent.reporteDinamico.OpcionParametroReporte;
+import com.trascender.framework.recurso.persistent.reporteDinamico.ParametroReporte;
+import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ComponenteValidacion;
 import com.trascender.framework.recurso.persistent.validacionDinamica.ValidacionDinamica;
 import com.trascender.framework.recurso.transients.Grupo;
@@ -75,15 +92,16 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 		recursoProcesoDB.setAtributosConsultables("Nombre", "nombre", "Nombre Proceso", "nombreProceso");
 		recursoProcesoDB.setClase(ProcesoDB.class);
 
-		// Recurso recursoReporte = new Recurso();
-		// recursoReporte.setIdRecurso(ReportesJasper.serialVersionUID);
-		// recursoReporte.setNombre("Reportes Jasper");
-		// recursoReporte.setAtributosConsultables("Nombre", "nombre");
+		Recurso reporte = new Recurso();
+		reporte.setNombre("Reporte");
+		reporte.setIdRecurso(Reporte.serialVersionUID);
+		reporte.setAtributosConsultables("Nombre", "nombre");
+		reporte.setClase(Reporte.class);
 
 		grupo.getListaRecursos().add(recursoConfiguracionRec);
 		grupo.getListaRecursos().add(recursoAtributos);
 		grupo.getListaRecursos().add(recursoProcesoDB);
-		// grupo.getListaRecursos().add(recursoReporte);
+		grupo.getListaRecursos().add(reporte);
 		SecurityMgr.getInstance().addGrupo(grupo);
 	}
 
@@ -92,6 +110,9 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 
 	@PersistenceContext(name = "vipians")
 	private EntityManager entity;
+	
+	@Resource(mappedName = "java:/vipiansDS", shareable = true)
+	private DataSource datasource;
 
 	public void setSessionContext(SessionContext pArg0) throws EJBException, RemoteException {
 
@@ -607,5 +628,104 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 		if (locConfiguracion.addAccesoDirecto(pIdRecurso)) {
 			entity.merge(locConfiguracion);
 		}
+	}
+	
+	@Override
+	public void addReporte(Reporte pReporte) throws Exception {
+		validarReporte(pReporte);
+		entity.persist(pReporte);
+	}
+
+	@Override
+	public Reporte updateReporte(Reporte pReporte) throws Exception {
+		validarReporte(pReporte);
+
+		return entity.merge(pReporte);
+	}
+
+	@Override
+	public void deleteReporte(Reporte pReporte) throws Exception {
+		pReporte.setEstado(Reporte.Estado.INACTIVO);
+		entity.merge(pReporte);
+	}
+
+	@Override
+	public Reporte getReporteByID(Long pIdReporte) throws Exception {
+		Reporte locReporte = entity.find(Reporte.class, pIdReporte);
+
+		locReporte.getListaParametroReporte().size();
+		for(ParametroReporte cadaParametro : locReporte.getListaParametroReporte()) {
+			cadaParametro.getListaOpciones().size();
+		}
+		locReporte.getListaUsuario().size();
+
+		return locReporte;
+	}
+
+	@Override
+	public FiltroReporte findListaReporte(FiltroReporte pFiltro) {
+		Criterio locCriterio = Criterio.getInstance(this.entity, Reporte.class).add(Restriccion.ILIKE("nombre", pFiltro.getNombre()))
+				.add(Restriccion.IGUAL("estado", Reporte.Estado.ACTIVO));
+
+		pFiltro.procesarYListar(locCriterio);
+
+		return pFiltro;
+	}
+
+	private void validarReporte(Reporte pReporte) {
+		for(ParametroReporte cadaParametro : pReporte.getListaParametroReporte()) {
+			cadaParametro.setReporte(pReporte);
+			for(OpcionParametroReporte cadaOpcion : cadaParametro.getListaOpciones()) {
+				cadaOpcion.setParametroReporte(cadaParametro);
+			}
+		}
+	}
+
+	@Override
+	public List<Reporte> getListaMenuReporte(Usuario pUsuarioLogueado) {
+		if(pUsuarioLogueado == null) {
+			return new ArrayList<Reporte>();
+		}
+
+		Criterio locCriterio = Criterio.getInstance(this.entity, Reporte.class).add(Restriccion.IGUAL("estado", Reporte.Estado.ACTIVO)).add(Orden.ASC("nombre"))
+				.add(Restriccion.MIEMBRO_DE("listaUsuario", pUsuarioLogueado));
+
+		List<Reporte> locListaRetorno = locCriterio.list();
+
+		for(Reporte cadaReporte : locListaRetorno) {
+			cadaReporte.getListaParametroReporte().size();
+			cadaReporte.getListaUsuario().size();
+		}
+
+		return locListaRetorno;
+	}
+
+	public JasperPrint getReporte(Reporte pReporte, Map<String, Object> pMapaParametros) throws Exception {
+		pMapaParametros.put("P_TITULO", SecurityMgr.getInstance().getMunicipalidad().getEncabezadoReportes());
+		pMapaParametros.put("P_IMAGEN", (Image) new ImageIcon(SecurityMgr.getInstance().getMunicipalidad().getLogo()).getImage());
+
+		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+		JasperReport reporte = (JasperReport) JRLoader.loadObject(new File(rutaReportes + "Dinamicos/" + pReporte.getNombreArchivoJasper()));
+		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+
+		Connection conexion = datasource.getConnection();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, pMapaParametros, conexion);
+		conexion.close();
+
+		return jasperPrint;
+	}
+
+	public List<Reporte> getListaReportesPorUsuario(long idUsuario) {
+		Criterio locCriterio = Criterio.getInstance(this.entity, Reporte.class).crearAlias("listaUsuario", "cadaUsuario").add(Restriccion.IGUAL("cadaUsuario.idUsuario", idUsuario))
+				.add(Restriccion.IGUAL("estado", Reporte.Estado.ACTIVO));
+
+		List<Reporte> locListaRetorno = locCriterio.list();
+
+		for(Reporte cadaReporte : locListaRetorno) {
+			cadaReporte.getListaParametroReporte().size();
+			cadaReporte.getListaUsuario().size();
+		}
+
+		return locListaRetorno;
 	}
 }
