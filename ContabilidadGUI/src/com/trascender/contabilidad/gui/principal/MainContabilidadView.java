@@ -10,7 +10,6 @@ public class MainContabilidadView extends MainView {
 	private MenuAdministracionContable menuAdministracionContable;
 	private MenuAdministracionBancaria menuAdministracionBancaria;
 	private MenuAdministracionTesoreria menuAdministracionTesoreria;
-	private MenuReportes menuReportes;
 	//private MenuPruebas menuPruebas;
 	private MenuAyuda menuAyuda;
 	
@@ -25,9 +24,6 @@ public class MainContabilidadView extends MainView {
 		
 		this.menuAdministracionTesoreria = new MenuAdministracionTesoreria(this);
 		this.getMbMain().add(this.menuAdministracionTesoreria);
-		
-		this.menuReportes = new MenuReportes(this);
-		this.getMbMain().add(this.menuReportes);
 		
 		this.menuAyuda = new MenuAyuda(this);
 		this.getMbMain().add(this.menuAyuda);
@@ -51,11 +47,4 @@ public class MainContabilidadView extends MainView {
 		return menuAdministracionTesoreria;
 	}
 
-	public MenuReportes getMenuReportes() {
-		return menuReportes;
-	}
-	
-//	public MenuReportes getMenuReportes() {
-//		return menuReportes;
-//	}
 }

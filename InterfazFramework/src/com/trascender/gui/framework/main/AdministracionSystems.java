@@ -8,6 +8,7 @@ import javax.naming.InitialContext;
 
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.system.interfaces.SystemMunicipalidad;
+import com.trascender.framework.system.interfaces.SystemParametro;
 import com.trascender.framework.system.interfaces.SystemPersonaFisica;
 import com.trascender.framework.system.interfaces.SystemUsuario;
 import com.trascender.gui.framework.exception.GuiException;
@@ -19,6 +20,7 @@ public class AdministracionSystems {
 	private long llave;
 
 	private SystemUsuario systemUsuario;
+	private SystemParametro systemParametro;
 	private SystemPersonaFisica systemPersonaFisica;
 	private SystemMunicipalidad systemMunicipalidad;
 
@@ -83,6 +85,34 @@ public class AdministracionSystems {
 			throw new GuiException(3);
 		}
 		return this.systemUsuario;
+	}
+	
+	/**
+	 * Obtiene la interfaz SystemUsuario para la invocación de los métodos de
+	 * negocio.
+	 * @return SystemUsuario
+	 * @throws TrascenderException
+	 */
+	public SystemParametro getSystemParametros() throws TrascenderException{
+		try{
+			if (this.systemParametro == null){
+				Context ctx = this.getInitialContext();
+				this.systemParametro = (SystemParametro) ctx.lookup(SystemParametro.JNDI_NAME);
+				//				this.systemUsuario.setLlave(this.llave);
+			}
+		}
+		catch(TrascenderException e){
+			throw e;
+		}
+		catch(CommunicationException e){
+			e.printStackTrace();
+			throw new GuiException(4);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new GuiException(3);
+		}
+		return this.systemParametro;
 	}
 
 	/**

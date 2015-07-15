@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 
-import com.trascender.contabilidad.gui.abmReporteContable.ParametroReporteContableTableModel;
 import com.trascender.contabilidad.gui.abmTipoCuenta.TipoCuentaABMModel;
 import com.trascender.contabilidad.gui.abmTipoCuenta.TipoCuentaExcluidosTableModel;
 import com.trascender.gui.framework.main.AppManager;

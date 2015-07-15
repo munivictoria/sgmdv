@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportePlanillaDiariaCajaIngresosVariosMaestro" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportePlanillaDiariaCajaIngresosVariosMaestro" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" isSummaryWithPageHeaderAndFooter="true">
 	<property name="ireport.zoom" value="1.2100000000000013"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.x" value="227"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -79,12 +79,15 @@
 		<field name="F_NOMBRE_TIPO_PAGO" class="java.lang.String"/>
 		<field name="F_MONTO_TIPO_PAGO" class="java.lang.Double"/>
 	</subDataset>
-	<parameter name="PAR_NRO_CAJA" class="java.lang.String"/>
-	<parameter name="PAR_CAJERO" class="java.lang.String"/>
-	<parameter name="PAR_PERSONA" class="java.lang.String"/>
 	<parameter name="PAR_LISTA_IMPUTACIONES" class="java.util.List"/>
 	<parameter name="CANCELADOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<parameter name="TIPOS_PAGOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="CAJERO" class="java.lang.String"/>
+	<parameter name="CAJERO_PERSONA" class="java.lang.String"/>
+	<parameter name="IMPORTE_TOTAL" class="java.lang.Double"/>
+	<parameter name="FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="FECHA_HASTA" class="java.util.Date"/>
+	<parameter name="NRO_CAJA" class="java.lang.String"/>
 	<field name="F_DETALLE_TICKET" class="com.trascender.contabilidad.recurso.persistent.DetalleTicketCaja"/>
 	<field name="F_INGRESO_VARIO" class="com.trascender.contabilidad.recurso.persistent.IngresoVario"/>
 	<variable name="CANTIDAD_TICKETS" class="java.lang.Integer" calculation="Count">
@@ -95,97 +98,127 @@
 	</variable>
 	<pageHeader>
 		<band height="52">
-			<staticText>
-				<reportElement mode="Opaque" x="1" y="0" width="56" height="20" backcolor="#DCDCDC"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="70" y="0" width="59" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Nº Caja]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="57" y="0" width="100" height="20"/>
+				<textFieldExpression><![CDATA[$P{NRO_CAJA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="403" y="21" width="79" height="15">
+					<printWhenExpression><![CDATA[!$P{FECHA_DESDE}.equals($P{FECHA_HASTA})]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_NRO_CAJA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{FECHA_DESDE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH.mm">
+				<reportElement x="491" y="36" width="79" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHA_HASTA}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="2" y="20" width="55" height="20" backcolor="#DCDCDC"/>
+				<reportElement mode="Opaque" x="129" y="0" width="74" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[Cajero]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="57" y="20" width="100" height="20"/>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="70" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_CAJERO}]]></textFieldExpression>
+				<text><![CDATA[Nº Caja]]></text>
+			</staticText>
+			<textField pattern="HH.mm">
+				<reportElement x="433" y="36" width="49" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHA_DESDE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="491" y="21" width="79" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHA_HASTA}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="190" y="0" width="67" height="20" backcolor="#DCDCDC"/>
+				<reportElement mode="Opaque" x="291" y="0" width="104" height="20" backcolor="#D4D4D4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Persona]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="257" y="0" width="226" height="20"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="205" y="0" width="86" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_PERSONA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{CAJERO}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy h:mm" isBlankWhenNull="false">
-				<reportElement x="522" y="0" width="50" height="31"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="395" y="0" width="175" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8"/>
+					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="459" y="31" width="73" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="532" y="31" width="40" height="20"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{CAJERO_PERSONA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="80" height="20"/>
-				<textElement>
+				<reportElement x="0" y="0" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<text><![CDATA[Ticket]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="0" width="125" height="20"/>
-				<textElement>
+				<reportElement x="57" y="0" width="148" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<text><![CDATA[Apellido y Nombres]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="411" y="1" width="100" height="19"/>
-				<textElement>
+				<reportElement x="483" y="0" width="87" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<text><![CDATA[Importe]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="205" y="0" width="206" height="20"/>
-				<textElement>
+				<reportElement x="205" y="0" width="278" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<text><![CDATA[Concepto]]></text>
@@ -195,29 +228,29 @@
 	<detail>
 		<band height="21">
 			<textField>
-				<reportElement x="2" y="0" width="78" height="20"/>
-				<textElement>
+				<reportElement x="2" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_DETALLE_TICKET}.getTicketCaja().getNumero()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="78" y="0" width="127" height="20"/>
-				<textElement>
+				<reportElement x="57" y="0" width="148" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_INGRESO_VARIO}.getPersona().getDenominacion()]]></textFieldExpression>
 			</textField>
 			<textField pattern="$ #,##0.00">
-				<reportElement x="411" y="1" width="100" height="20"/>
-				<textElement>
+				<reportElement x="483" y="1" width="87" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_DETALLE_TICKET}.getTicketCaja().getImporteTotal()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="205" y="1" width="206" height="20"/>
-				<textElement>
+				<reportElement x="205" y="1" width="278" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_INGRESO_VARIO}.getConceptoIngresoVario().getNombre()]]></textFieldExpression>
@@ -237,7 +270,7 @@
 						<jr:detailCell style="table_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement>
+								<textElement verticalAlignment="Middle">
 									<font fontName="Courier New"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{cuenta}.getAbreviatura()]]></textFieldExpression>
@@ -257,7 +290,7 @@
 						<jr:detailCell style="table_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="352" height="20"/>
-								<textElement textAlignment="Center" verticalAlignment="Top">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Courier New"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{cuenta}.getNombre()]]></textFieldExpression>
@@ -268,16 +301,16 @@
 						<jr:columnFooter height="30" rowSpan="1">
 							<textField pattern="$ #,##0.00">
 								<reportElement x="0" y="0" width="124" height="30"/>
-								<textElement>
+								<textElement verticalAlignment="Middle">
 									<font fontName="Courier New"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{V_TOTAL_IMPUTACIONES}]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>
 						<jr:detailCell style="table_TD" height="20" rowSpan="1">
-							<textField>
+							<textField pattern="$ #,##0.00">
 								<reportElement x="0" y="0" width="124" height="20"/>
-								<textElement/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -473,7 +506,7 @@
 						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="167" height="21"/>
-								<textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Courier New"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{F_NOMBRE_TIPO_PAGO}]]></textFieldExpression>
@@ -482,9 +515,9 @@
 					</jr:column>
 					<jr:column width="131">
 						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
-							<textField>
+							<textField pattern="$ #,##0.00">
 								<reportElement x="0" y="0" width="131" height="21"/>
-								<textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Courier New"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{F_MONTO_TIPO_PAGO}]]></textFieldExpression>

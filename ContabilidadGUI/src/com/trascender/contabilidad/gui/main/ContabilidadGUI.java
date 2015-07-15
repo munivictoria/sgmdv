@@ -1,17 +1,11 @@
 package com.trascender.contabilidad.gui.main;
 
 import java.awt.Component;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
-import com.trascender.compras.recurso.persistent.inventario.Articulo;
 import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro;
 import com.trascender.contabilidad.gui.principal.MainContabilidad;
-import com.trascender.contabilidad.gui.principal.MenuReportes;
 import com.trascender.contabilidad.recurso.persistent.AsientoContable;
 import com.trascender.contabilidad.recurso.persistent.Balance;
 import com.trascender.contabilidad.recurso.persistent.Banco;
@@ -35,13 +29,10 @@ import com.trascender.contabilidad.recurso.persistent.OrdenPago;
 import com.trascender.contabilidad.recurso.persistent.OrdenPagoDevolucion;
 import com.trascender.contabilidad.recurso.persistent.PlanDeCuenta;
 import com.trascender.contabilidad.recurso.persistent.Presupuesto;
-import com.trascender.contabilidad.recurso.persistent.ReporteContable;
 import com.trascender.contabilidad.recurso.persistent.SubdiarioCaja;
 import com.trascender.contabilidad.recurso.persistent.TipoBalance;
 import com.trascender.contabilidad.recurso.persistent.TipoCuenta;
-import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Permiso;
-import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
@@ -92,10 +83,6 @@ public class ContabilidadGUI extends AppManager {
 			}
 			for (int i = 0; i < main.getView().getMenuAdministracionTesoreria().getItemCount(); i++) {
 				Component c = main.getView().getMenuAdministracionTesoreria().getItem(i);
-				if (c != null) c.setEnabled(habilitar);
-			}
-			for (int i = 0; i < main.getView().getMenuReportes().getItemCount(); i++) {
-				Component c = main.getView().getMenuReportes().getItem(i);
 				if (c != null) c.setEnabled(habilitar);
 			}
 				
@@ -259,16 +246,16 @@ public class ContabilidadGUI extends AppManager {
 			habilitar = (permiso != null && permiso.isSelect());
 			this.getMainController().getView().getMenuAdministracionContable().getMiAdminImportarPlanDeCuenta().setEnabled(habilitar);
 			
-			permiso = AppManager.getInstance().getPermiso(ReporteContable.serialVersionUID);
-			habilitar = (permiso != null && permiso.isSelect());
-			this.getMainController().getView().getMenuReportes().getMiReporteContable().setEnabled(habilitar);
-			
-			try{
-				List<ReporteContable> locListaReportes = this.getAdminSystemsContabilidad().getSystemReportesContabilidad().getListaMenuReporteContable(AppManager.getInstance().getUsuario());
-				this.getMainController().getView().getMenuReportes().armarItemsMenuReportes(locListaReportes);
-			} catch (TrascenderException e) {
-				e.printStackTrace();
-			}
+//			permiso = AppManager.getInstance().getPermiso(ReporteContable.serialVersionUID);
+//			habilitar = (permiso != null && permiso.isSelect());
+//			this.getMainController().getView().getMenuReportes().getMiReporteContable().setEnabled(habilitar);
+//			
+//			try{
+//				List<ReporteContable> locListaReportes = this.getAdminSystemsContabilidad().getSystemReportesContabilidad().getListaMenuReporteContable(AppManager.getInstance().getUsuario());
+//				this.getMainController().getView().getMenuReportes().armarItemsMenuReportes(locListaReportes);
+//			} catch (TrascenderException e) {
+//				e.printStackTrace();
+//			}
 			
 			// Resumen Caja
 //			permiso = AppManager.getInstance().getPermiso(Caja.serialVersionUID);

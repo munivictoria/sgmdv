@@ -130,6 +130,7 @@ public class ResumenActualCajaDataSource extends ResumenCajaGeneralDS{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		parametros.put("PAR_LISTA_MOV_CAJA_INGRESO", listaMovimientoCajaIngreso);
 	}
 	
 	private String getTipoObligacionProcesada(TipoObligacion pTipoObligacion){

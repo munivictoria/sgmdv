@@ -705,16 +705,34 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			locMovimientoCajaIngreso.setImporte(importeTotal);
 			locListaRetorno.add(locMovimientoCajaIngreso);
 		} else if(locDeuda instanceof CuotaRefinanciacion) {
-			//Los ingresos son los mismos que las liquidaciones normales. Solamente se imputan a otra cuenta el recargo por refinanciacion.
-			
-			DocumentoRefinanciacion locDocumento = ((DocumentoRefinanciacion) ((CuotaRefinanciacion) locDeuda).getDocGeneradorDeuda());// toma
-			for(ParametroAsociacion cadaParam : locDocumento.getPlantilla().getListaParametrosAsociacion()) {
-				MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
-				locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, cadaParam.getCuenta().getIdCuenta()));
-				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
-				locMovimientoCajaIngreso.setImporte(locDeuda.getMonto());
-				locListaRetorno.add(locMovimientoCajaIngreso);
+			CuotaRefinanciacion locCuotaRefinanciacion = (CuotaRefinanciacion) locDeuda;
+			DocumentoRefinanciacion locDocumento = (DocumentoRefinanciacion) locCuotaRefinanciacion.getDocGeneradorDeuda();// toma
+
+			//Armo las imputaciones totales y las fracciono por la cantidad de cuotas que tiene el plan.
+			THashMap<Cuenta> locMapaCuentasAux = new THashMap<Cuenta>();
+			for (RegistroDeuda cadaRegistro : locDocumento.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
+				List<MovimientoCajaIngreso> listaMovimientos = getListaMovimientosCaja(cadaRegistro);
+				for (MovimientoCajaIngreso cadaMovimiento : listaMovimientos) {
+					locMapaCuentasAux.add(cadaMovimiento.getCuenta(), cadaMovimiento.getImporte());
+				}
 			}
+			
+			for (Cuenta cadaCuenta : locMapaCuentasAux.keySet()) {
+				MovimientoCajaIngreso locMovimiento = new MovimientoCajaIngreso();
+				locMovimiento.setCuenta(cadaCuenta);
+				locMovimiento.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
+				Double importe = Util.redondear(locMapaCuentasAux.get(cadaCuenta) / locDocumento.getCantidadCuotas(), 2);
+				locMovimiento.setImporte(importe);
+				locListaRetorno.add(locMovimiento);
+			}
+			
+			//El recargo por refinanciacion.
+			ParametroAsociacion locParametro = locDocumento.getPlantilla().getListaParametrosAsociacion().get(0);
+			MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
+			locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, locParametro.getCuenta().getIdCuenta()));
+			locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
+			locMovimientoCajaIngreso.setImporte(locCuotaRefinanciacion.getInteres());
+			locListaRetorno.add(locMovimientoCajaIngreso);
 		} else if(locDeuda instanceof IngresoVario) {
 			// En caso que no sea una liquidación no va a tener modificadores, así que no hay tanto drama
 			IngresoVario locIngresoVario = (IngresoVario) locDeuda;
@@ -1736,8 +1754,14 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		List<TicketCaja> listaTicketsIngresos = new ArrayList<TicketCaja>();
 		List<TicketCaja> listaTicketsRefinaciaciones = new ArrayList<TicketCaja>();
 		
+		Caja locCaja = null;
+		Usuario locUsuario = null;
 		while(itTicketCaja.hasNext()) {
 			TicketCaja locTicket = itTicketCaja.next();
+			
+			if (locCaja == null) locCaja = locTicket.getCaja();
+			if (locUsuario == null) locUsuario = locTicket.getUsuario();
+			
 			RegistroDeuda locRegistro = null;
 			for(DetalleTicketCaja locDetalle : locTicket.getDetalles()) {
 				locRegistro = this.setRegistroDeudaAlTicket(locDetalle);
@@ -1754,32 +1778,50 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		List<JasperPrint> listaResultado = new ArrayList<JasperPrint>();
 		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
 		try {
-			ResumenCajaGeneralDS dataSource = new ResumenActualCajaDataSource(listaTicketsLiquidaciones, this);
-			File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
-			JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
-			reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-			listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			if (!listaTicketsLiquidaciones.isEmpty()) {
+				ResumenCajaGeneralDS dataSource = new ResumenActualCajaDataSource(listaTicketsLiquidaciones, this);
+				llenarMapaDatosCaja(dataSource, locUsuario, locCaja, pFechaDesde, pFechaHasta);
+				File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+				JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+				reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+				listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			}
 			
-			dataSource = new PlanillaDiariaCajaIngresoVarioDS(listaTicketsIngresos);
-			rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
-			fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
-			reporte = (JasperReport) JRLoader.loadObject(fileReporte);
-			reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-			listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			if (!listaTicketsIngresos.isEmpty()) {
+				ResumenCajaGeneralDS dataSource = new PlanillaDiariaCajaIngresoVarioDS(listaTicketsIngresos);
+				llenarMapaDatosCaja(dataSource, locUsuario, locCaja, pFechaDesde, pFechaHasta);
+				File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+				JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+				reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+				listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			}
 			
-			dataSource = new PlanillaDiariaCajaRefinanciacionDS(listaTicketsRefinaciaciones);
-			rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
-			fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
-			reporte = (JasperReport) JRLoader.loadObject(fileReporte);
-			reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-			listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
-			
+			if (!listaTicketsLiquidaciones.isEmpty()) {
+				ResumenCajaGeneralDS dataSource = new PlanillaDiariaCajaRefinanciacionDS(listaTicketsRefinaciaciones);
+				llenarMapaDatosCaja(dataSource, locUsuario, locCaja, pFechaDesde, pFechaHasta);
+				File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());
+				JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+				reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+				listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
+			}
 			return listaResultado;
 		
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private void llenarMapaDatosCaja(ResumenCajaGeneralDS ds, Usuario usuario,
+			Caja caja, Date pFechaDesde, Date pFechaHasta) {
+//		mapa.put("IMPORTE_TOTAL", dataSource.getImporteTotal());
+		ds.getMapaParametros().put("NRO_CAJA", caja.getNumero().toString());
+		ds.getMapaParametros().put("CAJERO", usuario.toString());
+		ds.getMapaParametros().put("CAJERO_PERSONA", usuario.getNombrePersonaFisica());
+//		mapa.put("CANTIDAD_TOTAL_TICKET", dataSource.getCantidadTickets());
+		ds.getMapaParametros().put("FECHA_DESDE", pFechaDesde);
+		ds.getMapaParametros().put("FECHA_HASTA", pFechaHasta);
+//		mapa.put("PAR_LISTA_MOV_CAJA_INGRESO", dataSource.getListaMovimientoCajaIngreso());
 	}
 
 	private RegistroDeuda setRegistroDeudaAlTicket(DetalleTicketCaja locDetalle) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_Totales_Caja" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="820" leftMargin="11" rightMargin="11" topMargin="11" bottomMargin="11" isSummaryNewPage="true" isSummaryWithPageHeaderAndFooter="true">
 	<property name="ireport.zoom" value="1.0000000000000047"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="97"/>
+	<property name="ireport.x" value="178"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
 		<box>
@@ -130,11 +130,9 @@
 	<parameter name="CAJERO_PERSONA" class="java.lang.String"/>
 	<parameter name="IMPORTE_TOTAL" class="java.lang.Double"/>
 	<parameter name="CANTIDAD_TOTAL_TICKET" class="java.lang.Integer"/>
-	<parameter name="FECHA_DESDE" class="java.lang.String"/>
-	<parameter name="FECHA_HASTA" class="java.lang.String"/>
-	<parameter name="HORA_DESDE" class="java.lang.String"/>
-	<parameter name="HORA_HASTA" class="java.lang.String"/>
-	<parameter name="TIPO_PAGOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="FECHA_HASTA" class="java.util.Date"/>
+	<parameter name="TIPOS_PAGOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<parameter name="CANCELADOS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<parameter name="PAR_LISTA_MOV_CAJA_INGRESO" class="java.util.List"/>
 	<queryString>
@@ -192,6 +190,9 @@
 	</variable>
 	<variable name="SUM_IMPORTE_TICKET" class="java.lang.Double" resetType="Group" resetGroup="grupo_tasa" calculation="Sum">
 		<variableExpression><![CDATA[$F{TICKET_IMPORTE}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOTAL_TICKETS" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUM_IMPORTE_TICKET}]]></variableExpression>
 	</variable>
 	<group name="grupo_tasa" isStartNewPage="true" isResetPageNumber="true" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{TIPO_OBLIGACION}]]></groupExpression>
@@ -599,7 +600,7 @@
 				<text><![CDATA[Nº Caja]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="280" y="0" width="113" height="20" backcolor="#D4D4D4"/>
+				<reportElement mode="Opaque" x="289" y="0" width="104" height="20" backcolor="#D4D4D4"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -633,35 +634,35 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{NRO_CAJA}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement x="653" y="0" width="79" height="15">
 					<printWhenExpression><![CDATA[!$P{FECHA_DESDE}.equals($P{FECHA_HASTA})]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{FECHA_DESDE} + "-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{FECHA_DESDE}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement x="741" y="0" width="79" height="15"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{FECHA_HASTA}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="HH.mm">
 				<reportElement x="684" y="15" width="49" height="17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{HORA_DESDE} + "-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{FECHA_DESDE}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="HH.mm">
 				<reportElement x="741" y="15" width="79" height="17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{HORA_HASTA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{FECHA_HASTA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -801,20 +802,6 @@
 				</textElement>
 				<text><![CDATA[Total de Ticket Cobrados al Día]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="518" y="162" width="302" height="32"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="15" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{IMPORTE_TOTAL}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="735" y="119" width="85" height="22"/>
 				<box>
@@ -828,7 +815,7 @@
 				<reportElement key="table" style="table" x="519" y="215" width="301" height="82"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="TIPO_PAGOS_DS">
-						<dataSourceExpression><![CDATA[$P{TIPO_PAGOS_DS}]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[$P{TIPOS_PAGOS_DS}]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="144">
 						<jr:detailCell style="table_TD" height="20" rowSpan="1">
@@ -1016,6 +1003,13 @@
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="518" y="162" width="302" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUM_TOTAL_TICKETS}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

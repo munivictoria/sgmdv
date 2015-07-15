@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.trascender.contabilidad.gui.abmReporteContable.ParametroReporteContableTableModel;
 import com.trascender.contabilidad.gui.abmTipoCuenta.TipoCuentaABMModel;
 import com.trascender.contabilidad.gui.abmTipoCuenta.TipoCuentaExcluidosTableModel;
 import com.trascender.contabilidad.gui.recursos.MessagesContabilidad;
