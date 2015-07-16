@@ -788,3 +788,4 @@ ALTER TABLE gen_id_opcion_rp OWNER TO vipians;
 
 alter table parametro_reporte add column nombre_atributo char varying(50);
 alter table parametro_reporte add column orden clave;
+insert into log_scripts_corridos values(125,125,now());
