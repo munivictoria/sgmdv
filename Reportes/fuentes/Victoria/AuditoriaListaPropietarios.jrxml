@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AuditoriaListaPropietarios" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="0.8264462809917354"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AuditoriaListaPropietarios" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="P_USUARIO" class="com.trascender.framework.recurso.persistent.Usuario" isForPrompting="false">
@@ -10,12 +10,18 @@
 	<parameter name="P_ID_USUARIO" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
+	<parameter name="P_FECHA_HASTA" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select par.nro_parcela,array_to_string(array_agg(distinct persona_p.nombre), ',')as nombre
+		<![CDATA[select par.nro_parcela, par.nro_partida_provincial, titulo.titulo,
+array_to_string(array_agg(distinct persona_p.nombre), ',')as nombre,
+u.usuario
 from log_auditoria log
 join titulo_propiedad titulo on titulo.id_titulo_propiedad = log.id_entidad
 join parcela par on par.id_titulo_propiedad = titulo.id_titulo_propiedad
 join registro_propietario rp on rp.id_titulo_propiedad = titulo.id_titulo_propiedad
+join usuario u on u.id_usuario = log.id_usuario
 join (
 select p.id_persona,
 coalesce(pj.razon_social, pf.apellido||' '||pf.nombre) || '['||p.cuim||']' as nombre
@@ -26,57 +32,152 @@ left join persona_juridica pj on pj.id_persona = pf.id_persona
 where log.id_recurso = -2087529643864407717
 and propiedad = 'listaRegistrosPropietarios'
 and log.tipo in ('AGREGO', 'QUITO')
-and log.id_usuario = $P!{P_ID_USUARIO}
-and date_part('DAY', log.fecha) = date_part('DAY', $P{P_FECHA}::date)
-and date_part('MONTH', log.fecha) = date_part('MONTH', $P{P_FECHA}::date)
-and date_part('YEAR', log.fecha) = date_part('YEAR', $P{P_FECHA}::date)
-group by par.nro_parcela;]]>
+and ($P!{P_ID_USUARIO} = 1
+or (select count(p.id_permiso) from rol r
+join permiso p on p.id_rol = r.id_rol
+join rela_roles_usuario rela on rela.id_rol = r.id_rol
+where p.aud = true and p.id_recurso = -2087529643864407717
+and rela.id_usuario = $P!{P_ID_USUARIO}) > 0
+or log.id_usuario = $P!{P_ID_USUARIO})
+and ($P!{P_ID_USUARIO} = 1 or log.id_usuario <> 1)
+and date_part('DAY', log.fecha) >= date_part('DAY', $P{P_FECHA}::date)
+and date_part('MONTH', log.fecha) >= date_part('MONTH', $P{P_FECHA}::date)
+and date_part('YEAR', log.fecha) >= date_part('YEAR', $P{P_FECHA}::date)
+and date_part('DAY', log.fecha) <= date_part('DAY', $P{P_FECHA_HASTA}::date)
+and date_part('MONTH', log.fecha) <= date_part('MONTH', $P{P_FECHA_HASTA}::date)
+and date_part('YEAR', log.fecha) <= date_part('YEAR', $P{P_FECHA_HASTA}::date)
+
+group by par.nro_parcela,u.usuario,par.nro_partida_provincial, titulo.titulo
+order by u.usuario,par.nro_parcela;]]>
 	</queryString>
 	<field name="nro_parcela" class="java.lang.String"/>
+	<field name="nro_partida_provincial" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String"/>
 	<field name="nombre" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="79" splitType="Stretch">
+	<pageHeader>
+		<band height="96">
 			<staticText>
-				<reportElement x="200" y="0" width="333" height="20"/>
-				<textElement>
-					<font size="14"/>
+				<reportElement x="93" y="0" width="383" height="28"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Cambios realizados al listado de propietarios]]></text>
+				<text><![CDATA[Modificaciones a Títulos de Propiedad en Registro Parcelario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="28" width="100" height="20"/>
+				<reportElement x="16" y="28" width="100" height="20"/>
 				<textElement/>
 				<text><![CDATA[Usuario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="48" width="100" height="20"/>
+				<reportElement x="16" y="48" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[Fecha]]></text>
+				<text><![CDATA[Fecha desde]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="28" width="255" height="20"/>
+				<reportElement x="116" y="28" width="255" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{P_USUARIO}.getNombrePersonaFisica()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="100" y="48" width="255" height="20"/>
+				<reportElement x="116" y="48" width="255" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{P_FECHA}]]></textFieldExpression>
 			</textField>
-		</band>
-	</title>
-	<columnHeader>
-		<band height="24" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="4" width="100" height="20"/>
+				<reportElement x="412" y="28" width="76" height="20"/>
+				<textElement/>
+				<text><![CDATA[Fecha Informe]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm">
+				<reportElement x="488" y="28" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="412" y="48" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="492" y="48" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="68" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Fecha hasta]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="116" y="68" width="255" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{P_FECHA_HASTA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="93" y="4" width="58" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Partida Pcial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="4" width="38" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="4" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement/>
 				<text><![CDATA[Parcela nro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="4" width="100" height="20"/>
+				<reportElement x="151" y="4" width="44" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Matrícula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="4" width="377" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement/>
 				<text><![CDATA[Propietarios]]></text>
 			</staticText>
@@ -85,18 +186,65 @@ group by par.nro_parcela;]]>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="100" height="20"/>
+				<reportElement x="0" y="0" width="38" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{nro_parcela}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="0" width="652" height="20"/>
+				<reportElement x="195" y="0" width="377" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="151" y="0" width="44" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="93" y="0" width="58" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nro_partida_provincial}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
