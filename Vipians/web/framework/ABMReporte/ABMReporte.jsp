@@ -365,6 +365,9 @@
 																<ui:button action="#{framework$ABMReporte$ABMReporte.btnAgregarParametro_action}"
 																	binding="#{framework$ABMReporte$ABMReporte.btnAgregarParametro}" id="btnAgregarParametro" styleClass="button"
 																	text="Agregar Parametro" />
+																<a4j:commandButton action="#{framework$ABMReporte$ABMReporte.btnLeerParametros_action}"
+																	binding="#{framework$ABMReporte$ABMReporte.btnLeerParametros}" id="btnLeerParametros" styleClass="btnAjax"
+																	reRender="tableParametros" value="Leer Parámetros" />
 																<a4j:commandButton action="#{framework$ABMReporte$ABMReporte.btnSeleccionarRecurso_action}"
 																	binding="#{framework$ABMReporte$ABMReporte.btnSeleccionarRecurso}" id="btnSeleccionarRecurso" styleClass="btnAjax"
 																	reRender="tableParametros" value="Seleccionar Recurso" />

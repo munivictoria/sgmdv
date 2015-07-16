@@ -7,8 +7,15 @@
 
 package muni.framework.ABMReporte;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxCommandButton;
 
@@ -32,6 +39,7 @@ import com.trascender.framework.recurso.persistent.reporteDinamico.OpcionParamet
 import com.trascender.framework.recurso.persistent.reporteDinamico.ParametroReporte;
 import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.transients.Recurso;
+import com.trascender.framework.util.SecurityMgr;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
 
@@ -433,9 +441,18 @@ public class ABMReporte extends ABMPageBean {
 	private Checkbox cbRequerido = new Checkbox();
 	private TableColumn tableColumnRecurso = new TableColumn();
 	private HtmlAjaxCommandButton btnSeleccionarRecurso = new HtmlAjaxCommandButton();
+	private HtmlAjaxCommandButton btnLeerParametros = new HtmlAjaxCommandButton();
 	private HtmlAjaxCommandButton btnModificarOpciones = new HtmlAjaxCommandButton();
 	private TableColumn tableColumnNombreRecurso = new TableColumn();
 	private StaticText stNombreRecurso = new StaticText();
+
+	public HtmlAjaxCommandButton getBtnLeerParametros() {
+		return btnLeerParametros;
+	}
+
+	public void setBtnLeerParametros(HtmlAjaxCommandButton btnLeerParametros) {
+		this.btnLeerParametros = btnLeerParametros;
+	}
 
 	public HtmlAjaxCommandButton getBtnModificarOpciones() {
 		return btnModificarOpciones;
@@ -959,6 +976,62 @@ public class ABMReporte extends ABMPageBean {
 		this.getListaDelCommunicationOpcionesParametro().add(locOpcion);
 		this.getLdpOpciones().setList(this.getListaDelCommunicationOpcionesParametro());
 
+		return null;
+	}
+
+	public String btnLeerParametros_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+		if(ultimo) {
+			guardarEstadoObjetosUsados();
+			String nombreJasper = getTextFieldValue(tfNombreJasper);
+			if (nombreJasper != null) {
+				String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+				try {
+					JasperReport reporte = (JasperReport) JRLoader.loadObject(new File(rutaReportes + nombreJasper));
+					Reporte locReporte = this.obtenerObjetoDelElementoPila(0, Reporte.class);
+					for (JRParameter cadaParametro : reporte.getParameters()) {
+						if (cadaParametro.isSystemDefined()
+								|| cadaParametro.getName().equals("P_USUARIO")
+								|| cadaParametro.getName().equals("P_ID_USUARIO")) {
+							continue;
+						}
+						ParametroReporte locParametro = locReporte.getParametroPorNombreAtributo(cadaParametro.getName());
+						if (locParametro == null) {
+							locParametro = new ParametroReporte();
+							locParametro.setNombreAtributo(cadaParametro.getName());
+							locParametro.setOrden(locReporte.getListaParametroReporte().size() + 1);
+							locReporte.getListaParametroReporte().add(locParametro);
+						}
+						locParametro.setTipo(getTipoSegunClase(cadaParametro.getValueClassName()));
+					}
+					this.getLdpParametros().setList(locReporte.getListaParametroReporte());
+					guardarEstadoObjetosUsados();
+				} catch (JRException e) {
+					e.printStackTrace();
+					error("No se encontro un archivo Jasper con el nombre ingresado.");
+					tfNombreJasper.setValid(false);
+				}
+			}
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+		return retorno;
+	}
+	
+	private ParametroReporte.Tipo getTipoSegunClase(String clase) {
+		if (clase.equals(Long.class.getName()) || clase.equals(Integer.class.getName()))
+			return ParametroReporte.Tipo.NUMÉRICO;
+		if (clase.equals(Double.class.getName()) || clase.equals(Float.class.getName()))
+			return ParametroReporte.Tipo.DECIMAL;
+		if (clase.equals(String.class.getName()))
+			return ParametroReporte.Tipo.CADENA;
+		if (clase.equals(Date.class.getName()))
+			return ParametroReporte.Tipo.FECHA;
+		if (clase.equals(Boolean.class.getName()))
+			return ParametroReporte.Tipo.BOOLEANO;
+		if (clase.contains("trascender"))
+			return ParametroReporte.Tipo.RECURSO;
 		return null;
 	}
 
