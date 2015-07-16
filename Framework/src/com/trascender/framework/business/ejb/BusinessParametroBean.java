@@ -705,7 +705,7 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 		pMapaParametros.put("P_IMAGEN", (Image) new ImageIcon(SecurityMgr.getInstance().getMunicipalidad().getLogo()).getImage());
 
 		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
-		JasperReport reporte = (JasperReport) JRLoader.loadObject(new File(rutaReportes + "Dinamicos/" + pReporte.getNombreArchivoJasper()));
+		JasperReport reporte = (JasperReport) JRLoader.loadObject(new File(rutaReportes + pReporte.getNombreArchivoJasper()));
 		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
 
 		Connection conexion = datasource.getConnection();

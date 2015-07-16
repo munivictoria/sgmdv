@@ -612,8 +612,9 @@ public class SystemParametroBean implements SystemParametro {
 	}
 
 	public JasperPrint getReporte(Reporte pReporte, Map<String, Object> pMapaParametros) throws Exception {
-		pMapaParametros.put("P_USUARIO", SecurityMgr.getInstance().getUsuario(this.llave).getUser());
-
+		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(this.llave);
+		pMapaParametros.put("P_USUARIO", locUsuario);
+		pMapaParametros.put("P_ID_USUARIO", locUsuario.getIdUsuario());
 		return this.parametroLocal.getReporte(pReporte, pMapaParametros);
 	}
 
