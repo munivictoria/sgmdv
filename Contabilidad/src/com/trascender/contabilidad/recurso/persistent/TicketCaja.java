@@ -221,7 +221,10 @@ public class TicketCaja implements Serializable{
 		Double interes = new Double(0);
 		for (DetalleTicketCaja cadaDetalle : detalles) {
 			if (cadaDetalle.getDeuda() instanceof RegistroDeuda) {
-				interes += ((RegistroDeuda)cadaDetalle.getDeuda()).getInteres();
+				Double locInteres = ((RegistroDeuda)cadaDetalle.getDeuda()).getInteres();
+				if (locInteres != null) {
+					interes += locInteres;
+				}
 			}
 		}
 		return interes;
