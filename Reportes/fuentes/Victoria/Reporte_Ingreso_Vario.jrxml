@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Ingreso_Vario" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.6105100000000014"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.y" value="174"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -44,6 +44,9 @@
 	</background>
 	<pageHeader>
 		<band height="555">
+			<rectangle>
+				<reportElement x="0" y="66" width="555" height="276"/>
+			</rectangle>
 			<staticText>
 				<reportElement x="269" y="10" width="134" height="10"/>
 				<textElement>
@@ -105,9 +108,6 @@
 				</textElement>
 				<text><![CDATA[Operación Nº]]></text>
 			</staticText>
-			<rectangle>
-				<reportElement x="0" y="66" width="555" height="276"/>
-			</rectangle>
 			<staticText>
 				<reportElement x="6" y="66" width="136" height="10"/>
 				<textElement>
@@ -285,7 +285,7 @@
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement x="28" y="293" width="205" height="12"/>
+				<reportElement x="6" y="299" width="276" height="26"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{PAR_CODIGOBARRA_INGRESO_VARIO}]]></textFieldExpression>
 			</textField>
@@ -307,7 +307,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{PAR_FECHA_EMISION}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="25" y="99" width="319" height="70"/>
 				<textElement>
 					<font size="8"/>
