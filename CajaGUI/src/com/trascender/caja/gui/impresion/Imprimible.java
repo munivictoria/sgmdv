@@ -110,7 +110,7 @@ public abstract class Imprimible {
 			}
 		}
 		else{ 
-			resultado+="Concepto:      "+locDeuda.getNombre()+" \n"; //Administrativo
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 2) + "\n"; //Administrativo
 		}
 
 		resultado+=" \n";
@@ -133,6 +133,25 @@ public abstract class Imprimible {
 
 		return resultado;
 	}
+	
+	/**
+	 * @param cantidadCaractares El maximo de caracter por linea que puede tener el string
+	 * @param cantidadLineas el maximo de lineas que puede tener el string
+	 * @return
+	 */
+	private String acortarString(String cadena, int cantidadCaractares, int cantidadLineas) {
+		if (cantidadCaractares >= cadena.length())
+			return cadena;
+		String resultado = "";
+		for (int i = 0 ; i < cantidadLineas ; i++) {
+			int posicion = cadena.lastIndexOf(" ", cantidadCaractares);
+			resultado += cadena.substring(0, posicion) + "\n";
+			cadena = cadena.substring(posicion + 1);
+		}
+		resultado = resultado.substring(0, resultado.length() - 3) + "...";
+		return resultado;
+	}
+	
 	/**
 	 * Texto a imprimir con leyenda de Anulacion de ticket
 	 * @return
@@ -196,7 +215,7 @@ public abstract class Imprimible {
 			}
 		}
 		else{
-			resultado+="Concepto:      "+locDeuda.getNombre()+" \n";
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 2)+"\n"; //Administrativo
 		}
 
 		resultado+=" \n";
@@ -286,7 +305,7 @@ public abstract class Imprimible {
 			}
 		}
 		else{
-			resultado+="Concepto:      "+locDeuda.getNombre()+" \n";
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 2)+"\n"; //Administrativo
 		}
 
 		resultado+=" \n";
