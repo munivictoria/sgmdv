@@ -878,6 +878,7 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 				}
 				// Quitamos la ultima coma.
 				listadoIds = listadoIds.substring(0, listadoIds.length() - 1);
+				System.out.println(listadoIds);
 
 				// Calculamos los modificadores.
 //				PreparedStatement psGetSumaModificadores = con.prepareStatement("select id_registro_deuda, sum(valor) from RELA_MODIF_LIQ_LIQ_T rela_mod "

@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,6 +22,7 @@ import com.trascender.caja.gui.impresion.Imprimible;
 import com.trascender.caja.gui.main.CajaGUI;
 import com.trascender.contabilidad.recurso.persistent.DetalleTicketCaja;
 import com.trascender.contabilidad.recurso.persistent.PagoTicket;
+import com.trascender.contabilidad.recurso.persistent.PagoTicketCheque;
 import com.trascender.contabilidad.recurso.persistent.PagoTicketEfectivo;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.framework.exception.TrascenderException;
@@ -60,6 +62,7 @@ public class Cobro  {
 		this.listaTicket = new ArrayList<TicketDeuda>();
 		this.init();
 	}	
+	
 	//
 	/**
 	 * Inicializa el modelo, los eventos y la vista 
@@ -199,6 +202,81 @@ public class Cobro  {
 
 		this.getView().getTfVuelto().setText(texto);
 	}
+	
+	public static void main(String... args) {
+		try {
+			System.out.println("Prueba");
+			
+			//Armamos pagos, un cheque de 100 y 10 de efectivo.
+			PagoTicketCheque pagoCheque = new PagoTicketCheque();
+			pagoCheque.setMonto(40d);
+			pagoCheque.setNumero("10000");
+			
+			//Armamos pagos, un cheque de 100 y 10 de efectivo.
+			PagoTicketCheque pagoCheque2 = new PagoTicketCheque();
+			pagoCheque2.setMonto(60d);
+			pagoCheque2.setNumero("1000022");
+			
+			PagoTicketEfectivo pagoEfectivo = new PagoTicketEfectivo();
+			pagoEfectivo.setMonto(10d);
+			pagoEfectivo.setComentario("Efectivo");
+			
+			List<PagoTicket> listaPagos = new ArrayList<PagoTicket>();
+			listaPagos.add(pagoCheque);
+			listaPagos.add(pagoCheque2);
+			listaPagos.add(pagoEfectivo);
+			
+			//Armamos dos tickets, uno de 50 y uno de 60.
+			TicketCaja ticket1 = new TicketCaja();
+			ticket1.setImporteTotal(50d);
+			
+			TicketCaja ticket2 = new TicketCaja();
+			ticket2.setImporteTotal(60d);
+			
+			List<TicketCaja> listaTickets = new ArrayList<TicketCaja>();
+			listaTickets.add(ticket1);
+			listaTickets.add(ticket2);
+			
+			ListIterator<PagoTicket> itPagos = listaPagos.listIterator();
+			PagoTicket pagoActual = itPagos.next();
+			Double importePago = pagoActual.getMonto();
+			for (TicketCaja cadaTicket : listaTickets) {
+				boolean pagado = false;
+				Double importeRestanteDeTicket = cadaTicket.getImporteTotal();
+				while (!pagado) {
+					PagoTicket nuevoPago = pagoActual.getClon(cadaTicket);
+					cadaTicket.addPagoTicket(nuevoPago);
+					//Alcanza para pagar con el pago actual?
+					if (importeRestanteDeTicket <= importePago) {
+						//Alcanza
+						pagado = true;
+						//Resto del pago
+						importePago = importePago - importeRestanteDeTicket;
+						nuevoPago.setMonto(importeRestanteDeTicket);
+					} else {
+						//No alcanza.
+						nuevoPago.setMonto(importePago);
+						importeRestanteDeTicket = importeRestanteDeTicket - importePago;
+						//Si no alcanza, no nos queda importe en este pago
+						importePago = 0D;
+					}
+					if (importePago <= 0D && itPagos.hasNext()) {
+						pagoActual = itPagos.next();
+						importePago = pagoActual.getMonto();
+					}
+				}
+			}
+			
+			for (TicketCaja cadaTicket : listaTickets) {
+				for (PagoTicket cadaPago : cadaTicket.getListaPagosTicket()) {
+					System.out.println("Ticket de "+ cadaTicket.getImporteTotal()+", "
+							+cadaPago.getDescripcion()+": "+cadaPago.getMonto());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	private void armarPago() throws Exception{
 
@@ -228,7 +306,6 @@ public class Cobro  {
 
 			Double sumaMontosTicket = new Double(0);
 			for (TicketDeuda cadaTicketDeuda : listaTicket){
-				DecimalFormat decimalFormat = new DecimalFormat(FORMATO_NUMEROS_DECIMALES);
 				sumaMontosTicket += cadaTicketDeuda.getTicket().getImporteTotal();
 			}
 
@@ -242,9 +319,38 @@ public class Cobro  {
 				PagoTicket nuevoPago = locPago.getClon(cadaTicket);
 				cadaTicket.addPagoTicket(nuevoPago);
 			}
-		}
-		else if (locListaPagosTicket.size() > 1) {
-			throw new Exception("No componerse mas de un Pago para mas de un Ticket.");
+		} else if (locListaPagosTicket.size() > 1) {
+//			throw new Exception("No componerse mas de un Pago para mas de un Ticket.");
+			ListIterator<PagoTicket> itPagos = locListaPagosTicket.listIterator();
+			PagoTicket pagoActual = itPagos.next();
+			Double importePago = pagoActual.getMonto();
+			for (TicketDeuda cadaTicketDeuda : listaTicket) {
+				TicketCaja cadaTicket = cadaTicketDeuda.getTicket();
+				boolean pagado = false;
+				Double importeRestanteDeTicket = cadaTicket.getImporteTotal();
+				while (!pagado) {
+					PagoTicket nuevoPago = pagoActual.getClon(cadaTicket);
+					cadaTicket.addPagoTicket(nuevoPago);
+					//Alcanza para pagar con el pago actual?
+					if (importeRestanteDeTicket <= importePago) {
+						//Alcanza
+						pagado = true;
+						//Resto del pago
+						importePago = importePago - importeRestanteDeTicket;
+						nuevoPago.setMonto(importeRestanteDeTicket);
+					} else {
+						//No alcanza.
+						nuevoPago.setMonto(importePago);
+						importeRestanteDeTicket = importeRestanteDeTicket - importePago;
+						//Si no alcanza, no nos queda importe en este pago
+						importePago = 0D;
+					}
+					if (importePago <= 0D && itPagos.hasNext()) {
+						pagoActual = itPagos.next();
+						importePago = pagoActual.getMonto();
+					}
+				}
+			}
 		}
 		for (TicketDeuda cadaTicketDeuda : listaTicket){
 			DecimalFormat decimalFormat = new DecimalFormat(FORMATO_NUMEROS_DECIMALES);

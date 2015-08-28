@@ -1796,7 +1796,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				listaResultado.add(JasperFillManager.fillReport(reporte, dataSource.getMapaParametros(), dataSource));
 			}
 			
-			if (!listaTicketsLiquidaciones.isEmpty()) {
+			if (!listaTicketsRefinaciaciones.isEmpty()) {
 				ResumenCajaGeneralDS dataSource = new PlanillaDiariaCajaRefinanciacionDS(listaTicketsRefinaciaciones);
 				llenarMapaDatosCaja(dataSource, locUsuario, locCaja, pFechaDesde, pFechaHasta);
 				File fileReporte = new File(rutaReportes + dataSource.getNombreReporte());

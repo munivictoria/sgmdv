@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_Totales_Caja" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="820" leftMargin="11" rightMargin="11" topMargin="11" bottomMargin="11" isSummaryNewPage="true" isSummaryWithPageHeaderAndFooter="true">
 	<property name="ireport.zoom" value="1.0000000000000047"/>
 	<property name="ireport.x" value="178"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="241"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
 		<box>
@@ -192,7 +192,7 @@
 		<variableExpression><![CDATA[$F{TICKET_IMPORTE}]]></variableExpression>
 	</variable>
 	<variable name="SUM_TOTAL_TICKETS" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$V{SUM_IMPORTE_TICKET}]]></variableExpression>
+		<variableExpression><![CDATA[$F{TICKET_IMPORTE}]]></variableExpression>
 	</variable>
 	<group name="grupo_tasa" isStartNewPage="true" isResetPageNumber="true" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{TIPO_OBLIGACION}]]></groupExpression>

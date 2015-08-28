@@ -105,7 +105,7 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 
 	@Override
 	public String getNombre() {
-		return this.toString();
+		return this.getConceptoIngresoVario().getNombre();
 	}
 
 	public Double getValor() {

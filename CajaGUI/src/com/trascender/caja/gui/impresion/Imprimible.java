@@ -110,7 +110,7 @@ public abstract class Imprimible {
 			}
 		}
 		else{ 
-			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 2) + "\n"; //Administrativo
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3) + "\n"; //Administrativo
 		}
 
 		resultado+=" \n";
@@ -148,7 +148,8 @@ public abstract class Imprimible {
 			resultado += cadena.substring(0, posicion) + "\n";
 			cadena = cadena.substring(posicion + 1);
 		}
-		resultado = resultado.substring(0, resultado.length() - 3) + "...";
+		if (!cadena.trim().isEmpty())
+			resultado = resultado.substring(0, resultado.length() - 3) + "...";
 		return resultado;
 	}
 	
@@ -215,7 +216,7 @@ public abstract class Imprimible {
 			}
 		}
 		else{
-			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 2)+"\n"; //Administrativo
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3)+"\n"; //Administrativo
 		}
 
 		resultado+=" \n";
@@ -305,7 +306,7 @@ public abstract class Imprimible {
 			}
 		}
 		else{
-			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 2)+"\n"; //Administrativo
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3)+"\n"; //Administrativo
 		}
 
 		resultado+=" \n";

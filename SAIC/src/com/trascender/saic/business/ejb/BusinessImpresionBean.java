@@ -293,16 +293,23 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 		java.util.Arrays.sort(locListado, new  Comparator<LiquidacionTasa>(){
 			@Override
 			public int compare(LiquidacionTasa o1, LiquidacionTasa o2) {
-				int resultado = o1.getPersona().getDomicilio().getCalle().compareTo(o2.getPersona().getDomicilio().getCalle());
+				Domicilio dom1 =  o1.getDocGeneradorDeuda()
+						.getObligacion().getDocumentoEspecializado().getDomicilio();
+				Domicilio dom2 = o2.getDocGeneradorDeuda()
+						.getObligacion().getDocumentoEspecializado().getDomicilio();
+				if (dom1.getCalle() == null || dom2.getCalle() == null) {
+					System.out.println("stop");
+				}
+				int resultado = dom1.getCalle().compareTo(dom2.getCalle());
 				if(resultado == 0){
 					try{
-						Integer locNumeroO1 = Integer.valueOf(o1.getPersona().getDomicilio().getNumero());
-						Integer locNumeroO2 = Integer.valueOf(o2.getPersona().getDomicilio().getNumero());
+						Integer locNumeroO1 = Integer.valueOf(dom1.getNumero());
+						Integer locNumeroO2 = Integer.valueOf(dom2.getNumero());
 						resultado = locNumeroO1.compareTo(locNumeroO2);
 					}
 					catch(Exception e){
 						//Significa q no pudo castear un numero a Integer
-						resultado = o1.getPersona().getDomicilio().getNumero().compareTo(o2.getPersona().getDomicilio().getNumero());
+						resultado = dom1.getNumero().compareTo(dom2.getNumero());
 					}
 				}
 				return resultado;
@@ -403,6 +410,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 
 	@Override
 	public JasperPrint getReporteSHPS(List<LiquidacionTasa> pListaLiquidaciones, Usuario pUsuario) throws Exception{
+		pListaLiquidaciones = this.ordenarListaLiquidaciones(pListaLiquidaciones);
 		List<LiquidacionDS> locListaDataSource = new ArrayList<LiquidacionDS>();
 		for (LiquidacionTasa cadaLiquidacion : pListaLiquidaciones) {
 			locListaDataSource.add(new LiquidacionShpsDS(cadaLiquidacion, null, this.getTituloReporte(), 
@@ -1186,7 +1194,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 	@Override
 	public void imprimirLiquidacionesEnServidor(List<LiquidacionTasaRefer> pListaLiquidacionesTasa, Usuario pUsuario){
 		//Es SHPS
-		if (pListaLiquidacionesTasa.get(0).getParcela() == null || pListaLiquidacionesTasa.get(0).getParcela().isEmpty()) {
+		if (pListaLiquidacionesTasa.get(0).getTipo().contains("SHPS")) {
 			System.out.println("SHPS!");
 			List<LiquidacionTasa> locListaLiquidaciones = new ArrayList<LiquidacionTasa>();
 			for (LiquidacionTasaRefer cadaLiquidacionRefer : pListaLiquidacionesTasa) {

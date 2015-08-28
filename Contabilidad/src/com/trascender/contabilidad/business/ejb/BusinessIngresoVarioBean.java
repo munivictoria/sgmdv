@@ -140,10 +140,10 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		Criterio locCriterio = Criterio.getInstance(entity, ConceptoIngresoVario.class);
 		locCriterio.add(Restriccion.ILIKE("nombre", cadena).SIN_PROCESAR_ENTIDADES());
 		if (!pUsuario.getUser().equals("root")) {
-			locCriterio.crearAlias("listaUsuarios", "cadaUsuario")
-				.crearAlias("listaRoles", "cadaRol")
-				.add(Restriccion.IGUAL("cadaUsuario", pUsuario))
-//				.add(Restriccion.EN("cadaRol", pUsuario.getListaRoles())
+			locCriterio.crearAliasLeft("listaUsuarios", "cadaUsuario")
+				.crearAliasLeft("listaRoles", "cadaRol")
+//				.add(Restriccion.IGUAL("cadaUsuario", pUsuario))
+				.add(Restriccion.EN("cadaRol", pUsuario.getListaRoles()));
 						;
 		}
 		locCriterio.setProyeccion(Proyeccion.NEW(AuxIdEntidad.class, "idConceptoIngresoVario", "nombre").SIN_PROCESAR_ENTIDADES());
@@ -290,3 +290,4 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		return listaResultado;
 	}
 }
+

@@ -102,6 +102,7 @@
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.business.interfaces{BusinessProveedorLocal.java"/>
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.business.interfaces{BusinessFacturaLocal.java"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.util"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.recurso.persistent.reporteDinamico"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.ejb{BusinessDocumentoPlanObraBean.java"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.business.interfaces{BusinessPresupuestoLocal.java"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessTipoAlicuotaLocal.java"/>
@@ -139,11 +140,13 @@
         <javaElement handleIdentifier="=ComprasMuni/src&lt;com.trascender.compras.system.ejb"/>
         <file path="/CajaGUI/.project"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.business.interfaces{BusinessObligacionLocal.java"/>
+        <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.reporte.dataSource"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.ejb{BusinessRegistroGeograficoBean.java"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.exception"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.business.interfaces{BusinessCodigosCatastralesLocal.java"/>
         <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.system.ejb"/>
         <javaElement handleIdentifier="=Catastro/src&lt;com.trascender.catastro.recurso.filtros"/>
+        <javaElement handleIdentifier="=Framework/src&lt;com.trascender.framework.util.anotations"/>
         <javaElement handleIdentifier="=Habilitaciones/src&lt;com.trascender.habilitaciones.recurso.filtros"/>
         <javaElement handleIdentifier="=Contabilidad/src&lt;com.trascender.contabilidad.recurso.transients"/>
         <javaElement handleIdentifier="=SAIC/src&lt;com.trascender.saic.business.ejb{BusinessLiquidacionTasaBean.java"/>
