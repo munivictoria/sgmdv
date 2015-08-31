@@ -788,4 +788,111 @@ ALTER TABLE gen_id_opcion_rp OWNER TO vipians;
 
 alter table parametro_reporte add column nombre_atributo char varying(50);
 alter table parametro_reporte add column orden clave;
+
 insert into log_scripts_corridos values(125,125,now());
+
+alter table exp_documentocatalogo add column id_reporte clave;
+alter table exp_documentocatalogo add constraint fk_exp_doccat_id_reporte FOREIGN KEY(id_reporte) REFERENCES reporte (id_reporte) on delete restrict on update cascade;
+alter table exp_documentocatalogo add column tipo character varying(255);
+update exp_documentocatalogo set tipo = 'ENTRADA';
+
+alter table exp_documento add column documento_adjunto bytea;
+
+CREATE TABLE exp_parametro_valuado_reporte
+(
+  id_parametro_valuado_rp clave NOT NULL,
+  id_documento clave NOT NULL,
+  nombre nombre NOT NULL,
+  valor_cadena character varying(200),
+  valor_entero clave,
+  valor_decimal numeric(15,2),
+  valor_fecha date,
+  valor_booleano boolean,
+  CONSTRAINT exp_parametro_valuado_reporte_pkey PRIMARY KEY (id_parametro_valuado_rp),
+  CONSTRAINT fk_exp_param_rp_documento FOREIGN KEY (id_documento)
+      REFERENCES exp_documento (id_documento) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+ALTER TABLE exp_parametro_valuado_reporte OWNER TO vipians;
+
+CREATE SEQUENCE gen_id_parametro_valuado_rp;
+ALTER TABLE gen_id_parametro_valuado_rp OWNER TO vipians;
+
+create table numerador (
+id_numerador clave not null primary key,
+nombre char varying not null,
+contador clave not null,
+resetea_con_anio boolean DEFAULT true,
+estado estado
+);
+alter table numerador owner to vipians;
+
+create sequence gen_id_numerador;
+alter sequence gen_id_numerador owner to vipians;
+
+create table linea_numerador (
+id_linea_numerador clave not null primary key,
+id_numerador clave not null,
+anio clave not null,
+contador clave not null,
+CONSTRAINT fk_linea_numerador_numerador FOREIGN KEY (id_numerador)
+      REFERENCES numerador (id_numerador) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+alter table linea_numerador owner to vipians;
+
+create sequence gen_id_linea_numerador;
+alter sequence gen_id_linea_numerador owner to vipians;
+
+alter table exp_procedimiento add column id_numerador clave;
+alter table exp_procedimiento add constraint fk_exp_procedimiento_numerador foreign key (id_numerador) references numerador(id_numerador) on delete restrict on update cascade;
+
+alter table exp_nodoprocedimiento  add column estado varchar(25);
+update exp_nodoprocedimiento  set estado = 'ACTIVO';
+
+alter table exp_documento drop column documento_adjunto;
+alter table exp_parametro_valuado_reporte drop column id_documento;
+
+CREATE TABLE exp_version_ejecucion_reporte
+(
+  id_version_ejecucion_rp clave NOT NULL,
+  id_documento clave NOT NULL,
+  activo boolean,
+  fecha_ejecucion timestamp without time zone,
+  documento_adjunto bytea,
+  CONSTRAINT exp_version_ejecucion_reporte_pkey PRIMARY KEY (id_version_ejecucion_rp),
+  CONSTRAINT fk_exp_ver_ejec_rp_documento FOREIGN KEY (id_documento)
+      REFERENCES exp_documento (id_documento) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+ALTER TABLE exp_version_ejecucion_reporte OWNER TO vipians;
+
+CREATE SEQUENCE gen_id_version_ejecucion_rp;
+ALTER TABLE gen_id_version_ejecucion_rp OWNER TO vipians;
+
+delete from exp_documento;
+delete from exp_parametro_valuado_reporte;
+
+alter table exp_parametro_valuado_reporte add column id_version_ejecucion_rp clave not null;
+alter table exp_parametro_valuado_reporte add constraint fk_exp_param_val_rp_version_reporte foreign key (id_version_ejecucion_rp) references exp_version_ejecucion_reporte(id_version_ejecucion_rp) on delete restrict on update cascade;
+
+alter table exp_parametro_valuado_reporte add column valor_seleccion bytea;
+
+alter table tasa_nominal_anual add interes_condonado porcentaje;
+
+alter table plantilla_plan_de_pago add cantidad_propiedades_maxima integer;
+
+create table RELA_REG_CANCE_REGISTRO_CONDONADO (
+	ID_REGISTRO_CANCELACION clave not null,
+	ID_REGISTRO_DEUDA clave not null
+); 
+
+alter table RELA_REG_CANCE_REGISTRO_CONDONADO owner to vipians;
+
+alter table plantilla_plan_de_pago add condona_deuda_antigua boolean not null default false;
+
+alter table plantilla_plan_de_pago add anios_aplicacion varchar(200);
+
+alter table plantilla_plan_de_pago add fecha_vencimiento_primer_cuota date;
+
+insert into log_scripts_corridos values(126,126,now());
