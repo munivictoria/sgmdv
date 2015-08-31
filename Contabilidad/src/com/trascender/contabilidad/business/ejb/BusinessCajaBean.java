@@ -626,6 +626,8 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		return locListaRetorno;
 	}
 	
+	private Double porcentajeCondonacionIntereses = null;
+	
 	/**
 	 * Busca un listado de MOvimientos de Caja ingreso por cada Detalle del pagable
 	 * 
@@ -677,9 +679,19 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 					}
 				}
 			}
-			if(locLiquidacionTasa.getInteres() != null && locLiquidacionTasa.getInteres() > 0D) {
+			//Intereses.
+			Double interes = locLiquidacionTasa.getInteres();
+			/*
+			 * Si arriba esta setado un porcentajeCondonacionInteres, estamos generando
+			 * movimientos de caja a partir de una Refinanaciacion que tiene condonacion
+			 * de intereses. Hay que ajustar los importes correspondientes.
+			 */
+			if (porcentajeCondonacionIntereses != null) {
+				interes = interes - interes * porcentajeCondonacionIntereses / 100;
+			}
+			if(interes != null && interes > 0D) {
 				MovimientoCajaIngreso locMovimientoIngresoInteres = new MovimientoCajaIngreso();
-				locMovimientoIngresoInteres.setImporte(locLiquidacionTasa.getInteres());
+				locMovimientoIngresoInteres.setImporte(interes);
 				locMovimientoIngresoInteres.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
 				Cuenta locCuenta = this.getCuenta(locLiquidacionTasa, locLiquidacionTasa.getTipoTasa().getInteres(), fechaLiquidacionOriginal);
 				locMovimientoIngresoInteres.setCuenta(locCuenta);
@@ -717,12 +729,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				
 				//Puede tener interes condonado, ajustar el importe del mismo.
 				if (!locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado().equals(0D)) {
-					if (cadaRegistro instanceof LiquidacionTasa) {
-						LiquidacionTasa liq = (LiquidacionTasa) cadaRegistro;
-						liq.setInteres(liq.getInteres() - 
-								liq.getInteres() * locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado() / 100);
-						liq.setInteres(Util.redondear(liq.getInteres(), 2));
-					}
+					this.porcentajeCondonacionIntereses = locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado();
 				}
 				
 				List<MovimientoCajaIngreso> listaMovimientos = getListaMovimientosCaja(cadaRegistro);

@@ -2810,6 +2810,10 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		return null;
 	}
 	
+	public String btnImprimir_action() {
+		return null;
+	}
+	
 	public String btnCalcular_action() {
 		//Temporalmente, metemos estos objetos como lo que se va a refinanciar, luego los cambiaremos a RegistroDeuda
 		RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);

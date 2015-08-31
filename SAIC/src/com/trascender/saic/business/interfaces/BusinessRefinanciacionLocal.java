@@ -46,4 +46,7 @@ public interface BusinessRefinanciacionLocal
    public void deletePlantillaPlanDePago(PlantillaPlanDePago plantilla);
 	
    public FiltroPlantillaPlanDePago findListaPlantillaPlanDePago(FiltroPlantillaPlanDePago filtro);
+
+   public void deleteRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion)
+		throws Exception;
 }

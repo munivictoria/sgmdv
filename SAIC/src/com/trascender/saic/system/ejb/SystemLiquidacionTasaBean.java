@@ -910,4 +910,21 @@ public class SystemLiquidacionTasaBean implements SystemLiquidacionTasa {
 			throw new SaicException(324);
 		}
 	}
+	
+	@Override
+	public void deleteRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion) throws TrascenderException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, DocumentoRefinanciacion.serialVersionUID, Permiso.Accion.DELETE)) {
+				this.businessRefinanciacionLocal.deleteRefinanciacion(pDocumentoRefinanciacion);
+			} else {
+				throw new SaicException(772);
+			}
+		} catch(TrascenderException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new SaicException(223);
+		}
+	}
 }

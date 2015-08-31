@@ -346,6 +346,11 @@
 												<a4j:commandButton action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnCalcular_action}" 
 													value="Calcular" styleClass="btnAjax" reRender="form1"/>
 											</td>
+											<td>
+												<a4j:commandButton 
+													action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnImprimir_action}" 
+													value="Imprimir" styleClass="btnAjax" />
+											</td>
 											</tr>
 											<tr>
 												<td colspan="4">

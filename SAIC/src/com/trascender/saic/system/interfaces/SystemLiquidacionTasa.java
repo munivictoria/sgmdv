@@ -190,6 +190,9 @@ public interface SystemLiquidacionTasa {
 	public FiltroLiquidacionArrendamiento findListaLiquidacionesArrendamiento(FiltroLiquidacionArrendamiento pFiltro) throws TrascenderException;
 	
 	public ResultadoLiquidacion liquidarArrendamiento(CuotaLiquidacion[] pCuota, Persona pPersona, Parcela pParcela, Boolean pIgnorarPlan) throws TrascenderException;
+
+	public void deleteRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion)
+			throws TrascenderException;
 	
 	
 }

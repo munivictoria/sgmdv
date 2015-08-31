@@ -95,8 +95,7 @@ public class RefinanciacionModel extends ABMModel{
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			DocumentoRefinanciacion locRefinanciacion = (DocumentoRefinanciacion) pObject;
 			getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(getSessionBean1().getLlave());
-			//TODO Traer de la otra version
-//			getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().deleteRefinanciacion(locRefinanciacion);
+			getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().deleteRefinanciacion(locRefinanciacion);
 			
 			return "La Refinanciaci\363n se elimin\363 exitosamente.";
 		}

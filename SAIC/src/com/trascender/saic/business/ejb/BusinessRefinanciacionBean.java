@@ -587,4 +587,32 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		return filtro;
 	}
 	
+	@Override
+	public void deleteRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion) throws Exception {
+		volverEstadoDeuda(pDocumentoRefinanciacion);
+		
+		pDocumentoRefinanciacion = this.entityManager.merge(pDocumentoRefinanciacion);
+		for(RegistroDeuda cadaRegistro : pDocumentoRefinanciacion.getListaRegistrosDeuda()) {
+			entityManager.remove(cadaRegistro);
+		}
+		
+//		TrascenderEnverListener.setValoresEnAuditoriaBean(pDocumentoRefinanciacion);
+		this.entityManager.remove(pDocumentoRefinanciacion);
+		this.entityManager.remove(pDocumentoRefinanciacion.getObligacion());
+		this.entityManager.flush();
+	}
+	
+	private void volverEstadoDeuda(DocumentoRefinanciacion pDocumentoRefinanciacion) throws SaicException {
+		for(RegistroDeuda cadaRegistro : pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
+			LiquidacionTasa liquidacion = (LiquidacionTasa) cadaRegistro;
+			
+			EstadoRegistroDeuda estadoActual = liquidacion.getEstado();
+			liquidacion.setEstado(liquidacion.getEstadoAnterior());
+			liquidacion.setEstadoAnterior(estadoActual);
+			liquidacion.setRegistroCancelacion(null);
+			
+			this.entityManager.merge(liquidacion);
+		}
+	}
+	
 }
