@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
+
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
@@ -48,8 +51,6 @@
 															<ui:textField binding="#{expedientes$ABMFaseProcedimiento$AdminFaseProcedimiento.tfNombre}" columns="40" id="tfNombre"
 																styleClass="textField" />
 														</td>
-													</tr>
-													<tr>
 													</tr>
 												</table>
 											</ui:panelGroup>

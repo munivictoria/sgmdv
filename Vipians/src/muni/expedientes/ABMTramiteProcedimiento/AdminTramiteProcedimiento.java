@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMTramiteProcedimiento;
 
@@ -62,7 +68,6 @@ public class AdminTramiteProcedimiento extends AdminPageBean {
 
 	@Override
 	public PaginatedTable getPaginatedTable() {
-
 		return getCommunicationExpedientesBean().getTablaTramiteProcedimiento();
 	}
 
@@ -71,16 +76,15 @@ public class AdminTramiteProcedimiento extends AdminPageBean {
 		TramiteProcedimiento locTramiteProcedimiento = (TramiteProcedimiento) pObject;
 		getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 		locTramiteProcedimiento = getCommunicationExpedientesBean().getRemoteSystemProcedimientos().getTramiteProcedimientoPorId(locTramiteProcedimiento.getIdNodoProcedimiento());
+		
 		return pObject;
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected FiltroAbstracto buscar(FiltroAbstracto pFiltro) throws Exception {
-
 		this.getComunicationCatastroBean().getRemoteSystemInformacionGeografica().setLlave(this.getSessionBean1().getLlave());
 		return this.getCommunicationExpedientesBean().getRemoteSystemProcedimientos().findListaTramiteProcedimiento((FiltroTramiteProcedimiento) pFiltro);
-
 	}
 
 	@Override
@@ -128,7 +132,6 @@ public class AdminTramiteProcedimiento extends AdminPageBean {
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -145,4 +148,5 @@ public class AdminTramiteProcedimiento extends AdminPageBean {
 	public long getSerialVersionUID() {
 		return TramiteProcedimiento.serialVersionUID;
 	}
+	
 }

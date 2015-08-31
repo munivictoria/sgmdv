@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui">
+	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
 	<f:view>
 		<ui:page binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.page1}" id="page1">
@@ -20,23 +21,55 @@
 							<tbody>
 								<tr>
 									<td>
-										<br />
-									</td>
-								</tr>
-								<tr>
-									<td align="right" nowrap="true">
-										<ui:label binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.lblNombre}" for="tfNombre" id="lblNombre"
-											styleClass="label" text="Nombre" />
-									</td>
-									<td>
-										<ui:textField binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.tfNombre}" columns="40" id="tfNombre"
-											styleClass="textField" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<ui:messageGroup binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.messageGroup}" id="messageGroup"
-											styleClass="grupoMsg" />
+										<table align="center" width="70%">
+											<tr>
+												<td>
+													<br />
+												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="true">
+													<ui:label binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.lblTipo}" for="tfTipo" id="lblTipo"
+														styleClass="label" text="Tipo" />
+												</td>
+												<td>
+													<ui:textField binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.tfTipo}" disabled="true" columns="10"
+														id="tfTipo" styleClass="textFieldDisabled" />
+												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="true">
+													<ui:label binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.lblNombre}" for="tfNombre" id="lblNombre"
+														styleClass="label" text="Nombre" />
+												</td>
+												<td>
+													<ui:textField binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.tfNombre}" columns="40" id="tfNombre"
+														styleClass="textField" />
+												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="nowrap">
+													<ui:label binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.lblReporte}" for="tfReporte" id="lblReporte"
+														styleClass="label" text="Reporte" />
+												</td>
+												<td>
+													<ui:textField binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.tfReporte}" columns="30" id="tfReporte"
+														styleClass="textFieldDisabled" disabled="true" />
+													<ui:button action="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.btnBuscarReporte_action}"
+														binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.btnBuscarReporte}" escape="false" id="btnBuscarReporte"
+														mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
+													<a4j:commandButton id="btnLimpiarReporte" reRender="form1:tfReporte" title="Limpiar"
+														binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.btnLimpiarReporte}"
+														action="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.btnLimpiarReporte_action}" styleClass="buttonLimpiarAjax" />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<ui:messageGroup binding="#{expedientes$ABMDocumentoCatalogo$ABMDocumentoCatalogo.messageGroup}" id="messageGroup"
+														styleClass="grupoMsg" />
+												</td>
+											</tr>
+										</table>
 									</td>
 								</tr>
 							</tbody>

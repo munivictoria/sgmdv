@@ -107,17 +107,20 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 
 	public Head getHead1() {
 		if(head1.getChildren().size() == 0) { // Solo la primera vez.
-			Script scriptjQuery = getScript("jQuery", "/resources/javascript/jQuery/jQuery-2-1-0.js");
+			Script scriptjQuery = getScript("jQuery", "/resources/javascript/jQuery/jQuery.js");
 			head1.getChildren().add(scriptjQuery);
 
-			Script scriptjQueryUI = getScript("jQueryUI", "/resources/javascript/jQuery/jQueryUI-1-10-4.js");
+			Script scriptjQueryUI = getScript("jQuery-UI", "/resources/javascript/jQuery/jQuery-UI.js");
 			head1.getChildren().add(scriptjQueryUI);
 
-			Script scriptMaskedInput = getScript("maskedInput", "/resources/javascript/jQuery/maskedInputPlugin-1-3-1.js");
-			head1.getChildren().add(scriptMaskedInput);
-
-			Link linkjQueryStyle = getLink("jQueryUIStyle", "http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css");
+			Link linkjQueryStyle = getLink("jQuery-UI-Style", "/resources/javascript/jQuery/jQuery-UI.css");
 			head1.getChildren().add(linkjQueryStyle);
+
+			Script scriptMaskedInput = getScript("maskedInput", "/resources/javascript/jQuery/maskedInputPlugin.js");
+			head1.getChildren().add(scriptMaskedInput);
+			
+			Script scriptSketch = getScript("sketch", "/resources/javascript/jQuery/sketch.js");
+			head1.getChildren().add(scriptSketch);
 		}
 		head1.setTitle(this.getNombrePagina());
 
@@ -683,5 +686,13 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 		giLoading.setId("giLoading");
 		giLoading.setValue("/resources/gifs/cargando.gif");
 		return giLoading;
+	}
+	
+	public void subirArchivoDescargableASesion(String nombreArchivo, byte[] datos, String formato) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bytesDocumentoDescargable", datos);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nombreArchivoOriginal", nombreArchivo);
+		if (formato != null) {
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("formatoDeArchivo", formato);	
+		}
 	}
 }

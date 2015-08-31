@@ -1,9 +1,13 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMExpediente;
 
 import java.util.Map;
-
-import javax.faces.component.UIComponent;
 
 import muni.expedientes.NodoExpedienteControler;
 
@@ -45,6 +49,7 @@ public class ExpedienteModel extends ABMModel {
 				}
 			}
 		}
+
 		return retorno;
 	}
 
@@ -60,40 +65,27 @@ public class ExpedienteModel extends ABMModel {
 				}
 			}
 		}
+
 		return retorno;
 	}
 
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
-		UIComponent[] noVacios = new UIComponent[4];
-		String[] nomNoVacios = new String[4];
-		int pos = 0;
-		noVacios[pos] = getBeanExpediente().getTfPersona();
-		nomNoVacios[pos++] = "Interesado";
-		noVacios[pos] = getBeanExpediente().getTaAsunto();
-		nomNoVacios[pos++] = "Asunto";
-		noVacios[pos] = getBeanExpediente().getTfNroRegistro();
-		nomNoVacios[pos++] = "Nro Registro";
-		noVacios[pos] = getBeanExpediente().getPfContraseniaExpediente();
-		nomNoVacios[pos++] = "Contraseña";
-		v.noSonVacios(noVacios, nomNoVacios);
-
-		Expediente locExpediente = (Expediente) this.getBeanExpediente().obtenerObjetoDelElementoPila(0, Expediente.class);
-		if(locExpediente.getInteresado().getTelefono() == null && locExpediente.getInteresado().getCelular() == null) {
-			v.getErrores().add("El interesado no tiene teléfono ni celular de contacto.");
-		}
 		
 		String locPass = this.getBeanExpediente().obtenerObjetoDelElementoPila(4, String.class);
-		if(locPass == null || !locPass.equals(this.getSessionBean1().getUsuario().getPassword())) {
+		if(locPass == null || locPass == "" || !locPass.equals(this.getSessionBean1().getUsuario().getPassword())) {
 			v.getErrores().add("Contraseña de usuario no válida.");
 		}
+
 		return v;
 	}
 
 	private void deshabilitarElementosConsultarEliminar() {
 		ABMExpediente abmExpediente = getBeanExpediente();
 
+		abmExpediente.getBtnGuardarAjax().setRendered(false);
 		abmExpediente.getDdProcedimiento().setRendered(false);
+
 		abmExpediente.getBtnSeleccionarProcedimiento().setRendered(false);
 		abmExpediente.getBtnSeleccionarPersonaFisica().setRendered(false);
 		abmExpediente.getBtnSeleccionarPersonaJuridica().setRendered(false);
@@ -112,11 +104,9 @@ public class ExpedienteModel extends ABMModel {
 		abmExpediente.getPanelFases().getBtnCancelarAvanceFase().setRendered(false);
 		abmExpediente.getBtnAgregarExtensionFase().setRendered(false);
 		abmExpediente.getBtnAgregarExtensionTramite().setRendered(false);
-		abmExpediente.getPfContraseniaExpediente().setRendered(false);
-		abmExpediente.getLbContraseniaExpediente().setRendered(false);
 
 		abmExpediente.getPgBotonesFases().setRendered(false);
-		
+
 		abmExpediente.getPanelFases().getTableTramite().getBtnModificarTramite().setRendered(false);
 		abmExpediente.getTaAsunto().setDisabled(true);
 	}
@@ -140,7 +130,7 @@ public class ExpedienteModel extends ABMModel {
 			abmExpediente.getPanelFases().getBtnCerrarExpediente().setDisabled(true);
 		}
 		Expediente locExpediente = (Expediente) this.getBeanExpediente().obtenerObjetoDelElementoPila(0, Expediente.class);
-		if(!locExpediente.isEnPrimerFase()){
+		if(!locExpediente.isEnPrimerFase()) {
 			abmExpediente.getTfNroTelefono().setDisabled(true);
 			abmExpediente.getTfNroCelular().setDisabled(true);
 			abmExpediente.getTfEmail().setDisabled(true);
@@ -167,6 +157,7 @@ public class ExpedienteModel extends ABMModel {
 			String locComentario = (String) getBeanExpediente().getElementoPila().getObjetos().get(3);
 			getCommunicationExpedientesBean().getRemoteSystemExpedientes().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemExpedientes().addExpediente(locExpediente, locComentario, usuario);
+
 			return "El Expediente se agreg\363 exitosamente";
 		}
 
@@ -174,12 +165,15 @@ public class ExpedienteModel extends ABMModel {
 		public void ocultarDeshabilitarEnVista() {
 			ABMExpediente abmExpediente = getBeanExpediente();
 			abmExpediente.getTfNroRegistro().setText("Asignado al guardar");
+
+			abmExpediente.getBtnGuardarAjax().setValue("Guardar");
 		}
 
 		@Override
 		public ABMModel getModel() {
 			return ExpedienteModel.this;
 		}
+
 	}
 
 	public class ModificarController extends ModificarAbstractController implements NodoExpedienteControler {
@@ -195,12 +189,16 @@ public class ExpedienteModel extends ABMModel {
 			String locComentario = (String) getBeanExpediente().getElementoPila().getObjetos().get(3);
 			getCommunicationExpedientesBean().getRemoteSystemExpedientes().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemExpedientes().updateExpediente(locExpediente, locComentario, usuario);
+
 			return "El Expediente se modific\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
 			deshabilitarElementosModificar();
+			ABMExpediente abmExpediente = getBeanExpediente();
+
+			abmExpediente.getBtnGuardarAjax().setValue("Guardar");
 		}
 
 		@Override
@@ -221,6 +219,7 @@ public class ExpedienteModel extends ABMModel {
 		public String getMessage() {
 			return "Debe ser un Usuario o pertenecer a un Area responsable de este Expediente para poder modificarlo";
 		}
+
 	}
 
 	public class ConsultarControler extends ConsultarAbstractController implements NodoExpedienteControler {
@@ -258,13 +257,24 @@ public class ExpedienteModel extends ABMModel {
 		public String getMessage() {
 			return "Debe ser un Usuario o pertenecer a un Area responsable o supervisora";
 		}
+
 	}
 
 	public class EliminarControler extends EliminarAbstractController {
 
 		@Override
 		public Validador getValidador() {
-			return null;
+			Validador v = new Validador();
+
+			Object pass = getBeanExpediente().getPfContraseniaExpediente().getText();
+			if(pass != null && pass != "") {
+				String locPass = pass.toString();
+				if(locPass == null || locPass == "" || !locPass.equals(getSessionBean1().getUsuario().getPassword())) {
+					v.getErrores().add("Contraseña de usuario no válida.");
+				}
+			}
+				
+			return v;
 		}
 
 		@Override
@@ -272,17 +282,25 @@ public class ExpedienteModel extends ABMModel {
 			Expediente locExpediente = (Expediente) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemExpedientes().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemExpedientes().deleteExpediente(locExpediente, usuario);
+
 			return "El Expediente se elimin\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
 			deshabilitarElementosConsultarEliminar();
+
+			ABMExpediente abmExpediente = getBeanExpediente();
+
+			abmExpediente.getBtnGuardarAjax().setRendered(true);
+			abmExpediente.getBtnGuardarAjax().setValue("Eliminar");
 		}
 
 		@Override
 		public ABMModel getModel() {
 			return ExpedienteModel.this;
 		}
+
 	}
+
 }

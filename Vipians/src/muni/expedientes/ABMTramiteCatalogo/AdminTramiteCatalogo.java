@@ -1,8 +1,15 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMTramiteCatalogo;
 
 import java.util.List;
 
+import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Button;
 import com.sun.rave.web.ui.component.DropDown;
@@ -13,7 +20,6 @@ import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.expedientes.recurso.filtro.FiltroTramiteCatalogo;
 import com.trascender.expedientes.recurso.persistent.TramiteCatalogo;
-import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.util.FiltroAbstracto;
 import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.AdminPageBean;
@@ -31,13 +37,13 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 	private SingleSelectOptionsList ddEstadoDefaultOptions = new SingleSelectOptionsList();
 	private Button btnActivar = new Button();
 	private ObjectListDataProvider dataProvider = new ObjectListDataProvider();
-	
+
 	@Override
 	protected void _init() throws Exception {
 		Option[] opEstado = null;
 		opEstado = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(EstadoPlantilla.values(), "may");
 		ddEstadoDefaultOptions.setOptions(opEstado);
-		
+
 		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(EstadoPlantilla.ACTIVO)));
 	}
 
@@ -45,18 +51,15 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 		return btnActivar;
 	}
 
-
 	public void setBtnActivar(Button btnActivar) {
 		this.btnActivar = btnActivar;
 	}
-
 
 	public SingleSelectOptionsList getDdEstadoDefaultOptions() {
 		return ddEstadoDefaultOptions;
 	}
 
-	public void setDdEstadoDefaultOptions(
-			SingleSelectOptionsList ddEstadoDefaultOptions) {
+	public void setDdEstadoDefaultOptions(SingleSelectOptionsList ddEstadoDefaultOptions) {
 		this.ddEstadoDefaultOptions = ddEstadoDefaultOptions;
 	}
 
@@ -118,7 +121,6 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 
 	@Override
 	public PaginatedTable getPaginatedTable() {
-
 		return getCommunicationExpedientesBean().getTablaTramiteCatalogo();
 	}
 
@@ -127,16 +129,16 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 		TramiteCatalogo tramiteCatalogo = (TramiteCatalogo) pObject;
 		getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 		tramiteCatalogo = getCommunicationExpedientesBean().getRemoteSystemCatalogos().getTramiteCatalogoPorId(tramiteCatalogo.getIdTramiteCatalogo());
+		
 		return pObject;
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected FiltroAbstracto buscar(FiltroAbstracto pFiltro) throws Exception {
-
 		this.getComunicationCatastroBean().getRemoteSystemInformacionGeografica().setLlave(this.getSessionBean1().getLlave());
+		
 		return this.getCommunicationExpedientesBean().getRemoteSystemCatalogos().findListaTramiteCatalogos((FiltroTramiteCatalogo) pFiltro);
-
 	}
 
 	@Override
@@ -150,7 +152,7 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 	protected void mostrarEstadoObjetosUsados() {
 		FiltroTramiteCatalogo locFiltro = this.getFiltro();
 		getTfNombre().setText(locFiltro.getNombre());
-		if (locFiltro.getEstado() != null) {
+		if(locFiltro.getEstado() != null) {
 			this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado())));
 		}
 	}
@@ -176,24 +178,36 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 
 	public String btnModificar_action() {
 		TramiteCatalogo tramiteCatalogo = (TramiteCatalogo) getObjetoSeleccionado();
-		if (tramiteCatalogo.getEstado().equals(EstadoPlantilla.BAJA)) {
-			warn("No se puede modificar un Trámite en estado BAJA.");
-			return null;
-		}
+		if(tramiteCatalogo != null) {
+			if(tramiteCatalogo.getEstado().equals(EstadoPlantilla.BAJA)) {
+				warn("No se puede modificar un Trámite en estado BAJA.");
+				
+				return null;
+			}
+		} else
+			return "";
+
 		return toAbm(new TramiteCatalogoModel().new ModificarController());
 	}
 
 	public String btnEliminar_action() {
-		return toAbm(new TramiteCatalogoModel().new EliminarControler());
+		RowKey rk = this.getSeleccionado();
+		if(rk != null)
+			return toAbm(new TramiteCatalogoModel().new EliminarControler());
+		else
+			return "";
 	}
 
 	public String btnConsultar_action() {
-		return toAbm(new TramiteCatalogoModel().new ConsultarControler());
+		RowKey rk = this.getSeleccionado();
+		if(rk != null)
+			return toAbm(new TramiteCatalogoModel().new ConsultarControler());
+		else
+			return "";
 	}
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -210,14 +224,16 @@ public class AdminTramiteCatalogo extends AdminPageBean {
 	public long getSerialVersionUID() {
 		return TramiteCatalogo.serialVersionUID;
 	}
-	
+
 	public String btnActivar_action() {
 		TramiteCatalogo tramiteCatalogo = (TramiteCatalogo) getObjetoSeleccionado();
-		if (tramiteCatalogo != null && tramiteCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)) {
+		if(tramiteCatalogo != null && tramiteCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)) {
 			warn("El Trámite seleccionado ya se encuentra activo.");
+			
 			return null;
 		}
 
 		return toAbm(new TramiteCatalogoModel().new RecuperarTramiteCatalogo());
 	}
+	
 }

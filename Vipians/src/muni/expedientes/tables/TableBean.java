@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.ArrayList;
@@ -46,6 +53,106 @@ public abstract class TableBean {
 	public HtmlAjaxCommandButton btnQuitarTodos = new HtmlAjaxCommandButton();
 
 	public ObjectListDataProvider objectListDataProvider = new ObjectListDataProvider();
+
+	private Label tituloProcesarDocumentos = new Label();
+	private Table tableProcesarDocumentos = new Table();
+	private TableRowGroup tableRowGroup2 = new TableRowGroup();
+	private ObjectListDataProvider objectListDataProvider2 = new ObjectListDataProvider();
+	private TableColumn tableColumn3 = new TableColumn();
+	private TableColumn tableColumn4 = new TableColumn();
+	private TableColumn tableColumn5 = new TableColumn();
+	private RadioButton radioButton2 = new RadioButton();
+	private Object lastSelected2 = null;
+	public StaticText staticText2 = new StaticText();
+	public StaticText staticText3 = new StaticText();
+
+	public TableColumn getTableColumn4() {
+		return tableColumn4;
+	}
+
+	public void setTableColumn4(TableColumn tableColumn4) {
+		this.tableColumn4 = tableColumn4;
+	}
+
+	public StaticText getStaticText2() {
+		return staticText2;
+	}
+
+	public void setStaticText2(StaticText staticText2) {
+		this.staticText2 = staticText2;
+	}
+
+	public TableColumn getTableColumn5() {
+		return tableColumn5;
+	}
+
+	public void setTableColumn5(TableColumn tableColumn5) {
+		this.tableColumn5 = tableColumn5;
+	}
+
+	public StaticText getStaticText3() {
+		return staticText3;
+	}
+
+	public void setStaticText3(StaticText staticText3) {
+		this.staticText3 = staticText3;
+	}
+
+	public Label getTituloProcesarDocumentos() {
+		return tituloProcesarDocumentos;
+	}
+
+	public void setTituloProcesarDocumentos(Label tituloProcesarDocumentos) {
+		this.tituloProcesarDocumentos = tituloProcesarDocumentos;
+	}
+
+	public Table getTableProcesarDocumentos() {
+		return tableProcesarDocumentos;
+	}
+
+	public void setTableProcesarDocumentos(Table tableProcesarDocumentos) {
+		this.tableProcesarDocumentos = tableProcesarDocumentos;
+	}
+
+	public TableRowGroup getTableRowGroup2() {
+		return tableRowGroup2;
+	}
+
+	public void setTableRowGroup2(TableRowGroup tableRowGroup2) {
+		this.tableRowGroup2 = tableRowGroup2;
+	}
+
+	public ObjectListDataProvider getObjectListDataProvider2() {
+		return objectListDataProvider2;
+	}
+
+	public void setObjectListDataProvider2(ObjectListDataProvider objectListDataProvider2) {
+		this.objectListDataProvider2 = objectListDataProvider2;
+	}
+
+	public TableColumn getTableColumn3() {
+		return tableColumn3;
+	}
+
+	public void setTableColumn3(TableColumn tableColumn3) {
+		this.tableColumn3 = tableColumn3;
+	}
+
+	public RadioButton getRadioButton2() {
+		return radioButton2;
+	}
+
+	public void setRadioButton2(RadioButton radioButton2) {
+		this.radioButton2 = radioButton2;
+	}
+
+	public String getNombreBean() {
+		return nombreBean;
+	}
+
+	public void setNombreBean(String nombreBean) {
+		this.nombreBean = nombreBean;
+	}
 
 	public Label getTitulo() {
 		return titulo;
@@ -131,14 +238,6 @@ public abstract class TableBean {
 		this.groupPanel2 = groupPanel2;
 	}
 
-	public Object getLastSelected() {
-		return lastSelected;
-	}
-
-	public void setLastSelected(Object lastSelected) {
-		this.lastSelected = lastSelected;
-	}
-
 	public Button getBtnAgregar() {
 		return btnAgregar;
 	}
@@ -172,22 +271,19 @@ public abstract class TableBean {
 	}
 
 	public void warn(String pMensaje) {
-		FacesContext.getCurrentInstance().addMessage("warn",
-				new FacesMessage(FacesMessage.SEVERITY_WARN, pMensaje, pMensaje));
+		FacesContext.getCurrentInstance().addMessage("warn", new FacesMessage(FacesMessage.SEVERITY_WARN, pMensaje, pMensaje));
 	}
 
 	public Object getSessionBean(String pBeanName) {
-		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(pBeanName);
+		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(pBeanName);
 	}
 
 	public Object getRequestBean(String pBeanName) {
-		return FacesContext.getCurrentInstance().getExternalContext().getRequestMap()
-				.get(pBeanName);
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get(pBeanName);
 	}
 
 	public void _init() {
-		if (this.getListaDelCommunication() != null) {
+		if(this.getListaDelCommunication() != null) {
 			this.objectListDataProvider.setList(getListaDelCommunication());
 		}
 	}
@@ -197,14 +293,32 @@ public abstract class TableBean {
 		try {
 			String aRowId = (String) RadioButton.getSelected(getNombreButtonGroup());
 			rk = this.objectListDataProvider.getRowKey(aRowId);
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch(Exception ex) {
+			ex.getMessage();
 		}
+
 		return rk;
 	}
-	
-	public String getNombreButtonGroup(){
+
+	public RowKey getSeleccionado2() {
+		RowKey rk = null;
+		try {
+			String aRowId = (String) RadioButton.getSelected(getNombreButtonGroup2());
+			rk = this.objectListDataProvider2.getRowKey(aRowId);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return rk;
+	}
+
+	public String getNombreButtonGroup() {
 		String nombre = getClass().getSimpleName() + "bg";
+		return nombre;
+	}
+
+	public String getNombreButtonGroup2() {
+		String nombre = getClass().getSimpleName() + "bg2";
 		return nombre;
 	}
 
@@ -215,14 +329,32 @@ public abstract class TableBean {
 	public void setCurrentRow(int row) {
 	}
 
+	public String getCurrentRow2() {
+		return tableRowGroup2.getRowKey() != null ? tableRowGroup2.getRowKey().getRowId() : null;
+	}
+
+	public void setCurrentRow2(int row) {
+	}
+
 	public Object getRBSelected() {
 		String sv = radioButton1.getSelectedValue().toString();
 		return sv.equals(lastSelected) ? sv : null;
 	}
 
 	public void setRBSelected(Object selected) {
-		if (selected != null) {
+		if(selected != null) {
 			lastSelected = selected;
+		}
+	}
+
+	public Object getRBSelected2() {
+		String sv = radioButton2.getSelectedValue().toString();
+		return sv.equals(lastSelected2) ? sv : null;
+	}
+
+	public void setRBSelected2(Object selected) {
+		if(selected != null) {
+			lastSelected2 = selected;
 		}
 	}
 
@@ -236,11 +368,11 @@ public abstract class TableBean {
 		RowKey rk = null;
 		try {
 			rk = this.getSeleccionado();
-			if (rk != null) {
+			if(rk != null) {
 				int index = getNroFila(rk.toString());
 				this.getListaDelCommunication().remove(index);
 			}
-		} catch (Exception ex) {
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -248,13 +380,13 @@ public abstract class TableBean {
 	public void quitarTodosLosElementos() {
 		try {
 			this.getListaDelCommunication().clear();
-		} catch (Exception ex) {
+		} catch(Exception ex) {
 		}
 	}
 
 	protected int getNroFila(String pCadena) {
-		// Toma la Cadena con el formato 'RowKey[i]' y devuelve el entero i
 		String lCadenaAuxiliar = pCadena.substring(7, pCadena.length() - 1);
+
 		return new Integer(lCadenaAuxiliar).intValue();
 	}
 
@@ -264,6 +396,7 @@ public abstract class TableBean {
 		this.objectListDataProvider.commitChanges();
 		lista = this.objectListDataProvider.getList();
 		this.setListaDelCommunication(lista);
+
 		return lista;
 	}
 
@@ -273,10 +406,25 @@ public abstract class TableBean {
 		this.setListaDelCommunication(list);
 	}
 
+	public Object getLastSelected() {
+		return lastSelected;
+	}
+
+	public void setLastSelected(Object lastSelected) {
+		this.lastSelected = lastSelected;
+	}
+
+	public Object getLastSelected2() {
+		return lastSelected2;
+	}
+
+	public void setLastSelected2(Object lastSelected2) {
+		this.lastSelected2 = lastSelected2;
+	}
+
 	@SuppressWarnings("rawtypes")
 	public abstract void addToList(List pList, Object pObject);
 
-	//
 	private final FacesContext context = FacesContext.getCurrentInstance();
 	private final Application application = context.getApplication();
 	private String nombreBean;
@@ -290,12 +438,9 @@ public abstract class TableBean {
 		RadioButton rb = new RadioButton();
 		rb.setLabel("");
 		rb.setName(getNombreButtonGroup());
-		rb.setValueBinding("selected",
-				this._getValueBinding(this.armarExpressionEnBean("RBSelected")));
-		rb.setValueBinding("selectedValue",
-				this._getValueBinding(this.armarExpressionEnBean("currentRow")));
-		rb.setValueBinding("binding",
-				this._getValueBinding(this.armarExpressionEnBean("radioButton1")));
+		rb.setValueBinding("selected", this._getValueBinding(this.armarExpressionEnBean("RBSelected")));
+		rb.setValueBinding("selectedValue", this._getValueBinding(this.armarExpressionEnBean("currentRow")));
+		rb.setValueBinding("binding", this._getValueBinding(this.armarExpressionEnBean("radioButton1")));
 		rb.setOnClick("checkUncheck(this)");
 
 		return rb;
@@ -307,53 +452,50 @@ public abstract class TableBean {
 		return sb.toString();
 	}
 
-	
-//	<ui:tableColumn
-//	binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.tableColumn2}"
-//	headerText="Nombre" id="tableColumn2" sort="Procedimiento"
-//	width="40">
-//	<ui:staticText
-//		binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.staticText1}"
-//		id="staticText1"
-//		text="#{currentRow.value['nodoProcedimiento']}" />
-//</ui:tableColumn>
-	
-	
-	private TableColumn getTableColumnPropiedad(String text, UIInput  component) {
+	@SuppressWarnings("unused")
+	private TableColumn getTableColumnPropiedad(String text, UIInput component) {
 		TableColumn tc = new TableColumn();
 		tc.setWidth("100");
 		tc.setId("tc" + text);
 		tc.setHeaderText(text);
 		tc.getChildren().add(component);
 		tc.setSort(component.getValue());
+
 		return tc;
 	}
 
+	@SuppressWarnings("unused")
 	private Checkbox getCheckBoxPropiedad(String pPropiedad) {
 		Checkbox cb = new Checkbox();
 		cb.setId("ta" + pPropiedad.replace(".", "").replace("'", ""));
 		cb.setDisabled(true);
-//		cb.setValueBinding("selected", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+		// cb.setValueBinding("selected", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return cb;
 	}
 
+	@SuppressWarnings("unused")
 	private TextArea getTextAreaPropiedad(String pPropiedad) {
 		TextArea ta = new TextArea();
 		ta.setId("ta" + pPropiedad.replace(".", "").replace("'", ""));
 		ta.setDisabled(true);
 		ta.setStyleClass("textFieldDisabled");
 		ta.setRows(2);
-//		ta.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+		// ta.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return ta;
 	}
 
+	@SuppressWarnings("unused")
 	private StaticText getStaticTextPropiedad(String pPropiedad) {
 		StaticText st = new StaticText();
 		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
-//		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+		// st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return st;
 	}
 
+	@SuppressWarnings("unused")
 	private StaticText getStaticTextPropiedadFecha(String pPropiedad) {
 		StaticText st = new StaticText();
 		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
@@ -361,19 +503,20 @@ public abstract class TableBean {
 		locConverter.setPattern("dd/MM/yyyy");
 		locConverter.setTimeZone(TimeZone.getDefault());
 		st.setConverter(locConverter);
-//		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+		// st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
+
 		return st;
 	}
 
 	public DateTimeConverter getDateTimeConverter() {
 		dateTimeConverter.setPattern("dd/MM/yyyy");
 		dateTimeConverter.setTimeZone(TimeZone.getDefault());
+
 		return dateTimeConverter;
 	}
 
 	public void setDateTimeConverter(DateTimeConverter dateTimeConverter) {
 		this.dateTimeConverter = dateTimeConverter;
 	}
-	
-	
+
 }

@@ -1,9 +1,15 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMEstadoTramite;
 
 import com.sun.rave.web.ui.component.Checkbox;
 import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.TextField;
-import com.trascender.expedientes.recurso.persistent.DocumentoCatalogo;
 import com.trascender.expedientes.recurso.persistent.EstadoTramite;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
@@ -14,7 +20,7 @@ public class ABMEstadoTramite extends ABMPageBean {
 	Label lblNombre = new Label();
 	private Checkbox cbCierreTramite = new Checkbox();
 	private Label lblCierreTramite = new Label();
-	
+
 	public TextField getTfNombre() {
 		return tfNombre;
 	}
@@ -59,10 +65,10 @@ public class ABMEstadoTramite extends ABMPageBean {
 	protected void guardarEstadoObjetosUsados() {
 		int ind = 0;
 		EstadoTramite locEstadosTramite = obtenerObjetoDelElementoPila(ind++, EstadoTramite.class);
-		
+
 		locEstadosTramite.setNombre(this.getTextFieldValue(getTfNombre()));
 		locEstadosTramite.setCierraTramite(getCbCierreTramite().isChecked());
-		
+
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, locEstadosTramite);
 	}
@@ -72,17 +78,14 @@ public class ABMEstadoTramite extends ABMPageBean {
 		int ind = 0;
 		EstadoTramite locEstadosTramite = (EstadoTramite) this.obtenerObjetoDelElementoPila(ind++, EstadoTramite.class);
 		this.getTfNombre().setText(locEstadosTramite.getNombre());
-		
-		if (locEstadosTramite.isCierraTramite()){
+
+		if(locEstadosTramite.isCierraTramite()) {
 			this.getCbCierreTramite().setSelected(true);
 		}
-		
 	}
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -97,14 +100,13 @@ public class ABMEstadoTramite extends ABMPageBean {
 		}
 		int ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, locEstadosTramite);
-		
 	}
 
 	@Override
 	protected String getNombrePagina() {
 		return "Estados Trámite";
 	}
-	
+
 	@Override
 	protected String getCasoNavegacion() {
 		return "ABMEstadoTramite";

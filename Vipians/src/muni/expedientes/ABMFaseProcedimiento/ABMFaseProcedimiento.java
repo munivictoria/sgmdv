@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMFaseProcedimiento;
 
@@ -46,7 +52,6 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 	@Override
 	protected void _init() throws Exception {
 		this.table._init();
-
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -75,7 +80,6 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 		ArrayList locTramitesProcedimientos = (ArrayList) obtenerObjetoDelElementoPila(ind++, ArrayList.class);
 
 		this.table.setList(locTramitesProcedimientos);
-
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -85,10 +89,9 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 		int ind = 0;
 		ep.getObjetos().add(ind++, new FaseProcedimiento());
 		ep.getObjetos().add(ind++, new ArrayList());
-		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
-		// seleccionado.
+		
+		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
-
 		return ep;
 	}
 
@@ -104,7 +107,6 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 			this.getElementoPila().getObjetos().set(1, locTramitesProcedimientos);
 			this.getRequestBean1().setObjetoSeleccion(null);
 		}
-
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -123,7 +125,6 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 		int ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, locFaseProcedimiento);
 		this.getElementoPila().getObjetos().set(ind++, locListaTramiteProcedimientos);
-
 	}
 
 	@Override
@@ -148,7 +149,6 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 			table.quitarElemento();
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -168,7 +168,6 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -185,4 +184,5 @@ public class ABMFaseProcedimiento extends ABMPageBean {
 	public long getSerialVersionUID() {
 		return FaseProcedimiento.serialVersionUID;
 	}
+	
 }

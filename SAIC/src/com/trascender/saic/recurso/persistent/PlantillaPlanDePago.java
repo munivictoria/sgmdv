@@ -2,6 +2,7 @@ package com.trascender.saic.recurso.persistent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,12 +17,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
 import com.trascender.framework.util.EntidadTrascender;
 import com.trascender.framework.util.LogAuditoria;
+import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 
 @Entity
 @Table(name = "PLANTILLA_PLAN_DE_PAGO")
@@ -64,6 +68,9 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@OrderBy("cuotasHasta")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plantilla", orphanRemoval = true)
 	private List<TasaNominalAnual> listaTasaNominalAnual = new ArrayList<TasaNominalAnual>();
+
+	@Column(name = "CANTIDAD_PROPIEDADES_MAXIMA")
+	private Integer cantidadPropiedadesMaxima;
 	
 	public enum TipoCalculoInteres {
 		FRANCÉS, ALEMÁN, DIRECTO;
@@ -78,6 +85,48 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@Column(name = "TIPO_CALCULO_INTERES")
 	private TipoCalculoInteres tipoCalculoInteres = TipoCalculoInteres.DIRECTO;
 	
+	@Column(name = "CONDONA_DEUDA_ANTIGUA")
+	private Boolean condonaDeudaAntigua = Boolean.FALSE;
+	
+	@Column(name = "ANIOS_APLICACION")
+	private String aniosAplicacion;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "FECHA_VENCIMIENTO_PRIMER_CUOTA")
+	private Date fechaVencimientoPrimerCuota;
+	
+	public Date getFechaVencimientoPrimerCuota() {
+		return fechaVencimientoPrimerCuota;
+	}
+
+	public void setFechaVencimientoPrimerCuota(Date fechaVencimientoPrimerCuota) {
+		this.fechaVencimientoPrimerCuota = fechaVencimientoPrimerCuota;
+	}
+
+	public String getAniosAplicacion() {
+		return aniosAplicacion;
+	}
+
+	public void setAniosAplicacion(String aniosAplicacion) {
+		this.aniosAplicacion = aniosAplicacion;
+	}
+
+	public Boolean getCondonaDeudaAntigua() {
+		return condonaDeudaAntigua;
+	}
+
+	public void setCondonaDeudaAntigua(Boolean condonaDeudaAntigua) {
+		this.condonaDeudaAntigua = condonaDeudaAntigua;
+	}
+
+	public Integer getCantidadPropiedadesMaxima() {
+		return cantidadPropiedadesMaxima;
+	}
+
+	public void setCantidadPropiedadesMaxima(Integer cantidadPropiedadesMaxima) {
+		this.cantidadPropiedadesMaxima = cantidadPropiedadesMaxima;
+	}
+
 	public TipoCalculoInteres getTipoCalculoInteres() {
 		return tipoCalculoInteres;
 	}
@@ -192,6 +241,15 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 		this.cantidadCuotasCese = cantidadCuotasCese;
 	}
 	
+	public Double getCondinacionInteresSegunCantidadCuota(Integer cantidadCuotas) {
+		if (cantidadCuotas == null) return null;
+		for (TasaNominalAnual cadaTNA : listaTasaNominalAnual) {
+			if (cadaTNA.getCuotasHasta() >= cantidadCuotas)
+				return cadaTNA.getInteresCondonado();
+		}
+		return null;
+	}
+	
 	public Double getInteresTNASegunCantidadCuota(Integer cantidadCuotas) {
 		if (cantidadCuotas == null) return null;
 		for (TasaNominalAnual cadaTNA : listaTasaNominalAnual) {
@@ -256,6 +314,20 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 
 	public void setListaLogsAuditoria(List<LogAuditoria> pListaLogsAuditoria) {
 		this.listaLogsAuditoria = pListaLogsAuditoria;
+	}
+	
+	public boolean esCuotaLiquidacionExcluida(CuotaLiquidacion cuota) {
+		if (getAniosAplicacion() == null)
+			return false;
+		String[] anios = getAniosAplicacion().split(",");
+		boolean esta = false;
+		for (String cadaAnio : anios) {
+			if (Integer.valueOf(cadaAnio).equals(cuota.getAnio())) {
+				esta = true;
+				break;
+			}
+		}
+		return !esta;
 	}
 
 	@Override

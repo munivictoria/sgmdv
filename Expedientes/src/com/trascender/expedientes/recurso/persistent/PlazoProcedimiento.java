@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -11,7 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="EXP_PLAZOPROCEDIMIENTO")
+@Table(name = "EXP_PLAZOPROCEDIMIENTO")
 public class PlazoProcedimiento implements Serializable {
 
 	private static final long serialVersionUID = -7423716402016073225L;
@@ -27,10 +34,10 @@ public class PlazoProcedimiento implements Serializable {
 
 	@Column(name = "DIASCORRIDOS")
 	private boolean diasCorridos;
-	
+
 	@Column(name = "CANTIDAD_EXTENSIONES")
 	private Integer cantidadExtensiones;
-	
+
 	public Integer getDias() {
 		return dias;
 	}
@@ -62,6 +69,5 @@ public class PlazoProcedimiento implements Serializable {
 	public void setCantidadExtensiones(Integer cantidadExtensiones) {
 		this.cantidadExtensiones = cantidadExtensiones;
 	}
-	
-	
+
 }

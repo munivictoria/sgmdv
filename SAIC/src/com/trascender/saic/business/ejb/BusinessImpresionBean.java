@@ -859,9 +859,10 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 
 	@Override
 	public JasperPrint getReporteListadoCuotasRefinanciacion(
-			List<CuotaRefinanciacion> pListaCuotasRefinanciacion) throws Exception {
+			List<CuotaRefinanciacion> pListaCuotasRefinanciacion, Usuario pUsuario) throws Exception {
 		try {
-			CuotaRefinanciacionDS cuotasDS = new CuotaRefinanciacionDS(pListaCuotasRefinanciacion, this.getTituloReporte());
+			CuotaRefinanciacionDS cuotasDS = new CuotaRefinanciacionDS(pListaCuotasRefinanciacion, this.getTituloReporte(), pUsuario);
+			cuotasDS.getMapaParametros().put("PAR_IMAGEN", getLogoMunicipalidad());
 			JasperPrint jp = this.getJasperPrint2(cuotasDS);
 			return jp;
 		} catch(Exception e) {

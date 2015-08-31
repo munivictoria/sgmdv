@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -22,26 +29,24 @@ public class TableTramiteProcedimiento extends TableBean {
 		return (muni.CommunicationExpedientesBean) getSessionBean("CommunicationExpedientesBean");
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	public void addToList(List pList, Object pObject) {
-		// TODO Auto-generated method stub
-
 		TramiteProcedimiento nuevaTramiteProcedimiento = (TramiteProcedimiento) pObject;
 		List locTramitesProcedimientos = pList;
 
 		TramiteProcedimiento deLaTabla = null;
 		boolean esta = false;
 		int i = 0;
-		while (i < locTramitesProcedimientos.size() && !esta) {
+		while(i < locTramitesProcedimientos.size() && !esta) {
 			deLaTabla = (TramiteProcedimiento) locTramitesProcedimientos.get(i++);
-			esta = (deLaTabla.getIdNodoProcedimiento() == nuevaTramiteProcedimiento
-					.getIdNodoProcedimiento());
+			esta = (deLaTabla.getIdNodoProcedimiento() == nuevaTramiteProcedimiento.getIdNodoProcedimiento());
 		}
-		if (!esta) {
+		if(!esta) {
 			locTramitesProcedimientos.add(nuevaTramiteProcedimiento);
 		} else {
 			warn("El TramiteProcedimiento que intenta agregar ya se encuentra en la lista.");
 		}
 	}
+	
 }

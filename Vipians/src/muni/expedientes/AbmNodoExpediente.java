@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes;
 
 import java.util.List;
@@ -18,10 +25,10 @@ public abstract class AbmNodoExpediente extends ABM_Table {
 	private DefaultOptionsList lbHitosDefaultOptions = new DefaultOptionsList();
 
 	private MgrDropDown mgrDropDown = new MgrDropDown();
-	
+
 	@Override
 	protected void _init() throws Exception {
-		if (this.getListaDelCommunication() != null) {
+		if(this.getListaDelCommunication() != null) {
 			lbHitosDefaultOptions.setOptions(getOptions(getListaDelCommunication()));
 		}
 	}
@@ -57,7 +64,7 @@ public abstract class AbmNodoExpediente extends ABM_Table {
 
 	protected void mostrartHitos(NodoExpediente pNodoExpediente) {
 		lbHitosDefaultOptions.setOptions(getOptions(pNodoExpediente.listarHitos()));
-	    setListaDelCommunication(pNodoExpediente.listarHitos());
+		setListaDelCommunication(pNodoExpediente.listarHitos());
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -69,6 +76,5 @@ public abstract class AbmNodoExpediente extends ABM_Table {
 	public void setListaDelCommunication(List lista) {
 		getCommunicationExpedientesBean().setListaHitos(lista);
 	}
-	
-   
+
 }

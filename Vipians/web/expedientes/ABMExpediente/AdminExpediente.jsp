@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
@@ -69,7 +70,7 @@
 														<tr>
 															<td align="left">
 																<ui:panelGroup binding="#{expedientes$ABMExpediente$AdminExpediente.pgParametros}" id="pgParametros">
-																	<table>
+																	<table align="center">
 																		<tr>
 																			<td align="right" nowrap="nowrap">
 																				<ui:label binding="#{expedientes$ABMExpediente$AdminExpediente.lblAsunto}" for="tfAsunto" id="lblAsunto"
@@ -86,7 +87,7 @@
 																					styleClass="label" text="Nº de Registro" />
 																			</td>
 																			<td colspan="4">
-																				<ui:textField binding="#{expedientes$ABMExpediente$AdminExpediente.tfNroRegistro}" columns="40" id="tfNroRegistro"
+																				<ui:textField binding="#{expedientes$ABMExpediente$AdminExpediente.tfNroRegistro}" columns="16" id="tfNroRegistro"
 																					styleClass="textField" />
 																			</td>
 																		</tr>
@@ -144,6 +145,16 @@
 																					action="#{expedientes$ABMExpediente$AdminExpediente.btnLimpiarProcedimiento_action}" styleClass="buttonLimpiarAjax" />
 																			</td>
 																		</tr>
+																		<tr>
+																			<td align="right" nowrap="nowrap">
+																				<ui:label binding="#{expedientes$ABMExpediente$AdminExpediente.lblEstado}" for="ddEstado" id="lblEstado"
+																					styleClass="label" text="Estado" />
+																			</td>
+																			<td colspan="4">
+																				<ui:dropDown binding="#{expedientes$ABMExpediente$AdminExpediente.ddEstado}" id="ddEstado"
+																					items="#{expedientes$ABMExpediente$AdminExpediente.ddEstadoOptions.options}" styleClass="textField" />
+																			</td>
+																		</tr>
 																	</table>
 																</ui:panelGroup>
 															</td>
@@ -157,10 +168,10 @@
 															<td align="right" colspan="2">
 																<a4j:commandButton binding="#{expedientes$ABMExpediente$AdminExpediente.btnBuscar}"
 																	action="#{expedientes$ABMExpediente$AdminExpediente.btnBuscar_action}" id="btnBuscar" value="Buscar" styleClass="btnAjax"
-																	reRender="table1,stCantidadRegistros" oncomplete="changeStyleAlIngresar()" />
+																	reRender="table1, stCantidadRegistros" oncomplete="changeStyleAlIngresar()" />
 																<a4j:commandButton action="#{expedientes$ABMExpediente$AdminExpediente.btnReiniciar_action}"
 																	binding="#{expedientes$ABMExpediente$AdminExpediente.btnReiniciar}" id="btnReiniciar" styleClass="btnAjax"
-																	value="Reiniciar" reRender="pgParametros, table1,stCantidadRegistros" oncomplete="cargarComportamientoJQuery();" />
+																	value="Reiniciar" reRender="pgParametros, table1, stCantidadRegistros" oncomplete="cargarComportamientoJQuery();" />
 																<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparador1}" escape="false" id="stSeparador1"
 																	text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
 																<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnCancelar_action}"
@@ -169,45 +180,53 @@
 														</tr>
 													</tfoot>
 												</table>
-												<div>
-													<ui:messageGroup styleClass="grupoMsgAdmin" id="messageGroup1" showDetail="true" showSummary="false" />
+												<a4j:outputPanel ajaxRendered="true">
+													<div>
+														<ui:messageGroup binding="#{expedientes$ABMExpediente$AdminExpediente.messageGroup}" styleClass="grupoMsgAdmin"
+															id="messageGroup" showDetail="true" showSummary="false" />
+													</div>
+												</a4j:outputPanel>
+												<div class="divGeneral">
+													<table class="general">
+														<tr>
+															<td>
+																<ui:table binding="#{expedientes$ABMExpediente$AdminExpediente.paginatedTable}" id="table1">
+																	<f:facet name="actionsTop">
+																		<ui:panelGroup binding="#{expedientes$ABMExpediente$AdminExpediente.groupPanel1}" id="groupPanel1" style="">
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnSeleccionar_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnSeleccionar}" id="btnSeleccionar" styleClass="button"
+																				text="Seleccionar" />
+																			<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparadorSeleccionar}" escape="false"
+																				id="stSeparador2" />
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnAgregar_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnAgregar}" id="btnAgregar" styleClass="button" text="Agregar" />
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnModificar_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnModificar}" id="btnModificar" styleClass="button"
+																				text="Modificar" />
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnEliminar_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnEliminar}" id="btnEliminar" styleClass="button" text="Eliminar" />
+																			<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparadorAccion}" escape="false" id="stSeparador3" />
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnConsultar_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnConsultar}" id="btnConsultar" styleClass="button"
+																				text="Consultar" />
+																			<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparador4}" escape="false" id="stSeparador4"
+																				text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnExportar_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnExportar}" id="btnExportar" styleClass="button" text="Exportar"
+																				onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Exportar');" />
+																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnImprimir_action}"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.btnImprimir}" id="btnImprimir"
+																				onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')" styleClass="button" text="Imprimir Alta" />
+																			<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.paginatedTable.stSeparadorOrdenamiento}"
+																				id="separador_1" />
+																			<ui:imageHyperlink binding="#{expedientes$ABMExpediente$AdminExpediente.paginatedTable.botonOrdenamiento}" />
+																		</ui:panelGroup>
+																	</f:facet>
+																</ui:table>
+															</td>
+														</tr>
+													</table>
 												</div>
-												<table class="general">
-													<tr>
-														<td>
-															<ui:table binding="#{expedientes$ABMExpediente$AdminExpediente.paginatedTable}" id="table1">
-																<f:facet name="actionsTop">
-																	<ui:panelGroup binding="#{expedientes$ABMExpediente$AdminExpediente.groupPanel1}" id="groupPanel1" style="">
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnSeleccionar_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnSeleccionar}" id="btnSeleccionar" styleClass="button"
-																			text="Seleccionar" />
-																		<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparadorSeleccionar}" escape="false"
-																			id="stSeparador2" />
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnAgregar_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnAgregar}" id="btnAgregar" styleClass="button" text="Agregar" />
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnModificar_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnModificar}" id="btnModificar" styleClass="button"
-																			text="Modificar" />
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnEliminar_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnEliminar}" id="btnEliminar" styleClass="button" text="Eliminar" />
-																		<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparadorAccion}" escape="false" id="stSeparador3" />
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnConsultar_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnConsultar}" id="btnConsultar" styleClass="button"
-																			text="Consultar" />
-																		<ui:staticText binding="#{expedientes$ABMExpediente$AdminExpediente.stSeparador4}" escape="false" id="stSeparador4"
-																			text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnExportar_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnExportar}" id="btnExportar" styleClass="button" text="Exportar"
-																			onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Exportar');" />
-																		<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnImprimir_action}"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.btnImprimir}" id="btnImprimir"
-																			onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')" styleClass="button" text="Imprimir Alta" />
-																	</ui:panelGroup>
-																</f:facet>
-															</ui:table>
-														</td>
-													</tr>
-												</table>
 											</ui:tab>
 											<ui:tab id="tabListaTrabajo" binding="#{expedientes$ABMExpediente$AdminExpediente.tabListaTrabajo}" text="Lista Trabajo">
 												<table border="0" class="azul" width="100%">
@@ -218,7 +237,7 @@
 																	binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.chPlazoVencido}" id="chPlazoVencido"
 																	label="Solo plazos vencidos">
 																	<a4j:support actionListener="#{expedientes$ABMExpediente$AdminExpediente.seleccionarOpcionVencidos}" event="onChange"
-																		reRender="lbProcedimientos, lbFases, lbTramites, tableExpedientes" />
+																		reRender="lbProcedimientos, lbFases, lbTramites, tableExpedientes, form1:stCantidadRegistros" />
 																</ui:checkbox>
 															</td>
 														</tr>
@@ -243,8 +262,8 @@
 																	binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.lbProcedimientos}" id="lbProcedimientos"
 																	items="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.procedimientosOptions}" rows="6" style="width:250px"
 																	styleClass="textField" toolTip="Ctrl + click para selección múltiple">
-																	<a4j:support reRender="lbFases, lbTramites, tableExpedientes"
-																		actionListener="#{expedientes$ABMExpediente$AdminExpediente.seleccionarOpcionProcedimientos}" event="onChange"></a4j:support>
+																	<a4j:support reRender="lbFases, lbTramites, tableExpedientes, form1:stCantidadRegistros"
+																		actionListener="#{expedientes$ABMExpediente$AdminExpediente.seleccionarOpcionProcedimientos}" event="onChange" />
 																</ui:listbox>
 															</td>
 															<td align="center">
@@ -252,7 +271,7 @@
 																	binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.lbFases}" id="lbFases"
 																	items="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.fasesOptions}" rows="6" style="width:250px"
 																	styleClass="textField" toolTip="Ctrl + click para selección múltiple">
-																	<a4j:support reRender="lbTramites, tableExpedientes"
+																	<a4j:support reRender="lbTramites, tableExpedientes, form1:stCantidadRegistros"
 																		actionListener="#{expedientes$ABMExpediente$AdminExpediente.seleccionarOpcionFases}" event="onChange" />
 																</ui:listbox>
 															</td>
@@ -263,7 +282,7 @@
 																	items="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tramitesOptions}" rows="6" style="width:250px"
 																	styleClass="textField" toolTip="Ctrl + click para selección múltiple">
 																	<a4j:support actionListener="#{expedientes$ABMExpediente$AdminExpediente.seleccionarOpcionTramites}" event="onChange"
-																		reRender="tableExpedientes" />
+																		reRender="tableExpedientes, form1:stCantidadRegistros" />
 																</ui:listbox>
 															</td>
 														</tr>
@@ -272,65 +291,68 @@
 														</tr>
 													</tbody>
 												</table>
-												<div>
-													<ui:messageGroup binding="#{expedientes$ABMExpediente$AdminExpediente.messageGroup}" id="messageGroup" showDetail="true"
-														showSummary="false" />
+												<a4j:outputPanel ajaxRendered="true">
+													<div>
+														<ui:messageGroup id="messageGroup1" showDetail="true" showSummary="false" styleClass="grupoMsgAdmin" />
+													</div>
+												</a4j:outputPanel>
+												<div class="divGeneral">
+													<table class="general">
+														<tbody>
+															<tr>
+																<td colspan="3">
+																	<ui:table augmentTitle="false" paginationControls="true"
+																		binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.table}" id="tableExpedientes">
+																		<ui:tableRowGroup binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.tableRowGroup1}"
+																			id="tableRowGroup1"
+																			sourceData="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.objectListDataProvider}"
+																			sourceVar="currentRow">
+																			<ui:tableColumn align="center"
+																				binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.tableColumn1}" id="tableColumn1"
+																				valign="middle" width="10">
+																				<ui:radioButton binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.radioButton1}"
+																					id="radioButton1" label=""
+																					name="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.nombreButtonGroup}"
+																					selected="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.RBSelected}"
+																					selectedValue="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.currentRow}" />
+																			</ui:tableColumn>
+																			<ui:tableColumn headerText="Nro Registro" id="tableColumnNroRegistro" sort="nroRegistro" width="20">
+																				<ui:staticText id="staticTextNroRegistro" text="#{currentRow.value['nroRegistro']}" />
+																			</ui:tableColumn>
+																			<ui:tableColumn headerText="Fecha Registro" id="tableColumnFechaRegistro" sort="fechaRegistro" width="30">
+																				<ui:staticText id="staticTextFechaRegistro" text="#{currentRow.value['fechaRegistro']}"
+																					converter="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.dateTimeConverter}" />
+																			</ui:tableColumn>
+																			<ui:tableColumn headerText="Procedimiento" id="tableColumn2" sort="nodoProcedimiento" width="40">
+																				<ui:staticText id="staticText1" text="#{currentRow.value['nodoProcedimiento']}" />
+																			</ui:tableColumn>
+																			<ui:tableColumn headerText="Interesado" id="tableColumnInteresado" sort="stringInteresado" width="40">
+																				<ui:staticText id="staticTextInteresado" text="#{currentRow.value['stringInteresado']}" />
+																			</ui:tableColumn>
+																			<ui:tableColumn headerText="Estado" id="tableColumnEstado" sort="estado" width="30">
+																				<ui:staticText id="staticTextEstado" text="#{currentRow.value['estado']}" />
+																			</ui:tableColumn>
+																			<ui:tableColumn headerText="Fase Activa" id="tableColumnFase" width="50" sort="stringFaseActiva">
+																				<ui:staticText id="staticTextFase" text="#{currentRow.value['stringFaseActivaSegunPermisos']}" />
+																			</ui:tableColumn>
+																		</ui:tableRowGroup>
+																		<f:facet name="actionsTop">
+																			<ui:panelGroup binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.groupPanel1}"
+																				id="groupPanel1">
+																				<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnModificarListaTrabajo_action}"
+																					binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.btnModificar}"
+																					id="btnModificar" styleClass="button" text="Modificar" />
+																				<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnConsultarListaTrabajo_action}"
+																					binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.btnConsultar}" id="btnConultar"
+																					styleClass="button" text="Consultar" />
+																			</ui:panelGroup>
+																		</f:facet>
+																	</ui:table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
 												</div>
-												<table class="general">
-													<tbody>
-														<tr>
-															<td colspan="3">
-																<ui:table augmentTitle="false" paginationControls="true"
-																	binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.table}" id="tableExpedientes">
-																	<ui:tableRowGroup binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.tableRowGroup1}"
-																		id="tableRowGroup1"
-																		sourceData="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.objectListDataProvider}"
-																		sourceVar="currentRow">
-																		<ui:tableColumn align="center"
-																			binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.tableColumn1}" id="tableColumn1"
-																			valign="middle" width="10">
-																			<ui:radioButton binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.radioButton1}"
-																				id="radioButton1" label=""
-																				name="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.nombreButtonGroup}"
-																				selected="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.RBSelected}"
-																				selectedValue="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.currentRow}" />
-																		</ui:tableColumn>
-																		<ui:tableColumn headerText="Nro Registro" id="tableColumnNroRegistro" sort="nroRegistro" width="20">
-																			<ui:staticText id="staticTextNroRegistro" text="#{currentRow.value['nroRegistro']}" />
-																		</ui:tableColumn>
-																		<ui:tableColumn headerText="Fecha Registro" id="tableColumnFechaRegistro" sort="fechaRegistro" width="30">
-																			<ui:staticText id="staticTextFechaRegistro" text="#{currentRow.value['fechaRegistro']}"
-																				converter="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.dateTimeConverter}" />
-																		</ui:tableColumn>
-																		<ui:tableColumn headerText="Procedimiento" id="tableColumn2" sort="nodoProcedimiento" width="40">
-																			<ui:staticText id="staticText1" text="#{currentRow.value['nodoProcedimiento']}" />
-																		</ui:tableColumn>
-																		<ui:tableColumn headerText="Interesado" id="tableColumnInteresado" sort="stringInteresado" width="40">
-																			<ui:staticText id="staticTextInteresado" text="#{currentRow.value['stringInteresado']}" />
-																		</ui:tableColumn>
-																		<ui:tableColumn headerText="Estado" id="tableColumnEstado" sort="estado" width="30">
-																			<ui:staticText id="staticTextEstado" text="#{currentRow.value['estado']}" />
-																		</ui:tableColumn>
-																		<ui:tableColumn headerText="Fase Activa" id="tableColumnFase" width="50" sort="stringFaseActiva">
-																			<ui:staticText id="staticTextFase" text="#{currentRow.value['stringFaseActivaSegunPermisos']}" />
-																		</ui:tableColumn>
-																	</ui:tableRowGroup>
-																	<f:facet name="actionsTop">
-																		<ui:panelGroup binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.groupPanel1}"
-																			id="groupPanel1">
-																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnModificarListaTrabajo_action}"
-																				binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.btnModificar}" id="btnModificar"
-																				styleClass="button" text="Modificar" />
-																			<ui:button action="#{expedientes$ABMExpediente$AdminExpediente.btnConsultarListaTrabajo_action}"
-																				binding="#{expedientes$ABMExpediente$AdminExpediente.panelListaTrabajo.tableExpedientes.btnConsultar}" id="btnConultar"
-																				styleClass="button" text="Consultar" />
-																		</ui:panelGroup>
-																	</f:facet>
-																</ui:table>
-															</td>
-														</tr>
-													</tbody>
-												</table>
 											</ui:tab>
 										</ui:tabSet>
 									</td>

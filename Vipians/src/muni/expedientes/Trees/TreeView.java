@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.Trees;
 
@@ -44,6 +50,7 @@ public class TreeView extends Tree {
 	public Object object;
 
 	public interface Datos {
+
 		public String getTexto();
 
 		public String getId();
@@ -51,6 +58,7 @@ public class TreeView extends Tree {
 		public List<Datos> getHijos();
 
 		public String getUrl();
+		
 	}
 
 	public void addNodo(Datos pDatos) {
@@ -78,7 +86,6 @@ public class TreeView extends Tree {
 		}
 
 		return locNodo;
-
 	}
 
 	public List<TreeNode> crearNodos(List<Datos> pLista) {
@@ -86,6 +93,7 @@ public class TreeView extends Tree {
 		for(Datos datos : pLista) {
 			locNodos.add(crearNodo(datos));
 		}
+		
 		return locNodos;
 	}
 
@@ -99,6 +107,7 @@ public class TreeView extends Tree {
 				e.printStackTrace();
 			}
 		}
+		
 		return locNode;
 	}
 
@@ -106,6 +115,13 @@ public class TreeView extends Tree {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
 			Cookie c = CookieUtils.getCookieValue(context, this.getCookieName());
+			
+			if(c == null) {
+				Cookie locCookie = new Cookie("form1#incTreeProcedimiento#trProcedimiento#tnRaiz", "form1#incTreeProcedimiento#trProcedimiento-tnRaiz");
+				
+				return locCookie.getValue().replace(CookieUtils.VALID_CHAR, SEPARATOR_CHAR);
+			}
+			
 			return c.getValue().replace(CookieUtils.VALID_CHAR, SEPARATOR_CHAR);
 		} catch(Exception e) {
 			throw new Exception("seleccionar nodo");
@@ -130,10 +146,6 @@ public class TreeView extends Tree {
 		return this.getNodo(this.selectedCookieValue);
 	}
 
-	// public TreeNode getSelectedNode() {
-	// return this.getNodo(MetodosEstaticos.obtenerCookie("selCookie"));
-	// }
-
 	private String getIdSinPrefijo(String idCompleto, String idComponente) {
 		String retorno = null;
 		if(idCompleto != null && idCompleto.length() > 0) {
@@ -155,7 +167,6 @@ public class TreeView extends Tree {
 		node.getFacets().put("content", link);
 	}
 
-	// to override
 	protected String getElExpression() {
 		return null;
 	}
@@ -164,7 +175,6 @@ public class TreeView extends Tree {
 		return null;
 	}
 
-	// for now these scriptPath references are absolute urls
 	protected void renderScriptDependency(FacesContext facesContext, String scriptPath) throws IOException {
 		ResponseWriter writer = facesContext.getResponseWriter();
 		writer.startElement("script", null);
@@ -173,4 +183,5 @@ public class TreeView extends Tree {
 		writer.endElement("script");
 		writer.write("\n");
 	}
+	
 }

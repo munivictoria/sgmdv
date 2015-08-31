@@ -1,3 +1,10 @@
+/**
+ * 
+ * Â© Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.business.ejb;
 
 import java.io.Serializable;
@@ -40,46 +47,40 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 
 	public List<DiaFeriado> getDiasFeriadosEntre(Date date1, Date date2) throws Exception {
 		Criterio locCriterio = Criterio.getInstance(entity, DiaFeriado.class);
-		if (date1 != null) {
+		
+		if(date1 != null) {
 			locCriterio.add(Restriccion.MAYOR("fecha", date1));
 		}
-		if (date2 != null) {
+		if(date2 != null) {
 			locCriterio.add(Restriccion.MENOR("fecha", date2));
 		}
 		locCriterio.add(Orden.ASC("fecha"));
+		
 		return locCriterio.list();
-
 	}
 
 	public void inicializarPlazoExpediente(Date fechaDesde, Plazo pPlazo) {
-		if (pPlazo != null) {
-			
+		if(pPlazo != null) {
 			PlazoProcedimiento plazoProcedimiento = pPlazo.getPlazoProcedimiento();
-			
-			
+
 			this.listaFeriados = getListaFeriados(fechaDesde);
 			this.fechaFinal = getFechaFin(fechaDesde, cantidadDias, diasCorridos);
 			this.cantidadDiasRestantes = getCantidadDias(new Date(), fechaFinal, diasCorridos);
 			this.fechaInicial = fechaDesde;
 			this.cantidadDias = plazoProcedimiento.getDias();
 			this.diasCorridos = plazoProcedimiento.isDiasCorridos();
-			
-			
-			
-			
-			
 		}
-
 	}
 
 	private List<DiaFeriado> getListaFeriados(Date from) {
 		try {
 			listaFeriados = getDiasFeriadosEntre(from, null);
 
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		Collections.sort(listaFeriados, comparatorDiaFeriado);
+		
 		return listaFeriados;
 	}
 
@@ -93,6 +94,7 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 		Calendar c = new GregorianCalendar();
 		c.setTime(fecha);
 		c.add(Calendar.DATE, cantDias);
+		
 		return c.getTime();
 	}
 
@@ -101,15 +103,17 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 		Date fechaFin = incrementarFecha(fechaInicio, cantDias);
 		int inhabiles = getTotalInhablies(fechaInicio, fechaFin);
 
-		if (!diasCorridos) {
-			while (inhabiles > 0) {
+		if(!diasCorridos) {
+			while(inhabiles > 0) {
 				Date fechaProxima = incrementarFecha(fechaFin, inhabiles);
-				// paso al siguiente día para no contarlo dos veces
+				
+				// paso al siguiente dï¿½a para no contarlo dos veces
 				fechaFin = incrementarFecha(fechaFin, 1);
 				inhabiles = getTotalInhablies(fechaFin, fechaProxima);
 				fechaFin = fechaProxima;
 			}
 		}
+		
 		return fechaFin;
 	}
 
@@ -117,25 +121,23 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 		return getCantidadFeriados(date1, date2, false) + getCantSabYDom(date1, date2);
 	}
 
-	// excluye sábados y domingos
+	// excluye sï¿½bados y domingos
 	private int getCantidadFeriados(Date date1, Date date2, boolean finDeSemana) {
 		int cant = 0;
 		Iterator<DiaFeriado> i = listaFeriados.iterator();
-		while (i.hasNext()) {
+		while(i.hasNext()) {
 			DiaFeriado diaFeriado = (DiaFeriado) i.next();
-			if (diaFeriado.getFecha().compareTo(date1) >= 0) {
-				if (diaFeriado.getFecha().compareTo(date2) > 0) {
+			if(diaFeriado.getFecha().compareTo(date1) >= 0) {
+				if(diaFeriado.getFecha().compareTo(date2) > 0) {
 					break;
 				}
 				Calendar c = new GregorianCalendar();
 				c.setTime(diaFeriado.getFecha());
-				if (finDeSemana) {
+				if(finDeSemana) {
 					cant++;
-				} else if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
-						&& c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				} else if(c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
 					cant++;
 				}
-
 			}
 		}
 
@@ -148,13 +150,14 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 		Calendar cFinal = new GregorianCalendar();
 		cFinal.setTime(date2);
 		int cant = 0;
-		while (cInicial.before(cFinal) || cInicial.equals(cFinal)) {
-			if (cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
-					|| cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+		
+		while(cInicial.before(cFinal) || cInicial.equals(cFinal)) {
+			if(cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 				cant++;
 			}
 			cInicial.add(Calendar.DATE, 1);
 		}
+		
 		return cant;
 	}
 
@@ -167,10 +170,8 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 		long diff = c2.getTimeInMillis() - c1.getTimeInMillis();
 
 		cant = diff / (24 * 60 * 60 * 1000);
-		if (!corridos) {
-			cant -= Long.parseLong(Integer.valueOf(
-					getCantidadFeriados(date1, date2, false) + getCantSabYDom(date1, date2))
-					.toString());
+		if(!corridos) {
+			cant -= Long.parseLong(Integer.valueOf(getCantidadFeriados(date1, date2, false) + getCantSabYDom(date1, date2)).toString());
 		}
 
 		return Integer.parseInt(cant.toString());
@@ -178,10 +179,6 @@ public class BusinessPlazoBean implements BusinessPlazo, Serializable {
 
 	@Override
 	public void actualizarPlazoExpediente(Plazo pPlazo) {
-		// TODO Auto-generated method stub
-		
 	}
-
-	
 
 }

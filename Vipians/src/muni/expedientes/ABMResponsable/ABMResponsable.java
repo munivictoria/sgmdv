@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMResponsable;
 
@@ -51,7 +57,6 @@ public class ABMResponsable extends ABMPageBean {
 		if(this.getListaDelCommunicationArea() != null) {
 			this.getObjectListDataProviderArea().setList(this.getListaDelCommunicationArea());
 		}
-
 	}
 
 	public Label getTituloArea() {
@@ -216,24 +221,22 @@ public class ABMResponsable extends ABMPageBean {
 		this.getObjectListDataProviderArea().commitChanges();
 		locListaAreas = (ArrayList) this.getObjectListDataProviderArea().getList();
 		this.setListaDelCommunicationArea(locListaAreas);
-//		locResponsable.setAreas(locListaAreas);
+		// locResponsable.setAreas(locListaAreas);
 
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, locResponsable);
 		this.getElementoPila().getObjetos().set(ind++, locListaAreas);
 	}
 
-	@SuppressWarnings({"rawtypes"})
+	@SuppressWarnings({"rawtypes", "unused"})
 	@Override
 	protected void mostrarEstadoObjetosUsados() {
 		int ind = 0;
-		@SuppressWarnings("unused")
 		Responsable locResponsable = (Responsable) this.obtenerObjetoDelElementoPila(ind++, Responsable.class);
 		ArrayList locListaAreas = (ArrayList) obtenerObjetoDelElementoPila(ind++, ArrayList.class);
 
 		this.getObjectListDataProviderArea().setList(locListaAreas);
 		this.setListaDelCommunicationArea(locListaAreas);
-
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -242,8 +245,8 @@ public class ABMResponsable extends ABMPageBean {
 		int ind = 0;
 		ep.getObjetos().add(ind++, new Responsable());
 		ep.getObjetos().add(ind++, new ArrayList());
-		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
-		// seleccionado.
+		
+		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
 		return ep;
 	}
@@ -271,7 +274,6 @@ public class ABMResponsable extends ABMPageBean {
 
 			this.getRequestBean1().setObjetoSeleccion(null);
 		}
-
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -336,7 +338,6 @@ public class ABMResponsable extends ABMPageBean {
 
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -356,7 +357,6 @@ public class ABMResponsable extends ABMPageBean {
 
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -371,6 +371,7 @@ public class ABMResponsable extends ABMPageBean {
 			rk = this.getObjectListDataProviderArea().getRowKey(aRowId);
 		} catch(Exception ex) {
 		}
+		
 		return rk;
 	}
 
@@ -401,4 +402,5 @@ public class ABMResponsable extends ABMPageBean {
 	public long getSerialVersionUID() {
 		return Responsable.serialVersionUID;
 	}
+	
 }

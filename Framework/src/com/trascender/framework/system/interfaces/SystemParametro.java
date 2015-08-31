@@ -13,12 +13,14 @@ import net.sf.jasperreports.engine.JasperPrint;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
+import com.trascender.framework.recurso.filtros.FiltroNumerador;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReporte;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
 import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
+import com.trascender.framework.recurso.persistent.Numerador;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
 import com.trascender.framework.recurso.persistent.Usuario;
@@ -114,4 +116,14 @@ public interface SystemParametro {
 	public JasperPrint getReporte(Reporte pReporte, Map<String, Object> pMapaParametros) throws Exception;
 
 	public List<Reporte> getListaReportesPorUsuario(long idUsuario) throws Exception;
+	
+	public Numerador addNumerador(Numerador pNumerador) throws Exception;
+
+	public Numerador updateNumerador(Numerador pNumerador) throws Exception;
+
+	public void removeNumerador(Numerador pNumerador) throws Exception;
+
+	public FiltroNumerador findListaNumeradores(FiltroNumerador pFiltro) throws Exception;
+
+	public Numerador getNumeradorPorId(long pIdNumerador) throws Exception;
 }

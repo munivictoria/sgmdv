@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.panels;
 
 import java.util.List;
@@ -9,7 +16,6 @@ public class TableUsuariosResponsableNodo extends TableUsuarios {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List getListaDelCommunication() {
-		// TODO Auto-generated method stub
 		return getCommunicationExpedientesBean().getListaUsuariosResponsablesNodo();
 	}
 
@@ -17,11 +23,11 @@ public class TableUsuariosResponsableNodo extends TableUsuarios {
 	@Override
 	public void setListaDelCommunication(List lista) {
 		getCommunicationExpedientesBean().setListaUsuariosResponsablesNodo(lista);
-		
+
 	}
 
-	
 	public muni.CommunicationExpedientesBean getCommunicationExpedientesBean() {
 		return (muni.CommunicationExpedientesBean) getSessionBean("CommunicationExpedientesBean");
 	}
+
 }

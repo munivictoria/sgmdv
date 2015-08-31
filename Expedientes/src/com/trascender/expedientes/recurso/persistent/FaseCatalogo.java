@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package com.trascender.expedientes.recurso.persistent;
 
@@ -121,6 +127,7 @@ public class FaseCatalogo implements Serializable {
 		final FaseCatalogo other = (FaseCatalogo) obj;
 		if(idFaseCatalogo != other.idFaseCatalogo)
 			return false;
+		
 		return true;
 	}
 
@@ -131,4 +138,5 @@ public class FaseCatalogo implements Serializable {
 	public void setListaFasesEspeciales(List<FaseCatalogo> listaFasesEspeciales) {
 		this.listaFasesEspeciales = listaFasesEspeciales;
 	}
+	
 }

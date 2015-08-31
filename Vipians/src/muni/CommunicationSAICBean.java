@@ -72,6 +72,7 @@ import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.Reliquidacion;
 import com.trascender.saic.recurso.persistent.TasaNominalAnual;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
+import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 import com.trascender.saic.system.interfaces.SystemAuditoriaTributaria;
 import com.trascender.saic.system.interfaces.SystemEstadoCuentaContribuyente;
 import com.trascender.saic.system.interfaces.SystemExencionRegistroDeuda;
@@ -2277,5 +2278,16 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 	public void setListaUsuariosReporte(List listaUsuariosReporte) {
 		this.listaUsuariosReporte = listaUsuariosReporte;
 	}
+	
+	private List listaLineasSeleccionPeriodoRefinanciacion;
 
+	public List getListaLineasSeleccionPeriodoRefinanciacion() {
+		return listaLineasSeleccionPeriodoRefinanciacion;
+	}
+
+	public void setListaLineasSeleccionPeriodoRefinanciacion(
+			List listaLineasSeleccionPeriodoRefinanciacion) {
+		this.listaLineasSeleccionPeriodoRefinanciacion = listaLineasSeleccionPeriodoRefinanciacion;
+	}
+	
 }

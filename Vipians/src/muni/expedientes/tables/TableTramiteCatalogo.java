@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -23,21 +30,20 @@ public class TableTramiteCatalogo extends TableBean {
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void addToList(List pList, Object pObject) {
-
 		TramiteCatalogo nuevaTramiteCatalogo = (TramiteCatalogo) pObject;
 		List locTramitesCatalogos = pList;
 
 		TramiteCatalogo deLaTabla = null;
 		boolean esta = false;
 		int i = 0;
-		while (i < locTramitesCatalogos.size() && !esta) {
+		while(i < locTramitesCatalogos.size() && !esta) {
 			deLaTabla = (TramiteCatalogo) locTramitesCatalogos.get(i++);
 			esta = (deLaTabla.getIdTramiteCatalogo() == nuevaTramiteCatalogo.getIdTramiteCatalogo());
 		}
-		if (!esta) {
+		if(!esta) {
 			locTramitesCatalogos.add(nuevaTramiteCatalogo);
 		} else {
 			warn("El Tramite de Catalogo que intenta agregar ya se encuentra en la lista.");

@@ -15,6 +15,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
+import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.util.TrascenderDataSource;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
@@ -25,12 +26,13 @@ public class CuotaRefinanciacionDS extends TrascenderDataSource {
 	private Map<String, Object> parametros;
 	private List<Map<String, Object>> filas = new ArrayList<Map<String, Object>>();
 
-	public CuotaRefinanciacionDS(List<CuotaRefinanciacion> pListaCuotasRefinanciacion, String pTitulo) {
+	public CuotaRefinanciacionDS(List<CuotaRefinanciacion> pListaCuotasRefinanciacion, String pTitulo, Usuario pUsuario) {
 		DocumentoRefinanciacion pDocumento = (DocumentoRefinanciacion) pListaCuotasRefinanciacion.get(0).getDocGeneradorDeuda();
 		
 		parametros = new HashMap<String, Object>();
 		parametros.put("P_TITULO", pTitulo.toUpperCase());
 		parametros.put("P_DOCUMENTO_REFINANCIACION", pDocumento);
+		parametros.put("P_USUARIO", pUsuario.getUser());
 
 		for(CuotaRefinanciacion cadaCuota : pListaCuotasRefinanciacion) {
 			Map<String, Object> locMapa = new HashMap<String, Object>();

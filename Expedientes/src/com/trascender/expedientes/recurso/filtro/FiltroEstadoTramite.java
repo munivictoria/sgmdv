@@ -1,17 +1,32 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.filtro;
 
 import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.expedientes.recurso.persistent.EstadoTramite;
 import com.trascender.framework.util.FiltroAbstracto;
 
-public class FiltroEstadoTramite extends FiltroAbstracto<EstadoTramite>{
+public class FiltroEstadoTramite extends FiltroAbstracto<EstadoTramite> {
 
 	private static final long serialVersionUID = -5936390723431410673L;
-	
+
 	private String nombre;
 	private EstadoPlantilla estado;
-	
-	
+
+	public FiltroEstadoTramite() {
+	}
+
+	public FiltroEstadoTramite(String nombre, EstadoPlantilla estado) {
+		super();
+		this.nombre = nombre;
+		this.estado = estado;
+	}
+
 	public EstadoPlantilla getEstado() {
 		return estado;
 	}
@@ -28,5 +43,4 @@ public class FiltroEstadoTramite extends FiltroAbstracto<EstadoTramite>{
 		this.nombre = nombre;
 	}
 
-	
 }

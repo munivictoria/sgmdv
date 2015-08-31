@@ -1,8 +1,13 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMExpediente;
 
 import java.util.ArrayList;
-
-import javax.faces.component.UIComponent;
 
 import com.trascender.expedientes.recurso.persistent.NodoExpediente;
 import com.trascender.framework.recurso.persistent.DiaFeriado;
@@ -22,12 +27,13 @@ public class ExtensionModel extends ABMModel {
 	public String getNombreEntidad() {
 		return "Extension";
 	}
-	
+
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
-		UIComponent[] noVacios = new UIComponent[1];
-		String[] diasNoVacios = new String[1];
-		int pos = 0;
+		// UIComponent[] noVacios = new UIComponent[1];
+		// String[] diasNoVacios = new String[1];
+		// int pos = 0;
+		
 		return v;
 	}
 
@@ -48,9 +54,10 @@ public class ExtensionModel extends ABMModel {
 			Integer locDias = (Integer) getBeanExtension().obtenerObjetoDelElementoPila(2);
 			String locComentario = (String) getBeanExtension().obtenerObjetoDelElementoPila(3);
 			Usuario locUsuario = getBeanExtension().getSessionBean1().getUsuario();
-			
-			//TODO Recuperar la lista de feriados.
+
+			// TODO Recuperar la lista de feriados.
 			locNodoExpediente.agregarExtension(locDias, locUsuario, locComentario, new ArrayList<DiaFeriado>());
+			
 			return "La Extensión se agreg\363 exitosamente";
 		}
 
@@ -62,7 +69,7 @@ public class ExtensionModel extends ABMModel {
 		public ABMModel getModel() {
 			return ExtensionModel.this;
 		}
+		
 	}
-
 
 }

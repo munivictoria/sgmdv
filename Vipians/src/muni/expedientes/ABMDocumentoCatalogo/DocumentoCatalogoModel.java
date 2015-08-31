@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMDocumentoCatalogo;
 
@@ -23,7 +29,6 @@ public class DocumentoCatalogoModel extends ABMModel {
 	@Override
 	public String getNombreEntidad() {
 		return "Documento de Catálogo";
-
 	}
 
 	private Validador getValidadorAgregarModificar() {
@@ -33,14 +38,29 @@ public class DocumentoCatalogoModel extends ABMModel {
 		int pos = 0;
 		noVacios[pos] = getBeanDocumentoCatalogo().getTfNombre();
 		nomNoVacios[pos] = "Nombre";
+		
+		DocumentoCatalogo locDocumento = (DocumentoCatalogo) this.getBeanDocumentoCatalogo().getElementoPila().getObjetos().get(0);
+		if(locDocumento.getTipo().equals(DocumentoCatalogo.Tipo.SALIDA) 
+				&& locDocumento.getReporte() == null) {
+			v.getErrores().add("Debe seleccionar un reporte.");
+		}
+		
 		v.noSonVacios(noVacios, nomNoVacios);
+		
 		return v;
 	}
 
 	private void deshabilitarElementosConsultarEliminar() {
 		ABMDocumentoCatalogo abmDocumentoCatalogo = getBeanDocumentoCatalogo();
 		abmDocumentoCatalogo.getTfNombre().setDisabled(true);
-
+		abmDocumentoCatalogo.getBtnBuscarReporte().setRendered(false);
+		abmDocumentoCatalogo.getBtnLimpiarReporte().setRendered(false);
+		
+		DocumentoCatalogo locDocumento = (DocumentoCatalogo) abmDocumentoCatalogo.getElementoPila().getObjetos().get(0);
+		if(locDocumento.getTipo().equals(DocumentoCatalogo.Tipo.ENTRADA)) {
+			abmDocumentoCatalogo.getLblReporte().setRendered(false);
+			abmDocumentoCatalogo.getTfReporte().setRendered(false);
+		}
 	}
 
 	private ABMDocumentoCatalogo getBeanDocumentoCatalogo() {
@@ -59,18 +79,28 @@ public class DocumentoCatalogoModel extends ABMModel {
 			DocumentoCatalogo locDocumentoCatalogo = (DocumentoCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().addDocumentoCatalogo(locDocumentoCatalogo);
+			
 			return "El Documento de Catálogo se agreg\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-			// TODO Auto-generated method stub
+			ABMDocumentoCatalogo abmDocumentoCatalogo = getBeanDocumentoCatalogo();
+			DocumentoCatalogo locDocumento = (DocumentoCatalogo) abmDocumentoCatalogo.getElementoPila().getObjetos().get(0);
+			
+			if(locDocumento.getTipo().equals(DocumentoCatalogo.Tipo.ENTRADA)) {
+				abmDocumentoCatalogo.getLblReporte().setRendered(false);
+				abmDocumentoCatalogo.getTfReporte().setRendered(false);
+				abmDocumentoCatalogo.getBtnBuscarReporte().setRendered(false);
+				abmDocumentoCatalogo.getBtnLimpiarReporte().setRendered(false);
+			}
 		}
 
 		@Override
 		public ABMModel getModel() {
 			return DocumentoCatalogoModel.this;
 		}
+		
 	}
 
 	public class ModificarController extends ModificarAbstractController {
@@ -85,17 +115,28 @@ public class DocumentoCatalogoModel extends ABMModel {
 			DocumentoCatalogo locDocumentoCatalogo = (DocumentoCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().updateDocumentoCatalogo(locDocumentoCatalogo);
+			
 			return "El Documento de Catálogo se modific\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
+			ABMDocumentoCatalogo abmDocumentoCatalogo = getBeanDocumentoCatalogo();
+			DocumentoCatalogo locDocumento = (DocumentoCatalogo) abmDocumentoCatalogo.getElementoPila().getObjetos().get(0);
+			
+			if(locDocumento.getTipo().equals(DocumentoCatalogo.Tipo.ENTRADA)) {
+				abmDocumentoCatalogo.getLblReporte().setRendered(false);
+				abmDocumentoCatalogo.getTfReporte().setRendered(false);
+				abmDocumentoCatalogo.getBtnBuscarReporte().setRendered(false);
+				abmDocumentoCatalogo.getBtnLimpiarReporte().setRendered(false);
+			}
 		}
 
 		@Override
 		public ABMModel getModel() {
 			return DocumentoCatalogoModel.this;
 		}
+		
 	}
 
 	public class ConsultarControler extends ConsultarAbstractController {
@@ -133,8 +174,9 @@ public class DocumentoCatalogoModel extends ABMModel {
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			DocumentoCatalogo locDocumentoCatalogo = (DocumentoCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
-			getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteDocumentoCatalogo(locDocumentoCatalogo);
-			return "El Documento de Catálogo se elimin\363 exitosamente";
+			String mensaje = getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteDocumentoCatalogo(locDocumentoCatalogo);
+			
+			return mensaje;
 
 		}
 
@@ -147,8 +189,9 @@ public class DocumentoCatalogoModel extends ABMModel {
 		public ABMModel getModel() {
 			return DocumentoCatalogoModel.this;
 		}
+		
 	}
-	
+
 	public class RecuperarDocumentoCatalogo implements ABMController {
 
 		@Override
@@ -161,7 +204,7 @@ public class DocumentoCatalogoModel extends ABMModel {
 			DocumentoCatalogo locDocumentoCatalogo = (DocumentoCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().restoreDocumentoCatalogo(locDocumentoCatalogo);
-			
+
 			return "El Documento se recuper\363 exitosamente";
 		}
 
@@ -207,7 +250,7 @@ public class DocumentoCatalogoModel extends ABMModel {
 
 		@Override
 		public String getTituloPagina() {
-			return "Recuperar";
+			return "Recuperar Documento Catálogo";
 		}
 
 		@Override
@@ -224,5 +267,7 @@ public class DocumentoCatalogoModel extends ABMModel {
 		public boolean seleccionarObjeto() {
 			return true;
 		}
+		
 	}
+	
 }

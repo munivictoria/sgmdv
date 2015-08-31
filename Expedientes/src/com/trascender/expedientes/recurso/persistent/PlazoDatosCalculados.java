@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.util.ArrayList;
@@ -15,10 +22,10 @@ import com.trascender.framework.util.Util;
 public class PlazoDatosCalculados {
 
 	private List<DiaFeriado> listaTotalFeriados;
-	private int cantidadDiasRestantes=-1;
+	private int cantidadDiasRestantes = -1;
 	private Date fechaFinal;
 	private Date fechaInicial;
-	private int cantidadDias=-1;
+	private int cantidadDias = -1;
 	private boolean diasCorridos = false;
 	private boolean vencido = false;
 
@@ -78,10 +85,9 @@ public class PlazoDatosCalculados {
 		this.vencido = vencido;
 	}
 
-	public PlazoDatosCalculados(Date fechaDesde, int cantidadDias, boolean diasCorridos,
-			List<DiaFeriado> diasFeriados) {
+	public PlazoDatosCalculados(Date fechaDesde, int cantidadDias, boolean diasCorridos, List<DiaFeriado> diasFeriados) {
 		Collections.sort(diasFeriados, comparatorDiaFeriado);
-		if (fechaDesde != null) {
+		if(fechaDesde != null) {
 			this.listaTotalFeriados = diasFeriados;
 			this.fechaFinal = getFechaFin(fechaDesde, cantidadDias, diasCorridos);
 			this.cantidadDiasRestantes = getCantidadDias(new Date(), fechaFinal, diasCorridos);
@@ -95,14 +101,14 @@ public class PlazoDatosCalculados {
 	private List<DiaFeriado> getListaFeriados(Date from) {
 		DiaFeriado dia = null;
 		List<DiaFeriado> retorno = new ArrayList<DiaFeriado>();
-		for (DiaFeriado feriado : listaTotalFeriados) {
-			if (feriado.getFecha().compareTo(from) >= 0) {
+		for(DiaFeriado feriado : listaTotalFeriados) {
+			if(feriado.getFecha().compareTo(from) >= 0) {
 				dia = feriado;
 			}
 		}
-		if (dia != null)
-			retorno = listaTotalFeriados.subList(listaTotalFeriados.indexOf(dia),
-					listaTotalFeriados.size() - 1);
+		if(dia != null)
+			retorno = listaTotalFeriados.subList(listaTotalFeriados.indexOf(dia), listaTotalFeriados.size() - 1);
+		
 		return retorno;
 	}
 
@@ -110,6 +116,7 @@ public class PlazoDatosCalculados {
 		Calendar c = new GregorianCalendar();
 		c.setTime(fecha);
 		c.add(Calendar.DATE, cantDias);
+		
 		return c.getTime();
 	}
 
@@ -118,15 +125,17 @@ public class PlazoDatosCalculados {
 		Date fechaFin = incrementarFecha(fechaInicio, cantDias);
 		int inhabiles = getTotalInhablies(fechaInicio, fechaFin);
 
-		if (!diasCorridos) {
-			while (inhabiles > 0) {
+		if(!diasCorridos) {
+			while(inhabiles > 0) {
 				Date fechaProxima = incrementarFecha(fechaFin, inhabiles);
+				
 				// paso al siguiente d�a para no contarlo dos veces
 				fechaFin = incrementarFecha(fechaFin, 1);
 				inhabiles = getTotalInhablies(fechaFin, fechaProxima);
 				fechaFin = fechaProxima;
 			}
 		}
+		
 		return fechaFin;
 	}
 
@@ -138,21 +147,19 @@ public class PlazoDatosCalculados {
 	private int getCantidadFeriados(Date date1, Date date2, boolean contarFinDeSemana) {
 		int cant = 0;
 		Iterator<DiaFeriado> i = getListaFeriados(date1).iterator();
-		while (i.hasNext()) {
+		while(i.hasNext()) {
 			DiaFeriado diaFeriado = (DiaFeriado) i.next();
-			if (diaFeriado.getFecha().compareTo(date1) >= 0) {
-				if (diaFeriado.getFecha().compareTo(date2) > 0) {
+			if(diaFeriado.getFecha().compareTo(date1) >= 0) {
+				if(diaFeriado.getFecha().compareTo(date2) > 0) {
 					break;
 				}
 				Calendar c = new GregorianCalendar();
 				c.setTime(diaFeriado.getFecha());
-				if (contarFinDeSemana) {
+				if(contarFinDeSemana) {
 					cant++;
-				} else if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
-						&& c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				} else if(c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
 					cant++;
 				}
-
 			}
 		}
 
@@ -165,13 +172,13 @@ public class PlazoDatosCalculados {
 		Calendar cFinal = new GregorianCalendar();
 		cFinal.setTime(date2);
 		int cant = 0;
-		while (cInicial.before(cFinal) || cInicial.equals(cFinal)) {
-			if (cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
-					|| cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+		while(cInicial.before(cFinal) || cInicial.equals(cFinal)) {
+			if(cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 				cant++;
 			}
 			cInicial.add(Calendar.DATE, 1);
 		}
+		
 		return cant;
 	}
 
@@ -184,20 +191,18 @@ public class PlazoDatosCalculados {
 		long diff = c2.getTimeInMillis() - c1.getTimeInMillis();
 
 		cant = diff / (24 * 60 * 60 * 1000);
-		if (!corridos) {
-			cant -= Long.parseLong(Integer.valueOf(
-					getCantidadFeriados(date1, date2, false) + getCantSabYDom(date1, date2))
-					.toString());
+		if(!corridos) {
+			cant -= Long.parseLong(Integer.valueOf(getCantidadFeriados(date1, date2, false) + getCantSabYDom(date1, date2)).toString());
 		}
 
 		/**
-		 * Agrego un dia mas para tener en cuenta el dia siguiente, o sea, que el dia del vencimiento
-		 * tambien cuente como vigente.
-		*/
+		 * Agrego un dia mas para tener en cuenta el dia siguiente, o sea, que el dia del vencimiento tambien cuente como vigente.
+		 */
 		return Integer.parseInt(cant.toString()) + 1;
 	}
 
 	private static Comparator<DiaFeriado> comparatorDiaFeriado = new Comparator<DiaFeriado>() {
+
 		public int compare(DiaFeriado d1, DiaFeriado d2) {
 			return d1.getFecha().compareTo(d2.getFecha());
 		}

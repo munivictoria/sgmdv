@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -6,11 +13,11 @@ import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.TextField;
 import com.trascender.expedientes.recurso.persistent.UsuarioExtensor;
 
-public class TableUsuariosExtensores extends TableBean{
+public class TableUsuariosExtensores extends TableBean {
 
 	StaticText staticTextNombre = new StaticText();
 	TextField tfCantidadDiasMaximo = new TextField();
-	
+
 	public TextField getTfCantidadDiasMaximo() {
 		return tfCantidadDiasMaximo;
 	}
@@ -30,7 +37,7 @@ public class TableUsuariosExtensores extends TableBean{
 	public muni.CommunicationExpedientesBean getCommunicationExpedientesBean() {
 		return (muni.CommunicationExpedientesBean) getSessionBean("CommunicationExpedientesBean");
 	}
-	
+
 	@Override
 	public List getListaDelCommunication() {
 		return getCommunicationExpedientesBean().getListaUsuariosExtensores();
@@ -40,8 +47,8 @@ public class TableUsuariosExtensores extends TableBean{
 	public void setListaDelCommunication(List lista) {
 		getCommunicationExpedientesBean().setListaUsuariosExtensores(lista);
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void addToList(List pList, Object pObject) {
 		UsuarioExtensor nuevoUsuario = (UsuarioExtensor) pObject;
@@ -50,15 +57,15 @@ public class TableUsuariosExtensores extends TableBean{
 		UsuarioExtensor deLaTabla = null;
 		boolean esta = false;
 		int i = 0;
-		while (i < locUsuariosExtensores.size() && !esta) {
+		while(i < locUsuariosExtensores.size() && !esta) {
 			deLaTabla = (UsuarioExtensor) locUsuariosExtensores.get(i++);
 			esta = (deLaTabla.getUsuario().getIdUsuario() == nuevoUsuario.getUsuario().getIdUsuario());
 		}
-		if (!esta) {
+		if(!esta) {
 			locUsuariosExtensores.add(nuevoUsuario);
 		} else {
 			warn("El Usuario que intenta agregar ya se encuentra en la lista.");
 		}
 	}
-	
+
 }

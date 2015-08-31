@@ -122,6 +122,39 @@
 									</td>
 								</tr>
 								<tr>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="tfAniosAplicacion" id="lblAniosAplicacion" styleClass="label" text="Años aplicables" />
+									</td>
+									<td>
+										<ui:textField binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tfAniosAplicacion}" 
+											columns="50" id="tfAniosAplicacion" styleClass="textField" />
+									</td>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="cbCondonaDeudaAntigua" id="lblCondonaDeudaAntigua" styleClass="label" text="Condona deuda antigua" />
+									</td>
+									<td>
+										<ui:checkbox id="cbCondonaDeudaAntigua" 
+											binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.cbCondonaDeudaAntigua}"/>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="tfCantidadPropiedades" id="lblCantidadPropiedades" styleClass="label" text="Cantidad máxima propiedades" />
+									</td>
+									<td>
+										<ui:textField binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tfCantidadPropiedades}" 
+											columns="10" id="tfCantidadPropiedades" styleClass="textField" />
+									</td>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="tfFechaVencimientoPrimerCuota" 
+											id="lblFechaVencimientoPrimerCuota" styleClass="label" text="Fecha vencimiento primer cuota" />
+									</td>
+									<td>
+										<ui:textField binding="#{saic$ABMPlantillaPlanDePago$ABMPlantillaPlanDePago.tfFechaVencimientoPrimerCuota}" 
+											columns="10" id="tfFechaVencimientoPrimerCuota" styleClass="textField" />
+									</td>
+								</tr>
+								<tr>
 									<td colspan="2">
 										<ui:label id="lblTasas" styleClass="label57" text="Tasa Nominal Anual" />
 									</td>
@@ -226,6 +259,9 @@
 												</ui:tableColumn>
 												<ui:tableColumn headerText="Interes" id="tcInteres" sort="interes">
 													<ui:textField  id="tfInteres" text="#{currentRowTasas.value['interes']}"/>
+												</ui:tableColumn>
+												<ui:tableColumn headerText="Interes condonado" id="tcInteresCondonado" sort="interesCondonado">
+													<ui:textField  id="tfInteresCondonado" text="#{currentRowTasas.value['interesCondonado']}"/>
 												</ui:tableColumn>
 											</ui:tableRowGroup>
 											<f:facet name="actionsTop">

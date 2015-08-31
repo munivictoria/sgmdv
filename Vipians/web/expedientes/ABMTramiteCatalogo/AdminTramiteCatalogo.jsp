@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
@@ -56,8 +57,6 @@
 																items="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.ddEstadoDefaultOptions.options}" styleClass="textField" />
 														</td>
 													</tr>
-													<tr>
-													</tr>
 												</table>
 											</ui:panelGroup>
 										</td>
@@ -88,52 +87,55 @@
 								<ui:messageGroup binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.messageGroup}" id="messageGroup" showDetail="true"
 									showSummary="false" />
 							</div>
-							<table class="general">
-								<tr>
-									<td>
-										<ui:table binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.paginatedTable}" id="table1">
-											<f:facet name="actionsTop">
-												<ui:panelGroup binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.groupPanel1}" id="groupPanel1" style="">
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnSeleccionar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnSeleccionar}" id="btnSeleccionar" styleClass="button"
-														text="Seleccionar" />
-													<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stSeparadorSeleccionar}" escape="false"
-														id="stSeparador2" />
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnAgregar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnAgregar}" id="btnAgregar" styleClass="button" text="Agregar" />
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnModificar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnModificar}" id="btnModificar" styleClass="button"
-														text="Modificar" />
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnEliminar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnEliminar}" id="btnEliminar" styleClass="button"
-														text="Eliminar" />
-													<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stSeparadorAccion}" escape="false"
-														id="stSeparador3" />
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnConsultar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnConsultar}" id="btnConsultar" styleClass="button"
-														text="Consultar" />
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnActivar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnActivar}" id="btnActivar" styleClass="button"
-														text="Recuperar Trámite" />
-													<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stSeparador4}" escape="false" id="stSeparador4"
-														text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
-													<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnExportar_action}"
-														binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnExportar}" id="btnExportar" styleClass="button"
-														text="Exportar" onClick="return exportarReporte()" />
-												</ui:panelGroup>
-											</f:facet>
-										</ui:table>
-									</td>
-								</tr>
-								<tr>
-									<td align="left" colspan="2">
-										<ui:label binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.lblEncontrados}" id="lblEncontrados" styleClass="label2"
-											text="Registros Encontrados: " />
-										<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stCantidadRegistros}" id="stCantidadRegistros"
-											styleClass="staticText" />
-									</td>
-								</tr>
-							</table>
+							<div class="divGeneral">
+								<table class="general">
+									<tr>
+										<td>
+											<ui:table binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.paginatedTable}" id="table1">
+												<f:facet name="actionsTop">
+													<ui:panelGroup binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.groupPanel1}" id="groupPanel1" style="">
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnSeleccionar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnSeleccionar}" id="btnSeleccionar" styleClass="button"
+															text="Seleccionar" />
+														<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stSeparadorSeleccionar}" escape="false"
+															id="stSeparador2" />
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnAgregar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnAgregar}" id="btnAgregar" styleClass="button"
+															text="Agregar" />
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnModificar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnModificar}" id="btnModificar" styleClass="button"
+															text="Modificar" />
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnEliminar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnEliminar}" id="btnEliminar" styleClass="button"
+															text="Eliminar" />
+														<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stSeparadorAccion}" escape="false"
+															id="stSeparador3" />
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnConsultar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnConsultar}" id="btnConsultar" styleClass="button"
+															text="Consultar" />
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnActivar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnActivar}" id="btnActivar" styleClass="button"
+															text="Recuperar Trámite" />
+														<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stSeparador4}" escape="false" id="stSeparador4"
+															text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
+														<ui:button action="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnExportar_action}"
+															binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.btnExportar}" id="btnExportar" styleClass="button"
+															text="Exportar" onClick="return exportarReporte()" />
+													</ui:panelGroup>
+												</f:facet>
+											</ui:table>
+										</td>
+									</tr>
+									<tr>
+										<td align="left" colspan="2">
+											<ui:label binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.lblEncontrados}" id="lblEncontrados" styleClass="label2"
+												text="Registros Encontrados: " />
+											<ui:staticText binding="#{expedientes$ABMTramiteCatalogo$AdminTramiteCatalogo.stCantidadRegistros}" id="stCantidadRegistros"
+												styleClass="staticText" />
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 					</div>
 					<script>

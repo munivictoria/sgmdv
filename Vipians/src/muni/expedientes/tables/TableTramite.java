@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -45,30 +52,29 @@ public class TableTramite extends TableBean {
 	public void setListaDelCommunication(List lista) {
 		getCommunicationExpedientesBean().setListaTramitesExpediente(lista);
 	}
-	
-	private List<DiaFeriado> getDiasFeriados(){
+
+	@SuppressWarnings("unused")
+	private List<DiaFeriado> getDiasFeriados() {
 		return getCommunicationExpedientesBean().getListaFeriados();
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void addToList(List pList, Object pObject) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public class WTramite {
-		public WTramite(Object pTramite, int pIndex) {
 
+		public WTramite(Object pTramite, int pIndex) {
 			tramite = (Tramite) pTramite;
 			index = pIndex;
-
 		}
 
 		public boolean cancel = false;
 		public Tramite tramite;
 		public Integer index;
 		public PlazoExpediente plazo;
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,11 +86,12 @@ public class TableTramite extends TableBean {
 
 	public String getDiasRestantes() {
 		String diasRestantes = "--";
-//		Tramite locT = (Tramite) objectListDataProvider.getObjects()[cont++];
-//		Plazo p = locT.getPlazo();
-//		if ( p!=null && !locT.getEstado().equals(EstadoTramite.CERRADO)) {
-//			diasRestantes = Integer.valueOf(p.getDatosCalculados(getDiasFeriados()).getCantidadDias()).toString();
-//		}
+		// Tramite locT = (Tramite) objectListDataProvider.getObjects()[cont++];
+		// Plazo p = locT.getPlazo();
+		// if ( p!=null && !locT.getEstado().equals(EstadoTramite.CERRADO)) {
+		// diasRestantes = Integer.valueOf(p.getDatosCalculados(getDiasFeriados()).getCantidadDias()).toString();
+		// }
+		
 		return diasRestantes;
 	}
 

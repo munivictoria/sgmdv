@@ -625,7 +625,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		}
 		return locListaRetorno;
 	}
-
+	
 	/**
 	 * Busca un listado de MOvimientos de Caja ingreso por cada Detalle del pagable
 	 * 
@@ -677,7 +677,6 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 					}
 				}
 			}
-			// TODO Buscar la asociacion intereses y recargos.
 			if(locLiquidacionTasa.getInteres() != null && locLiquidacionTasa.getInteres() > 0D) {
 				MovimientoCajaIngreso locMovimientoIngresoInteres = new MovimientoCajaIngreso();
 				locMovimientoIngresoInteres.setImporte(locLiquidacionTasa.getInteres());
@@ -711,6 +710,21 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			//Armo las imputaciones totales y las fracciono por la cantidad de cuotas que tiene el plan.
 			THashMap<Cuenta> locMapaCuentasAux = new THashMap<Cuenta>();
 			for (RegistroDeuda cadaRegistro : locDocumento.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
+				//Puede ser deuda condonada, no genera ingreso
+				if (locDocumento.getRegCancelacionPorRefinanciacion().estaCondonado(cadaRegistro)) {
+					continue;
+				}
+				
+				//Puede tener interes condonado, ajustar el importe del mismo.
+				if (!locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado().equals(0D)) {
+					if (cadaRegistro instanceof LiquidacionTasa) {
+						LiquidacionTasa liq = (LiquidacionTasa) cadaRegistro;
+						liq.setInteres(liq.getInteres() - 
+								liq.getInteres() * locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado() / 100);
+						liq.setInteres(Util.redondear(liq.getInteres(), 2));
+					}
+				}
+				
 				List<MovimientoCajaIngreso> listaMovimientos = getListaMovimientosCaja(cadaRegistro);
 				for (MovimientoCajaIngreso cadaMovimiento : listaMovimientos) {
 					locMapaCuentasAux.add(cadaMovimiento.getCuenta(), cadaMovimiento.getImporte());
@@ -727,12 +741,15 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			}
 			
 			//El recargo por refinanciacion.
-			ParametroAsociacion locParametro = locDocumento.getPlantilla().getListaParametrosAsociacion().get(0);
-			MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
-			locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, locParametro.getCuenta().getIdCuenta()));
-			locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
-			locMovimientoCajaIngreso.setImporte(locCuotaRefinanciacion.getInteres());
-			locListaRetorno.add(locMovimientoCajaIngreso);
+			if (locCuotaRefinanciacion.getInteres() != null
+					&& !locCuotaRefinanciacion.getInteres().equals(0D)) {
+				ParametroAsociacion locParametro = locDocumento.getPlantilla().getListaParametrosAsociacion().get(0);
+				MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
+				locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, locParametro.getCuenta().getIdCuenta()));
+				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
+				locMovimientoCajaIngreso.setImporte(locCuotaRefinanciacion.getInteres());
+				locListaRetorno.add(locMovimientoCajaIngreso);
+			}
 		} else if(locDeuda instanceof IngresoVario) {
 			// En caso que no sea una liquidación no va a tener modificadores, así que no hay tanto drama
 			IngresoVario locIngresoVario = (IngresoVario) locDeuda;
@@ -1198,22 +1215,16 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	 */
 	@SuppressWarnings("unchecked")
 	private void volverAtrasDeuda(DetalleTicketCaja locDetalleTicketCaja) {
-
 		Pagable locPagable = getDeudaPorParche(locDetalleTicketCaja);
-		RegistroDeuda locRegistroDeuda = this.businessLiquidacionTasa.volverAtrasDeuda(locDetalleTicketCaja);
-
-		if(locRegistroDeuda != null) {
-			this.ticketCancelado.setIdDeuda(this.completarCodigoBarra(locPagable.getId(), 1));
+		if (locPagable instanceof LiquidacionTasa) {
+			RegistroDeuda locRegistroDeuda = this.businessLiquidacionTasa.volverAtrasDeuda(locDetalleTicketCaja);
 		} else {
-			// this.ticketCancelado.setIdDeuda(this.completarCodigoBarra(getDeudaPorParche(locDetalleTicketCaja).getId(), 2));
-			// El caso del ingreso vario
-			IngresoVario locIngresoVario = Criterio.getInstance(entity, IngresoVario.class).add(Restriccion.IGUAL("registroCancelacion", locDetalleTicketCaja)).uniqueResult();
-			if(locIngresoVario != null) {
-				locIngresoVario.setRegistroCancelacion(null);
-				locIngresoVario.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
-				this.entity.merge(locIngresoVario);
-			}
+			//Ingresos Varios y Cuotas Refinanciacion.
+			RegistroDeuda rd = (RegistroDeuda) locPagable;
+			rd.setRegistroCancelacion(null);
+			rd.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
 		}
+		this.ticketCancelado.setIdDeuda(this.completarCodigoBarra(locPagable.getId(), 1));
 	}
 
 	/**

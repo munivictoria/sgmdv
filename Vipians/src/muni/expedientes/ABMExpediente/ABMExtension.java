@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMExpediente;
 
 import com.sun.rave.web.ui.component.Label;
@@ -7,16 +14,15 @@ import com.trascender.expedientes.recurso.persistent.NodoExpediente;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
 
-public class ABMExtension extends ABMPageBean{
+public class ABMExtension extends ABMPageBean {
 
 	Label lblnombre = new Label();
 	Label lblCantidadDias = new Label();
 	Label lblComentario = new Label();
-	
+
 	TextField tfCantidadDias = new TextField();
 	TextArea taComentario = new TextArea();
-	
-	
+
 	public Label getLblnombre() {
 		return lblnombre;
 	}
@@ -60,10 +66,10 @@ public class ABMExtension extends ABMPageBean{
 	@Override
 	protected ElementoPila agregarObjetosAElementoPila(ElementoPila ep) {
 		int ind = 0;
-		ep.getObjetos().add(ind++, null); //NODO EXPEDIENTE
+		ep.getObjetos().add(ind++, null); // NODO EXPEDIENTE
 		ep.getObjetos().add(ind++, null); // DIAS
 		ep.getObjetos().add(ind++, null); // COMENTARIO
-		
+
 		ep.getObjetos().add(ind++, new Integer(0));
 		return ep;
 	}
@@ -82,8 +88,8 @@ public class ABMExtension extends ABMPageBean{
 	@Override
 	protected void mostrarEstadoObjetosUsados() {
 		NodoExpediente locNodoExpediente = (NodoExpediente) this.obtenerObjetoDelElementoPila(1);
-		if(locNodoExpediente != null){
-		this.getLblnombre().setText(locNodoExpediente.toString());
+		if(locNodoExpediente != null) {
+			this.getLblnombre().setText(locNodoExpediente.toString());
 		}
 	}
 
@@ -111,4 +117,5 @@ public class ABMExtension extends ABMPageBean{
 	public long getSerialVersionUID() {
 		return 0;
 	}
+	
 }

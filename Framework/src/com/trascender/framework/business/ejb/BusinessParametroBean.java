@@ -6,6 +6,7 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,8 +37,10 @@ import ar.trascender.criterio.clases.Restriccion;
 import ar.trascender.criterio.enums.Posicion;
 
 import com.trascender.framework.business.interfaces.BusinessParametroLocal;
+import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
+import com.trascender.framework.recurso.filtros.FiltroNumerador;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReporte;
@@ -46,6 +49,9 @@ import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionAtributoTabla;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ConjuntoAtributoTabla;
+import com.trascender.framework.recurso.persistent.LineaNumerador;
+import com.trascender.framework.recurso.persistent.Numerador;
+import com.trascender.framework.recurso.persistent.Numerador.Estado;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
 import com.trascender.framework.recurso.persistent.ProcesoDB;
 import com.trascender.framework.recurso.persistent.ReportesJasper;
@@ -727,5 +733,99 @@ public class BusinessParametroBean implements BusinessParametroLocal {
 		}
 
 		return locListaRetorno;
+	}
+	
+	public Long getNumeroSiguiente(Numerador pNumerador) {
+		if(pNumerador.isReseteaConAnio()) {
+			LineaNumerador locLineaEncontrada = null;
+
+			for(LineaNumerador cadaLinea : pNumerador.getListaLineaNumerador()) {
+				if(cadaLinea.getAnio() == Calendar.getInstance().get(Calendar.YEAR)) {
+					locLineaEncontrada = cadaLinea;
+					
+					break;
+				}
+			}
+
+			if(locLineaEncontrada == null) {
+				LineaNumerador locLineaNumerador = new LineaNumerador();
+				locLineaNumerador.setAnio(Calendar.getInstance().get(Calendar.YEAR));
+				locLineaNumerador.setContador(1);
+				locLineaNumerador.setNumerador(pNumerador);
+				
+				entity.merge(locLineaNumerador);
+				
+				return new Long(1);
+			}
+			
+			locLineaEncontrada.incrementarContador();
+			entity.merge(locLineaEncontrada);
+			return new Long(locLineaEncontrada.getContador());
+		}
+		
+		pNumerador.incrementarContador();
+		entity.merge(pNumerador);
+		return new Long(pNumerador.getContador());
+	}
+	
+	public Numerador addNumerador(Numerador pNumerador) throws Exception {
+		TrascenderEnverListener.setValoresEnAuditoriaBean(pNumerador);
+
+		for(LineaNumerador cadaLineaNumerador : pNumerador.getListaLineaNumerador()) {
+			cadaLineaNumerador.setNumerador(pNumerador);
+		}
+
+		pNumerador = entity.merge(pNumerador);
+		entity.flush();
+
+		return pNumerador;
+	}
+
+	public Numerador updateNumerador(Numerador pNumerador) throws Exception {
+		TrascenderEnverListener.setValoresEnAuditoriaBean(pNumerador);
+
+		for(LineaNumerador cadaLineaNumerador : pNumerador.getListaLineaNumerador()) {
+			cadaLineaNumerador.setNumerador(pNumerador);
+		}
+
+		pNumerador = entity.merge(pNumerador);
+		entity.flush();
+
+		return pNumerador;
+	}
+
+	public void removeNumerador(Numerador pNumerador) throws Exception {
+		TrascenderEnverListener.setValoresEnAuditoriaBean(pNumerador);
+
+		pNumerador = entity.find(Numerador.class, pNumerador.getIdNumerador());
+		pNumerador.setEstado(Numerador.Estado.INACTIVO);
+
+		entity.merge(pNumerador);
+		entity.flush();
+	}
+
+	public FiltroNumerador findListaNumeradores(FiltroNumerador pFiltro) throws TrascenderException {
+		Criterio locCriterio = Criterio.getInstance(entity, Numerador.class).add(Restriccion.ILIKE("nombre", pFiltro.getNombre())).add(Restriccion.IGUAL("estado", Estado.ACTIVO));
+
+		pFiltro.procesarYListar(locCriterio);
+
+		for(Numerador cadaNumerador : pFiltro.getListaResultados()) {
+			cadaNumerador.toString();
+			cadaNumerador.getListaLineaNumerador().size();
+			cadaNumerador.getListaLogsAuditoria().size();
+		}
+
+		return pFiltro;
+	}
+
+	public Numerador getNumeradorPorId(long idNumerador) {
+		Numerador locNumerador = entity.find(Numerador.class, idNumerador);
+
+		if(locNumerador != null) {
+			locNumerador.getListaLineaNumerador().size();
+			locNumerador.getListaLogsAuditoria().size();
+		}
+
+		return locNumerador;
 	}
 }

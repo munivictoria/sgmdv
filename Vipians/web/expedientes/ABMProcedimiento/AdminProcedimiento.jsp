@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
@@ -47,8 +48,14 @@
 															<ui:textField binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.tfNombre}" columns="40" id="tfNombre"
 																styleClass="textField" />
 														</td>
-													</tr>
-													<tr>
+														<td align="right" nowrap="true">
+															<ui:label binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.lblEstado}" id="lblEstado" styleClass="label"
+																text="Estado" />
+														</td>
+														<td>
+															<ui:dropDown binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.ddEstado}" id="ddEstado"
+																items="#{expedientes$ABMProcedimiento$AdminProcedimiento.ddEstadoDefaultOptions.options}" styleClass="textField" />
+														</td>
 													</tr>
 												</table>
 											</ui:panelGroup>
@@ -79,47 +86,49 @@
 								<ui:messageGroup binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.messageGroup}" id="messageGroup" showDetail="true"
 									showSummary="false" />
 							</div>
-							<table class="general">
-								<tr>
-									<td>
-										<ui:table binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.paginatedTable}" id="table1">
-											<f:facet name="actionsTop">
-												<ui:panelGroup binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.groupPanel1}" id="groupPanel1" style="">
-													<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnSeleccionar_action}"
-														binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnSeleccionar}" id="btnSeleccionar" styleClass="button"
-														text="Seleccionar" />
-													<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stSeparadorSeleccionar}" escape="false"
-														id="stSeparador2" />
-													<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnAgregar_action}"
-														binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnAgregar}" id="btnAgregar" styleClass="button" text="Agregar" />
-													<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnModificar_action}"
-														binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnModificar}" id="btnModificar" styleClass="button"
-														text="Modificar" />
-													<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnEliminar_action}"
-														binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnEliminar}" id="btnEliminar" styleClass="button" text="Eliminar" />
-													<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stSeparadorAccion}" escape="false" id="stSeparador3" />
-													<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnConsultar_action}"
-														binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnConsultar}" id="btnConsultar" styleClass="button"
-														text="Consultar" />
-													<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stSeparador4}" escape="false" id="stSeparador4"
-														text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
-													<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnExportar_action}"
-														binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnExportar}" id="btnExportar" styleClass="button" text="Exportar"
-														onClick="return exportarReporte()" />
-												</ui:panelGroup>
-											</f:facet>
-										</ui:table>
-									</td>
-								</tr>
-								<tr>
-									<td align="left" colspan="2">
-										<ui:label binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.lblEncontrados}" id="lblEncontrados" styleClass="label2"
-											text="Registros Encontrados: " />
-										<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stCantidadRegistros}" id="stCantidadRegistros"
-											styleClass="staticText" />
-									</td>
-								</tr>
-							</table>
+							<div class="divGeneral">
+								<table class="general">
+									<tr>
+										<td>
+											<ui:table binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.paginatedTable}" id="table1">
+												<f:facet name="actionsTop">
+													<ui:panelGroup binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.groupPanel1}" id="groupPanel1" style="">
+														<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnSeleccionar_action}"
+															binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnSeleccionar}" id="btnSeleccionar" styleClass="button"
+															text="Seleccionar" />
+														<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stSeparadorSeleccionar}" escape="false"
+															id="stSeparador2" />
+														<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnAgregar_action}"
+															binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnAgregar}" id="btnAgregar" styleClass="button" text="Agregar" />
+														<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnModificar_action}"
+															binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnModificar}" id="btnModificar" styleClass="button"
+															text="Modificar" />
+														<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnEliminar_action}"
+															binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnEliminar}" id="btnEliminar" styleClass="button" text="Eliminar" />
+														<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stSeparadorAccion}" escape="false" id="stSeparador3" />
+														<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnConsultar_action}"
+															binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnConsultar}" id="btnConsultar" styleClass="button"
+															text="Consultar" />
+														<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stSeparador4}" escape="false" id="stSeparador4"
+															text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
+														<ui:button action="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnExportar_action}"
+															binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.btnExportar}" id="btnExportar" styleClass="button" text="Exportar"
+															onClick="return exportarReporte()" />
+													</ui:panelGroup>
+												</f:facet>
+											</ui:table>
+										</td>
+									</tr>
+									<tr>
+										<td align="left" colspan="2">
+											<ui:label binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.lblEncontrados}" id="lblEncontrados" styleClass="label2"
+												text="Registros Encontrados: " />
+											<ui:staticText binding="#{expedientes$ABMProcedimiento$AdminProcedimiento.stCantidadRegistros}" id="stCantidadRegistros"
+												styleClass="staticText" />
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 					</div>
 					<script>

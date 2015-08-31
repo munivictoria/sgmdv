@@ -1,6 +1,11 @@
-package muni.expedientes.ABMTramiteProcedimiento;
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
-import javax.faces.component.UIComponent;
+package muni.expedientes.ABMTramiteProcedimiento;
 
 import com.trascender.expedientes.recurso.persistent.TramiteProcedimiento;
 import com.trascender.presentacion.abstracts.controller.ABMModel;
@@ -11,31 +16,31 @@ import com.trascender.presentacion.abstracts.controller.ModificarAbstractControl
 import com.trascender.presentacion.validadores.Validador;
 
 public class TramiteProcedimientoModel extends ABMModel {
+
 	@Override
 	public String getReglaNavegacion() {
-
 		return "ABMTramiteProcedimiento";
 	}
 
 	@Override
 	public String getNombreEntidad() {
 		return "TramiteProcedimiento";
-
 	}
 
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
-		UIComponent[] noVacios = new UIComponent[1];
-		String[] nomNoVacios = new String[1];
-		int pos = 0;
+		// UIComponent[] noVacios = new UIComponent[1];
+		// String[] nomNoVacios = new String[1];
+		// int pos = 0;
+
 		return v;
 	}
 
 	private void deshabilitarElementosConsultarEliminar() {
-		ABMTramiteProcedimiento abmTramiteProcedimiento = getBeanTramiteProcedimiento();
-
+		// ABMTramiteProcedimiento abmTramiteProcedimiento = getBeanTramiteProcedimiento();
 	}
 
+	@SuppressWarnings("unused")
 	private ABMTramiteProcedimiento getBeanTramiteProcedimiento() {
 		return (ABMTramiteProcedimiento) getRequestBean("expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento");
 	}
@@ -49,11 +54,9 @@ public class TramiteProcedimientoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			TramiteProcedimiento locTramiteProcedimiento = (TramiteProcedimiento) pObject;
 
-			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(
-					getSessionBean1().getLlave());
+			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().addTramiteProcedimiento(locTramiteProcedimiento);
 
 			return "El TramiteProcedimiento se agreg\363 exitosamente";
@@ -61,15 +64,11 @@ public class TramiteProcedimientoModel extends ABMModel {
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public ABMModel getModel() {
-
 			return TramiteProcedimientoModel.this;
-
 		}
 
 	}
@@ -83,11 +82,9 @@ public class TramiteProcedimientoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			TramiteProcedimiento locTramiteProcedimiento = (TramiteProcedimiento) pObject;
 
-			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(
-					getSessionBean1().getLlave());
+			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().updateTramiteProcedimiento(locTramiteProcedimiento);
 
 			return "El TramiteProcedimiento se modific\363 exitosamente";
@@ -95,14 +92,11 @@ public class TramiteProcedimientoModel extends ABMModel {
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-
 		}
 
 		@Override
 		public ABMModel getModel() {
-
 			return TramiteProcedimientoModel.this;
-
 		}
 
 	}
@@ -140,10 +134,8 @@ public class TramiteProcedimientoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			TramiteProcedimiento locTramiteProcedimiento = (TramiteProcedimiento) pObject;
-			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(
-					getSessionBean1().getLlave());
+			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().deleteTramiteProcedimiento(locTramiteProcedimiento);
 
 			return "El TramiteProcedimiento se elimin\363 exitosamente";

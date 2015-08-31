@@ -87,7 +87,44 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	private PanelGroup pgTasas = new PanelGroup();
 	private HtmlAjaxCommandButton btnAgregarTasa = new HtmlAjaxCommandButton();
 	private HtmlAjaxCommandButton btnQuitarTasa = new HtmlAjaxCommandButton();
+	private TextField tfAniosAplicacion = new TextField();
+	private Checkbox cbCondonaDeudaAntigua = new Checkbox();
+	private TextField tfCantidadPropiedades = new TextField();
+	private TextField tfFechaVencimientoPrimerCuota = new TextField();
 	
+	public TextField getTfFechaVencimientoPrimerCuota() {
+		return tfFechaVencimientoPrimerCuota;
+	}
+
+	public void setTfFechaVencimientoPrimerCuota(
+			TextField tfFechaVencimientoPrimerCuota) {
+		this.tfFechaVencimientoPrimerCuota = tfFechaVencimientoPrimerCuota;
+	}
+
+	public TextField getTfCantidadPropiedades() {
+		return tfCantidadPropiedades;
+	}
+
+	public void setTfCantidadPropiedades(TextField tfCantidadPropiedades) {
+		this.tfCantidadPropiedades = tfCantidadPropiedades;
+	}
+
+	public TextField getTfAniosAplicacion() {
+		return tfAniosAplicacion;
+	}
+
+	public void setTfAniosAplicacion(TextField tfAniosAplicacion) {
+		this.tfAniosAplicacion = tfAniosAplicacion;
+	}
+
+	public Checkbox getCbCondonaDeudaAntigua() {
+		return cbCondonaDeudaAntigua;
+	}
+
+	public void setCbCondonaDeudaAntigua(Checkbox cbCondonaDeudaAntigua) {
+		this.cbCondonaDeudaAntigua = cbCondonaDeudaAntigua;
+	}
+
 	public HtmlAjaxCommandButton getBtnAgregarTasa() {
 		return btnAgregarTasa;
 	}
@@ -401,6 +438,10 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		plantillaPlanDePago.setCantidadCuotasCese(getTextFieldValueInteger(tfCantidadCuotasCese));
 		plantillaPlanDePago.setCantidadDiasCese(getTextFieldValueInteger(tfCantidadDiasCese));
 		plantillaPlanDePago.setTipoCalculoInteres(getDDEnumValue(getDdTipoCalculoInteres(), PlantillaPlanDePago.TipoCalculoInteres.class));
+		plantillaPlanDePago.setCondonaDeudaAntigua(getCbCondonaDeudaAntigua().isChecked());
+		plantillaPlanDePago.setAniosAplicacion(getTextFieldValue(tfAniosAplicacion));
+		plantillaPlanDePago.setCantidadPropiedadesMaxima(getTextFieldValueInteger(tfCantidadPropiedades));
+		plantillaPlanDePago.setFechaVencimientoPrimerCuota(getTextFieldValueDate(tfFechaVencimientoPrimerCuota));
 
 		this.getLdpCuentas().commitChanges();
 		plantillaPlanDePago.setListaParametrosAsociacion(this.getLdpCuentas().getList());
@@ -423,14 +464,19 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		this.setTextFieldValueDouble(tfMontoCondonacionInteres, plantillaPlanDePago.getMontoCondonacionIntereses());
 		this.setCheckBoxValue(cbCondonacionImportePorcentual, plantillaPlanDePago.getCondonacionImportePorcentual());
 		this.setCheckBoxValue(cbCondonacionInteresPorcentual, plantillaPlanDePago.getCondonacionInteresPorcentual());
+		this.setCheckBoxValue(cbCondonaDeudaAntigua, plantillaPlanDePago.getCondonaDeudaAntigua());
 		
 		this.setTextFieldValueInteger(tfCantidadCuotas, plantillaPlanDePago.getCantidadCuotas());
 		this.setTextFieldValueInteger(tfDiaVencimiento, plantillaPlanDePago.getDiaVencimiento());
 		
 		this.setTextFieldValueDouble(tfInteresPunitorio, plantillaPlanDePago.getInteresPunitorio());
 		
+		this.setTextFieldValue(tfAniosAplicacion, plantillaPlanDePago.getAniosAplicacion());
+		this.setTextFieldValueInteger(tfCantidadPropiedades, plantillaPlanDePago.getCantidadPropiedadesMaxima());
+		
 		this.setTextFieldValueInteger(tfCantidadCuotasCese, plantillaPlanDePago.getCantidadCuotasCese());
 		this.setTextFieldValueInteger(tfCantidadDiasCese, plantillaPlanDePago.getCantidadDiasCese());
+		this.setTextFieldValueDate(tfFechaVencimientoPrimerCuota, plantillaPlanDePago.getFechaVencimientoPrimerCuota());
 		
 		this.setDDEnumValue(getDdTipoCalculoInteres(), plantillaPlanDePago.getTipoCalculoInteres());
 		

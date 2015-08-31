@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -20,29 +27,26 @@ public class TableDocumentoCatalogo extends TableBean {
 	@Override
 	public void setListaDelCommunication(List lista) {
 		this.getCommunicationExpedientesBean().setListaDocumentosPorTramiteCatalogo(lista);
-
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void addToList(List pList, Object pObject) {
-
 		DocumentoCatalogo nuevaDocumentoCatalogo = (DocumentoCatalogo) pObject;
 		List locDocumentosCatalogos = pList;
 
 		DocumentoCatalogo deLaTabla = null;
 		boolean esta = false;
 		int i = 0;
-		while (i < locDocumentosCatalogos.size() && !esta) {
+		while(i < locDocumentosCatalogos.size() && !esta) {
 			deLaTabla = (DocumentoCatalogo) locDocumentosCatalogos.get(i++);
 			esta = (deLaTabla.getIdDocumentoCatalogo() == nuevaDocumentoCatalogo.getIdDocumentoCatalogo());
 		}
-		if (!esta) {
+		if(!esta) {
 			locDocumentosCatalogos.add(nuevaDocumentoCatalogo);
 		} else {
 			warn("El Documento de Catalogo que intenta agregar ya se encuentra en la lista.");
 		}
 	}
-
 
 }

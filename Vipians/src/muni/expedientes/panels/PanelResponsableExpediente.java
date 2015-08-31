@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.panels;
 
 import java.util.List;
@@ -16,9 +23,8 @@ public class PanelResponsableExpediente extends PanelGroup {
 	private HtmlPanelGrid panelUsuarios;
 	private HtmlPanelGrid panel;
 	private Responsable responsable;
-    private boolean reRender=false;
-    
-	
+	private boolean reRender = false;
+
 	public boolean isReRender() {
 		return reRender;
 	}
@@ -32,11 +38,10 @@ public class PanelResponsableExpediente extends PanelGroup {
 	}
 
 	public PanelResponsableExpediente(Responsable responsable) {
-		if (responsable != null) {
+		if(responsable != null) {
 			this.responsable = responsable;
 			armarPanel();
 		}
-
 	}
 
 	private HtmlPanelGrid inicializaPanelGrid() {
@@ -53,6 +58,7 @@ public class PanelResponsableExpediente extends PanelGroup {
 		l.setText(pText);
 		l.setStyleClass("label");
 		l.setStyle("font-weight:bold");
+		
 		return l;
 	}
 
@@ -66,10 +72,9 @@ public class PanelResponsableExpediente extends PanelGroup {
 		getChildren().add(panel);
 	}
 
-	
 	private void armarPanelUsuarios(List<Usuario> list) {
 		this.panelUsuarios = inicializaPanelGrid();
-		for (Usuario u : list) {
+		for(Usuario u : list) {
 			this.panelUsuarios.getChildren().add(inicializaLabel(u.getUser()));
 		}
 
@@ -77,8 +82,9 @@ public class PanelResponsableExpediente extends PanelGroup {
 
 	private void armarPanelAreas(List<Area> list) {
 		this.panelAreas = inicializaPanelGrid();
-		for (Area a : list) {
+		for(Area a : list) {
 			this.panelAreas.getChildren().add(inicializaLabel(a.getNombre()));
 		}
 	}
+	
 }

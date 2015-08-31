@@ -96,7 +96,7 @@ public class CuotaRefinanciacion extends RegistroDeuda {
 	public String toString() {
 		DocumentoRefinanciacion locDocumentoRefinanciacion = (DocumentoRefinanciacion) this.getDocGeneradorDeuda();
 		
-		return "Refinanciación Nº: " + locDocumentoRefinanciacion.getNumeroRefinanciacion() + " Nº Cuota: " + this.getNumeroCuota();
+		return "Plan Nº: " + locDocumentoRefinanciacion.getNumeroRefinanciacion() + " - Cuota " + this.getNumeroCuota();
 	}
 	
 	/**

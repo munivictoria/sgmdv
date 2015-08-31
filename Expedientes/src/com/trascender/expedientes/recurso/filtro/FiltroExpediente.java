@@ -1,8 +1,16 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.filtro;
 
 import java.util.Date;
 import java.util.List;
 
+import com.trascender.expedientes.enums.Estado;
 import com.trascender.expedientes.recurso.persistent.Expediente;
 import com.trascender.expedientes.recurso.persistent.Procedimiento;
 import com.trascender.framework.recurso.persistent.Persona;
@@ -21,7 +29,33 @@ public class FiltroExpediente extends FiltroAbstracto<Expediente> {
 	private Long nroRegistro;
 	private List<Long> listaIdInteresados;
 	private Usuario usuario;
-	
+	private Estado estado;
+
+	public FiltroExpediente() {
+	}
+
+	public FiltroExpediente(String asunto, Procedimiento procedimiento, Persona interesado, Date fechaRegistroDesde, Date fechaRegistroHasta, Long nroRegistro,
+			List<Long> listaIdInteresados, Usuario usuario, Estado estado) {
+		super();
+		this.asunto = asunto;
+		this.procedimiento = procedimiento;
+		this.interesado = interesado;
+		this.fechaRegistroDesde = fechaRegistroDesde;
+		this.fechaRegistroHasta = fechaRegistroHasta;
+		this.nroRegistro = nroRegistro;
+		this.listaIdInteresados = listaIdInteresados;
+		this.usuario = usuario;
+		this.estado = estado;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -85,4 +119,5 @@ public class FiltroExpediente extends FiltroAbstracto<Expediente> {
 	public void setListaIdInteresados(List<Long> listaIdInteresados) {
 		this.listaIdInteresados = listaIdInteresados;
 	}
+
 }

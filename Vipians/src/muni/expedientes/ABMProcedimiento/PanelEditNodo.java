@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMProcedimiento;
 
@@ -168,6 +174,7 @@ public class PanelEditNodo {
 	}
 
 	public class NodoPila {
+
 		// public String nombre;
 		public NodoProcedimiento object;
 		public Responsable responsable = new Responsable();

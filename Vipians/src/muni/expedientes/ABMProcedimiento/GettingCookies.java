@@ -1,6 +1,11 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMProcedimiento;
-
-
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -15,37 +20,35 @@ import java.util.List;
 
 public class GettingCookies {
 
-  public static void main(String[] args) {
-		
+	public static void main(String[] args) {
 		CookieManager cookieManager = new CookieManager();
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		CookieHandler.setDefault(cookieManager);
-		
-		//creates url for the given string 
+
+		// creates url for the given string
 		URL url = null;
 		try {
 			url = new URL("http://localhost:8080/Vipians/faces/Login.jsp");
-			
-			//open's a connection with the url specified and returns URLConnection object
-			URLConnection  urlConnection = url.openConnection(); 
+
+			// open's a connection with the url specified and returns URLConnection object
+			URLConnection urlConnection = url.openConnection();
 			// get's the contents from this url specifies
-			urlConnection.getContent(); 
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
+			urlConnection.getContent();
+		} catch(MalformedURLException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
-		}			
-		
-		//returns the cookie store(bunch of cookies)
+		}
+
+		// returns the cookie store(bunch of cookies)
 		CookieStore cookieStore = cookieManager.getCookieStore();
-		
-		//getting cookies which returns in the form of List of type HttpCookie
+
+		// getting cookies which returns in the form of List of type HttpCookie
 		List<HttpCookie> listOfcookies = cookieStore.getCookies();
-		
-		for(HttpCookie httpCookie: listOfcookies){
-			
-			System.out.println("Cookie Name : "+httpCookie.getName()+" Cookie Value : "+httpCookie.getValue());
+
+		for(HttpCookie httpCookie : listOfcookies) {
+
+			System.out.println("Cookie Name : " + httpCookie.getName() + " Cookie Value : " + httpCookie.getValue());
 		}
 	}
 

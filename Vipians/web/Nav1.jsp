@@ -5,7 +5,7 @@
         <ui:page binding="#{Nav1.page1}" id="page1">
             <ui:html binding="#{Nav1.html1}" id="html1">
                 <ui:head binding="#{Nav1.head1}" id="head1" title="Navegación">
-                	<ui:script id="jQuery" url="/resources/javascript/jQuery/jQuery-2-1-0.js" />
+                	<ui:script id="jQuery" url="/resources/javascript/jQuery/jQuery.js" />
                     <ui:link binding="#{Nav1.link1}" id="link1" url="/resources/stylesheet.css"/>
                     <script>
                     <![CDATA[

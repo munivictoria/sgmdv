@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMFaseCatalogo;
 
@@ -24,7 +30,7 @@ public class FaseCatalogoModel extends ABMModel {
 	public String getNombreEntidad() {
 		return "Fase de Catálogo";
 	}
-	
+
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
 		UIComponent[] noVacios = new UIComponent[1];
@@ -33,23 +39,24 @@ public class FaseCatalogoModel extends ABMModel {
 		noVacios[pos] = getBeanFaseCatalogo().getTfNombre();
 		nomNoVacios[pos] = "Nombre";
 		v.noSonVacios(noVacios, nomNoVacios);
+		
 		return v;
 	}
-	
+
 	private ABMFaseCatalogo getBeanFaseCatalogo() {
 		return (ABMFaseCatalogo) getRequestBean("expedientes$ABMFaseCatalogo$ABMFaseCatalogo");
 	}
-	
+
 	private void deshabilitarElementosConsultarEliminar() {
 		ABMFaseCatalogo abmFaseCatalogo = getBeanFaseCatalogo();
 		abmFaseCatalogo.getTfNombre().setDisabled(true);
-		
+
 		abmFaseCatalogo.getTableTC().getBtnAgregar().setRendered(false);
 		abmFaseCatalogo.getTableTC().getBtnQuitar().setRendered(false);
 		abmFaseCatalogo.getTableTC().getBtnQuitarTodos().setRendered(false);
 		abmFaseCatalogo.getTableTC().getTableColumn1().setRendered(false);
 		abmFaseCatalogo.getTableTC().getGroupPanel1().setRendered(false);
-		
+
 		abmFaseCatalogo.getGroupPanel1().setRendered(false);
 		abmFaseCatalogo.getTableColumn1().setRendered(false);
 	}
@@ -66,6 +73,7 @@ public class FaseCatalogoModel extends ABMModel {
 			FaseCatalogo locFaseCatalogo = (FaseCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().addFaseCatalogo(locFaseCatalogo);
+			
 			return "La Fase del Catálogo se agreg\363 exitosamente";
 		}
 
@@ -77,6 +85,7 @@ public class FaseCatalogoModel extends ABMModel {
 		public ABMModel getModel() {
 			return FaseCatalogoModel.this;
 		}
+		
 	}
 
 	public class ModificarController extends ModificarAbstractController {
@@ -91,6 +100,7 @@ public class FaseCatalogoModel extends ABMModel {
 			FaseCatalogo locFaseCatalogo = (FaseCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().updateFaseCatalogo(locFaseCatalogo);
+			
 			return "La Fase del Catálogo se modific\363 exitosamente";
 		}
 
@@ -102,6 +112,7 @@ public class FaseCatalogoModel extends ABMModel {
 		public ABMModel getModel() {
 			return FaseCatalogoModel.this;
 		}
+		
 	}
 
 	public class ConsultarControler extends ConsultarAbstractController {
@@ -139,8 +150,9 @@ public class FaseCatalogoModel extends ABMModel {
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			FaseCatalogo locFaseCatalogo = (FaseCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
-			getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteFaseCatalogo(locFaseCatalogo);
-			return "La Fase del Catálogo se elimin\363 exitosamente";
+			String mensaje = getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteFaseCatalogo(locFaseCatalogo);
+			
+			return mensaje;
 		}
 
 		@Override
@@ -152,8 +164,9 @@ public class FaseCatalogoModel extends ABMModel {
 		public ABMModel getModel() {
 			return FaseCatalogoModel.this;
 		}
+		
 	}
-	
+
 	public class RecuperarFaseCatalogo implements ABMController {
 
 		@Override
@@ -166,7 +179,7 @@ public class FaseCatalogoModel extends ABMModel {
 			FaseCatalogo locfase = (FaseCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().restoreFaseCatalogo(locfase);
-			
+
 			return "La Fase se recuper\363 exitosamente";
 		}
 
@@ -212,7 +225,7 @@ public class FaseCatalogoModel extends ABMModel {
 
 		@Override
 		public String getTituloPagina() {
-			return "Recuperar";
+			return "Recuperar Fase";
 		}
 
 		@Override
@@ -229,6 +242,7 @@ public class FaseCatalogoModel extends ABMModel {
 		public boolean seleccionarObjeto() {
 			return true;
 		}
+		
 	}
-	
+
 }

@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -37,7 +44,7 @@ public class Fase extends NodoExpediente implements Serializable {
 
 	public Fase() {
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_FASE_A_VOLVER")
 	private Fase faseAVolver;
@@ -54,13 +61,12 @@ public class Fase extends NodoExpediente implements Serializable {
 		this.setNodoProcedimiento(pFProcedimiento);
 		this.setNodoPadre(pExpediente);
 		this.setOrden(pFProcedimiento.getOrden());
-		for (TramiteProcedimiento locTProcedimiento : pFProcedimiento
-				.getListaTramitesProcedimientos()) {
+		for(TramiteProcedimiento locTProcedimiento : pFProcedimiento.getListaTramitesProcedimientos()) {
 			Tramite t = new Tramite(locTProcedimiento, this);
 			this.listaNodosExpedientes.add(t);
 		}
 	}
-	
+
 	public Boolean getActiva() {
 		return activa;
 	}
@@ -80,6 +86,7 @@ public class Fase extends NodoExpediente implements Serializable {
 	@Override
 	public String toString() {
 		String retorno = " Fase: " + this.getPlantilla();
+		
 		return retorno;
 	}
 
@@ -90,27 +97,28 @@ public class Fase extends NodoExpediente implements Serializable {
 
 	@Override
 	public boolean tieneVencimientos(List<DiaFeriado> diasFeriados) {
-		if (this.nodoPadre.isVencido(diasFeriados)) {
+		if(this.nodoPadre.isVencido(diasFeriados)) {
 			return true;
 		}
-		if (this.isVencido(diasFeriados)) {
+		if(this.isVencido(diasFeriados)) {
 			return true;
 		} else {
-			for (NodoExpediente tramite : listaNodosExpedientes) {
-				if (tramite.isVencido(diasFeriados)) {
+			for(NodoExpediente tramite : listaNodosExpedientes) {
+				if(tramite.isVencido(diasFeriados)) {
 					return true;
-
 				}
 			}
 		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean isVencido(List<DiaFeriado> diasFeriados) {
-		if (Estado.VENCIDO.equals(estado)) {
+		if(Estado.VENCIDO.equals(estado)) {
 			return true;
 		}
+		
 		return super.isVencido(diasFeriados);
 	}
 

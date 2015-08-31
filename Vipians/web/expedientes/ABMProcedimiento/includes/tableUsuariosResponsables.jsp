@@ -1,10 +1,10 @@
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
+
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://www.sun.com/web/ui" prefix="ui"%>
 <%@ taglib uri="https://ajax4jsf.dev.java.net/ajax" prefix="a4j"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
-
-<ui:table augmentTitle="false"
-	binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.table}"
+<ui:table augmentTitle="false" binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.table}"
 	id="tableUsuarios" style="width: 100px;">
 	<script>
 		<![CDATA[
@@ -61,43 +61,33 @@
 			var table = document.getElementById("form1:tableUsuarios");
 			var disabled = (table.getAllSelectedRowsCount() > 0) ? false : true;
 			// Set disabled state for top actions
-			document.getElementById(
-					"form1:tableUsuarios:tableActionsTop:deleteTop")
-					.setDisabled(disabled);
+			document.getElementById("form1:tableUsuarios:tableActionsTop:deleteTop").setDisabled(disabled);
 			// Set disabled state for bottom actions
-			document.getElementById(
-					"form1:tableUsuarios:tableActionsBottom:deleteBottom")
-					.setDisabled(disabled);
+			document.getElementById("form1:tableUsuarios:tableActionsBottom:deleteBottom").setDisabled(disabled);
 		}
 		]]>
 	</script>
-	<ui:tableRowGroup
-		binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.tableRowGroup1}"
+	<ui:tableRowGroup binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.tableRowGroup1}"
 		id="tableRowGroupUsuario1"
-		sourceData="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.objectListDataProvider}"
-		sourceVar="currentRow">
-		<ui:tableColumn align="center"
-			binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.tableColumn1}"
+		sourceData="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.objectListDataProvider}" sourceVar="currentRow">
+		<ui:tableColumn align="center" binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.tableColumn1}"
 			id="tableColumnUsuario1" valign="middle" width="7">
-			<ui:radioButton
-				binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.radioButton1}"
-				id="radioButtonUsuario1" label="" name="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.nombreButtonGroup}"
+			<ui:radioButton binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.radioButton1}"
+				id="radioButtonUsuario1" label=""
+				name="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.nombreButtonGroup}"
 				selected="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.RBSelected}"
 				selectedValue="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.currentRow}" />
 		</ui:tableColumn>
-		<ui:tableColumn
-			binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.tableColumn2}"
+		<ui:tableColumn binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.tableColumn2}"
 			headerText="Usuario" id="tableColumnUsuario2">
-			<ui:staticText
-				binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.staticTextNombre}"
+			<ui:staticText binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.panelResponsable.tableUsuarios.staticTextNombre}"
 				id="staticTextusuario2" text="#{currentRow.value['usuario'].user}" />
 		</ui:tableColumn>
-		<ui:tableColumn
-			headerText="Responsabilidad" id="tcResponsabilidad">
-			<ui:dropDown id="ddResponsabilidad" styleClass="textField" binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.ddResponsabilidadUsuario}"
-				items="#{expedientes$ABMProcedimiento$ABMProcedimiento.optionsResponsabilidad}"
-				selected="#{currentRow.value['responsabilidad']}" converter="EnumConverter" immediate="false" />
+		<ui:tableColumn headerText="Responsabilidad" id="tcResponsabilidad">
+			<ui:dropDown id="ddResponsabilidad" styleClass="textField"
+				binding="#{expedientes$ABMProcedimiento$ABMProcedimiento.ddResponsabilidadUsuario}"
+				items="#{expedientes$ABMProcedimiento$ABMProcedimiento.optionsResponsabilidad}" selected="#{currentRow.value['responsabilidad']}"
+				converter="EnumConverter" immediate="false" />
 		</ui:tableColumn>
 	</ui:tableRowGroup>
 </ui:table>
-

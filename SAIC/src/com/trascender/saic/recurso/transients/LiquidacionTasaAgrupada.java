@@ -310,5 +310,36 @@ public class LiquidacionTasaAgrupada extends LiquidacionTasa {
 	public Date getFechaApremio() {
 		return listaLiquidacionesTasa.iterator().next().getFechaApremio();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((listaLiquidacionesTasa == null) ? 0
+						: listaLiquidacionesTasa.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LiquidacionTasaAgrupada other = (LiquidacionTasaAgrupada) obj;
+		if (listaLiquidacionesTasa == null || listaLiquidacionesTasa.isEmpty()) {
+			if (other.listaLiquidacionesTasa != null || other.listaLiquidacionesTasa.isEmpty())
+				return false;
+		} else if (!listaLiquidacionesTasa.get(0).getCuotaLiquidacion()
+				.equals(other.listaLiquidacionesTasa.get(0).getCuotaLiquidacion()))
+			return false;
+		return true;
+	}
+	
+	
 	
 }

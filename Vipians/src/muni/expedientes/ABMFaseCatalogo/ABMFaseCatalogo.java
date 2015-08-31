@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMFaseCatalogo;
 
@@ -81,6 +87,7 @@ public class ABMFaseCatalogo extends ABM_Table {
 			rk = this.getLdpFasesEspeciales().getRowKey(aRowId);
 		} catch(Exception ex) {
 		}
+		
 		return rk;
 	}
 
@@ -213,6 +220,14 @@ public class ABMFaseCatalogo extends ABM_Table {
 			this.getLdpFasesEspeciales().setList(this.getListaDelCommunication());
 		}
 	}
+	
+	@Override
+	protected void _prerender() throws Exception {
+		super._prerender();
+		
+		this.getApplicationBean1().aplicarPropiedadesTablaAdmin(this.getTableTC().getTable(), this.getTableTC().getTableRowGroup1());
+		this.getApplicationBean1().aplicarPropiedadesTablaAdmin(this.getTablaFaseEspecial(), this.getTableRowGroup1());
+	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
@@ -276,8 +291,8 @@ public class ABMFaseCatalogo extends ABM_Table {
 		ep.getObjetos().add(ind++, new FaseCatalogo());
 		ep.getObjetos().add(ind++, new ArrayList());
 		ep.getObjetos().add(ind++, new ArrayList()); // AtributosDinamicos
-		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
-		// seleccionado.
+		
+		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
 		return ep;
 	}
@@ -287,11 +302,11 @@ public class ABMFaseCatalogo extends ABM_Table {
 	protected void procesarObjetoSeleccion(Object pObject) {
 		if(pObject instanceof TramiteCatalogo) {
 			TramiteCatalogo nuevaTramiteCatalogo = (TramiteCatalogo) pObject;
-			if (nuevaTramiteCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)){
-			ArrayList locTramitesCatalogos = (ArrayList) this.obtenerObjetoDelElementoPila(1, ArrayList.class);
-			tableTC.addToList(locTramitesCatalogos, nuevaTramiteCatalogo);
-			this.getElementoPila().getObjetos().set(1, locTramitesCatalogos);
-			}else{
+			if(nuevaTramiteCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)) {
+				ArrayList locTramitesCatalogos = (ArrayList) this.obtenerObjetoDelElementoPila(1, ArrayList.class);
+				tableTC.addToList(locTramitesCatalogos, nuevaTramiteCatalogo);
+				this.getElementoPila().getObjetos().set(1, locTramitesCatalogos);
+			} else {
 				warn("Solo puede seleccionar Trámites Activos");
 			}
 
@@ -336,9 +351,6 @@ public class ABMFaseCatalogo extends ABM_Table {
 		}
 	}
 
-	/**
-	 * nooo, mi super metodo esta comentado... maldito FerGa! ¬¬
-	 */
 	// private boolean validarFasesNoReciprocas(FaseCatalogo pFaseCatalogo, FaseCatalogo pNuevaFaseCatalogo) {
 	// for(FaseCatalogo fc : pNuevaFaseCatalogo.getListaFasesEspeciales()) {
 	// if(pFaseCatalogo.equals(fc)) {
@@ -444,6 +456,7 @@ public class ABMFaseCatalogo extends ABM_Table {
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 		}
+		
 		return retorno;
 	}
 
@@ -460,7 +473,6 @@ public class ABMFaseCatalogo extends ABM_Table {
 
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -485,4 +497,5 @@ public class ABMFaseCatalogo extends ABM_Table {
 	public long getSerialVersionUID() {
 		return FaseCatalogo.serialVersionUID;
 	}
+	
 }

@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.panels;
 
@@ -23,6 +29,7 @@ import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.expedientes.enums.Estado;
+import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.expedientes.recurso.persistent.Expediente;
 import com.trascender.expedientes.recurso.persistent.Expediente.AccionFase;
 import com.trascender.expedientes.recurso.persistent.Fase;
@@ -93,7 +100,7 @@ public class PanelFases {
 	public void setLbFasesEspeciales(Label lbFasesEspeciales) {
 		this.lbFasesEspeciales = lbFasesEspeciales;
 	}
-	
+
 	public HtmlAjaxCommandButton getBtnCancelarAvanceFase() {
 		return btnCancelarAvanceFase;
 	}
@@ -196,7 +203,6 @@ public class PanelFases {
 	}
 
 	public PanelFases() {
-
 	}
 
 	public void mostrarDatos(Expediente pExpediente) {
@@ -254,36 +260,46 @@ public class PanelFases {
 		this.panelGridFase.getChildren().clear();
 		// getFaseActiva(pE);
 		int cont = 0;
-		int pos = 0;
+		// int pos = 0;
 		List<NodoExpediente> listaTramites = new ArrayList<NodoExpediente>();
 		boolean cerrado = false;
 		for(NodoExpediente f : pE.getListaFasesOrdenadasSegunPermisos()) {
-			Fase fase = (Fase) f;
-			HtmlOutputLabel ol = new HtmlOutputLabel();
-			HtmlOutputLabel ol2 = new HtmlOutputLabel();
-			ol.setId(getIdLink(fase));
-			ol.setStyle("color: rgb(15, 86, 238)");
-			ol.setValue(fase.getPlantilla());
-			ol2.setValue(" >> ");
-			if(pE.getEstado().equals(Estado.CERRADO) && cerrado) {
-				ol.setStyle("text-decoration:line-through;");
-			}
-			if(fase.equals(pE.getFaseActualSegunPermisos())) {
-				pos = cont;
-				if(fase.getFaseAVolver() != null) {
-					ol.setStyle("font-weight:bold; color:green");
-				} else {
-					ol.setStyle("font-weight:bold;");
+				Fase fase = (Fase) f;
+				HtmlOutputLabel ol = new HtmlOutputLabel();
+				HtmlOutputLabel ol2 = new HtmlOutputLabel();
+				ol.setId(getIdLink(fase));
+				ol.setStyle("color: rgb(15, 86, 238)");
+				ol.setValue(fase.getPlantilla());
+				ol2.setValue(" >> ");
+				if(pE.getEstado().equals(Estado.CERRADO) && cerrado) {
+					ol.setStyle("text-decoration:line-through;");
 				}
-				cerrado = true;
-				listaTramites = fase.getListaNodosExpedientes();
-			}
-			this.panelGridFase.getChildren().add(ol);
-			if(cont < pE.getListaFasesOrdenada().size() - 1) {
-				this.panelGridFase.getChildren().add(ol2);
-			}
-			cont++;
+				if(fase.equals(pE.getFaseActualSegunPermisos())) {
+					// pos = cont;
+					if(fase.getFaseAVolver() != null) {
+						ol.setStyle("font-weight:bold; color:green");
+					} else {
+						ol.setStyle("font-weight:bold;");
+					}
+					cerrado = true;
+			
+					listaTramites = fase.getListaNodosExpedientes();
+				}
+				this.panelGridFase.getChildren().add(ol);
+				if(cont < pE.getListaFasesOrdenada().size() - 1) {
+					this.panelGridFase.getChildren().add(ol2);
+				}
+				cont++;
 		}
+
+		if(pE.getIdNodoExpediente() == -1){
+			for (int i=0; i < listaTramites.size(); i++) {
+				   if(listaTramites.get(i).getNodoProcedimiento().getEstado().equals(EstadoPlantilla.BAJA)){
+					   listaTramites.remove(listaTramites.get(i));
+				   }
+		        }	
+		}
+		
 		this.tableTramite.setList(listaTramites);
 
 		int size = pE.getListaNodosExpedientes().size();
@@ -292,7 +308,6 @@ public class PanelFases {
 	}
 
 	private void deshablitarBotones() {
-		// ver que deshabilitar...
 		lbFasesEspeciales.setRendered(false);
 		ddFasesEspeciales.setRendered(false);
 		btnIrAFaseEspecial.setRendered(false);
@@ -302,6 +317,7 @@ public class PanelFases {
 		btnRetrocederFase.setRendered(false);
 	}
 
+	@SuppressWarnings("unused")
 	private Fase faseEspecialAFase(Fase pFaseActivar, Fase FaseEspecialDesactivar) {
 		FaseEspecialDesactivar.setActiva(false);
 		FaseEspecialDesactivar.setEstado(com.trascender.expedientes.recurso.persistent.Fase.Estado.CERRADO);
@@ -309,6 +325,7 @@ public class PanelFases {
 			pFaseActivar.setActiva(true);
 			pFaseActivar.setEstado(com.trascender.expedientes.recurso.persistent.Fase.Estado.ABIERTO);
 		}
+
 		return pFaseActivar;
 	}
 
@@ -317,9 +334,9 @@ public class PanelFases {
 		Fase activa = null;
 		if(activaActual.getFaseAVolver() != null) {
 			int index = pE.getIndexActiva();
-//			Fase pFaseActiva = (Fase) pE.getListaNodosExpedientes().get(index);
-			
-//			activa = faseEspecialAFase(pFaseActiva, activaActual);
+			// Fase pFaseActiva = (Fase) pE.getListaNodosExpedientes().get(index);
+
+			// activa = faseEspecialAFase(pFaseActiva, activaActual);
 			activa = pE.avanzarFase(pAccion, pUsuario, pComentario);
 			pE.getListaNodosExpedientes().remove(index);
 			for(int i = index; i < pE.getListaFasesOrdenada().size(); i++) {
@@ -335,14 +352,14 @@ public class PanelFases {
 		HtmlOutputLabel ol2 = (HtmlOutputLabel) this.panelGridFase.findComponent(getIdLink(activa));
 		ol2.setStyle("font-weight:bold");
 
-		int indexOf = 0;
+		// int indexOf = 0;
 		for(int i = 0; i < pE.getListaNodosExpedientes().size(); i++) {
 			if(pE.getListaNodosExpedientes().get(i).getPlantilla().equals(activa.getPlantilla())) {
-				indexOf = i;
+				// indexOf = i;
 				break;
 			}
 		}
-//		hablitarBotones(indexOf, pE.getListaNodosExpedientes().size());
+		// hablitarBotones(indexOf, pE.getListaNodosExpedientes().size());
 		getTableTramite().setList(activa.getListaNodosExpedientes());
 	}
 
@@ -351,27 +368,25 @@ public class PanelFases {
 		this.armarPanel(pE);
 	}
 
-	public void retrocederFase(Expediente pE, AccionFase pAccion, Usuario pUsuario, String pComentario) 
-			throws Exception {
+	public void retrocederFase(Expediente pE, AccionFase pAccion, Usuario pUsuario, String pComentario) throws Exception {
 		Fase activaActual = (Fase) pE.getListaFasesOrdenada().get(pE.getIndexActiva());
 		Fase activa = pE.retrocederFase(pAccion, pUsuario, pComentario);
 		HtmlOutputLabel ol1 = (HtmlOutputLabel) this.panelGridFase.findComponent(getIdLink(activaActual));
 		HtmlOutputLabel ol2 = (HtmlOutputLabel) this.panelGridFase.findComponent(getIdLink(activa));
 		ol2.setStyle("font-weight:bold");
 		ol1.setStyle("font-weight:normal; color: rgb(15, 86, 238)");
-		int indexOf = 0;
+		// int indexOf = 0;
 		for(int i = 0; i < pE.getListaNodosExpedientes().size(); i++) {
 			if(pE.getListaNodosExpedientes().get(i).getPlantilla().equals(activa.getPlantilla())) {
-				indexOf = i;
+				// indexOf = i;
 				break;
 			}
 		}
-//		hablitarBotones(indexOf, pE.getListaNodosExpedientes().size());
+		// hablitarBotones(indexOf, pE.getListaNodosExpedientes().size());
 		getTableTramite().setList(activa.getListaNodosExpedientes());
 	}
 
 	public void irAFaseEspecial(Expediente pE, Usuario pUsuario, String pComentario) throws Exception {
-		System.out.println(this.getDdFasesEspeciales().getSelected());
 		String stringFaseEspecial = this.getDdFasesEspeciales().getSelected().toString();
 		FaseProcedimiento faseEspecial = this.getCommunicationExpedientesBean().getMapaFasesEspeciales().get(stringFaseEspecial);
 		faseEspecial = getCommunicationExpedientesBean().getRemoteSystemProcedimientos().getFaseProcedimientoPorId(faseEspecial.getIdNodoProcedimiento());
@@ -401,7 +416,7 @@ public class PanelFases {
 					break;
 				}
 			}
-//			hablitarBotones(indexOf, pE.getListaNodosExpedientes().size());
+			// hablitarBotones(indexOf, pE.getListaNodosExpedientes().size());
 			getTableTramite().setList(activa.getListaNodosExpedientes());
 		}
 	}
@@ -409,13 +424,13 @@ public class PanelFases {
 	private String getIdLink(Fase pfase) {
 		return "id_" + pfase.getNodoProcedimiento().getIdNodoProcedimiento();
 	}
-	
+
 	public void deshabilitarAccionesFases(Expediente pExpediente) {
 		renderizar(pExpediente);
 		deshabilitar(pExpediente);
 	}
-	
-	private void deshabilitar(Expediente pExpediente){
+
+	private void deshabilitar(Expediente pExpediente) {
 		boolean bandera = isFaseActualNoVencida(pExpediente);
 		btnIrAFaseEspecial.setDisabled(bandera);
 		btnCancelarAvanceFase.setDisabled(bandera);
@@ -424,94 +439,117 @@ public class PanelFases {
 		btnCerrarExpediente.setDisabled(bandera);
 		ddFasesEspeciales.setDisabled(bandera);
 	}
-	
+
 	private void renderizar(Expediente pExpediente) {
 		boolean bandera = isPuedeAvanzarFaseEspecial(pExpediente);
 		lbFasesEspeciales.setRendered(bandera);
 		btnIrAFaseEspecial.setRendered(bandera);
 		staticText1.setRendered(bandera);
 		ddFasesEspeciales.setRendered(bandera);
-		
+
 		bandera = isPuedeCancelarAvance(pExpediente);
 		btnCancelarAvanceFase.setRendered(bandera);
-		
+
 		bandera = isPuedeRetrocederFase(pExpediente);
 		btnRetrocederFase.setRendered(bandera);
-		
+
 		bandera = isPuedeAvanzarFase(pExpediente);
 		btnAvanzarFase.setRendered(bandera);
-		
+
 		bandera = isPuedeCerrarExpediente(pExpediente);
 		btnCerrarExpediente.setRendered(bandera);
 	}
-	
+
 	private boolean isPuedeRetrocederFase(Expediente pExpediente) {
-		if (pExpediente.getEstado() == Estado.CERRADO) return false;
-		if (pExpediente.getIndexActiva() <= 0) return false;
+		if(pExpediente.getEstado() == Estado.CERRADO)
+			return false;
+		if(pExpediente.getIndexActiva() <= 0)
+			return false;
 		Fase faseActual = pExpediente.getFaseActual();
-		if (faseActual.getFaseAVolver() != null) return false;
+		if(faseActual.getFaseAVolver() != null)
+			return false;
+
 		return faseActual.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario());
 	}
-	
+
 	private boolean isPuedeAvanzarFase(Expediente pExpediente) {
-		if (pExpediente.getEstado() == Estado.CERRADO) return false;
-		if (pExpediente.getIndexActiva() >= pExpediente.getListaNodosExpedientes().size() - 1) return false;
+		if(pExpediente.getEstado() == Estado.CERRADO)
+			return false;
+		if(pExpediente.getIndexActiva() >= pExpediente.getListaNodosExpedientes().size() - 1)
+			return false;
 		NodoExpediente nodoFaseActiva = pExpediente.getListaFasesOrdenada().get(pExpediente.getIndexActiva());
-		boolean retorno = nodoFaseActiva.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario()); 
+		boolean retorno = nodoFaseActiva.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario());
+
 		return retorno;
 	}
-	
+
 	/**
 	 * 
 	 * @param pExpediente
 	 * @return false si no hay fases especiales a las cuales avanzar, o si no tenemos responsabilidad sobre la fase actual.
 	 */
 	private boolean isPuedeAvanzarFaseEspecial(Expediente pExpediente) {
-		if (pExpediente.getEstado() == Estado.CERRADO) return false;
-		if (pExpediente.getIndexActiva() <= 0) return false;
+		if(pExpediente.getEstado() == Estado.CERRADO)
+			return false;
+		// if(pExpediente.getIndexActiva() <= 0)
+		// return false;
 		Fase faseActual = pExpediente.getFaseActual();
+		if(faseActual == null)
+			return false;
 		FaseProcedimiento faseProActual = (FaseProcedimiento) faseActual.getNodoProcedimiento();
-		if (faseProActual.getListaFasesEspeciales().isEmpty()) return false;
+		if(faseProActual.getListaFasesEspeciales().isEmpty())
+			return false;
+
 		return faseActual.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario());
 	}
-	
-	private boolean isFaseActualNoVencida(Expediente pExpediente){
-		if (pExpediente.getEstado() == Estado.CERRADO) return false;
-		//Si es un expediente que se esta creando.
-		if (pExpediente.getNodoProcedimiento() == null) return false;
+
+	private boolean isFaseActualNoVencida(Expediente pExpediente) {
+		if(pExpediente.getEstado() == Estado.CERRADO)
+			return false;
+		// Si es un expediente que se esta creando.
+		if(pExpediente.getNodoProcedimiento() == null)
+			return false;
 		NodoExpediente nodoFaseActiva = pExpediente.getListaFasesOrdenada().get(pExpediente.getIndexActiva());
-		//TODO Ver dias vencidos.
+		// TODO Ver dias vencidos.
+
 		return nodoFaseActiva.isVencido(new ArrayList<DiaFeriado>());
 	}
-	
+
 	/**
 	 * Si la fase actual aun no tiene Tramites trabajados, se puede cancelar el avance de la fase.
+	 * 
 	 * @return
 	 */
-	private boolean isPuedeCancelarAvance(Expediente pExpediente){
-		if (pExpediente.getEstado() == Estado.CERRADO) return false;
-		//Si es la primera fase, no se puede.
-		if (pExpediente.isEnPrimerFase()) {
+	private boolean isPuedeCancelarAvance(Expediente pExpediente) {
+		if(pExpediente.getEstado() == Estado.CERRADO)
+			return false;
+		// Si es la primera fase, no se puede.
+		if(pExpediente.isEnPrimerFase()) {
 			return false;
 		}
-		for (NodoExpediente cadaNodoTramite : 
-			pExpediente.getFaseActualSegunPermisos().getListaNodosExpedientes()) {
+		for(NodoExpediente cadaNodoTramite : pExpediente.getFaseActualSegunPermisos().getListaNodosExpedientes()) {
 			Tramite cadaTramite = (Tramite) cadaNodoTramite;
-			if (cadaTramite.getEstadoTramite() != null) {
+			if(cadaTramite.getEstadoTramite() != null) {
 				return false;
 			}
 		}
 		Fase faseQueEnvio = (Fase) pExpediente.getListaFasesOrdenada().get(pExpediente.getIndexActiva() - 1);
+
 		return faseQueEnvio.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario());
 	}
-	
-	private boolean isPuedeCerrarExpediente(Expediente pExpediente){
-		if (pExpediente.getEstado() == Estado.CERRADO) return false;
-		if (pExpediente.getIndexActiva() <= 0) return false;
+
+	private boolean isPuedeCerrarExpediente(Expediente pExpediente) {
+		if(pExpediente.getEstado() == Estado.CERRADO)
+			return false;
+//		if(pExpediente.getIndexActiva() <= 0)
+//			return false;
 		Fase faseActual = pExpediente.getFaseActualSegunPermisos();
-		if (faseActual == null) return false;
-		if (faseActual.getFaseAVolver() != null) return false;
-		return faseActual.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario()); 
+		if(faseActual == null)
+			return false;
+		if(faseActual.getFaseAVolver() != null)
+			return false;
+
+		return faseActual.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario());
 	}
 
 	public void actualizarTramite(Expediente pE, TableTramite.WTramite wt) {
@@ -525,10 +563,12 @@ public class PanelFases {
 			.createMethodExpression(context.getELContext(), "#{expedientes$ABMExpediente$ABMExpediente.getFase}", null, new Class[] {ActionEvent.class});
 
 	public class Listener implements ActionListener {
+
 		@Override
 		public void processAction(ActionEvent e) throws AbortProcessingException {
 			System.out.println("Hello!!!");
 		}
+
 	}
-	
+
 }

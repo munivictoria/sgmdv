@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -20,15 +27,11 @@ import com.trascender.framework.recurso.persistent.Usuario;
 @Table(name = "EXP_HITO")
 public class Hito implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1131739973990970786L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id_exp_hito")
-	@SequenceGenerator(name = "gen_id_exp_hito", sequenceName = "gen_id_exp_hito",
-			allocationSize = 1)
+	@SequenceGenerator(name = "gen_id_exp_hito", sequenceName = "gen_id_exp_hito", allocationSize = 1)
 	@Column(name = "ID_HITO")
 	protected long idHito = -1l;
 
@@ -51,7 +54,7 @@ public class Hito implements Serializable {
 
 	@Column(name = "COMENTARIO")
 	protected String comentario;
-	
+
 	public long getIdHito() {
 		return idHito;
 	}
@@ -110,13 +113,14 @@ public class Hito implements Serializable {
 
 	@Override
 	public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String comentario = (this.getComentario() != null && this.getComentario().length() > 0) ? " [" + this.getComentario() + "]" : "";
-        
-		return  sdf.format(this.fecha) + " => " + this.usuario + " - " + this.descripcion + comentario;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String comentario = (this.getComentario() != null && this.getComentario().length() > 0) ? " [" + this.getComentario() + "]" : "";
+
+		return sdf.format(this.fecha) + " => " + this.usuario + " - " + this.descripcion + comentario;
 	}
 
 	public String getStringHito() {
 		return this.toString();
 	}
+
 }

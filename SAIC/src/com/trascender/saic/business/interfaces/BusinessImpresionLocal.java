@@ -86,7 +86,8 @@ public interface BusinessImpresionLocal
 			boolean pIgualFormaPago,
 			TipoDeuda pTipoDeuda) throws Exception;
 
-	public JasperPrint getReporteListadoCuotasRefinanciacion(List<CuotaRefinanciacion> pListaCuotasRefinanciacion) throws Exception;
+	public JasperPrint getReporteListadoCuotasRefinanciacion(List<CuotaRefinanciacion> pListaCuotasRefinanciacion,
+			Usuario pUsuario) throws Exception;
 
 	public JasperPrint getReporteReliquidacion(RegistroDeuda pRegistroDeuda,
 			Usuario pUsuario,

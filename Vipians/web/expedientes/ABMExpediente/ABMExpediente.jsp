@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
@@ -36,7 +37,6 @@
 								$(boton).click();
 							}
 						});
-
 					}
 
 					function desactivarAutocompletePass() {
@@ -46,32 +46,30 @@
 					function cargarComportamientoJQuery() {
 						desactivarAutocompletePass();
 						// INICIO Comentario de guardado...
-						$("#form1\\:taComentarioOculto").hide();
 						var comentario = $("#form1\\:tabSet1\\:one\\:taComentario"), tips = $(".validateTips");
-						$("#dialog-form").dialog({
+
+						$("#comentario-form").dialog({
 							autoOpen: false,
 							height: 300,
-							width: 350,
+							width: 360,
 							resizable: false,
 							modal: true,
 							close: function() {
 								comentario.val("").removeClass("ui-state-error");
 								return false;
 							}
-						});
+						}).parent().appendTo($("#form1"));
 
-						var pass = $("#form1\\:pfContrasenia"), tipsPass = $(".validateTipsPass");
-						$("#pass-form").dialog({
+						$("#seguridad-modal-form").dialog({
 							autoOpen: false,
-							height: 180,
-							width: 300,
+							height: 120,
+							width: 'auto',
 							resizable: false,
 							modal: true,
 							close: function() {
-								pass.val("").removeClass("ui-state-error");
 								return false;
 							}
-						});
+						}).parent().appendTo($("#form1"));
 
 						$("#form1\\:tabSet1\\:one\\:btnIrAFaseEspecial").mousedown(function() {
 							$valor = $("#form1\\:tabSet1\\:one\\:ddFasesEspeciales").val();
@@ -81,35 +79,39 @@
 								$("#form1\\:tabSet1\\:one\\:btnComentarioRetroceso").hide();
 								$("#form1\\:tabSet1\\:one\\:btnComentarioCancelarAvance").hide();
 								$("#form1\\:tabSet1\\:one\\:btnComentarioCierre").hide();
-								$("#dialog-form").dialog("open");
+
+								$("#comentario-form").dialog("open");
 							}
 						});
 						$("#form1\\:tabSet1\\:one\\:btnRetrocederFase").mousedown(function() {
 							tips.text("Agregar un comentario por el retroceso de fase del expediente.");
-							$("#dialog-form").dialog("option", "height", 300);
+							$("#comentario-form").dialog("option", "height", 300);
 							$("#form1\\:tabSet1\\:one\\:btnComentarioRetroceso").show();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioCancelarAvance").hide();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioIrAFaseEspecial").hide();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioCierre").hide();
-							$("#dialog-form").dialog("open");
+
+							$("#comentario-form").dialog("open");
 						});
 						$("#form1\\:tabSet1\\:one\\:btnCancelarAvanceFase").mousedown(function() {
 							tips.text("Agregar un comentario por la cancelacion del avance de la fase.");
-							$("#dialog-form").dialog("option", "height", 300);
+							$("#comentario-form").dialog("option", "height", 300);
 							$("#form1\\:tabSet1\\:one\\:btnComentarioCancelarAvance").show();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioRetroceso").hide();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioIrAFaseEspecial").hide();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioCierre").hide();
-							$("#dialog-form").dialog("open");
+
+							$("#comentario-form").dialog("open");
 						});
 						$("#form1\\:tabSet1\\:one\\:btnCerrarExpediente").mousedown(function() {
 							tips.text("Agregar un comentario por el cierre del expediente.");
-							$("#dialog-form").dialog("option", "height", 260);
+							$("#comentario-form").dialog("option", "height", 260);
 							$("#form1\\:tabSet1\\:one\\:btnComentarioCierre").show();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioCancelarAvance").hide();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioIrAFaseEspecial").hide();
 							$("#form1\\:tabSet1\\:one\\:btnComentarioRetroceso").hide();
-							$("#dialog-form").dialog("open");
+
+							$("#comentario-form").dialog("open");
 						});
 					}
 
@@ -124,6 +126,7 @@
 							$tips.removeClass("ui-state-highlight", 1500);
 						}, 500);
 					}
+
 					function chequearComentario(comp, min, max) {
 						if(comp.val().length > max || comp.val().length < min) {
 							comp.addClass("ui-state-error");
@@ -143,12 +146,11 @@
 							$comentario.removeClass("ui-state-error");
 							valido = valido && chequearComentario($comentario, 10, 200);
 							if(valido) {
-								$("#form1\\:taComentarioOculto").val($("#form1\\:tabSet1\\:one\\:taComentario").val());
 								funcionActual.call();
 
 								$("#form1\\:tabSet1\\:one\\:taComentario").val("");
 
-								$("#dialog-form").dialog("close");
+								$("#comentario-form").dialog("close");
 							}
 						});
 
@@ -156,7 +158,15 @@
 					}
 
 					function cancelarComentario() {
-						$("#dialog-form").dialog("close");
+						$("#comentario-form").dialog("close");
+					}
+
+					function abrirModalSeguridad() {
+						if(!$("#form1\\:messageGroup").is(':visible')) {
+							$("#seguridad-modal-form").dialog("open");
+							$("#form1\\:pfContraseniaExpediente").val("");
+							$("#form1\\:pfContraseniaExpediente").focus();
+						}
 					}
 
 					$(document).ready(function() {
@@ -184,7 +194,7 @@
 														<td width="250px" align="left">
 															<h:outputText style="font-weight:bold" value="Procedimiento" />
 														</td>
-														<td width="250px" align="center">
+														<td align="center" width="80%">
 															<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblProcedimiento}" id="lblProcedimiento" styleClass="label"
 																style="font-size: 12pt" />
 															<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblEstadoProcedimiento}" id="lblEstadoProcedimiento"
@@ -195,10 +205,9 @@
 																items="#{expedientes$ABMExpediente$ABMExpediente.ddProcedimientoDefaultOptions.options}" styleClass="textField" />
 														</td>
 														<td>
-															<ui:button action="#{expedientes$ABMExpediente$ABMExpediente.btnSeleccionarProcedimiento_action}"
+															<a4j:commandButton action="#{expedientes$ABMExpediente$ABMExpediente.btnSeleccionarProcedimiento_action}"
 																binding="#{expedientes$ABMExpediente$ABMExpediente.btnSeleccionarProcedimiento}" id="btnSeleccionarProcedimiento"
-																styleClass="button" text="Seleccionar">
-															</ui:button>
+																value="Seleccionar" styleClass="btnAjax" reRender="form1" oncomplete="cargarComportamientoJQuery();" />
 														</td>
 													</tr>
 												</table>
@@ -210,7 +219,7 @@
 									<td align="left" colspan="4">
 										<ui:tabSet binding="#{expedientes$ABMExpediente$ABMExpediente.tabSet1}" id="tabSet1" mini="true" lite="true">
 											<ui:tab id="one" binding="#{expedientes$ABMExpediente$ABMExpediente.tabOne}" text="Expediente">
-												<table>
+												<table align="center" width="70%">
 													<tr>
 														<td>
 															<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblResponsable}" id="lblResponsable" styleClass="label"
@@ -268,7 +277,7 @@
 													</tr>
 													<tr>
 														<td colspan="4" style="padding-left: 1px; padding-right: 1px;">
-															<table class="tablaInterna" style="-moz-border-radius: 0px 0px 5px 5px; width: 192px;">
+															<table class="tablaInterna" style="-moz-border-radius: 0px 0px 5px 5px; width: 100%;">
 																<tr>
 																	<td align="right" nowrap="nowrap">
 																		<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblPersona}" for="tfPersona" id="label2" styleClass="label"
@@ -294,7 +303,7 @@
 																</tr>
 																<tr>
 																	<td colspan="4">
-																		<table>
+																		<table id="tablaDatosInteresado">
 																			<tr>
 																				<td nowrap="nowrap">
 																					<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblNroTelefono}" for="tfNroTelefono" id="lblNroTelefono"
@@ -302,7 +311,10 @@
 																				</td>
 																				<td>
 																					<ui:textField binding="#{expedientes$ABMExpediente$ABMExpediente.tfNroTelefono}" columns="20" id="tfNroTelefono"
-																						styleClass="textField" disabled="#{!expedientes$ABMExpediente$ABMExpediente.hayPersona}" />
+																						styleClass="textField" disabled="#{!expedientes$ABMExpediente$ABMExpediente.hayPersona}">
+																						<a4j:support event="onBlur" oncomplete="cargarComportamientoJQuery();"
+																							actionListener="#{expedientes$ABMExpediente$ABMExpediente.eventoActualizarDatosInteresado(evento)}" />
+																					</ui:textField>
 																				</td>
 																				<td nowrap="nowrap">
 																					<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblNroCelular}" for="tfNroCelular" id="lblNroCelular"
@@ -310,7 +322,10 @@
 																				</td>
 																				<td>
 																					<ui:textField binding="#{expedientes$ABMExpediente$ABMExpediente.tfNroCelular}" columns="20" id="tfNroCelular"
-																						styleClass="textField" disabled="#{!expedientes$ABMExpediente$ABMExpediente.hayPersona}" />
+																						styleClass="textField" disabled="#{!expedientes$ABMExpediente$ABMExpediente.hayPersona}">
+																						<a4j:support event="onBlur" oncomplete="cargarComportamientoJQuery();"
+																							actionListener="#{expedientes$ABMExpediente$ABMExpediente.eventoActualizarDatosInteresado(evento)}" />
+																					</ui:textField>
 																				</td>
 																				<td nowrap="nowrap">
 																					<ui:label binding="#{expedientes$ABMExpediente$ABMExpediente.lblEmail}" for="tfEmail" id="lblEmail" styleClass="label"
@@ -318,7 +333,10 @@
 																				</td>
 																				<td>
 																					<ui:textField binding="#{expedientes$ABMExpediente$ABMExpediente.tfEmail}" columns="30" id="tfEmail"
-																						styleClass="textField" disabled="#{!expedientes$ABMExpediente$ABMExpediente.hayPersona}" />
+																						styleClass="textField" disabled="#{!expedientes$ABMExpediente$ABMExpediente.hayPersona}">
+																						<a4j:support event="onBlur" oncomplete="cargarComportamientoJQuery();"
+																							actionListener="#{expedientes$ABMExpediente$ABMExpediente.eventoActualizarDatosInteresado(evento)}" />
+																					</ui:textField>
 																				</td>
 																			</tr>
 																		</table>
@@ -340,7 +358,7 @@
 													</tr>
 													<tr>
 														<td colspan="4" align="left">
-															<ui:textArea binding="#{expedientes$ABMExpediente$ABMExpediente.taAsunto}" columns="95" rows="8" id="taAsunto"
+															<ui:textArea binding="#{expedientes$ABMExpediente$ABMExpediente.taAsunto}" columns="112" rows="8" id="taAsunto"
 																styleClass="textArea" />
 														</td>
 													</tr>
@@ -422,7 +440,7 @@
 																		</tr>
 																		<tr>
 																			<td>
-																				<div id="dialog-form" title="Comentario">
+																				<div id="comentario-form" title="Comentario">
 																					<table>
 																						<tr>
 																							<td colspan="2">
@@ -463,32 +481,6 @@
 																								<a4j:commandButton id="btnCancelarComentario"
 																									binding="#{expedientes$ABMExpediente$ABMExpediente.btnCancelarComentario}" value="Cancelar"
 																									onmousedown="cancelarComentario();" />
-																							</td>
-																						</tr>
-																					</table>
-																				</div>
-																			</td>
-																			<td>
-																				<div id="pass-form" title="Seguridad">
-																					<table>
-																						<tr>
-																							<td nowrap="nowrap" colspan="2">
-																								<p class="validateTipsPass" />
-																							</td>
-																						</tr>
-																						<tr>
-																							<td>
-																								<br />
-																							</td>
-																						</tr>
-																						<tr>
-																							<td align="center" colspan="2">
-																								<a4j:commandButton id="btnPassAvanzarFase" binding="#{expedientes$ABMExpediente$ABMExpediente.btnPassAvanzarFase}"
-																									value="Guardar" onmousedown="avanzarConPass(this);"
-																									action="#{expedientes$ABMExpediente$ABMExpediente.btnAvanzarFase_action}"
-																									reRender="opFases, pgBotonesFases, gpBotones" />
-																								<a4j:commandButton id="btnCancelarPass" binding="#{expedientes$ABMExpediente$ABMExpediente.btnCancelarPass}"
-																									value="Cancelar" onmousedown="cancelarPass();" />
 																							</td>
 																						</tr>
 																					</table>
@@ -618,7 +610,7 @@
 												</table>
 											</ui:tab>
 											<ui:tab id="two" binding="#{expedientes$ABMExpediente$ABMExpediente.tabTwo}" text="Documentacion Presentada">
-												<table>
+												<table align="center" width="70%">
 													<tr>
 														<td colspan="4">
 															<h:panelGrid styleClass="tablaInterna" style="-moz-border-radius: 0px 0px 5px 5px;width: 100%;">
@@ -645,7 +637,7 @@
 												</table>
 											</ui:tab>
 											<ui:tab id="three" binding="#{expedientes$ABMExpediente$ABMExpediente.tabThree}" text="Historial de Cambios">
-												<table>
+												<table align="center" width="70%">
 													<tr>
 														<td colspan="4">
 															<h:panelGrid styleClass="tablaInterna" style="-moz-border-radius: 0px 0px 5px 5px;width: 100%;">
@@ -671,18 +663,32 @@
 								</tr>
 								<tr>
 									<td>
-									<td>
-										<ui:textArea id="taComentarioOculto" binding="#{expedientes$ABMExpediente$ABMExpediente.taComentarioOculto}" columns="1" rows="1"
-											style="resize: none;" />
-									</td>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<ui:label id="lbContraseniaExpediente" binding="#{expedientes$ABMExpediente$ABMExpediente.lbContraseniaExpediente}"
-											styleClass="label" text="Contraseña" for="pfContraseniaExpediente" />
-										<ui:passwordField binding="#{expedientes$ABMExpediente$ABMExpediente.pfContraseniaExpediente}" columns="20"
-											id="pfContraseniaExpediente" styleClass="textField" />
+										<div id="seguridad-modal-form" title="Seguridad">
+											<table>
+												<tr>
+													<td>
+														<ui:label id="lbContraseniaExpediente" binding="#{expedientes$ABMExpediente$ABMExpediente.lbContraseniaExpediente}"
+															styleClass="label" text="Contraseña" for="pfContraseniaExpediente" />
+													</td>
+													<td>
+														<ui:passwordField binding="#{expedientes$ABMExpediente$ABMExpediente.pfContraseniaExpediente}" columns="20"
+															id="pfContraseniaExpediente" styleClass="textField"
+															onKeyPress="if (event.keyCode == 13) document.getElementById('form1:btnGuardar').click();" />
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<br />
+													</td>
+												</tr>
+												<tr>
+													<td align="center" colspan="4">
+														<ui:button action="#{expedientes$ABMExpediente$ABMExpediente.btnGuardar_action}"
+															binding="#{expedientes$ABMExpediente$ABMExpediente.btnGuardar}" id="btnGuardar" text="Aceptar" styleClass="button" />
+													</td>
+												</tr>
+											</table>
+										</div>
 									</td>
 								</tr>
 								<tr>
@@ -698,8 +704,8 @@
 							<tfoot>
 								<tr>
 									<td align="right" colspan="6" nowrap="true">
-										<ui:button action="#{expedientes$ABMExpediente$ABMExpediente.btnGuardar_action}"
-											binding="#{expedientes$ABMExpediente$ABMExpediente.btnGuardar}" id="btnGuardar" styleClass="button" />
+										<a4j:commandButton binding="#{expedientes$ABMExpediente$ABMExpediente.btnGuardarAjax}" id="btnGuardarAjax" styleClass="btnAjax"
+											oncomplete="abrirModalSeguridad();" action="#{expedientes$ABMExpediente$ABMExpediente.btnGuardarAjax_action}" />
 										<ui:staticText binding="#{expedientes$ABMExpediente$ABMExpediente.stSeparador}" escape="false" id="stSeparador"
 											text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
 										<ui:button action="#{expedientes$ABMExpediente$ABMExpediente.btnCancelar_action}"

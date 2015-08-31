@@ -46,6 +46,7 @@ import com.trascender.saic.recurso.persistent.RegistroDeuda.TipoDeuda;
 import com.trascender.saic.recurso.persistent.auditoriaTributaria.AuditoriaTributaria;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
+import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 
 
 /**
@@ -116,7 +117,13 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		Double cuotaPura = this.calcularCuotaPura(pDocumentoRefinanciacion.getTasaNominalAnual(), capital, pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas(), pDocumentoRefinanciacion.getPlantilla().getTipoCalculoInteres());
 		
 		Calendar locCalendar = Calendar.getInstance();
-		locCalendar.set(pDocumentoRefinanciacion.getAnioInicioRefinanciacion(), pDocumentoRefinanciacion.getMesInicioRefinanciacion()-1, pDocumentoRefinanciacion.getDiaVencimiento());
+		if (pDocumentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() != null) {
+			locCalendar.setTime(pDocumentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota());
+		} else {
+			locCalendar.set(pDocumentoRefinanciacion.getAnioInicioRefinanciacion(), 
+					pDocumentoRefinanciacion.getMesInicioRefinanciacion()-1, 
+					pDocumentoRefinanciacion.getDiaVencimiento());
+		}
 
 		Date locFechaActual = SecurityMgr.getInstance().getFechaActual().getTime();
 
@@ -130,8 +137,10 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			locCuotaRefinanciacion.setSaldoCapital(this.calcularSaldoCapitalCuota(pDocumentoRefinanciacion.getTasaNominalAnual(), pDocumentoRefinanciacion.getCapital(), pDocumentoRefinanciacion.getCuotasPorAnio(), pDocumentoRefinanciacion.getCantidadCuotas(), i));
 			locCuotaRefinanciacion.setTipoDeuda(TipoDeuda.REFINANCIACION);
 			
-			// Si es la primer cuota, su vencimiento es el dia de hoy...
-			Date fecha = new Date();
+			// Si es la primer cuota, su vencimiento es el dia de hoy Ó el dia que indica la plantilla
+			Date fecha = pDocumentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() != null ? 
+					pDocumentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() : 
+					new Date();
 			if(i > 1) {
 				fecha = locCalendar.getTime();
 				fecha = Util.llevarFechaALunes(fecha);
@@ -223,7 +232,14 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			
 //			Obligacion locObligacionTemporal = this.entityManager.merge(pDocumentoRefinanciacion.getObligacion());
 //			System.out.println(locObligacionTemporal);
-		
+			
+			//Chequear si los Registros Deuda son LiquidacionTasaAgrupada para obtener las liquidaciones originales.
+			Set<RegistroDeuda> lista = getRegistrosDeudaOriginales(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda());
+			pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().setListaRegistrosDeuda(lista);
+			
+			lista = getRegistrosDeudaOriginales(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeudaCondonados());
+			pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().setListaRegistrosDeudaCondonados(lista);
+			
 			for (RegistroDeuda cadaRegistroDeuda : pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()){
 				entityManager.detach(cadaRegistroDeuda);
 			}
@@ -281,6 +297,19 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 				pAuditoria.setDocumentoRefinanciacion(pDocumentoRefinanciacion);
 				this.businessAuditoria.updateAuditoriaTributaria(pAuditoria);
 			}
+	}
+	
+	private Set<RegistroDeuda> getRegistrosDeudaOriginales(Set<RegistroDeuda> listaRegDeuda) {
+		Set<RegistroDeuda> listaRegistroDeudaFinal = new HashSet<RegistroDeuda>();
+		for (RegistroDeuda cadaRegistro : listaRegDeuda) {
+			if (cadaRegistro instanceof LiquidacionTasaAgrupada) {
+				LiquidacionTasaAgrupada lta = (LiquidacionTasaAgrupada) cadaRegistro;
+				listaRegistroDeudaFinal.addAll(lta.getListaLiquidacionesTasa());
+			} else {
+				listaRegistroDeudaFinal.add(cadaRegistro);
+			}
+		}
+		return listaRegistroDeudaFinal;
 	}
 	
 	private void validarDocumentoRefinanciación(DocumentoRefinanciacion pDocumentoRefinanciacion)  throws TrascenderException {

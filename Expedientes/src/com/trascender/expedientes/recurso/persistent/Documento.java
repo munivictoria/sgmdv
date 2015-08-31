@@ -1,8 +1,17 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +19,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,8 +32,7 @@ public class Documento implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id_exp_documento")
-	@SequenceGenerator(name = "gen_id_exp_documento", sequenceName = "gen_id_exp_documento",
-			allocationSize = 1)
+	@SequenceGenerator(name = "gen_id_exp_documento", sequenceName = "gen_id_exp_documento", allocationSize = 1)
 	@Column(name = "ID_DOCUMENTO")
 	private long idDocumento;
 
@@ -30,7 +40,7 @@ public class Documento implements Serializable {
 	private Date fecha;
 
 	private boolean activo = true;
-	
+
 	@Column(name = "PRESENTADO")
 	private boolean presentado = false;
 
@@ -51,12 +61,24 @@ public class Documento implements Serializable {
 	@JoinColumn(name = "ID_DOCUMENTOPROCEDIMIENTO")
 	private DocumentoProcedimiento documentoProcedimiento;
 
+	@OrderBy(value = "fechaEjecucion")
+	@OneToMany(mappedBy = "documento", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VersionEjecucionReporte> listaVersionesEjecucionReporte;
+
 	public Documento() {
 	}
 
 	public Documento(DocumentoProcedimiento pDocumentoProcedimiento, Tramite pTramite) {
 		this.documentoProcedimiento = pDocumentoProcedimiento;
 		this.tramite = pTramite;
+	}
+
+	public List<VersionEjecucionReporte> getListaVersionesEjecucionReporte() {
+		return listaVersionesEjecucionReporte;
+	}
+
+	public void setListaVersionesEjecucionReporte(List<VersionEjecucionReporte> listaVersionesEjecucionReporte) {
+		this.listaVersionesEjecucionReporte = listaVersionesEjecucionReporte;
 	}
 
 	public long getIdDocumento() {
@@ -67,7 +89,6 @@ public class Documento implements Serializable {
 		this.idDocumento = idDocumento;
 	}
 
-	
 	public Date getFecha() {
 		return fecha;
 	}
@@ -132,13 +153,55 @@ public class Documento implements Serializable {
 		this.documentoProcedimiento = documentoProcedimiento;
 	}
 
-	
-	public String getPlantilla(){
+	public String getPlantilla() {
 		return getDocumentoProcedimiento().getDocumentoCatalogo().getNombre();
 	}
-	
+
 	public String getNombre() {
 		return documentoProcedimiento.getDocumentoCatalogo().getNombre();
 	}
 	
+	public boolean isProcesado() {
+		VersionEjecucionReporte ultimaVersion = getUltimoReporte();
+		if(ultimaVersion != null && ultimaVersion.getDocumentoAdjunto() != null) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void crearNuevaVersionReporte() {
+		for(VersionEjecucionReporte cadaVersion : this.getListaVersionesEjecucionReporte()) {
+			cadaVersion.setActivo(false);
+		}
+		
+		VersionEjecucionReporte nuevaVersionReporte = new VersionEjecucionReporte();
+		nuevaVersionReporte.setDocumento(this);
+		
+		this.getListaVersionesEjecucionReporte().add(nuevaVersionReporte);
+	}
+
+	public VersionEjecucionReporte getUltimoReporte() {
+		for(VersionEjecucionReporte cadaVersion : this.getListaVersionesEjecucionReporte()) {
+			if(cadaVersion.isActivo()) {
+				return cadaVersion;
+			}
+		}
+
+		return null;
+	}
+
+	public ParametroValuadoReporte getParametroValuadoReportePorNombre(String pNombre) {
+		VersionEjecucionReporte locUltimoReporte = this.getUltimoReporte();
+
+		if(locUltimoReporte != null && locUltimoReporte.isActivo()) {
+			for(ParametroValuadoReporte cadaParametro : locUltimoReporte.getListaParametrosValuadosReporte()) {
+				if(cadaParametro.getNombre().equals(pNombre)) {
+					return cadaParametro;
+				}
+			}
+		}
+
+		return null;
+	}
 }

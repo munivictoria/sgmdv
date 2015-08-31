@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.panels;
 
 import java.util.List;
@@ -24,8 +31,8 @@ public class PanelPlazoExpediente {
 	private Label lblCantidadDiasRestantes = new Label();
 	private TextField tfCantidadDiasRestantes = new TextField();
 	private Checkbox chDiasCorridos = new Checkbox();
-	private PanelGroup pgPlazo = new PanelGroup(); 
-	
+	private PanelGroup pgPlazo = new PanelGroup();
+
 	private List<DiaFeriado> diasFeriados = getCommunicationExpedientesBean().getListaFeriados();
 
 	public Label getLblFechaInicioPlazo() {
@@ -100,15 +107,11 @@ public class PanelPlazoExpediente {
 		this.chDiasCorridos = chDiasCorridos;
 	}
 
-	
-
 	public void mostrarDatos(Plazo pPlazo) {
-		if (pPlazo !=null && pPlazo.getFechaInicio() != null) {
+		if(pPlazo != null && pPlazo.getFechaInicio() != null) {
 			PlazoDatosCalculados locDatosPlazo = pPlazo.getDatosCalculados(diasFeriados);
-			this.tfFechaInicioPlazo.setText(Conversor.getStringDeFechaCorta(locDatosPlazo
-					.getFechaInicial()));
-			this.tfFechaFinPlazo.setText(Conversor.getStringDeFechaCorta(locDatosPlazo
-					.getFechaFinal()));
+			this.tfFechaInicioPlazo.setText(Conversor.getStringDeFechaCorta(locDatosPlazo.getFechaInicial()));
+			this.tfFechaFinPlazo.setText(Conversor.getStringDeFechaCorta(locDatosPlazo.getFechaFinal()));
 			this.tfCantidadDias.setText(locDatosPlazo.getCantidadDias());
 			this.tfCantidadDiasRestantes.setText(locDatosPlazo.getCantidadDiasRestantes());
 			this.chDiasCorridos.setValue(locDatosPlazo.isDiasCorridos());
@@ -117,14 +120,12 @@ public class PanelPlazoExpediente {
 		}
 	}
 
-	
 	public muni.CommunicationExpedientesBean getCommunicationExpedientesBean() {
 		return (muni.CommunicationExpedientesBean) getSessionBean("CommunicationExpedientesBean");
 	}
 
 	public Object getSessionBean(String pBeanName) {
-		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(pBeanName);
+		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(pBeanName);
 	}
 
 	public PanelGroup getPgPlazo() {

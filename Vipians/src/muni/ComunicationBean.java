@@ -34,6 +34,7 @@ import com.trascender.framework.recurso.filtros.FiltroDiaFeriado;
 import com.trascender.framework.recurso.filtros.FiltroDigestoMunicipal;
 import com.trascender.framework.recurso.filtros.FiltroLocalidad;
 import com.trascender.framework.recurso.filtros.FiltroMunicipalidad;
+import com.trascender.framework.recurso.filtros.FiltroNumerador;
 import com.trascender.framework.recurso.filtros.FiltroPais;
 import com.trascender.framework.recurso.filtros.FiltroPersonaFisica;
 import com.trascender.framework.recurso.filtros.FiltroPersonaJuridica;
@@ -53,6 +54,7 @@ import com.trascender.framework.recurso.persistent.DigestoMunicipal;
 import com.trascender.framework.recurso.persistent.GrupoCiiu;
 import com.trascender.framework.recurso.persistent.Localidad;
 import com.trascender.framework.recurso.persistent.Municipalidad;
+import com.trascender.framework.recurso.persistent.Numerador;
 import com.trascender.framework.recurso.persistent.Pais;
 import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.recurso.persistent.PersonaJuridica;
@@ -1514,6 +1516,36 @@ public class ComunicationBean extends AbstractSessionBean {
 
 	public void setListaReporte(List listaReporte) {
 		this.listaReporte = listaReporte;
+	}
+	
+	public Map<String, Numerador> mapaNumerador;
+
+	public Map<String, Numerador> getMapaNumerador() {
+		if(mapaNumerador == null) {
+			try {
+				this.mapaNumerador = new HashMap<String, Numerador>();
+				this.getRemoteSystemParametro().setLlave(this.getSessionBean1().getLlave());
+				List<Numerador> locListaNumeradores = this.getRemoteSystemParametro().findListaNumeradores(new FiltroNumerador()).getListaResultados();
+
+				Collections.sort(locListaNumeradores, new Comparator<Numerador>() {
+
+					@Override
+					public int compare(Numerador o1, Numerador o2) {
+						String nombre1 = Util.reemplazarAcentos(o1.getNombre());
+						String nombre2 = Util.reemplazarAcentos(o2.getNombre());
+
+						return nombre1.compareToIgnoreCase(nombre2);
+					}
+				});
+				for(Numerador cadaNumerador : locListaNumeradores) {
+					mapaNumerador.put(cadaNumerador.getNombre(), cadaNumerador);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return mapaNumerador;
 	}
 
 }

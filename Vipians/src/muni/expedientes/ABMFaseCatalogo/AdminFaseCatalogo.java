@@ -1,8 +1,15 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMFaseCatalogo;
 
 import java.util.List;
 
+import com.sun.data.provider.RowKey;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.web.ui.component.Button;
 import com.sun.rave.web.ui.component.DropDown;
@@ -36,10 +43,10 @@ public class AdminFaseCatalogo extends AdminPageBean {
 		Option[] opEstado = null;
 		opEstado = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(EstadoPlantilla.values(), "may");
 		ddEstadoDefaultOptions.setOptions(opEstado);
-		
+
 		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(EstadoPlantilla.ACTIVO)));
 	}
-	
+
 	public Label getLblEstado() {
 		return lblEstado;
 	}
@@ -60,8 +67,7 @@ public class AdminFaseCatalogo extends AdminPageBean {
 		return ddEstadoDefaultOptions;
 	}
 
-	public void setDdEstadoDefaultOptions(
-			SingleSelectOptionsList ddEstadoDefaultOptions) {
+	public void setDdEstadoDefaultOptions(SingleSelectOptionsList ddEstadoDefaultOptions) {
 		this.ddEstadoDefaultOptions = ddEstadoDefaultOptions;
 	}
 
@@ -115,7 +121,6 @@ public class AdminFaseCatalogo extends AdminPageBean {
 
 	@Override
 	public PaginatedTable getPaginatedTable() {
-
 		return getCommunicationExpedientesBean().getTablaFaseCatalogo();
 	}
 
@@ -124,16 +129,16 @@ public class AdminFaseCatalogo extends AdminPageBean {
 		FaseCatalogo locFaseCatalogo = (FaseCatalogo) pObject;
 		getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 		locFaseCatalogo = getCommunicationExpedientesBean().getRemoteSystemCatalogos().getFaseCatalogoPorId(locFaseCatalogo.getIdFaseCatalogo());
+		
 		return pObject;
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected FiltroAbstracto buscar(FiltroAbstracto pFiltro) throws Exception {
-
 		this.getComunicationCatastroBean().getRemoteSystemInformacionGeografica().setLlave(this.getSessionBean1().getLlave());
+		
 		return this.getCommunicationExpedientesBean().getRemoteSystemCatalogos().findListaFaseCatalogo((FiltroFaseCatalogo) pFiltro);
-
 	}
 
 	@Override
@@ -147,7 +152,7 @@ public class AdminFaseCatalogo extends AdminPageBean {
 	protected void mostrarEstadoObjetosUsados() {
 		FiltroFaseCatalogo locFiltro = this.getFiltro();
 		getTfNombre().setText(locFiltro.getNombre());
-		if (locFiltro.getEstado() != null) {
+		if(locFiltro.getEstado() != null) {
 			this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado())));
 		}
 	}
@@ -173,24 +178,36 @@ public class AdminFaseCatalogo extends AdminPageBean {
 
 	public String btnModificar_action() {
 		FaseCatalogo faseCatalogo = (FaseCatalogo) getObjetoSeleccionado();
-		if (faseCatalogo.getEstado().equals(EstadoPlantilla.BAJA)) {
-			warn("No se puede modificar una Fase en estado BAJA.");
-			return null;
-		}
+		if(faseCatalogo != null) {
+			if(faseCatalogo.getEstado().equals(EstadoPlantilla.BAJA)) {
+				warn("No se puede modificar una Fase en estado BAJA.");
+				return null;
+			}
+		} else
+			return "";
+		
 		return toAbm(new FaseCatalogoModel().new ModificarController());
+
 	}
 
 	public String btnEliminar_action() {
-		return toAbm(new FaseCatalogoModel().new EliminarControler());
+		RowKey rk = this.getSeleccionado();
+		if(rk != null)
+			return toAbm(new FaseCatalogoModel().new EliminarControler());
+		else
+			return "";
 	}
 
 	public String btnConsultar_action() {
-		return toAbm(new FaseCatalogoModel().new ConsultarControler());
+		RowKey rk = this.getSeleccionado();
+		if(rk != null)
+			return toAbm(new FaseCatalogoModel().new ConsultarControler());
+		else
+			return "";
 	}
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -207,14 +224,16 @@ public class AdminFaseCatalogo extends AdminPageBean {
 	public long getSerialVersionUID() {
 		return FaseCatalogo.serialVersionUID;
 	}
-	
+
 	public String btnActivar_action() {
 		FaseCatalogo faseCatalogo = (FaseCatalogo) getObjetoSeleccionado();
-		if (faseCatalogo != null && faseCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)) {
+		if(faseCatalogo != null && faseCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)) {
 			warn("La Fase seleccionada ya se encuentra activa.");
+			
 			return null;
 		}
 
 		return toAbm(new FaseCatalogoModel().new RecuperarFaseCatalogo());
 	}
+	
 }

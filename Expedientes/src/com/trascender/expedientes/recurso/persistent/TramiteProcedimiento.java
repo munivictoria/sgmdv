@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -8,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.trascender.expedientes.enums.EstadoPlantilla;
 
 @Entity
 @Table(name = "EXP_TRAMITEPROCEDIMIENTO")
@@ -26,7 +35,7 @@ public class TramiteProcedimiento extends NodoProcedimiento implements Serializa
 	public TramiteProcedimiento(TramiteCatalogo pTramiteCatalogo, NodoProcedimiento pPadre) {
 		this.tramiteCatalogo = pTramiteCatalogo;
 		this.nodoPadre = pPadre;
-		for (DocumentoCatalogo dc : pTramiteCatalogo.getListaDocumentosCatalogos()) {
+		for(DocumentoCatalogo dc : pTramiteCatalogo.getListaDocumentosCatalogos()) {
 			this.getListaNodosHijos().add(new DocumentoProcedimiento(dc, this));
 		}
 	}
@@ -41,9 +50,11 @@ public class TramiteProcedimiento extends NodoProcedimiento implements Serializa
 
 	public List<DocumentoProcedimiento> getListaDocumentosProcedimiento() {
 		List<DocumentoProcedimiento> lista = new ArrayList<DocumentoProcedimiento>();
-		for (NodoProcedimiento documentoP : getListaNodosHijos()) {
+		for(NodoProcedimiento documentoP : getListaNodosHijos()) {
+			if(documentoP.getEstado().equals(EstadoPlantilla.ACTIVO))
 			lista.add((DocumentoProcedimiento) documentoP);
 		}
+		
 		return lista;
 	}
 

@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.panels;
 
 import com.sun.rave.web.ui.component.Checkbox;
@@ -12,8 +19,7 @@ public class PanelPlazo {
 	private TextField tfCantidadDias = new TextField();
 	private TextField tfCantidadExtensiones = new TextField();
 	private Label lblCantidadDias = new Label();
-	
-	
+
 	public TextField getTfCantidadDias() {
 		return tfCantidadDias;
 	}
@@ -37,7 +43,7 @@ public class PanelPlazo {
 	public void setChDiasCorridos(Checkbox chDiasCorridos) {
 		this.chDiasCorridos = chDiasCorridos;
 	}
-	
+
 	public TextField getTfCantidadExtensiones() {
 		return tfCantidadExtensiones;
 	}
@@ -48,30 +54,29 @@ public class PanelPlazo {
 
 	private Integer getTextFieldValueInteger(TextField pTextField) {
 		Integer retorno = null;
-		if (pTextField.getText() != null && !pTextField.getText().toString().trim().isEmpty()) {
+		if(pTextField.getText() != null && !pTextField.getText().toString().trim().isEmpty()) {
 			retorno = Conversor.getIntegerDeString(pTextField.getText().toString().trim());
 		}
 		return retorno;
 	}
 
 	public PlazoProcedimiento guardarDatos(PlazoProcedimiento plazo) {
-
-		if (plazo != null) {
+		if(plazo != null) {
 			plazo.setDias(getTextFieldValueInteger(tfCantidadDias));
 			plazo.setCantidadExtensiones(getTextFieldValueInteger(tfCantidadExtensiones));
 			plazo.setDiasCorridos(chDiasCorridos.isChecked());
-		} else if (!emptyFields()) {
+		} else if(!emptyFields()) {
 			plazo = new PlazoProcedimiento();
 			plazo.setDias(getTextFieldValueInteger(tfCantidadDias));
 			plazo.setCantidadExtensiones(getTextFieldValueInteger(tfCantidadExtensiones));
 			plazo.setDiasCorridos(chDiasCorridos.isChecked());
 		}
+		
 		return plazo;
-
 	}
 
 	public void mostrarDatos(PlazoProcedimiento plazo) {
-		if (plazo != null) {
+		if(plazo != null) {
 			tfCantidadDias.setText(plazo.getDias());
 			chDiasCorridos.setValue(plazo.isDiasCorridos());
 			tfCantidadExtensiones.setText(plazo.getCantidadExtensiones());
@@ -80,13 +85,10 @@ public class PanelPlazo {
 			chDiasCorridos.setValue(null);
 			tfCantidadExtensiones.setText(null);
 		}
-
 	}
 
 	public boolean emptyFields() {
-		return tfCantidadDias.getText() == null 
-				|| tfCantidadDias.getText().equals("");
+		return tfCantidadDias.getText() == null || tfCantidadDias.getText().equals("");
 	}
 
-	
 }

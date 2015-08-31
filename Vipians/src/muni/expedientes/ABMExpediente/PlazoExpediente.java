@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMExpediente;
 
 import java.util.ArrayList;
@@ -16,7 +23,6 @@ import com.trascender.presentacion.conversores.Conversor;
 
 public class PlazoExpediente {
 
-
 	private List<DiaFeriado> listaFeriados = new ArrayList<DiaFeriado>();
 	public int cantidadDiasRestantes;
 	public Date fechaInicial;
@@ -31,31 +37,33 @@ public class PlazoExpediente {
 		this.fechaInicial = fechaDesde;
 		this.cantidadDias = cantidadDias;
 		this.diasCorridos = diasCorridos;
-
 	}
 
 	private List<DiaFeriado> getListaFeriados(Date from) {
 		try {
-			listaFeriados = getCommunicationExpedientesBean().getRemoteSystemExpedientes()
-					.getDiasFeriadosEntre(from, null);
+			listaFeriados = getCommunicationExpedientesBean().getRemoteSystemExpedientes().getDiasFeriadosEntre(from, null);
 
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		Collections.sort(listaFeriados, comparatorDiaFeriado);
+		
 		return listaFeriados;
 	}
 
 	private static Comparator<DiaFeriado> comparatorDiaFeriado = new Comparator<DiaFeriado>() {
+
 		public int compare(DiaFeriado d1, DiaFeriado d2) {
 			return d1.getFecha().compareTo(d2.getFecha());
 		}
+		
 	};
 
 	private static Date incrementarFecha(Date fecha, int cantDias) {
 		Calendar c = new GregorianCalendar();
 		c.setTime(fecha);
 		c.add(Calendar.DATE, cantDias);
+		
 		return c.getTime();
 	}
 
@@ -63,19 +71,19 @@ public class PlazoExpediente {
 		getListaFeriados(fechaInicio);
 		Date fechaFin = incrementarFecha(fechaInicio, cantDias);
 		int inhabiles = getTotalInhablies(fechaInicio, fechaFin);
-		System.out.println(Conversor.getStringDeFechaCorta(fechaInicio) + " -"
-				+ Conversor.getStringDeFechaCorta(fechaFin) + "... " + inhabiles);
-		if (!diasCorridos) {
-			while (inhabiles > 0) {
+		System.out.println(Conversor.getStringDeFechaCorta(fechaInicio) + " -" + Conversor.getStringDeFechaCorta(fechaFin) + "... " + inhabiles);
+		if(!diasCorridos) {
+			while(inhabiles > 0) {
 				Date fechaProxima = incrementarFecha(fechaFin, inhabiles);
+				
 				// paso al siguiente d\355a para no contarlo dos veces
 				fechaFin = incrementarFecha(fechaFin, 1);
 				inhabiles = getTotalInhablies(fechaFin, fechaProxima);
-				System.out.println(Conversor.getStringDeFechaCorta(fechaFin) + " -"
-						+ Conversor.getStringDeFechaCorta(fechaProxima) + "... " + inhabiles);
+				System.out.println(Conversor.getStringDeFechaCorta(fechaFin) + " -" + Conversor.getStringDeFechaCorta(fechaProxima) + "... " + inhabiles);
 				fechaFin = fechaProxima;
 			}
 		}
+		
 		return fechaFin;
 	}
 
@@ -87,21 +95,19 @@ public class PlazoExpediente {
 	private int getCantidadFeriados(Date date1, Date date2, boolean finDeSemana) {
 		int cant = 0;
 		Iterator<DiaFeriado> i = listaFeriados.iterator();
-		while (i.hasNext()) {
+		while(i.hasNext()) {
 			DiaFeriado diaFeriado = (DiaFeriado) i.next();
-			if (diaFeriado.getFecha().compareTo(date1) >= 0) {
-				if (diaFeriado.getFecha().compareTo(date2) > 0) {
+			if(diaFeriado.getFecha().compareTo(date1) >= 0) {
+				if(diaFeriado.getFecha().compareTo(date2) > 0) {
 					break;
 				}
 				Calendar c = new GregorianCalendar();
 				c.setTime(diaFeriado.getFecha());
-				if (finDeSemana) {
+				if(finDeSemana) {
 					cant++;
-				} else if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
-						&& c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				} else if(c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
 					cant++;
 				}
-
 			}
 		}
 
@@ -114,13 +120,13 @@ public class PlazoExpediente {
 		Calendar cFinal = new GregorianCalendar();
 		cFinal.setTime(date2);
 		int cant = 0;
-		while (cInicial.before(cFinal) || cInicial.equals(cFinal)) {
-			if (cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
-					|| cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+		while(cInicial.before(cFinal) || cInicial.equals(cFinal)) {
+			if(cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || cInicial.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 				cant++;
 			}
 			cInicial.add(Calendar.DATE, 1);
 		}
+		
 		return cant;
 	}
 
@@ -132,8 +138,8 @@ public class PlazoExpediente {
 		c2.setTime(date2);
 		long diff = c2.getTimeInMillis() - c1.getTimeInMillis();
 
-		cant =  diff / (24 * 60 * 60 * 1000);
-		if (!corridos) {
+		cant = diff / (24 * 60 * 60 * 1000);
+		if(!corridos) {
 			cant -= Long.parseLong(Integer.valueOf(getCantidadFeriados(date1, date2, false) + getCantSabYDom(date1, date2)).toString());
 		}
 
@@ -141,10 +147,7 @@ public class PlazoExpediente {
 	}
 
 	public muni.CommunicationExpedientesBean getCommunicationExpedientesBean() {
-
-		return (muni.CommunicationExpedientesBean) FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap().get("CommunicationExpedientesBean");
+		return (muni.CommunicationExpedientesBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("CommunicationExpedientesBean");
 	}
 
-	
 }

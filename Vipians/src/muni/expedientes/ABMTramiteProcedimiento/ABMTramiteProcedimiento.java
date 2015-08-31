@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMTramiteProcedimiento;
 
@@ -85,7 +91,6 @@ public class ABMTramiteProcedimiento extends ABMPageBean {
 
 	@Override
 	protected void _init() throws Exception {
-
 		Set<String> locListaTramiteCatalogo = this.getCommunicationExpedientesBean().getMapaTramiteCatalogo().keySet();
 		Option[] opTramiteCatalogo = new Option[locListaTramiteCatalogo.size() + 1];
 		int i = 0;
@@ -130,8 +135,8 @@ public class ABMTramiteProcedimiento extends ABMPageBean {
 		int ind = 0;
 		ep.getObjetos().add(ind++, new TramiteProcedimiento());
 		ep.getObjetos().add(ind++, new TramiteCatalogo());
-		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
-		// seleccionado.
+		
+		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
 		return ep;
 	}
@@ -145,7 +150,6 @@ public class ABMTramiteProcedimiento extends ABMPageBean {
 				this.getElementoPila().getObjetos().set(posicion, pObject);
 			}
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -163,7 +167,6 @@ public class ABMTramiteProcedimiento extends ABMPageBean {
 		int ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, locTramiteProcedimiento);
 		this.getElementoPila().getObjetos().set(ind++, locTramiteCatalogo);
-
 	}
 
 	@Override
@@ -189,6 +192,7 @@ public class ABMTramiteProcedimiento extends ABMPageBean {
 		} else {
 			retorno = this.prepararCaducidad();
 		}
+		
 		return retorno;
 	}
 
@@ -201,4 +205,5 @@ public class ABMTramiteProcedimiento extends ABMPageBean {
 	public long getSerialVersionUID() {
 		return TramiteProcedimiento.serialVersionUID;
 	}
+	
 }

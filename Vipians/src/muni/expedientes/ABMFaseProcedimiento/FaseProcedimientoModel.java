@@ -1,6 +1,11 @@
-package muni.expedientes.ABMFaseProcedimiento;
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
-import javax.faces.component.UIComponent;
+package muni.expedientes.ABMFaseProcedimiento;
 
 import com.trascender.expedientes.recurso.persistent.FaseProcedimiento;
 import com.trascender.presentacion.abstracts.controller.ABMModel;
@@ -12,10 +17,8 @@ import com.trascender.presentacion.validadores.Validador;
 
 public class FaseProcedimientoModel extends ABMModel {
 
-	
 	@Override
 	public String getReglaNavegacion() {
-
 		return "ABMFaseProcedimiento";
 	}
 
@@ -24,17 +27,19 @@ public class FaseProcedimientoModel extends ABMModel {
 		return "FaseProcedimiento";
 	}
 
+	@SuppressWarnings("unused")
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
-		UIComponent[] noVacios = new UIComponent[1];
-		String[] nomNoVacios = new String[1];
-		int pos = 0;
+		// UIComponent[] noVacios = new UIComponent[1];
+		// String[] nomNoVacios = new String[1];
+		// int pos = 0;
+
 		return v;
 	}
 
+	@SuppressWarnings("unused")
 	private void deshabilitarElementosConsultarEliminar() {
 		ABMFaseProcedimiento abmFaseProcedimiento = getBeanFaseProcedimiento();
-
 	}
 
 	private ABMFaseProcedimiento getBeanFaseProcedimiento() {
@@ -50,11 +55,9 @@ public class FaseProcedimientoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			FaseProcedimiento locFaseProcedimiento = (FaseProcedimiento) pObject;
 
-			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(
-					getSessionBean1().getLlave());
+			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().addFaseProcedimiento(locFaseProcedimiento);
 
 			return "El FaseProcedimiento se agreg\363 exitosamente";
@@ -62,15 +65,11 @@ public class FaseProcedimientoModel extends ABMModel {
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public ABMModel getModel() {
-
 			return FaseProcedimientoModel.this;
-
 		}
 
 	}
@@ -84,11 +83,9 @@ public class FaseProcedimientoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			FaseProcedimiento locFaseProcedimiento = (FaseProcedimiento) pObject;
 
-			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(
-					getSessionBean1().getLlave());
+			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().updateFaseProcedimiento(locFaseProcedimiento);
 
 			return "El FaseProcedimiento se modific\363 exitosamente";
@@ -101,9 +98,7 @@ public class FaseProcedimientoModel extends ABMModel {
 
 		@Override
 		public ABMModel getModel() {
-
 			return FaseProcedimientoModel.this;
-
 		}
 
 	}
@@ -141,10 +136,8 @@ public class FaseProcedimientoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			FaseProcedimiento locFaseProcedimiento = (FaseProcedimiento) pObject;
-			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(
-					getSessionBean1().getLlave());
+			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemProcedimientos().deleteFaseProcedimiento(locFaseProcedimiento);
 
 			return "El FaseProcedimiento se elimin\363 exitosamente";
@@ -153,7 +146,6 @@ public class FaseProcedimientoModel extends ABMModel {
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-
 		}
 
 		@Override
@@ -162,7 +154,5 @@ public class FaseProcedimientoModel extends ABMModel {
 		}
 
 	}
-	
-	
-	
+
 }

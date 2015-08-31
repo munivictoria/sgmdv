@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMExpediente;
 
@@ -27,6 +33,7 @@ import com.sun.rave.web.ui.component.TabSet;
 import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
+import com.trascender.expedientes.enums.Estado;
 import com.trascender.expedientes.recurso.filtro.FiltroExpediente;
 import com.trascender.expedientes.recurso.persistent.Expediente;
 import com.trascender.expedientes.recurso.persistent.Procedimiento;
@@ -34,6 +41,7 @@ import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.util.FiltroAbstracto;
+import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.AdminPageBean;
 import com.trascender.presentacion.abstracts.PaginatedTable;
 import com.trascender.presentacion.conversores.Conversor;
@@ -67,6 +75,34 @@ public class AdminExpediente extends AdminPageBean {
 
 	private ObjectListDataProvider dataProvider = new ObjectListDataProvider();
 	private String selectedTab = "tabBusquedaBasica";
+
+	private Label lblEstado = new Label();
+	private SingleSelectOptionsList ddEstadoOptions = new SingleSelectOptionsList();
+	private DropDown ddEstado = new DropDown();
+
+	public Label getLblEstado() {
+		return lblEstado;
+	}
+
+	public void setLblEstado(Label lblEstado) {
+		this.lblEstado = lblEstado;
+	}
+
+	public SingleSelectOptionsList getDdEstadoOptions() {
+		return ddEstadoOptions;
+	}
+
+	public void setDdEstadoOptions(SingleSelectOptionsList ddEstadoOptions) {
+		this.ddEstadoOptions = ddEstadoOptions;
+	}
+
+	public DropDown getDdEstado() {
+		return ddEstado;
+	}
+
+	public void setDdEstado(DropDown ddEstado) {
+		this.ddEstado = ddEstado;
+	}
 
 	public Button getBtnImprimir() {
 		return btnImprimir;
@@ -213,12 +249,15 @@ public class AdminExpediente extends AdminPageBean {
 		for(String cadaProcedimiento : locListaProcedimientos) {
 			opProcedimientos[i++] = new Option(cadaProcedimiento, cadaProcedimiento);
 		}
-
 		ddProcedimientoOptions.setOptions(opProcedimientos);
+
+		Option[] opEstado = null;
+		opEstado = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(Estado.values(), "may");
+		ddEstadoOptions.setOptions(opEstado);
+		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(Estado.ABIERTO)));
 
 		try {
 			panelListaTrabajo._init();
-
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -248,6 +287,7 @@ public class AdminExpediente extends AdminPageBean {
 		this.getTfNroRegistro().setValue(null);
 		this.getTfPersonaSeleccionada().setValue(null);
 		this.getDdProcedimiento().setSelected(null);
+		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(Estado.ABIERTO)));
 
 		this.getSessionBean1().setPersonaSeleccionada(null);
 
@@ -259,6 +299,7 @@ public class AdminExpediente extends AdminPageBean {
 		locFiltro.setProcedimiento(null);
 		locFiltro.setInteresado(null);
 		locFiltro.setFechaRegistroDesde(locFiltro.getPrimerDiaAnioActual());
+		locFiltro.setEstado(Estado.ABIERTO);
 		this.getTfFechaRegistroDesde().setText(Conversor.getStringDeFechaCorta(locFiltro.getFechaRegistroDesde()));
 	}
 
@@ -272,6 +313,7 @@ public class AdminExpediente extends AdminPageBean {
 		Expediente locExpediente = (Expediente) pObject;
 		getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 		locExpediente = getCommunicationExpedientesBean().getRemoteSystemExpedientes().getExpedientePorId(locExpediente.getIdNodoExpediente());
+
 		return locExpediente;
 	}
 
@@ -279,6 +321,7 @@ public class AdminExpediente extends AdminPageBean {
 	@Override
 	protected FiltroAbstracto buscar(FiltroAbstracto pFiltro) throws Exception {
 		this.getCommunicationExpedientesBean().getRemoteSystemExpedientes().setLlave(this.getSessionBean1().getLlave());
+
 		return this.getCommunicationExpedientesBean().getRemoteSystemExpedientes().findListaExpediente((FiltroExpediente) pFiltro);
 	}
 
@@ -298,26 +341,34 @@ public class AdminExpediente extends AdminPageBean {
 		locFiltro.setFechaRegistroDesde(getTextFieldValueDate(tfFechaRegistroDesde));
 		locFiltro.setFechaRegistroHasta(getTextFieldValueDate(tfFechaRegistroHasta));
 		locFiltro.setProcedimiento(getDDObjectValue(getDdProcedimiento(), getCommunicationExpedientesBean().getMapaProcedimiento()));
+		locFiltro.setEstado(this.getDDEnumValue(getDdEstado(), Estado.class));
 
 		panelListaTrabajo.guardarEstado();
 		selectedTab = tabSetAdmin.getSelected();
+
 		setElementosPila();
 	}
 
 	@Override
 	protected void mostrarEstadoObjetosUsados() {
 		getElementosPila();
+
 		FiltroExpediente locFiltro = this.getFiltro();
 		getTfAsunto().setText(locFiltro.getAsunto());
 		getTfNroRegistro().setText(locFiltro.getNroRegistro());
 		getTfFechaRegistroDesde().setText(Conversor.getStringDeFechaCorta(locFiltro.getFechaRegistroDesde()));
 		getTfFechaRegistroHasta().setText(Conversor.getStringDeFechaCorta(locFiltro.getFechaRegistroHasta()));
 		getTfPersonaSeleccionada().setText(locFiltro.getInteresado());
+
 		if(locFiltro.getProcedimiento() != null) {
 			getDdProcedimiento().setSelected(locFiltro.getProcedimiento().getNombre());
 		}
-		panelListaTrabajo.mostrarEstado();
-		getTabSetAdmin().setSelected(selectedTab);
+		if(locFiltro.getEstado() != null && !locFiltro.getEstado().equals(Estado.ABIERTO)) {
+			getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(locFiltro.getEstado())));
+		}
+		
+		// panelListaTrabajo.mostrarEstado();
+		// tabSetAdmin.setSelected("tabBusquedaBasica");
 	}
 
 	@Override
@@ -333,7 +384,6 @@ public class AdminExpediente extends AdminPageBean {
 	public void getElementosPila() {
 		int ind = 0;
 		selectedTab = obtenerObjetoDelElementoPila(ind++, String.class);
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -349,6 +399,7 @@ public class AdminExpediente extends AdminPageBean {
 		locFiltro.setFechaRegistroDesde(locFiltro.getPrimerDiaAnioActual());
 		int ind = 0;
 		ep.getObjetos().add(ind++, selectedTab);
+
 		return ep;
 	}
 
@@ -358,10 +409,12 @@ public class AdminExpediente extends AdminPageBean {
 
 	public String btnModificar_action() {
 		Expediente expendiente = (Expediente) this.getObjetoSeleccionado();
-		if (expendiente != null && expendiente.getEstado().toString().equals("CERRADO")) {
-			warn("No se pueden Modificar los Expedientes en estado Cerrado.");
+		if((expendiente != null && expendiente.getEstado().toString().equals("CERRADO")) || expendiente != null && expendiente.getEstado().toString().equals("ELIMINADO")) {
+			warn("No se pueden Modificar los Expedientes en estado Cerrado o Eliminado.");
+
 			return null;
 		}
+
 		return toAbm(new ExpedienteModel().new ModificarController());
 	}
 
@@ -375,7 +428,6 @@ public class AdminExpediente extends AdminPageBean {
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
-
 		FiltroExpediente locFiltro = getFiltro();
 		if(pObject instanceof Persona) {
 			if(pObject != null) {
@@ -415,6 +467,7 @@ public class AdminExpediente extends AdminPageBean {
 		} else {
 			retorno = this.prepararCaducidad();
 		}
+
 		return retorno;
 	}
 
@@ -432,6 +485,7 @@ public class AdminExpediente extends AdminPageBean {
 		} else {
 			retorno = this.prepararCaducidad();
 		}
+
 		return retorno;
 	}
 
@@ -451,7 +505,6 @@ public class AdminExpediente extends AdminPageBean {
 		panelListaTrabajo.actualizarSegunVencidos();
 	}
 
-	// TODO
 	public String btnModificarListaTrabajo_action() {
 		return toAbmFromListaTrabajo(new ExpedienteModel().new ModificarController());
 	}
@@ -490,9 +543,7 @@ public class AdminExpediente extends AdminPageBean {
 						}
 
 						this.getRequestBean1().setObjetoABM(expediente);
-
 					}
-
 				} catch(Exception ex) {
 					log(getCasoNavegacion() + "toAbmListaTrabajoException:", ex);
 					error(getNombrePagina() + " - toAbmFromListaTrabajo: " + ex.getMessage());
@@ -512,6 +563,7 @@ public class AdminExpediente extends AdminPageBean {
 			retorno = this.prepararCaducidad();
 		}
 		setElementosPila();
+
 		return retorno;
 	}
 
@@ -520,16 +572,12 @@ public class AdminExpediente extends AdminPageBean {
 		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
 
 		if(ultimo) {
-			// APLICAR LOGICA AQUI...
-			// ariel - no guardar. utilizar lo ya guardado (con resultado de la busqueda)
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 			Expediente locExpediente = null;
 
 			try {
-
 				RowKey rk = this.getSeleccionado();
-
 				if(rk != null) {
 					int index = getNroFila(rk.toString());
 					Object obj = this.getObjectListDataProvider().getObjects()[index];
@@ -548,16 +596,30 @@ public class AdminExpediente extends AdminPageBean {
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_Alta_Expediente");
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
 			} catch(Exception ex) {
+				ex.printStackTrace();
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
 			}
-
 			this.guardarOrdenamiento();
 			Long pos = this.getPosicionEnTabla(this.getRowKeySeleccionado());
 			this.getElementoPila().setPosicionGlobal(pos.longValue());
 		} else {
 			retorno = this.prepararCaducidad();
 		}
+
 		return retorno;
+	}
+
+	@Override
+	protected void _prerender() throws Exception {
+		super._prerender();
+
+		String idTab = this.getTabSetAdmin().getSelected();
+		if(idTab != null && idTab.equals("tabListaTrabajo")) {
+			getElementosPila();
+
+			// panelListaTrabajo.mostrarEstado();
+			this.getStCantidadRegistros().setText(panelListaTrabajo.getTableExpedientes().getList().size());
+		}
 	}
 
 	@Override
@@ -585,4 +647,5 @@ public class AdminExpediente extends AdminPageBean {
 
 		locFiltro.setInteresado(interesado);
 	}
+
 }

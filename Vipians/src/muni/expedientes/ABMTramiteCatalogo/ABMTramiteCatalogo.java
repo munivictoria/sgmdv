@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMTramiteCatalogo;
 
@@ -61,7 +67,7 @@ public class ABMTramiteCatalogo extends ABM_Table {
 	}
 
 	private TableDocumentoCatalogo tableDC = new TableDocumentoCatalogo();
-	
+
 	private TableEstadosTramite tableET = new TableEstadosTramite();
 
 	private TramiteCatalogo tramiteCatalogo;
@@ -101,7 +107,7 @@ public class ABMTramiteCatalogo extends ABM_Table {
 	public void setLblNombre(Label lblNombre) {
 		this.lblNombre = lblNombre;
 	}
-	
+
 	public TableEstadosTramite getTableET() {
 		return tableET;
 	}
@@ -122,7 +128,14 @@ public class ABMTramiteCatalogo extends ABM_Table {
 	protected void _init() throws Exception {
 		tableDC._init();
 		tableET._init();
-
+	}
+	
+	@Override
+	protected void _prerender() throws Exception {
+		super._prerender();
+		
+		this.getApplicationBean1().aplicarPropiedadesTablaAdmin(this.getTableDC().getTable(), this.getTableDC().getTableRowGroup1());
+		this.getApplicationBean1().aplicarPropiedadesTablaAdmin(this.getTableET().getTable(), this.getTableET().getTableRowGroup1());
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -142,7 +155,7 @@ public class ABMTramiteCatalogo extends ABM_Table {
 		tramiteCatalogo.setListaDocumentosCatalogos(listaDocumentosCatalogos);
 		listaEstadoTramite = (ArrayList) this.tableET.getList();
 		tramiteCatalogo.setListaEstadosTramite(listaEstadoTramite);
-		
+
 		setElementosPila();
 	}
 
@@ -165,8 +178,8 @@ public class ABMTramiteCatalogo extends ABM_Table {
 		ep.getObjetos().add(ind++, new TramiteCatalogo());
 		ep.getObjetos().add(ind++, new ArrayList());
 		ep.getObjetos().add(ind++, new ArrayList());
-		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
-		// seleccionado.
+		
+		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
 		return ep;
 	}
@@ -176,25 +189,24 @@ public class ABMTramiteCatalogo extends ABM_Table {
 		getElementosPila();
 		if(pObject instanceof DocumentoCatalogo) {
 			DocumentoCatalogo nuevaDocumentoCatalogo = (DocumentoCatalogo) pObject;
-			if (nuevaDocumentoCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)){
-			tableDC.addToList(listaDocumentosCatalogos, nuevaDocumentoCatalogo);
-			setElementosPila();
-			} else{
+			if(nuevaDocumentoCatalogo.getEstado().equals(EstadoPlantilla.ACTIVO)) {
+				tableDC.addToList(listaDocumentosCatalogos, nuevaDocumentoCatalogo);
+				setElementosPila();
+			} else {
 				warn("Solo puede seleccionar Documentos activos");
 			}
 			this.getRequestBean1().setObjetoSeleccion(null);
 		}
 		if(pObject instanceof EstadoTramite) {
-			EstadoTramite nuevaEstadosTramite= (EstadoTramite) pObject;
-			if (nuevaEstadosTramite.getEstado().equals(EstadoPlantilla.ACTIVO)){
-			tableET.addToList(listaEstadoTramite, nuevaEstadosTramite);
-			setElementosPila();
-			} else{
+			EstadoTramite nuevaEstadosTramite = (EstadoTramite) pObject;
+			if(nuevaEstadosTramite.getEstado().equals(EstadoPlantilla.ACTIVO)) {
+				tableET.addToList(listaEstadoTramite, nuevaEstadosTramite);
+				setElementosPila();
+			} else {
 				warn("Solo puede seleccionar Estados de Trámites activos");
 			}
 			this.getRequestBean1().setObjetoSeleccion(null);
 		}
-
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
@@ -213,7 +225,6 @@ public class ABMTramiteCatalogo extends ABM_Table {
 		listaEstadoTramite = new ArrayList(tramiteCatalogo.getListaEstadosTramite());
 
 		setElementosPila();
-
 	}
 
 	@Override
@@ -244,7 +255,7 @@ public class ABMTramiteCatalogo extends ABM_Table {
 	public String btnQuitarTodosET_action() {
 		return quitarTodos_action(tableET);
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void getElementosPila() {
@@ -252,7 +263,6 @@ public class ABMTramiteCatalogo extends ABM_Table {
 		tramiteCatalogo = obtenerObjetoDelElementoPila(ind++, TramiteCatalogo.class);
 		listaDocumentosCatalogos = (ArrayList) this.obtenerObjetoDelElementoPila(ind++, ArrayList.class);
 		listaEstadoTramite = (ArrayList) this.obtenerObjetoDelElementoPila(ind++, ArrayList.class);
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -274,4 +284,5 @@ public class ABMTramiteCatalogo extends ABM_Table {
 	public long getSerialVersionUID() {
 		return TramiteCatalogo.serialVersionUID;
 	}
+	
 }

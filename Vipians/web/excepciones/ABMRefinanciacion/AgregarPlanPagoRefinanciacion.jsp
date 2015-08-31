@@ -122,8 +122,9 @@
 						tfTotalARefinanciar = getById("form1:tfTotalARefinanciar");
 
 						tfSaldoAFavor = getById("form1:tfSaldoAFavor");
+						tfTotalPeriodosCondonados = getById("form1:tfImportePeriodosCondonados");
 
-						tfTotalARefinanciar.value = sumarValores(tfImporte.value, tfIntereses.value, tfRecargos.value, tfMultas.value) - parseFloat(sumarTotalCondonado(), _decimales)
+						tfTotalARefinanciar.value = sumarValores(tfImporte.value, tfIntereses.value, tfRecargos.value, tfMultas.value, tfTotalPeriodosCondonados.value) - parseFloat(sumarTotalCondonado(), _decimales)
 								- parseFloat(tfSaldoAFavor.value, _decimales);
 						tfTotalARefinanciar.value = formatNumber(tfTotalARefinanciar.value);
 					}
@@ -134,7 +135,8 @@
 						tfRecargosCondonado = getById("form1:tfRecargosCondonado");
 						tfMultasCondonado = getById("form1:tfMultasCondonado");
 						tfTotalCondonado = getById("form1:tfTotalCondonado");
-						tfTotalCondonado.value = sumarValores(tfImporteCondonado.value, tfInteresesCondonado.value, tfRecargosCondonado.value, tfMultasCondonado.value);
+						tfTotalPeriodosCondonados = getById("form1:tfImportePeriodosCondonados");
+						tfTotalCondonado.value = sumarValores(tfImporteCondonado.value, tfInteresesCondonado.value, tfRecargosCondonado.value, tfMultasCondonado.value, tfTotalPeriodosCondonados.value);
 						tfTotalCondonado.value = formatNumber(tfTotalCondonado.value);
 						return tfTotalCondonado.value;
 					}
@@ -176,46 +178,23 @@
 													<ui:label id="lblPlantillaPlanDePago" text="Plantilla" for="ddPlantillaPlanDePago" styleClass="label"
 														binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblPlantillaPlanDePago}" />
 												</td>
-												<td align="left" colspan="3" nowrap="nowrap">
+												<td align="left" nowrap="nowrap">
 													<ui:dropDown binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ddPlantillaPlanDePago}" id="ddPlantillaPlanDePago" styleClass="textField"
 														items="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ddPlantillaPlanDePagoOptions.options}">
 														<a4j:support event="onChange" oncomplete="calcularCondonaciones(); cargarComportamientoJQuery();"
 															reRender="form1:tfImporteACondonar, form1:tfInteresACondonar, form1:rbCondonarImportePorc,
 														form1:rbCondonarImporteFijo, form1:rbCondonarInteresesPorc, form1:rbCondonarInteresesFijo
 														form1:tfInteresesACondonar, form1:rbCondonarInteresesFijo,
-														form1:tfCantidadCuotas, form1:tfTasaNominalAnual,
+														form1:ddCantidadCuotas, form1:tfTasaNominalAnual,
 														form1:tfInteresPunitorio, form1:tfFechaVencimiento, form1:tfCantidadDiasCaida, form1:tfCantidadCuotasCaida, form1"
 															actionListener="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.eventoSeleccionPlantilla(evento)}" />
 													</ui:dropDown>
 												</td>
-											</tr>
-											<tr>
-												<td align="right" nowrap="nowrap">
-													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblContribuyente}" for="tfContribuyente" id="lblContribuyente" styleClass="label"
-														text="Contribuyente" />
-												</td>
-												<td align="left" colspan="3" nowrap="nowrap">
-													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfContribuyente}" columns="40" disabled="true" id="tfContribuyente"
-														styleClass="textFieldDisabled" />
-												</td>
-											</tr>
-											<tr>
-												<td align="right" nowrap="nowrap">
-													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblSuscriptor}" for="tfSuscriptor" id="lblSuscriptor" styleClass="label" text="Suscriptor" />
-												</td>
-												<td align="left" colspan="3" nowrap="nowrap">
-													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfSuscriptor}" columns="40" id="tfSuscriptor" disabled="true" styleClass="textFieldDisabled" />
-													<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarPersonaFisica_action}"
-														binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarPersona}" escape="false" id="btnSeleccionarPersona" mini="true"
-														styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
-												</td>
-											</tr>
-											<tr>
 												<td align="right" nowrap="nowrap">
 													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblDigesto}" for="tfDigesto" id="lblDigesto" styleClass="label"
 														text="Decreto, Ordenanza, Resolución" />
 												</td>
-												<td align="left" colspan="3" nowrap="nowrap">
+												<td align="left" nowrap="nowrap">
 													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfDigesto}" columns="60" disabled="true" id="tfDigesto" styleClass="textField" />
 													<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarDigesto_action}"
 														binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarDigesto}" escape="false" id="btnSeleccionarDigesto" mini="true"
@@ -224,6 +203,149 @@
 														binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnLimpiarDigesto}" escape="false" id="btnLimpiarDigesto" mini="true" styleClass="buttonLimpiar"
 														text="&amp;nbsp;" toolTip="Limpiar" />
 												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="nowrap">
+													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblContribuyente}" for="tfContribuyente" id="lblContribuyente" styleClass="label"
+														text="Contribuyente" />
+												</td>
+												<td align="left" nowrap="nowrap">
+													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfContribuyente}" columns="40" disabled="true" id="tfContribuyente"
+														styleClass="textFieldDisabled" />
+												</td>
+												<td align="right" nowrap="nowrap">
+													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblSuscriptor}" for="tfSuscriptor" id="lblSuscriptor" styleClass="label" text="Suscriptor" />
+												</td>
+												<td align="left" nowrap="nowrap">
+													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfSuscriptor}" columns="40" id="tfSuscriptor" disabled="true" styleClass="textFieldDisabled" />
+													<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarPersonaFisica_action}"
+														binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarPersona}" escape="false" id="btnSeleccionarPersona" mini="true"
+														styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<br />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<ui:table augmentTitle="false" binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tableSeleccionPeriodos}" id="tableSeleccionPeriodos" width="192">
+														<script>
+															<![CDATA[
+															/* ----- Functions for Table Preferences Panel ----- */
+															/*
+															 * Toggle the table preferences panel open or closed
+															 */
+															function togglePreferencesPanel() {
+																var table = document.getElementById("form1:tableSeleccionPeriodos");
+																table.toggleTblePreferencesPanel();
+															}
+															/* ----- Functions for Filter Panel ----- */
+															/*
+															 * Return true if the filter menu has actually changed,
+															 * so the corresponding event should be allowed to continue.
+															 */
+															function filterMenuChanged() {
+																var table = document.getElementById("form1:tableSeleccionPeriodos");
+																return table.filterMenuChanged();
+															}
+															/*
+															 * Toggle the custom filter panel (if any) open or closed.
+															 */
+															function toggleFilterPanel() {
+																var table = document.getElementById("form1:tableSeleccionPeriodos");
+																return table.toggleTableFilterPanel();
+															}
+															/* ----- Functions for Table Actions ----- */
+															/*
+															 * Initialize all rows of the table when the state
+															 * of selected rows changes.
+															 */
+															function initAllRows() {
+																var table = document.getElementById("form1:tableSeleccionPeriodos");
+																table.initAllRows();
+															}
+															/*
+															 * Set the selected state for the given row groups
+															 * displayed in the table.  This functionality requires
+															 * the 'selectId' of the tableColumn to be set.
+															 *
+															 * @param rowGroupId HTML element id of the tableRowGroup component
+															 * @param selected Flag indicating whether components should be selected
+															 */
+															function selectGroupRows(rowGroupId, selected) {
+																var table = document.getElementById("form1:tableSeleccionPeriodos");
+																table.selectGroupRows(rowGroupId, selected);
+															}
+															/*
+															 * Disable all table actions if no rows have been selected.
+															 */
+															function disableActions() {
+																// Determine whether any rows are currently selected
+																var table = document.getElementById("form1:tableSeleccionPeriodos");
+																var disabled = (table.getAllSelectedRowsCount() > 0) ? false : true;
+																// Set disabled state for top actions
+																document.getElementById("form1:tableSeleccionPeriodos:tableActionsTop:deleteTop").setDisabled(disabled);
+																// Set disabled state for bottom actions
+																document.getElementById("form1:tableSeleccionPeriodos:tableActionsBottom:deleteBottom").setDisabled(disabled);
+															}
+															]]>
+														</script>
+														<ui:tableRowGroup binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tableRowGroupSeleccionPeriodos}" id="tableRowGroupSeleccionPeriodos"
+															sourceData="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ldpSeleccionPeriodos}" sourceVar="currentRow">
+															<ui:tableColumn headerText="Periodo" id="tableColumnPeriodo" >
+																<ui:staticText text="#{currentRow.value['periodo'].numero}" />
+															</ui:tableColumn>
+															<ui:tableColumn headerText="2014" id="tc2014" >
+																	<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2014) != null}"
+																		disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2014)}"
+																		label="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2014)}"
+																		selected="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelected}"
+																		selectedValue="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelectedValue(currentRow, 2014)}">
+																	</ui:checkbox>
+															</ui:tableColumn>
+															<ui:tableColumn headerText="2013" id="tc2013" >
+																<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2013) != null}"
+																disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2013)}"
+																		label="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2013)}"
+																		selected="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelected}" 
+																		selectedValue="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelectedValue(currentRow, 2013)}">
+																	</ui:checkbox>
+															</ui:tableColumn>
+															<ui:tableColumn headerText="2012" id="tc2012" >
+																<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2012) != null}"
+																disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2012)}"
+																		label="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2012)}"
+																		selected="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelected}" 
+																		selectedValue="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelectedValue(currentRow, 2012)}">
+																	</ui:checkbox>
+															</ui:tableColumn>
+															<ui:tableColumn headerText="2011" id="tc2011" >
+																<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2011) != null}"
+																disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2011)}"
+																		label="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2011)}"
+																		selected="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelected}" 
+																		selectedValue="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelectedValue(currentRow, 2011)}">
+																	</ui:checkbox>
+															</ui:tableColumn>
+															<ui:tableColumn headerText="2010" id="tc2010" >
+																<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2010) != null}"
+																disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2010)}"
+																		label="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2010)}"
+																		selected="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelected}" 
+																		selectedValue="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelectedValue(currentRow, 2010)}">
+																</ui:checkbox>
+															</ui:tableColumn>
+														</ui:tableRowGroup>
+													</ui:table>
+												</td>
+											</tr>
+											<tr>
+											<td>
+												<a4j:commandButton action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnCalcular_action}" 
+													value="Calcular" styleClass="btnAjax" reRender="form1"/>
+											</td>
 											</tr>
 											<tr>
 												<td colspan="4">
@@ -356,6 +478,20 @@
 											</tr>
 											<tr>
 												<td align="right" nowrap="nowrap">
+													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblPeriodosCondonados}" for="tfPeriodosCondonados" id="lblPeriodosCondonados" styleClass="label" text="Periodos Condonados" />
+												</td>
+												<td align="left" nowrap="nowrap" colspan="2">
+													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfPeriodosCondonados}" columns="70" disabled="true" id="tfPeriodosCondonados"
+														style="padding-right: 6px; text-align: right" styleClass="textFieldDisabled" />
+												</td>
+												<td align="left" nowrap="nowrap">
+													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfImportePeriodosCondonados}" columns="10" 
+														id="tfImportePeriodosCondonados" onKeyUp="calcularCondonaciones()"
+														style="padding-right: 6px; text-align: right" styleClass="textFieldDisabled" text="0.00" />
+												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="nowrap">
 													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblSaldoAFavor}" for="tfSaldoAFavor" id="lblSaldoAFavor" styleClass="label" text="Saldo a Favor" />
 												</td>
 												<td align="left" nowrap="nowrap">
@@ -400,15 +536,15 @@
 											</tr>
 											<tr>
 												<td align="right" nowrap="nowrap">
-													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblCantidadCuotas}" for="tfCantidadCuotas" id="lblCantidadCuotas" styleClass="label"
-														text="Cantidad de Cuotas" />
+													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblCantidadCuotas}" for="ddCantidadCuotas"
+														id="lblCantidadCuotas" styleClass="label" text="Cantidad de Cuotas" />
 												</td>
 												<td align="left" nowrap="nowrap">
-													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfCantidadCuotas}" columns="6" id="tfCantidadCuotas"
-														onKeyPress="return ValidarNum(event,this)" style="&lt;Valores diferentes&gt;" styleClass="textField">
-														<a4j:support event="onChange" actionListener="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.cantidadCuotasActionListener}"
-															reRender="tfTasaNominalAnual"/>
-													</ui:textField>
+													<ui:dropDown binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ddCantidadCuotas}" id="ddCantidadCuotas"
+														styleClass="textField" items="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.ddCantidadCuotasOptions.options}">
+														<a4j:support event="onChange" oncomplete="cargarComportamientoJQuery();" reRender="form1:tfTasaNominalAnual, form1:tfInteresesACondonar"
+															actionListener="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.eventoSeleccionCantidadCuotas(evento)}" />
+													</ui:dropDown>
 												</td>
 												<td align="right" nowrap="nowrap">
 													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblCapitalARefinanciar}" for="tfTotalARefinanciar" id="lblCapitalARefinanciar" styleClass="label2"
@@ -460,7 +596,6 @@
 												</td>
 												<td align="left" nowrap="nowrap">
 													<ui:textField binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tfFechaVencimiento}" columns="10" id="tfFechaVencimiento" styleClass="textField" />
-													<ui:staticText escape="false" id="stFechaVencimiento" styleClass="label" text=" [Apartir de la 2da cuota]" />
 												</td>
 												<td align="right" nowrap="nowrap">
 													<ui:label binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.lblTotalAPagar}" for="tfTotalAPagar" id="lblTotalAPagar" styleClass="label2" text="Total a Pagar" />

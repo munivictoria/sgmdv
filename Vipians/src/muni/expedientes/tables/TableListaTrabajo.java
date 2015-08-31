@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -38,26 +45,23 @@ public class TableListaTrabajo extends TableBean {
 		return getListaExpedientes();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void setListaDelCommunication(List lista) {
 		FiltroListaTrabajo flTrabajo = getCommunicationExpedienteBean().getFiltroListaTrabajo();
-         flTrabajo.setListaResultado(lista);
+		flTrabajo.setListaResultado(lista);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void addToList(List pList, Object pObject) {
-
 	}
-	
-	
-	private List<NodoExpediente> getListaExpedientes(){
+
+	private List<NodoExpediente> getListaExpedientes() {
 		FiltroListaTrabajo flTrabajo = getCommunicationExpedienteBean().getFiltroListaTrabajo();
-		return  flTrabajo.getListaResultado();
 		
-	} 
-	
+		return flTrabajo.getListaResultado();
+	}
 
 	private CommunicationExpedientesBean getCommunicationExpedienteBean() {
 		return (CommunicationExpedientesBean) this.getSessionBean("CommunicationExpedientesBean");
@@ -70,8 +74,7 @@ public class TableListaTrabajo extends TableBean {
 
 	@Override
 	public Object getSessionBean(String pBeanName) {
-		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(pBeanName);
+		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(pBeanName);
 	}
 
 }

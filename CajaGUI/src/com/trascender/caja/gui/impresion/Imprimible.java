@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import com.trascender.caja.gui.main.CajaGUI;
 import com.trascender.contabilidad.recurso.persistent.Caja;
+import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.contabilidad.recurso.persistent.PagoTicket;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.framework.recurso.persistent.Persona;
@@ -108,9 +109,10 @@ public abstract class Imprimible {
 			}else{
 				resultado+="Período: "+ locLiquidacionTasa.getCuotaLiquidacion().getPeriodo() +" \n";
 			}
-		}
-		else{ 
+		} else if (locDeuda instanceof IngresoVario){ 
 			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3) + "\n"; //Administrativo
+		} else {
+			resultado+=locDeuda.getNombre()+"\n";
 		}
 
 		resultado+=" \n";
@@ -215,8 +217,10 @@ public abstract class Imprimible {
 				resultado+="Período: "+ locLiquidacionTasa.getCuotaLiquidacion().getPeriodo() +" \n";
 			}
 		}
-		else{
-			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3)+"\n"; //Administrativo
+		else if (locDeuda instanceof IngresoVario){ 
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3) + "\n"; //Administrativo
+		} else {
+			resultado+=locDeuda.getNombre()+"\n";
 		}
 
 		resultado+=" \n";
@@ -304,9 +308,10 @@ public abstract class Imprimible {
 			}else{
 				resultado+="Período: "+ locLiquidacionTasa.getCuotaLiquidacion().getPeriodo()+" \n";
 			}
-		}
-		else{
-			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3)+"\n"; //Administrativo
+		} else if (locDeuda instanceof IngresoVario){ 
+			resultado+=acortarString("Concepto: "+locDeuda.getNombre()+" \n", 40, 3) + "\n"; //Administrativo
+		} else {
+			resultado+=locDeuda.getNombre()+"\n";
 		}
 
 		resultado+=" \n";

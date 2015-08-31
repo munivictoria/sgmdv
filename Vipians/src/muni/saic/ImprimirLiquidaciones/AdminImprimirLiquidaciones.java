@@ -69,6 +69,7 @@ import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.reportes.ImpresionReporteDinamico;
 import com.trascender.saic.recurso.filtros.FiltroLiquidacionTasaRefer;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
+import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 
@@ -2388,33 +2389,68 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 		String retorno = null;
 		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
 
-		this.guardarEstadoObjetosUsados();
-		
 		if(ultimo) {
-			List<LiquidacionTasaRefer> listaLiquidacionesRefer = Util.castearLista(this.getObjectListDataProvider().getList());
-			List<LiquidacionTasaAgrupada> listaLiquidacionesAgrupadas = new ArrayList<LiquidacionTasaAgrupada>();
-
-			for(Iterator<LiquidacionTasaRefer> iterator = listaLiquidacionesRefer.iterator(); iterator.hasNext();) {
-				LiquidacionTasaRefer cadaLiquidacionRefer = iterator.next();
-				if(!cadaLiquidacionRefer.getEstado().equals("VIGENTE") && !cadaLiquidacionRefer.getEstado().equals("VENCIDA")) {
-					iterator.remove();
-					continue;
-				}
+			this.guardarEstadoObjetosUsados();
+			List seleccionados = new ArrayList();
+			if(this.getCommunicationSAICBean().isSeleccionMultipleImprimirLiquidaciones()) {
+				seleccionados = new ArrayList(this.getListaSeleccionados());
+			} else {
 				try {
-					this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
-					listaLiquidacionesAgrupadas.add(this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(cadaLiquidacionRefer));
-				} catch(RemoteException e) {
+					RowKey rk = this.getSeleccionado();
+
+					if(rk != null) {
+						int index = getNroFila(rk.toString());
+						Object obj = this.getObjectListDataProvider().getObjects()[index];
+						seleccionados.add(obj);
+
+						this.guardarOrdenamiento();
+						Long pos = this.getPosicionEnTabla(rk);
+						this.getElementoPila().setPosicionGlobal(pos.longValue());
+					}
+				} catch(Exception e) {
 					e.printStackTrace();
 				}
 			}
-			
-			if (!listaLiquidacionesAgrupadas.isEmpty()) {
-				this.getRequestBean1().setObjetoABM(listaLiquidacionesAgrupadas);
-				this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
-				this.getRequestBean1().setAbmController(new NotificacionModel().new NotificarController());
-				retorno = "AgregarPlanPagoRefinanciacion";
+
+			if(seleccionados.size() == 1) {
+				LiquidacionTasaRefer liquidacion = (LiquidacionTasaRefer) seleccionados.get(0);
+				FiltroLiquidacionTasaRefer locFiltro = this.obtenerObjetoDelElementoPila(0, FiltroLiquidacionTasaRefer.class);
+
+				//Obtenemos un numero de cuenta.
+				String numeroCuenta = liquidacion.getParcela();
+				locFiltro.setNumeroParcela(numeroCuenta);
+				
+				//Limpiamos otros campos de busqueda que pudiera haber
+				locFiltro.setEstadoLiquidacion(null);
+				locFiltro.setTipoLiquidacion(null);
+				locFiltro.setAnio(null);
+				locFiltro.setCalendario(null);
+				locFiltro.setPeriodo(null);
+				locFiltro.setCuota(null);
+				
+				try {
+					//Buscamos todas las liquidaciones.
+					this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().setLlave(this.getSessionBean1().getLlave());
+					List<LiquidacionTasaRefer> locListaLiquidacion = 
+							this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().findListaLiquidacionTasaRefer(locFiltro)
+							.getListaResultados();
+					
+					ArrayList<LiquidacionTasaAgrupada> listaLta = new ArrayList<LiquidacionTasaAgrupada>();
+					for (LiquidacionTasaRefer ltr : locListaLiquidacion) {
+					 	listaLta.add(
+					 			this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(ltr));
+					}
+					this.getRequestBean1().setObjetosSeleccionMultiple(listaLta);
+					this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+					this.getRequestBean1().setAbmController(new NotificacionModel().new NotificarController());
+					retorno = "AgregarPlanPagoRefinanciacion";
+				} catch (Exception e){
+					e.printStackTrace();
+					error(e.getMessage());
+				}
 			} else {
-				info("No hay Liquidaciones para Refinanciar");
+				warn("Debe seleccionar una liquidación");
+				return null;
 			}
 		} else {
 			retorno = this.prepararCaducidad();

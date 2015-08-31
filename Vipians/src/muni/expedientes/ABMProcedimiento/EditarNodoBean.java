@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMProcedimiento;
 
@@ -24,6 +30,7 @@ public class EditarNodoBean extends ABM_Table {
 		abmProcedimiento.getElementosPila();
 		abmProcedimiento.bean = "EditarNodoBean";
 		abmProcedimiento.setElementosPila();
+		
 		return navegarParaSeleccionar("AdminArea");
 	}
 
@@ -41,6 +48,7 @@ public class EditarNodoBean extends ABM_Table {
 		abmProcedimiento.bean = "EditarNodoBean";
 		abmProcedimiento.usuarioSeleccion = "responsable";
 		abmProcedimiento.setElementosPila();
+		
 		return navegarParaSeleccionar("AdminUsuario");
 	}
 
@@ -51,13 +59,14 @@ public class EditarNodoBean extends ABM_Table {
 	public String btnQuitarTodosUsuarios_action() {
 		return quitarTodos_action(abmProcedimiento.getPanelEditNodo().getPanelResponsable().getTableUsuarios());
 	}
-	
+
 	// tabla Usuarios extensores responsables
 	public String btnAgregarUsuarioExtensores_action() {
 		abmProcedimiento.getElementosPila();
 		abmProcedimiento.bean = "EditarNodoBean";
 		abmProcedimiento.usuarioSeleccion = "extensor";
 		abmProcedimiento.setElementosPila();
+		
 		return navegarParaSeleccionar("AdminUsuario");
 	}
 
@@ -113,4 +122,5 @@ public class EditarNodoBean extends ABM_Table {
 	public long getSerialVersionUID() {
 		return 0;
 	}
+	
 }

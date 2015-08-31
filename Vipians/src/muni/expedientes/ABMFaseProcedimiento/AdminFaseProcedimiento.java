@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMFaseProcedimiento;
 
@@ -62,7 +68,6 @@ public class AdminFaseProcedimiento extends AdminPageBean {
 
 	@Override
 	public PaginatedTable getPaginatedTable() {
-
 		return getCommunicationExpedientesBean().getTablaFaseProcedimiento();
 	}
 
@@ -71,16 +76,16 @@ public class AdminFaseProcedimiento extends AdminPageBean {
 		FaseProcedimiento locFaseProcedimiento = (FaseProcedimiento) pObject;
 		getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 		locFaseProcedimiento = getCommunicationExpedientesBean().getRemoteSystemProcedimientos().getFaseProcedimientoPorId(locFaseProcedimiento.getIdNodoProcedimiento());
+		
 		return pObject;
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected FiltroAbstracto buscar(FiltroAbstracto pFiltro) throws Exception {
-
 		this.getComunicationCatastroBean().getRemoteSystemInformacionGeografica().setLlave(this.getSessionBean1().getLlave());
+		
 		return this.getCommunicationExpedientesBean().getRemoteSystemProcedimientos().findListaFaseProcedimiento((FiltroFaseProcedimiento) pFiltro);
-
 	}
 
 	@Override
@@ -128,7 +133,6 @@ public class AdminFaseProcedimiento extends AdminPageBean {
 
 	@Override
 	protected void procesarObjetoSeleccion(Object pObject) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -145,4 +149,5 @@ public class AdminFaseProcedimiento extends AdminPageBean {
 	public long getSerialVersionUID() {
 		return FaseProcedimiento.serialVersionUID;
 	}
+	
 }

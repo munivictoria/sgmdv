@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -35,8 +42,7 @@ public class Plazo implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id_exp_plazo")
-	@SequenceGenerator(name = "gen_id_exp_plazo", sequenceName = "gen_id_exp_plazo",
-			allocationSize = 1)
+	@SequenceGenerator(name = "gen_id_exp_plazo", sequenceName = "gen_id_exp_plazo", allocationSize = 1)
 	@Column(name = "ID_PLAZO")
 	private long idPlazo = -1l;
 
@@ -54,7 +60,7 @@ public class Plazo implements Serializable {
 
 	public Plazo(NodoProcedimiento pNodoProcedimiento) {
 		PlazoProcedimiento pp = pNodoProcedimiento.getPlazo();
-		while (pp == null) {
+		while(pp == null) {
 			pNodoProcedimiento = pNodoProcedimiento.getNodoPadre();
 			pp = pNodoProcedimiento.getPlazo();
 		}
@@ -62,7 +68,8 @@ public class Plazo implements Serializable {
 		this.fechaInicio = new Date();
 	}
 
-	public Plazo() {}
+	public Plazo() {
+	}
 
 	public long getIdPlazo() {
 		return idPlazo;
@@ -95,11 +102,11 @@ public class Plazo implements Serializable {
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-	
+
 	public PlazoDatosCalculados getDatosCalculados(List<DiaFeriado> diasFeriados) {
-		return new PlazoDatosCalculados(this.fechaInicio, this.plazoProcedimiento.getDias(),this.plazoProcedimiento.isDiasCorridos(),diasFeriados);
+		return new PlazoDatosCalculados(this.fechaInicio, this.plazoProcedimiento.getDias(), this.plazoProcedimiento.isDiasCorridos(), diasFeriados);
 	}
-	
+
 	public PlazoExtendido getExtension(Usuario pUsuario, Integer cantidadDias, List<DiaFeriado> pLista) throws ExpedientesExceptions {
 		PlazoExtendido locPlazo = new PlazoExtendido();
 		locPlazo.setPlazoAnterior(this);
@@ -109,26 +116,26 @@ public class Plazo implements Serializable {
 		locPlazo.setFechaInicio(new Date());
 		PlazoDatosCalculados locPDC = locPlazo.getDatosCalculados(pLista);
 		locPlazo.setFechaFin(locPDC.getFechaFinal());
+		
 		return locPlazo;
 	}
-	
-	public void validarNuevaExtension(Integer dias, Usuario pUsuario, NodoProcedimiento pNodo) 
-			throws ExpedientesExceptions{
+
+	public void validarNuevaExtension(Integer dias, Usuario pUsuario, NodoProcedimiento pNodo) throws ExpedientesExceptions {
 		UsuarioExtensor locUsuarioExtensor = null;
-		if (pNodo.getResponsable() != null) {
-			for (UsuarioExtensor cadaUsuarioExtensor : pNodo.getResponsable().getListaUsuariosExtensores()) {
-				if (cadaUsuarioExtensor.getUsuario().equals(pUsuario)) {
+		if(pNodo.getResponsable() != null) {
+			for(UsuarioExtensor cadaUsuarioExtensor : pNodo.getResponsable().getListaUsuariosExtensores()) {
+				if(cadaUsuarioExtensor.getUsuario().equals(pUsuario)) {
 					locUsuarioExtensor = cadaUsuarioExtensor;
 					break;
 				}
 			}
 		}
-		if (locUsuarioExtensor == null) {
-			//Usuario no puede hacer extensiones.
+		if(locUsuarioExtensor == null) {
+			// Usuario no puede hacer extensiones.
 			throw new ExpedientesExceptions(103);
 		}
-		if (dias > locUsuarioExtensor.getCantidadDias()) {
-			//Demasiados días de extension.
+		if(dias > locUsuarioExtensor.getCantidadDias()) {
+			// Demasiados días de extension.
 			throw new ExpedientesExceptions(105);
 		}
 	}

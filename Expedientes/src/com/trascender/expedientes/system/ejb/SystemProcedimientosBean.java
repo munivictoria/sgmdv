@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.system.ejb;
 
 import java.rmi.RemoteException;
@@ -31,24 +38,22 @@ public class SystemProcedimientosBean implements SystemProcedimientos {
 	@Override
 	public void setLlave(long pLlave) throws RemoteException {
 		llave = pLlave;
-		
 	}
 
 	@Override
-	public void addProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException, ProcedimientosException {
-		locProcedimientos.addProcedimiento(pProcedimiento);
-		
+	public Procedimiento addProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException, ProcedimientosException {
+		return locProcedimientos.addProcedimiento(pProcedimiento);
 	}
 
 	@Override
-	public void updateProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException, ProcedimientosException {
-		locProcedimientos.updateProcedimiento(pProcedimiento);
+	public Procedimiento updateProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException, ProcedimientosException {
+		return locProcedimientos.updateProcedimiento(pProcedimiento);
 	}
 
 	@Override
 	public void deleteProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException {
 		locProcedimientos.deleteProcedimiento(pProcedimiento);
-			}
+	}
 
 	@Override
 	public Procedimiento getProcedimientoPorId(long pId) throws Exception, RemoteException {
@@ -56,28 +61,24 @@ public class SystemProcedimientosBean implements SystemProcedimientos {
 	}
 
 	@Override
-	public FiltroProcedimiento findListaProcedimiento(FiltroProcedimiento pFiltro)
-			throws Exception, RemoteException {
+	public FiltroProcedimiento findListaProcedimiento(FiltroProcedimiento pFiltro) throws Exception, RemoteException {
 		return locProcedimientos.findListaProcedimiento(pFiltro);
 	}
 
 	@Override
-	public void addFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception,
-			RemoteException {
+	public void addFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception, RemoteException {
 		locProcedimientos.addFaseProcedimiento(pFaseProcedimiento);
 	}
 
 	@Override
-	public void updateFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception,
-			RemoteException {
-	locProcedimientos.updateFaseProcedimiento(pFaseProcedimiento);
+	public void updateFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception, RemoteException {
+		locProcedimientos.updateFaseProcedimiento(pFaseProcedimiento);
 	}
 
 	@Override
-	public void deleteFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception,
-			RemoteException {
-  locProcedimientos.deleteFaseProcedimiento(pFaseProcedimiento);
-		}
+	public void deleteFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception, RemoteException {
+		locProcedimientos.deleteFaseProcedimiento(pFaseProcedimiento);
+	}
 
 	@Override
 	public FaseProcedimiento getFaseProcedimientoPorId(long pId) throws Exception, RemoteException {
@@ -85,42 +86,33 @@ public class SystemProcedimientosBean implements SystemProcedimientos {
 	}
 
 	@Override
-	public FiltroFaseProcedimiento findListaFaseProcedimiento(FiltroFaseProcedimiento pFiltro)
-			throws Exception, RemoteException {
+	public FiltroFaseProcedimiento findListaFaseProcedimiento(FiltroFaseProcedimiento pFiltro) throws Exception, RemoteException {
 		return locProcedimientos.findListaFaseProcedimiento(pFiltro);
 	}
 
 	@Override
-	public void addTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento)
-			throws Exception, RemoteException {
+	public void addTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento) throws Exception, RemoteException {
 		locProcedimientos.addTramiteProcedimiento(pTramiteProcedimiento);
-		
 	}
 
 	@Override
-	public void updateTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento)
-			throws Exception, RemoteException {
-locProcedimientos.updateTramiteProcedimiento(pTramiteProcedimiento);		
+	public void updateTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento) throws Exception, RemoteException {
+		locProcedimientos.updateTramiteProcedimiento(pTramiteProcedimiento);
 	}
 
 	@Override
-	public void deleteTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento)
-			throws Exception, RemoteException {
- locProcedimientos.deleteTramiteProcedimiento(pTramiteProcedimiento); 
-		
+	public void deleteTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento) throws Exception, RemoteException {
+		locProcedimientos.deleteTramiteProcedimiento(pTramiteProcedimiento);
 	}
 
 	@Override
-	public TramiteProcedimiento getTramiteProcedimientoPorId(long pId) throws Exception,
-			RemoteException {
-
+	public TramiteProcedimiento getTramiteProcedimientoPorId(long pId) throws Exception, RemoteException {
 		return locProcedimientos.getTramiteProcedimientoPorId(pId);
 	}
 
 	@Override
-	public FiltroTramiteProcedimiento findListaTramiteProcedimiento(
-			FiltroTramiteProcedimiento pFiltro) throws Exception, RemoteException {
- 		return locProcedimientos.findListaTramiteProcedimiento(pFiltro);
+	public FiltroTramiteProcedimiento findListaTramiteProcedimiento(FiltroTramiteProcedimiento pFiltro) throws Exception, RemoteException {
+		return locProcedimientos.findListaTramiteProcedimiento(pFiltro);
 	}
 
 	@Override
@@ -129,11 +121,9 @@ locProcedimientos.updateTramiteProcedimiento(pTramiteProcedimiento);
 	}
 
 	@Override
-	public List<Procedimiento> getListaProcedimientosPuedoEmpezar(
-			Usuario pUsuario) throws TrascenderException {
-		//TODO Pedir permiso Agregar Expediente
+	public List<Procedimiento> getListaProcedimientosPuedoEmpezar(Usuario pUsuario) throws TrascenderException {
+		// TODO Pedir permiso Agregar Expediente
 		return this.locProcedimientos.getListaProcedimientosPuedoEmpezar(pUsuario);
 	}
-	
-	
+
 }

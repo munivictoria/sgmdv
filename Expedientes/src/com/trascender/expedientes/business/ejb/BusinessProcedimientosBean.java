@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package com.trascender.expedientes.business.ejb;
 
@@ -34,8 +40,10 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 
 	@PersistenceContext(name = "Vipians")
 	private EntityManager entity;
+	
 	private static final long serialVersionUID = -5314134264098482795L;
-	public static final String NAME = "EXP|Adm. Procedimientos";
+	
+	public static final String NAME = "EXP|Adm. de Procedimientos";
 
 	static {
 		Grupo grupo = new Grupo();
@@ -45,7 +53,7 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 		Recurso procedimiento = new Recurso();
 		procedimiento.setIdRecurso(Procedimiento.serialVersionUID);
 		procedimiento.setNombre("Procedimiento");
-		procedimiento.setAtributosConsultables("Nombre", "nombre");
+		procedimiento.setAtributosConsultables("Nombre", "nombre", "Estado", "estado");
 		procedimiento.setClase(Procedimiento.class);
 		grupo.getListaRecursos().add(procedimiento);
 
@@ -53,21 +61,21 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 	}
 
 	@Override
-	public void addProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException {
+	public Procedimiento addProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException {
 		validacionProcedimientoNombreRepetido(pProcedimiento);
-		entity.persist(pProcedimiento);
+		return entity.merge(pProcedimiento);
 	}
 
 	@Override
-	public void updateProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException {
+	public Procedimiento updateProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException {
 		validacionProcedimientoNombreRepetido(pProcedimiento);
-		entity.merge(pProcedimiento);
+		return entity.merge(pProcedimiento);
 	}
 
 	@Override
 	public void deleteProcedimiento(Procedimiento pProcedimiento) throws Exception, RemoteException {
 		pProcedimiento.setEstado(EstadoPlantilla.BAJA);
-
+		entity.merge(pProcedimiento);
 	}
 
 	@Override
@@ -84,6 +92,11 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 		getLists(locProcedimiento);
 		for(FaseProcedimiento fp : locProcedimiento.getListaFasesProcedimiento()) {
 			fp.getListaFasesEspeciales().size();
+		}
+		
+		if(locProcedimiento.getNumerador() != null) {
+			locProcedimiento.getNumerador().toString();
+			locProcedimiento.getNumerador().getListaLineaNumerador().size();
 		}
 
 		// Responsable locResponsable = locProcedimiento.getResponsable();
@@ -110,9 +123,12 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 
 	@Override
 	public FiltroProcedimiento findListaProcedimiento(FiltroProcedimiento pFiltro) throws Exception, RemoteException {
-		Criterio locCriterio = Criterio.getInstance(entity, Procedimiento.class).add(Restriccion.ILIKE("nombre", pFiltro.getNombre()));
+		Criterio locCriterio = Criterio.getInstance(entity, Procedimiento.class)
+				.add(Restriccion.ILIKE("nombre", pFiltro.getNombre()))
+				.add(Restriccion.IGUAL("estado", pFiltro.getEstado()));
 
 		pFiltro.procesarYListar(locCriterio);
+		
 		return pFiltro;
 	}
 
@@ -128,12 +144,12 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 
 	@Override
 	public void deleteFaseProcedimiento(FaseProcedimiento pFaseProcedimiento) throws Exception, RemoteException {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public FaseProcedimiento getFaseProcedimientoPorId(long pId) throws Exception, RemoteException {
-		FaseProcedimiento locFaseProcedimiento = (FaseProcedimiento) Criterio.getInstance(this.entity, FaseProcedimiento.class).add(Restriccion.IGUAL("idNodoProcedimiento", pId))
+		FaseProcedimiento locFaseProcedimiento = (FaseProcedimiento) Criterio.getInstance(this.entity, FaseProcedimiento.class)
+				.add(Restriccion.IGUAL("idNodoProcedimiento", pId))
 				.uniqueResult();
 
 		refrescarFasesProcedimiento(locFaseProcedimiento);
@@ -155,8 +171,11 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 
 	@Override
 	public FiltroFaseProcedimiento findListaFaseProcedimiento(FiltroFaseProcedimiento pFiltro) throws Exception, RemoteException {
-		Criterio locCriterio = Criterio.getInstance(entity, FaseProcedimiento.class).add(Restriccion.ILIKE("nombre", pFiltro.getNombre()));
+		Criterio locCriterio = Criterio.getInstance(entity, FaseProcedimiento.class)
+				.add(Restriccion.ILIKE("nombre", pFiltro.getNombre()));
+		
 		pFiltro.procesarYListar(locCriterio);
+		
 		return pFiltro;
 
 	}
@@ -174,38 +193,45 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 
 	@Override
 	public void deleteTramiteProcedimiento(TramiteProcedimiento pTramiteProcedimiento) throws Exception, RemoteException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public TramiteProcedimiento getTramiteProcedimientoPorId(long pId) throws Exception, RemoteException {
-		TramiteProcedimiento locTramiteP = (TramiteProcedimiento) Criterio.getInstance(this.entity, TramiteProcedimiento.class).add(Restriccion.IGUAL("idNodoProcedimiento", pId))
+		TramiteProcedimiento locTramiteP = (TramiteProcedimiento) Criterio.getInstance(this.entity, TramiteProcedimiento.class)
+				.add(Restriccion.IGUAL("idNodoProcedimiento", pId))
 				.uniqueResult();
 		locTramiteP.toString();
+		
 		// if (locTramiteP.getResponsable() != null) {
 		// locTramiteP.getResponsable().getAreas().size();
 		// locTramiteP.getResponsable().getUsuarios().size();
 		// }
+		
 		getLists(locTramiteP);
 		return entity.find(TramiteProcedimiento.class, pId);
 	}
 
 	@Override
 	public FiltroTramiteProcedimiento findListaTramiteProcedimiento(FiltroTramiteProcedimiento pFiltro) throws Exception, RemoteException {
-
-		Criterio locCriterio = Criterio.getInstance(entity, TramiteProcedimiento.class).add(Restriccion.ILIKE("nombre", pFiltro.getNombre()));
+		Criterio locCriterio = Criterio.getInstance(entity, TramiteProcedimiento.class)
+				.add(Restriccion.ILIKE("nombre", pFiltro.getNombre()));
+		
 		pFiltro.procesarYListar(locCriterio);
+		
 		return pFiltro;
 	}
 
 	@Override
 	public Responsable getResponsablePorId(long pId) {
-		Responsable locResponsable = (Responsable) Criterio.getInstance(this.entity, Responsable.class).add(Restriccion.IGUAL("idResponsable", pId)).uniqueResult();
+		Responsable locResponsable = (Responsable) Criterio.getInstance(this.entity, Responsable.class)
+				.add(Restriccion.IGUAL("idResponsable", pId))
+				.uniqueResult();
+		
 		locResponsable.toString();
 		locResponsable.getAreas().size();
 		locResponsable.getUsuarios().size();
 		locResponsable.getListaUsuariosExtensores().size();
+		
 		return entity.find(Responsable.class, pId);
 	}
 
@@ -222,7 +248,7 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 	@Override
 	public List<Procedimiento> getListaProcedimientosPuedoEmpezar(Usuario pUsuario) {
 		FiltroProcedimiento locFiltro = new FiltroProcedimiento();
-		// TODO Poner estados ALTA
+		locFiltro.setEstado(EstadoPlantilla.ACTIVO);
 		List<Procedimiento> locListaProcedimientos = new ArrayList<Procedimiento>();
 		try {
 			locListaProcedimientos = this.findListaProcedimiento(locFiltro).getListaResultados();
@@ -237,16 +263,15 @@ public class BusinessProcedimientosBean implements BusinessProcedimientos {
 			if(procedimiento.getResponsable() != null && procedimiento.getResponsable().esResponsable(pUsuario)) {
 				continue;
 			}
-			if (procedimiento.getListaFasesProcedimiento() != null
-					&& !procedimiento.getListaFasesProcedimiento().isEmpty()) {
+			if(procedimiento.getListaFasesProcedimiento() != null && !procedimiento.getListaFasesProcedimiento().isEmpty()) {
 				FaseProcedimiento locFaseProcedimiento = procedimiento.getListaFasesProcedimiento().get(0);
-				if(locFaseProcedimiento.getResponsable() != null 
-						&& locFaseProcedimiento.getResponsable().esResponsable(pUsuario)) {
+				if(locFaseProcedimiento.getResponsable() != null && locFaseProcedimiento.getResponsable().esResponsable(pUsuario)) {
 					continue;
 				}
 			}
 			iterator.remove();
 		}
+		
 		return locListaProcedimientos;
 	}
 

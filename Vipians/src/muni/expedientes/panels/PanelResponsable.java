@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.panels;
 
 import java.util.ArrayList;
@@ -28,7 +35,7 @@ public abstract class PanelResponsable {
 
 	public void setTableUsuarios(TableUsuarios tableUsuarios) {
 	}
-	
+
 	public TableUsuariosExtensores getTableUsuariosExtensores() {
 		return null;
 	}
@@ -44,11 +51,11 @@ public abstract class PanelResponsable {
 
 	@SuppressWarnings("unchecked")
 	public void guardarDatos(Responsable pResponsable) {
-		if (pResponsable != null) {
+		if(pResponsable != null) {
 			pResponsable.setListaAreasResponsables(getTableAreas().getList());
 			pResponsable.setListaUsuariosResponsables(getTableUsuarios().getList());
 			pResponsable.setListaUsuariosExtensores(getTableUsuariosExtensores().getList());
-		} else if (emptyLists()) {
+		} else if(emptyLists()) {
 			pResponsable = new Responsable();
 			pResponsable.setListaAreasResponsables(getTableAreas().getList());
 			pResponsable.setListaUsuariosResponsables(getTableUsuarios().getList());
@@ -57,11 +64,11 @@ public abstract class PanelResponsable {
 	}
 
 	public void mostrarDatos(Responsable pResponsable) {
-		if (pResponsable != null) {
+		if(pResponsable != null) {
 			getTableAreas().setList(pResponsable.getListaAreasResponsables());
 			getTableUsuarios().setList(pResponsable.getListaUsuariosResponsables());
 			getTableUsuariosExtensores().setList(pResponsable.getListaUsuariosExtensores());
-		} else{
+		} else {
 			getTableAreas().setList(new ArrayList<AreaResponsable>());
 			getTableUsuarios().setList(new ArrayList<UsuarioResponsable>());
 			getTableUsuariosExtensores().setList(new ArrayList<UsuarioExtensor>());
@@ -69,20 +76,19 @@ public abstract class PanelResponsable {
 	}
 
 	public boolean emptyLists() {
-		return getTableAreas().getList().isEmpty() && getTableUsuarios().getList().isEmpty()
-				&& getTableUsuariosExtensores().getList().isEmpty();
+		return getTableAreas().getList().isEmpty() && getTableUsuarios().getList().isEmpty() && getTableUsuariosExtensores().getList().isEmpty();
 	}
 
 	public void procesarObjetoSeleccion(Object pObject, Responsable pResponsable) {
-		if (pObject instanceof Area) {
+		if(pObject instanceof Area) {
 			Area nuevaArea = (Area) pObject;
 			getTableAreas().addToList(pResponsable.getListaAreasResponsables(), nuevaArea);
 		}
-		if (pObject instanceof Usuario) {
+		if(pObject instanceof Usuario) {
 			Usuario nuevoUsuario = (Usuario) pObject;
 			getTableUsuarios().addToList(pResponsable.getListaUsuariosResponsables(), nuevoUsuario);
 		}
-		if (pObject instanceof UsuarioExtensor){
+		if(pObject instanceof UsuarioExtensor) {
 			UsuarioExtensor nuevoUsuarioExtensor = (UsuarioExtensor) pObject;
 			getTableUsuariosExtensores().addToList(pResponsable.getListaUsuariosExtensores(), nuevoUsuarioExtensor);
 		}

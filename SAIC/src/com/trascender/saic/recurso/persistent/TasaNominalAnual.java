@@ -29,9 +29,20 @@ public class TasaNominalAnual implements Serializable{
 	
 	private Double interes;
 	
+	@Column(name = "INTERES_CONDONADO")
+	private Double interesCondonado;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_plantilla_plan_de_pago")
 	private PlantillaPlanDePago plantilla;
+	
+	public Double getInteresCondonado() {
+		return interesCondonado;
+	}
+
+	public void setInteresCondonado(Double interesCondonado) {
+		this.interesCondonado = interesCondonado;
+	}
 
 	public Integer getCuotasHasta() {
 		return cuotasHasta;

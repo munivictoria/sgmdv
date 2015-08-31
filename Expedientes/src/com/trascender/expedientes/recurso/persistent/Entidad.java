@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -11,11 +18,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="EXP_ENTIDAD")
+@Table(name = "EXP_ENTIDAD")
 public class Entidad implements Serializable {
+
 	private static final long serialVersionUID = 6106205460822982723L;
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id_exp_entidad")
 	@SequenceGenerator(name = "gen_id_exp_entidad", sequenceName = "gen_id_exp_entidad", allocationSize = 1)
@@ -24,7 +31,7 @@ public class Entidad implements Serializable {
 
 	@Column(name = "NOMBRE", nullable = false)
 	private String nombre;
-	
+
 	private boolean activo = true;
 
 	public long getIdEntidad() {
@@ -50,7 +57,5 @@ public class Entidad implements Serializable {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
-	
-	
-	
+
 }

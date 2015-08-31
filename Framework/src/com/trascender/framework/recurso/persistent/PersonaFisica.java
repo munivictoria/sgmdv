@@ -51,7 +51,6 @@ public class PersonaFisica extends Persona implements Serializable, EntidadTrasc
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 
-	@Column(nullable = false)
 	private Integer edad;
 
 	@Enumerated(EnumType.STRING)

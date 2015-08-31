@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -18,9 +25,7 @@ public abstract class TableUsuarios extends TableBean {
 		this.staticTextNombre = staticTextNombre;
 	}
 
-	
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void addToList(List pList, Object pObject) {
 		Usuario nuevoUsuario = (Usuario) pObject;
@@ -29,18 +34,17 @@ public abstract class TableUsuarios extends TableBean {
 		UsuarioResponsable deLaTabla = null;
 		boolean esta = false;
 		int i = 0;
-		while (i < locUsuarios.size() && !esta) {
+		while(i < locUsuarios.size() && !esta) {
 			deLaTabla = (UsuarioResponsable) locUsuarios.get(i++);
 			esta = (deLaTabla.getUsuario().getIdUsuario() == nuevoUsuario.getIdUsuario());
 		}
-		if (!esta) {
+		if(!esta) {
 			UsuarioResponsable nuevoUsuarioResponsable = new UsuarioResponsable();
 			nuevoUsuarioResponsable.setUsuario(nuevoUsuario);
 			locUsuarios.add(nuevoUsuarioResponsable);
 		} else {
 			warn("El Usuario que intenta agregar ya se encuentra en la lista.");
 		}
-
 	}
 
 }

@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMTramiteCatalogo;
 
@@ -33,6 +39,7 @@ public class TramiteCatalogoModel extends ABMModel {
 		noVacios[pos] = getBeanTramiteCatalogo().getTfNombre();
 		nomNoVacios[pos] = "Nombre";
 		v.noSonVacios(noVacios, nomNoVacios);
+		
 		return v;
 	}
 
@@ -41,20 +48,19 @@ public class TramiteCatalogoModel extends ABMModel {
 		abmTramiteCatalogo.getTfNombre().setDisabled(true);
 		abmTramiteCatalogo.getCbAvanzarFase().setDisabled(true);
 		abmTramiteCatalogo.getCbReiniciaConFase().setDisabled(true);
-		
+
 		abmTramiteCatalogo.getTableDC().getBtnAgregar().setVisible(false);
 		abmTramiteCatalogo.getTableDC().getBtnQuitar().setRendered(false);
 		abmTramiteCatalogo.getTableDC().getBtnQuitarTodos().setRendered(false);
-		
+
 		abmTramiteCatalogo.getTableET().getBtnAgregar().setVisible(false);
 		abmTramiteCatalogo.getTableET().getBtnQuitar().setRendered(false);
 		abmTramiteCatalogo.getTableET().getBtnQuitarTodos().setRendered(false);
-		
+
 		abmTramiteCatalogo.getTableDC().getTableColumn1().setRendered(false);
 		abmTramiteCatalogo.getTableDC().getGroupPanel1().setRendered(false);
 		abmTramiteCatalogo.getTableET().getTableColumn1().setRendered(false);
 		abmTramiteCatalogo.getTableET().getGroupPanel1().setRendered(false);
-		
 	}
 
 	private ABMTramiteCatalogo getBeanTramiteCatalogo() {
@@ -73,18 +79,19 @@ public class TramiteCatalogoModel extends ABMModel {
 			TramiteCatalogo locTramiteCatalogo = (TramiteCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().addTramiteCatalogo(locTramiteCatalogo);
+			
 			return "El Trámite del Cátalogo se agreg\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public ABMModel getModel() {
 			return TramiteCatalogoModel.this;
 		}
+		
 	}
 
 	public class ModificarController extends ModificarAbstractController {
@@ -99,6 +106,7 @@ public class TramiteCatalogoModel extends ABMModel {
 			TramiteCatalogo locTramiteCatalogo = (TramiteCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().updateTramiteCatalogo(locTramiteCatalogo);
+			
 			return "El Trámite del Cátalogo se modific\363 exitosamente";
 		}
 
@@ -111,6 +119,7 @@ public class TramiteCatalogoModel extends ABMModel {
 		public ABMModel getModel() {
 			return TramiteCatalogoModel.this;
 		}
+		
 	}
 
 	public class ConsultarControler extends ConsultarAbstractController {
@@ -147,8 +156,9 @@ public class TramiteCatalogoModel extends ABMModel {
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			TramiteCatalogo locTramiteCatalogo = (TramiteCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
-			getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteTramiteCatalogo(locTramiteCatalogo);
-			return "El Trámite del Cátalogo se elimin\363 exitosamente";
+			String mensaje = getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteTramiteCatalogo(locTramiteCatalogo);
+			
+			return mensaje;
 		}
 
 		@Override
@@ -160,8 +170,9 @@ public class TramiteCatalogoModel extends ABMModel {
 		public ABMModel getModel() {
 			return TramiteCatalogoModel.this;
 		}
+		
 	}
-	
+
 	public class RecuperarTramiteCatalogo implements ABMController {
 
 		@Override
@@ -174,7 +185,7 @@ public class TramiteCatalogoModel extends ABMModel {
 			TramiteCatalogo locTramite = (TramiteCatalogo) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().restoreTramiteCatalogo(locTramite);
-			
+
 			return "El Trámite se recuper\363 exitosamente";
 		}
 
@@ -220,7 +231,7 @@ public class TramiteCatalogoModel extends ABMModel {
 
 		@Override
 		public String getTituloPagina() {
-			return "Recuperar";
+			return "Recuperar Trámite";
 		}
 
 		@Override
@@ -237,5 +248,7 @@ public class TramiteCatalogoModel extends ABMModel {
 		public boolean seleccionarObjeto() {
 			return true;
 		}
+		
 	}
+	
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © Copyright 2015, CoDeSoft Todos los derechos reservados. -->
 <jsp:root version="1.2" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:ui="http://www.sun.com/web/ui" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8" />
@@ -20,40 +21,46 @@
 							<tbody>
 								<tr>
 									<td>
-										<br />
-									</td>
-								</tr>
-								<tr>
-									<td align="right" nowrap="true">
-										<ui:label binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.lblNombre}" for="tfNombre" id="lblNombre"
-											styleClass="label" text="Nombre" />
-									</td>
-									<td>
-										<ui:textField binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.tfNombre}" columns="40" id="tfNombre"
-											styleClass="textField" />
-									</td>
-								</tr>
-								<tr>
-									<td align="right" nowrap="true">
-										<ui:label binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.lblNombreTramiteCatalogo}"
-											for="ddTramiteCatalogo" id="lblNombreTramiteCatalogo" styleClass="label" text="TramiteCatalogo" />
-									</td>
-									<td colspan="3" nowrap="nowrap">
-										<ui:dropDown binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.ddTramiteCatalogo}" id="ddTramiteCatalogo"
-											items="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.ddTramiteCatalogoOptions.options}" styleClass="textField" />
-										<ui:button action="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnSeleccionarTramiteCatalogo_action}"
-											binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnSeleccionarTramiteCatalogo}" escape="false"
-											id="btnSeleccionarTramiteCatalogo" mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
-										<a4j:commandButton id="btnLimpiarTramiteCatalogo" reRender="form1:ddTramiteCatalogo"
-											binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnLimpiarTramiteCatalogo}"
-											action="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnLimpiarTramiteCatalogo_action}"
-											styleClass="buttonLimpiarAjax" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<ui:messageGroup binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.messageGroup}" id="messageGroup"
-											styleClass="grupoMsg" />
+										<table align="center" width="70%">
+											<tr>
+												<td>
+													<br />
+												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="true">
+													<ui:label binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.lblNombre}" for="tfNombre" id="lblNombre"
+														styleClass="label" text="Nombre" />
+												</td>
+												<td>
+													<ui:textField binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.tfNombre}" columns="40" id="tfNombre"
+														styleClass="textField" />
+												</td>
+											</tr>
+											<tr>
+												<td align="right" nowrap="true">
+													<ui:label binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.lblNombreTramiteCatalogo}"
+														for="ddTramiteCatalogo" id="lblNombreTramiteCatalogo" styleClass="label" text="TramiteCatalogo" />
+												</td>
+												<td colspan="3" nowrap="nowrap">
+													<ui:dropDown binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.ddTramiteCatalogo}" id="ddTramiteCatalogo"
+														items="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.ddTramiteCatalogoOptions.options}" styleClass="textField" />
+													<ui:button action="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnSeleccionarTramiteCatalogo_action}"
+														binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnSeleccionarTramiteCatalogo}" escape="false"
+														id="btnSeleccionarTramiteCatalogo" mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
+													<a4j:commandButton id="btnLimpiarTramiteCatalogo" reRender="form1:ddTramiteCatalogo"
+														binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnLimpiarTramiteCatalogo}"
+														action="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.btnLimpiarTramiteCatalogo_action}"
+														styleClass="buttonLimpiarAjax" />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<ui:messageGroup binding="#{expedientes$ABMTramiteProcedimiento$ABMTramiteProcedimiento.messageGroup}" id="messageGroup"
+														styleClass="grupoMsg" />
+												</td>
+											</tr>
+										</table>
 									</td>
 								</tr>
 							</tbody>

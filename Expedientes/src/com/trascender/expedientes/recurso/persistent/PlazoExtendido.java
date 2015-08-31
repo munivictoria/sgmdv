@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.util.List;
@@ -14,7 +21,8 @@ import com.trascender.framework.recurso.persistent.Usuario;
 
 @Entity
 @DiscriminatorValue("EXTENDIDO")
-public class PlazoExtendido extends Plazo{
+public class PlazoExtendido extends Plazo {
+
 	private static final long serialVersionUID = -8400197480298395094L;
 
 	@ManyToOne
@@ -24,7 +32,7 @@ public class PlazoExtendido extends Plazo{
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
-	
+
 	@Column(name = "CANTIDAD_DIAS")
 	private Integer cantidadDias;
 
@@ -51,30 +59,29 @@ public class PlazoExtendido extends Plazo{
 	public void setCantidadDias(Integer cantidadDias) {
 		this.cantidadDias = cantidadDias;
 	}
-	
+
 	@Override
 	public PlazoDatosCalculados getDatosCalculados(List<DiaFeriado> diasFeriados) {
-		return new PlazoDatosCalculados(this.getFechaInicio(), cantidadDias, this.getPlazoProcedimiento().isDiasCorridos(),diasFeriados);
+		return new PlazoDatosCalculados(this.getFechaInicio(), cantidadDias, this.getPlazoProcedimiento().isDiasCorridos(), diasFeriados);
 	}
-	
+
 	@Override
-	public void validarNuevaExtension(Integer dias, Usuario pUsuario, NodoProcedimiento pNodo) 
-			throws ExpedientesExceptions{
-		if (this.usuario.equals(pUsuario)) {
-			//Usuario ya hizo extension
+	public void validarNuevaExtension(Integer dias, Usuario pUsuario, NodoProcedimiento pNodo) throws ExpedientesExceptions {
+		if(this.usuario.equals(pUsuario)) {
+			// Usuario ya hizo extension
 			throw new ExpedientesExceptions(104);
 		}
 		Plazo locPlazoAnterior = this.plazoAnterior;
-		while (locPlazoAnterior != null) {
-			if (locPlazoAnterior instanceof PlazoExtendido) {
+		while(locPlazoAnterior != null) {
+			if(locPlazoAnterior instanceof PlazoExtendido) {
 				PlazoExtendido locPlazoExtendido = (PlazoExtendido) locPlazoAnterior;
-				if (locPlazoExtendido.getUsuario().equals(pUsuario)) {
-					//Usuario ya hizo extension
+				if(locPlazoExtendido.getUsuario().equals(pUsuario)) {
+					// Usuario ya hizo extension
 					throw new ExpedientesExceptions(104);
 				}
 				locPlazoAnterior = locPlazoExtendido.getPlazoAnterior();
 			} else {
-				locPlazoAnterior = null;//Para romper el while.
+				locPlazoAnterior = null;// Para romper el while.
 			}
 		}
 		super.validarNuevaExtension(dias, pUsuario, pNodo);

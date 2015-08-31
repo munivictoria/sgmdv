@@ -1,8 +1,16 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.Trees;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
 
 import muni.ManejoDePila;
 import muni.expedientes.ABMProcedimiento.PanelEditNodo;
@@ -17,6 +25,7 @@ import com.sun.rave.web.ui.component.PanelGroup;
 import com.sun.rave.web.ui.component.Script;
 import com.sun.rave.web.ui.component.StaticText;
 import com.sun.rave.web.ui.component.TreeNode;
+import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.expedientes.recurso.persistent.DocumentoProcedimiento;
 import com.trascender.expedientes.recurso.persistent.FaseProcedimiento;
 import com.trascender.expedientes.recurso.persistent.NodoProcedimiento;
@@ -25,6 +34,10 @@ import com.trascender.expedientes.recurso.persistent.TramiteProcedimiento;
 import com.trascender.presentacion.navegacion.ElementoPila;
 
 public class TreeProcedimiento extends TreeView {
+	
+	public muni.CommunicationExpedientesBean getCommunicationExpedientesBean() {
+		return (muni.CommunicationExpedientesBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("CommunicationExpedientesBean");
+	}	
 
 	// private static final String SEL_COOKIE = "selCookie";
 	private static final String F = "F" + SEPARATOR_IDMODEL;
@@ -68,11 +81,9 @@ public class TreeProcedimiento extends TreeView {
 		return btnAgregarDocumento;
 	}
 
-
 	public void setBtnAgregarDocumento(Button btnAgregarDocumento) {
 		this.btnAgregarDocumento = btnAgregarDocumento;
 	}
-
 
 	public Label getLabelFases() {
 		return labelFases;
@@ -179,6 +190,7 @@ public class TreeProcedimiento extends TreeView {
 	}
 
 	public class DatosNodo implements TreeView.Datos {
+
 		private String texto;
 		private String id;
 		private String url;
@@ -213,6 +225,7 @@ public class TreeProcedimiento extends TreeView {
 		public String getUrl() {
 			return url;
 		}
+		
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -248,7 +261,7 @@ public class TreeProcedimiento extends TreeView {
 		try {
 			TreeNode nodo = this.getSelectedNode();
 			selected = Integer.parseInt(nodo.getId().substring(nodo.getId().indexOf(SEPARATOR_IDMODEL) + 1));
-			
+
 			if(nodo != null && nodo.getId().startsWith("F_")) {
 				retorno = "AdminFaseCatalogo";
 			} else {
@@ -284,10 +297,12 @@ public class TreeProcedimiento extends TreeView {
 					retorno = locFase.getListaTramitesProcedimientos().get(index);
 				}
 			}
+			
 			return retorno;
 		} catch(Exception e) {
 			e.printStackTrace();
 			warn(e.getMessage());
+			
 			return null;
 		}
 	}
@@ -335,9 +350,10 @@ public class TreeProcedimiento extends TreeView {
 
 		ep.getObjetos().set(2, parentSelected);
 		ep.getObjetos().set(8, selected);
+		
 		return retorno;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String agregarDocumento_action(ElementoPila ep) {
 		String retorno = null;
@@ -350,7 +366,7 @@ public class TreeProcedimiento extends TreeView {
 				String prefijo = String.valueOf(nodoId.charAt(0));
 				PanelEditNodo.NodoPila nodoPila = (NodoPila) ep.getObjetos().get(5);
 				tramiteProcedimiento = (TramiteProcedimiento) nodoPila.object;
-				
+
 				if(prefijo.equalsIgnoreCase("T")) {
 					try {
 						parentSelected = Integer.parseInt(nodoId.substring(nodoId.indexOf(SEPARATOR_IDMODEL) + 1));
@@ -361,7 +377,7 @@ public class TreeProcedimiento extends TreeView {
 				} else {
 					warn("Por favor, seleccione un Tramite.");
 				}
-			} 
+			}
 		} catch(Exception e) {
 			retorno = null;
 			parentSelected = null;
@@ -369,6 +385,7 @@ public class TreeProcedimiento extends TreeView {
 		}
 		ep.getObjetos().set(2, parentSelected);
 		ep.getObjetos().set(9, tramiteProcedimiento);
+		
 		return retorno;
 	}
 
@@ -382,10 +399,16 @@ public class TreeProcedimiento extends TreeView {
 		try {
 			ubicarPosicionNodoSeleccionado(ep);
 		} catch(Exception e) {
+			e.printStackTrace();
 			warn(e.getMessage());
 		}
 		if(lista != null && lista.size() > 0) {
-			lista.remove(posicion);
+			if(isEliminar){
+				lista.remove(posicion);
+				warn("El Elemneto seleccionado se ha Eliminado Correctamente");
+			}else{
+				warn("El Elemneto seleccionado se ha dado de Baja Correctamente");
+			}
 			reordenar(lista);
 			createTreeProcedimiento(procedimiento, 0);
 			ep.getObjetos().set(0, procedimiento);
@@ -473,6 +496,7 @@ public class TreeProcedimiento extends TreeView {
 		node.setStyle(HIGHTLIGHT_STYLE);
 	}
 
+	Boolean isEliminar = false;
 	public void ubicarPosicionNodoSeleccionado(ElementoPila ep) throws Exception {
 		procedimiento = (Procedimiento) ManejoDePila.obtenerObjetoDelElementoPila(0, Procedimiento.class, ep);
 
@@ -484,21 +508,44 @@ public class TreeProcedimiento extends TreeView {
 		if(nodo.getId().equals("tnRaiz")) {
 			throw new Exception("Ha seleccionado el Nodo Principal");
 		}
+		
+		Long cant = null;
 		PanelEditNodo.NodoPila nodoPila = (NodoPila) ep.getObjetos().get(5);
-		if (nodoPila.object instanceof FaseProcedimiento) {
+		if(nodoPila.object instanceof FaseProcedimiento) {
 			FaseProcedimiento locFase = (FaseProcedimiento) nodoPila.object;
+			cant = getCommunicationExpedientesBean().getRemoteSystemExpedientes().getExpedientePorNodoProcedimiento(locFase.getNodoPadre().getIdNodoProcedimiento());
+			if(cant <= 0){
+				isEliminar = true;
+			}else{
+				locFase.setEstado(EstadoPlantilla.BAJA);
+			}
 			lista = locFase.getNodoPadre().getListaNodosHijos();
 			posicion = locFase.getNodoPadre().getListaNodosHijos().indexOf(nodoPila.object);
-		} else if (nodoPila.object instanceof TramiteProcedimiento) {
+		
+		} else if(nodoPila.object instanceof TramiteProcedimiento) {
 			TramiteProcedimiento locTramite = (TramiteProcedimiento) nodoPila.object;
+			cant = getCommunicationExpedientesBean().getRemoteSystemExpedientes().getExpedientePorNodoProcedimiento(locTramite.getNodoPadre().getNodoPadre().getIdNodoProcedimiento());
+			if(cant <= 0){
+				isEliminar = true;
+			}else{
+				locTramite.setEstado(EstadoPlantilla.BAJA);
+			}
 			lista = locTramite.getNodoPadre().getListaNodosHijos();
 			posicion = locTramite.getNodoPadre().getListaNodosHijos().indexOf(nodoPila.object);
-		} else if (nodoPila.object instanceof DocumentoProcedimiento) {
-			DocumentoProcedimiento locDocumento= (DocumentoProcedimiento) nodoPila.object;
+	
+		} else if(nodoPila.object instanceof DocumentoProcedimiento) {
+			DocumentoProcedimiento locDocumento = (DocumentoProcedimiento) nodoPila.object;
+			cant = getCommunicationExpedientesBean().getRemoteSystemExpedientes().getExpedientePorNodoProcedimiento(locDocumento.getNodoPadre().getNodoPadre().getNodoPadre().getIdNodoProcedimiento());
+			if(cant <= 0){
+				isEliminar = true;
+			}else{
+				locDocumento.setEstado(EstadoPlantilla.BAJA);
+			}
 			lista = locDocumento.getNodoPadre().getListaNodosHijos();
 			posicion = locDocumento.getNodoPadre().getListaNodosHijos().indexOf(nodoPila.object);
 		}
 	}
+
 	@SuppressWarnings("rawtypes")
 	private void reordenar(List lista) {
 		for(int i = 0; i < lista.size(); i++) {
@@ -593,4 +640,5 @@ public class TreeProcedimiento extends TreeView {
 				break;
 		}
 	}
+	
 }

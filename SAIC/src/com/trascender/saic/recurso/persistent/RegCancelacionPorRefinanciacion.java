@@ -8,12 +8,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.trascender.framework.recurso.persistent.DigestoMunicipal;
+import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
@@ -37,7 +39,12 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	//Cambio a Lazy por consulta muy larga. Fernando
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "registroCancelacion")
 	private Set<RegistroDeuda> listaRegistrosDeuda=new HashSet<RegistroDeuda>();
-	
+
+	@OneToMany
+	@JoinTable(name = "RELA_REG_CANCE_REGISTRO_CONDONADO",
+			joinColumns = @JoinColumn(name = "ID_REGISTRO_CANCELACION"),
+			inverseJoinColumns = @JoinColumn(name = "ID_REGISTRO_DEUDA"))
+	private Set<RegistroDeuda> listaRegistrosDeudaCondonados = new HashSet<RegistroDeuda>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_DIGESTO_MUNICIPAL", nullable = true)
@@ -66,6 +73,7 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	public Double getInteres(){
 		Double interes= 0d;
 		for (RegistroDeuda locRegistroDeuda: this.listaRegistrosDeuda){
+			if (estaCondonado(locRegistroDeuda)) continue;
 			if (locRegistroDeuda instanceof LiquidacionTasa ){
 				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa)locRegistroDeuda;
 				interes+=locLiquidacionTasa.getInteres();
@@ -74,6 +82,11 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 		return interes;
 	}
 	
+	public Double getPorcentajeInteresCondonado() {
+		if (getInteres().equals(0D)) return 0D;
+		if (getInteresCondonado().equals(0D)) return 0D;
+		return getInteresCondonado() * 100 / getInteres();
+	}
 	
 	/**
 	 * 
@@ -82,6 +95,7 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	public Double getRecargoTotal(){
 		Double recargo = 0d;
 		for (RegistroDeuda locRegistroDeuda: this.listaRegistrosDeuda){
+			if (estaCondonado(locRegistroDeuda)) continue;
 			if (locRegistroDeuda instanceof LiquidacionTasa){
 				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa)locRegistroDeuda;
 				recargo += locLiquidacionTasa.getRecargo();
@@ -98,6 +112,7 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	public Double getMultasTotal(){
 		double multa = 0;
 		for (RegistroDeuda locRegistroDeuda: this.listaRegistrosDeuda){
+			if (estaCondonado(locRegistroDeuda)) continue;
 			if (locRegistroDeuda instanceof LiquidacionTasa){
 				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa)locRegistroDeuda;
 				multa += locLiquidacionTasa.getMontoMultas();
@@ -113,6 +128,7 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	public Double getImporteTotal(){
 		Double montoTotal = 0d;
 		for (RegistroDeuda locRegistroDeuda: this.listaRegistrosDeuda){
+			if (estaCondonado(locRegistroDeuda)) continue;
 			if (locRegistroDeuda instanceof LiquidacionTasa){
 				LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa)locRegistroDeuda;
 				montoTotal+=locLiquidacionTasa.getValorTotal();
@@ -134,6 +150,7 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	public Double getCapitalAPagar(){
 		Double capital =0d;
 		for (RegistroDeuda locRegistroDeuda: this.listaRegistrosDeuda){
+			if (estaCondonado(locRegistroDeuda)) continue;
 			capital += locRegistroDeuda.getMonto();
 		}
 		return capital;
@@ -148,13 +165,16 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 				this.getInteresCondonado() +
 				this.getRecargoCondonado() +
 				this.getMultaCondonada();
-		System.out.println("__________________condonado ? ="+locCondonado);
 		return locCondonado;
-		
 	}
 	
-	
-	
+	public Double getImporteRegistrosDeudaCondonados() {
+		Double total = 0D;
+		for (RegistroDeuda cadaRD : listaRegistrosDeudaCondonados) {
+			total += cadaRD.getMonto();
+		}
+		return total;
+	}
 	
 	public Set<RegistroDeuda> getListaRegistrosDeuda() {
 		return listaRegistrosDeuda;
@@ -227,5 +247,17 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 	public void setDocumentoRefinanciacion(DocumentoRefinanciacion documentoRefinanciacion) {
 		this.documentoRefinanciacion = documentoRefinanciacion;
 	}
+	
+	public boolean estaCondonado(RegistroDeuda rd) {
+		return this.listaRegistrosDeudaCondonados.contains(rd);
+	}
 
+	public Set<RegistroDeuda> getListaRegistrosDeudaCondonados() {
+		return listaRegistrosDeudaCondonados;
+	}
+
+	public void setListaRegistrosDeudaCondonados(
+			Set<RegistroDeuda> listaRegistrosDeudaCondonados) {
+		this.listaRegistrosDeudaCondonados = listaRegistrosDeudaCondonados;
+	}
 }

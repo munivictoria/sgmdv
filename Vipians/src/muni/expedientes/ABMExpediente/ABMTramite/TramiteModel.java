@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMExpediente.ABMTramite;
 
@@ -28,13 +34,14 @@ public class TramiteModel extends ABMModel {
 
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
-//		UIComponent[] noVacios = new UIComponent[1];
-//		String[] nomNoVacios = new String[1];
-//		int pos = 0;
-//		noVacios[pos] = getBeanTramite().getDdEstado();
-//		nomNoVacios[pos] = "Estado";
-//
-//		v.noSonVacios(noVacios, nomNoVacios);
+		// UIComponent[] noVacios = new UIComponent[1];
+		// String[] nomNoVacios = new String[1];
+		// int pos = 0;
+		// noVacios[pos] = getBeanTramite().getDdEstado();
+		// nomNoVacios[pos] = "Estado";
+		//
+		// v.noSonVacios(noVacios, nomNoVacios);
+		
 		return v;
 	}
 
@@ -47,9 +54,10 @@ public class TramiteModel extends ABMModel {
 
 		abmTramite.getTableDocumentos().getGroupPanel1().setRendered(false);
 		abmTramite.getTableDocumentos().getTableColumn1().setRendered(false);
+		abmTramite.getTableDocumentos().getGroupPanel2().setRendered(false);
+		abmTramite.getTableDocumentos().getTableColumn3().setRendered(false);
 		abmTramite.getCbPresentado().setDisabled(true);
 		abmTramite.getTaObservacion().setDisabled(true);
-
 	}
 
 	private ABMTramite getBeanTramite() {
@@ -76,6 +84,7 @@ public class TramiteModel extends ABMModel {
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			Tramite locTramite = (Tramite) pObject;
+			
 			return "Tr\341mite " + locTramite.getPlantilla() + " modificado exitosamente";
 		}
 
@@ -117,6 +126,7 @@ public class TramiteModel extends ABMModel {
 		public String getMessage() {
 			return mensaje;
 		}
+		
 	}
 
 	public class ConsultarControler extends ConsultarAbstractController implements NodoExpedienteControler {
@@ -125,7 +135,6 @@ public class TramiteModel extends ABMModel {
 
 		@Override
 		public void getValoresPorDefecto(NodoExpediente pNodoExpediente) {
-
 		}
 
 		@Override
@@ -171,5 +180,7 @@ public class TramiteModel extends ABMModel {
 		public String getMessage() {
 			return mensaje;
 		}
+		
 	}
+	
 }

@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.test.expediente;
 
 import java.rmi.RemoteException;
@@ -8,7 +15,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.trascender.expedientes.recurso.filtro.FiltroFaseCatalogo;
 import com.trascender.expedientes.recurso.filtro.FiltroTramiteCatalogo;
@@ -20,7 +26,6 @@ import com.trascender.expedientes.recurso.persistent.TramiteCatalogo;
 import com.trascender.expedientes.system.interfaces.SystemCatalogos;
 import com.trascender.expedientes.system.interfaces.SystemExpedientes;
 import com.trascender.expedientes.system.interfaces.SystemProcedimientos;
-import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.system.interfaces.SystemUsuario;
 
 public class TestExpediente {
@@ -50,18 +55,14 @@ public class TestExpediente {
 			systemCatalogos = (SystemCatalogos) ctx.lookup(SystemCatalogos.JNDI_NAME);
 			systemCatalogos.setLlave(llave);
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
-//	@Test
 	public void addTramiteCatalogo() throws RemoteException, Exception {
-		String[] arr = { "t firma", "t doc", "t ficha", "t cancelacion", "t confirma",
-				"t revision", "t aviso", "t seguridad", "t suscripcion", "t sellado" };
-		for (int i = 0; i < arr.length; i++) {
+		String[] arr = {"t firma", "t doc", "t ficha", "t cancelacion", "t confirma", "t revision", "t aviso", "t seguridad", "t suscripcion", "t sellado"};
+		for(int i = 0; i < arr.length; i++) {
 			TramiteCatalogo pTramiteCatalogo = new TramiteCatalogo();
 			pTramiteCatalogo.setNombre(arr[i]);
 			systemCatalogos.addTramiteCatalogo(pTramiteCatalogo);
@@ -69,61 +70,39 @@ public class TestExpediente {
 
 	}
 
-//	@Test
 	public void addFaseCatalogo() {
-		String arr[] = { "Fase Inicial", "Fase General", "Fase Secundaria", "Fase Final" };
+		String arr[] = {"Fase Inicial", "Fase General", "Fase Secundaria", "Fase Final"};
 		List<TramiteCatalogo> lista = new ArrayList<TramiteCatalogo>();
 		try {
-			lista = systemCatalogos.findListaTramiteCatalogos(new FiltroTramiteCatalogo())
-					.getListaResultados();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			lista = systemCatalogos.findListaTramiteCatalogos(new FiltroTramiteCatalogo()).getListaResultados();
+		} catch(RemoteException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
-		for (int i = 0; i < arr.length; i++) {
+		for(int i = 0; i < arr.length; i++) {
 			FaseCatalogo pFaseCatalogo = new FaseCatalogo();
 			pFaseCatalogo.setNombre(arr[0]);
-			List<TramiteCatalogo> l = new ArrayList<TramiteCatalogo>(lista.subList(i,
-					lista.size() - 1));
+			List<TramiteCatalogo> l = new ArrayList<TramiteCatalogo>(lista.subList(i, lista.size() - 1));
 			pFaseCatalogo.setListaTramitesCatalogos(l);
 			try {
 				systemCatalogos.addFaseCatalogo(pFaseCatalogo);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
+			} catch(RemoteException e) {
 				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
-//	@Test
 	public void addProcedimiento() {
-		String arr[] = { "Procedimiento 1", "Procedimiento 2", "Procedimiento 3", "Procedimiento 4" };
+		String arr[] = {"Procedimiento 1", "Procedimiento 2", "Procedimiento 3", "Procedimiento 4"};
 
-		Usuario usuario1 = null;
-		Usuario usuario2 = null;
 		List<FaseCatalogo> lista = new ArrayList<FaseCatalogo>();
 		try {
-			// usuario1 = systemUsuario.findUsuario(new
-			// FiltroUsuario()).getListaResultados().get(0);
-			// usuario2 = systemUsuario.findUsuarioPorLlave(llave);
-			lista = systemCatalogos.findListaFaseCatalogo(new FiltroFaseCatalogo())
-					.getListaResultados();
-			for (int i = 0; i < arr.length; i++) {
-
-				// Responsable r = new Responsable();
-				// if (i % 2 == 0) {
-				// r.getUsuarios().add(usuario2);
-				// } else {
-				// r.getUsuarios().add(usuario1);
-				// }
+			lista = systemCatalogos.findListaFaseCatalogo(new FiltroFaseCatalogo()).getListaResultados();
+			for(int i = 0; i < arr.length; i++) {
 				PlazoProcedimiento plazo = new PlazoProcedimiento();
 				plazo.setDias(30);
 				plazo.setDiasCorridos(false);
@@ -133,30 +112,24 @@ public class TestExpediente {
 				// p.setResponsable(r);
 				p.setPlazo(plazo);
 
-				List<FaseCatalogo> l = new ArrayList<FaseCatalogo>(lista.subList(i,
-						lista.size() - 1));
-				for (FaseCatalogo faseCatalogo : l) {
-					faseCatalogo = systemCatalogos.getFaseCatalogoPorId(faseCatalogo
-							.getIdFaseCatalogo());
+				List<FaseCatalogo> l = new ArrayList<FaseCatalogo>(lista.subList(i, lista.size() - 1));
+				for(FaseCatalogo faseCatalogo : l) {
+					faseCatalogo = systemCatalogos.getFaseCatalogoPorId(faseCatalogo.getIdFaseCatalogo());
 					p.getListaNodosHijos().add(new FaseProcedimiento(faseCatalogo, p));
 				}
 				systemProcedimiento.addProcedimiento(p);
 			}
-
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+		} catch(RemoteException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void getListaExpedienteSoyResponsableTest() {
 		try {
 			System.out.println(systemExpedientes.getListaExpedienteSoyResponsable(llave));
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}

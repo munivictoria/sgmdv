@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.system.ejb;
 
 import java.rmi.RemoteException;
@@ -12,6 +19,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import com.trascender.expedientes.business.interfaces.BusinessExpedientes;
 import com.trascender.expedientes.business.interfaces.BusinessPlazo;
 import com.trascender.expedientes.recurso.filtro.FiltroExpediente;
+import com.trascender.expedientes.recurso.persistent.Documento;
 import com.trascender.expedientes.recurso.persistent.Expediente;
 import com.trascender.expedientes.recurso.persistent.Plazo;
 import com.trascender.expedientes.recurso.persistent.Tramite;
@@ -23,7 +31,6 @@ import com.trascender.framework.util.SecurityMgr;
 @Stateless(name = "SystemExpedientes")
 public class SystemExpedientesBean implements SystemExpedientes {
 
-	@SuppressWarnings("unused")
 	private long llave = 0;
 
 	@EJB
@@ -55,19 +62,30 @@ public class SystemExpedientesBean implements SystemExpedientes {
 	@Override
 	public Expediente getExpedientePorId(long pId) throws Exception, RemoteException {
 		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(llave);
+		
 		return locExpedientes.getExpedientePorId(pId, locUsuario);
 	}
 
 	@Override
-	public FiltroExpediente findListaExpediente(FiltroExpediente pFiltro) throws Exception,
-			RemoteException {
+	public FiltroExpediente findListaExpediente(FiltroExpediente pFiltro) throws Exception, RemoteException {
 		pFiltro.setUsuario(SecurityMgr.getInstance().getUsuario(llave));
+		
 		return locExpedientes.findListaExpediente(pFiltro);
 	}
 
 	@Override
 	public Tramite getTramitePorId(long idTramite) {
 		return locExpedientes.getTramitePorId(idTramite);
+	}
+	
+	@Override
+	public void updateDocumentoSalida(Documento pDocumento, Usuario pUsuario) {
+		locExpedientes.updateDocumentoSalida(pDocumento, pUsuario);
+	}
+	
+	@Override
+	public void registrarHitoDocumentoSalida(Documento pDocumento, Usuario pUsuario, boolean pProcesando) {
+		locExpedientes.registrarHitoDocumentoSalida(pDocumento, pUsuario, pProcesando);
 	}
 
 	@Override
@@ -86,8 +104,7 @@ public class SystemExpedientesBean implements SystemExpedientes {
 	}
 
 	@Override
-	public List<Expediente> getListaExpedientePorTramites()
-			throws Exception {
+	public List<Expediente> getListaExpedientePorTramites() throws Exception {
 		locExpedientes.getListaExpedientePorTramites();
 		return null;
 	}
@@ -95,11 +112,16 @@ public class SystemExpedientesBean implements SystemExpedientes {
 	@Override
 	public void actualizarFaseActivaActual(Expediente pExpediente, String pComentario, Usuario pUsuario) {
 		locExpedientes.actualizarFaseActivaActual(pExpediente, pComentario, pUsuario);
-		}
-	
+	}
+
 	@Override
-	public JasperPrint getReporteAltasExpedientes(Expediente pExpediente,Usuario pUsuario) throws Exception{
-		return locExpedientes.getReporteAltasExpedientes(pExpediente,pUsuario);
+	public JasperPrint getReporteAltasExpedientes(Expediente pExpediente, Usuario pUsuario) throws Exception {
+		return locExpedientes.getReporteAltasExpedientes(pExpediente, pUsuario);
+	}
+
+	@Override
+	public Long getExpedientePorNodoProcedimiento(long idNodoProcedimiento) {
+		return locExpedientes.getExpedientePorNodoProcedimiento(idNodoProcedimiento);
 	}
 
 }

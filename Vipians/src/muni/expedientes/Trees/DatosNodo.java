@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.Trees;
 
 import java.util.List;
@@ -24,13 +31,11 @@ public class DatosNodo implements TreeView.Datos {
 
 	@Override
 	public String getTexto() {
-
 		return texto;
 	}
 
 	@Override
 	public String getId() {
-
 		return id;
 	}
 

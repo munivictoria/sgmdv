@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMExpediente;
 
 import muni.expedientes.tables.TableDocumentos;
@@ -13,32 +20,29 @@ public class DocumentoModel extends ABMModel {
 
 	@Override
 	public String getReglaNavegacion() {
-
 		return "ABMDocumento";
 	}
 
 	@Override
 	public String getNombreEntidad() {
 		return "Documento";
-
 	}
 
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
-//		UIComponent[] noVacios = new UIComponent[1];
-//		String[] nomNoVacios = new String[1];
-//		int pos = 0;
+		// UIComponent[] noVacios = new UIComponent[1];
+		// String[] nomNoVacios = new String[1];
+		// int pos = 0;
+		
 		return v;
 	}
 
 	private void deshabilitarElementosConsultarEliminar() {
-//		ABMDocumento abmDocumento = getBeanDocumento();
-
 	}
 
-//	private ABMDocumento getBeanDocumento() {
-//		return (ABMDocumento) getRequestBean("expedientes$ABMExpediente$ABMDocumento");
-//	}
+	// private ABMDocumento getBeanDocumento() {
+	// return (ABMDocumento) getRequestBean("expedientes$ABMExpediente$ABMDocumento");
+	// }
 
 	public class AgregarController extends AgregarAbstractController {
 
@@ -49,17 +53,13 @@ public class DocumentoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			TableDocumentos.WDocumento wDocumento = (TableDocumentos.WDocumento) pObject;
-			return "El Documento " + wDocumento.documento.getPlantilla()
-					+ " se agreg\363 exitosamente";
-
+			
+			return "El Documento " + wDocumento.documento.getPlantilla() + " se agreg\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -78,22 +78,18 @@ public class DocumentoModel extends ABMModel {
 
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
-
 			TableDocumentos.WDocumento wDocumento = (TableDocumentos.WDocumento) pObject;
-			return "El Documento " + wDocumento.documento.getPlantilla()
-					+ " se modific\363 exitosamente";
+			
+			return "El Documento " + wDocumento.documento.getPlantilla() + " se modific\363 exitosamente";
 		}
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-
 		}
 
 		@Override
 		public ABMModel getModel() {
-
 			return DocumentoModel.this;
-
 		}
 
 	}
@@ -132,9 +128,8 @@ public class DocumentoModel extends ABMModel {
 		@Override
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			TableDocumentos.WDocumento wDocumento = (TableDocumentos.WDocumento) pObject;
-			return "El Documento " + wDocumento.documento.getPlantilla()
-					+ " se elimin\363 exitosamente";
-
+			
+			return "El Documento " + wDocumento.documento.getPlantilla() + " se elimin\363 exitosamente";
 		}
 
 		@Override

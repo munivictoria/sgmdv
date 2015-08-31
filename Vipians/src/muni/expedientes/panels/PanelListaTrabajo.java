@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.panels;
 
 import java.rmi.RemoteException;
@@ -130,36 +137,36 @@ public class PanelListaTrabajo {
 	}
 
 	public void setLbTramitesMultipleOptions(MultipleSelectOptionsList lbTramitesMultipleOptions) {
-		this.getCommunicationExpedienteBean().setLbTramitesMultipleOptions(
-				lbTramitesMultipleOptions);
+		this.getCommunicationExpedienteBean().setLbTramitesMultipleOptions(lbTramitesMultipleOptions);
 	}
 
 	public MultipleSelectOptionsList getLbProcedimientosMultipleOptions() {
 		return getCommunicationExpedienteBean().getLbProcedimientosMultipleOptions();
 	}
-	
-	public Option[] getProcedimientosOptions(){
+
+	public Option[] getProcedimientosOptions() {
 		Option[] ops = getLbProcedimientosMultipleOptions().getOptions();
 		Arrays.sort(ops, comparatorOrdenAlfabetico);
-		return ops; 
+		
+		return ops;
 	}
 
-	public Option[] getFasesOptions(){
+	public Option[] getFasesOptions() {
 		Option[] ops = getLbFasesMultipleOptions().getOptions();
 		Arrays.sort(ops, comparatorOrdenAlfabetico);
-		return ops; 
+		
+		return ops;
 	}
-	
-	public Option[] getTramitesOptions(){
+
+	public Option[] getTramitesOptions() {
 		Option[] ops = getLbTramitesMultipleOptions().getOptions();
 		Arrays.sort(ops, comparatorOrdenAlfabetico);
-		return ops; 
+		
+		return ops;
 	}
-	
-	public void setLbProcedimientosMultipleOptions(
-			MultipleSelectOptionsList lbProcedimientosMultipleOptions) {
-		this.getCommunicationExpedienteBean().setLbProcedimientosMultipleOptions(
-				lbProcedimientosMultipleOptions);
+
+	public void setLbProcedimientosMultipleOptions(MultipleSelectOptionsList lbProcedimientosMultipleOptions) {
+		this.getCommunicationExpedienteBean().setLbProcedimientosMultipleOptions(lbProcedimientosMultipleOptions);
 	}
 
 	public ConverterProcedimiento getConverterProcedimiento() {
@@ -195,8 +202,7 @@ public class PanelListaTrabajo {
 	}
 
 	public void _init() {
-		if (getFiltroListaTrabajo().listaExpediente == null
-				|| getFiltroListaTrabajo().listaExpediente.isEmpty()) {
+		if(getFiltroListaTrabajo().listaExpediente == null || getFiltroListaTrabajo().listaExpediente.isEmpty()) {
 			actualizarListaDesdeBD();
 			getFiltroListaTrabajo().inicializarMapas();
 			resetListBoxProcedimiento();
@@ -210,35 +216,34 @@ public class PanelListaTrabajo {
 	public void mostrarEstado() {
 		actualizarListaDesdeBD();
 		FiltroListaTrabajo fLT = getFiltroListaTrabajo();
-		
+
 		fLT.inicializarMapas();
 		actualizarListboxPrcedimiento();
 		actualizarListboxFases();
 		actualizarListboxTramites();
-		
+
 		List<Procedimiento> listaSeleccionProcedimiento = fLT.listaSeleccionProcedimiento;
 		List<FaseCatalogo> listaSeleccionFaseCatalogo = fLT.listaSeleccionFaseCatalogo;
 		List<TramiteCatalogo> listaSeleccionTramiteCatalogo = fLT.listaSeleccionTramiteCatalogo;
-		if (!listaSeleccionProcedimiento.isEmpty()) {
+		
+		if(!listaSeleccionProcedimiento.isEmpty()) {
 			fLT.actualizarMapasSegunSeleccionProcedimiento(listaSeleccionProcedimiento);
-			lbProcedimientos.setSelected(listaSeleccionProcedimiento
-					.toArray(new Procedimiento[listaSeleccionProcedimiento.size()]));
+			lbProcedimientos.setSelected(listaSeleccionProcedimiento.toArray(new Procedimiento[listaSeleccionProcedimiento.size()]));
 		}
-		if (!listaSeleccionFaseCatalogo.isEmpty()) {
+		if(!listaSeleccionFaseCatalogo.isEmpty()) {
 			fLT.actualizarMapasSegunSeleccionFaseCatalogo(listaSeleccionFaseCatalogo);
-			lbFases.setSelected(listaSeleccionFaseCatalogo
-					.toArray(new FaseCatalogo[listaSeleccionFaseCatalogo.size()]));
+			lbFases.setSelected(listaSeleccionFaseCatalogo.toArray(new FaseCatalogo[listaSeleccionFaseCatalogo.size()]));
 		}
-		if (!listaSeleccionTramiteCatalogo.isEmpty()) {
-			lbTramites.setSelected(listaSeleccionTramiteCatalogo
-					.toArray(new TramiteCatalogo[listaSeleccionTramiteCatalogo.size()]));
+		if(!listaSeleccionTramiteCatalogo.isEmpty()) {
+			lbTramites.setSelected(listaSeleccionTramiteCatalogo.toArray(new TramiteCatalogo[listaSeleccionTramiteCatalogo.size()]));
 		}
+		
 		chPlazoVencido.setValue(fLT.soloVencidos);
 		tableExpedientes.setList(fLT.actualizarListaResultado());
 	}
 
 	public void guardarEstado() {
-         getFiltroListaTrabajo().lastSelected=tableExpedientes.getLastSelected();
+		getFiltroListaTrabajo().lastSelected = tableExpedientes.getLastSelected();
 	}
 
 	public String Modificar() {
@@ -248,32 +253,29 @@ public class PanelListaTrabajo {
 	private void actualizarListaDesdeBD() {
 		try {
 			getFiltroListaTrabajo().listaExpediente.clear();
-			List<Expediente> locLista = new ArrayList<Expediente>();
-			locLista = getCommunicationExpedienteBean().getRemoteSystemExpedientes()
-					.getListaExpedienteSoyResponsable(getSessionBean1().getLlave());
 			getFiltroListaTrabajo().getListaFeriados(null);
-			for (NodoExpediente e : locLista) {
-				e = getCommunicationExpedienteBean().getRemoteSystemExpedientes()
-						.getExpedientePorId(e.getIdNodoExpediente());
+			
+			List<Expediente> locLista = new ArrayList<Expediente>();
+			locLista = getCommunicationExpedienteBean().getRemoteSystemExpedientes().getListaExpedienteSoyResponsable(getSessionBean1().getLlave());
+			for(NodoExpediente e : locLista) {
+				e = getCommunicationExpedienteBean().getRemoteSystemExpedientes().getExpedientePorId(e.getIdNodoExpediente());
 				getFiltroListaTrabajo().listaExpediente.add(e);
 			}
-		} catch (RemoteException e) {
+		} catch(RemoteException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void actualizarListboxPrcedimiento() {
 		Set<Option> setOptionProcedimientos = new HashSet<Option>();
-		for (Object o : getFiltroListaTrabajo().mapProcedimiento.keySet()) {
+		for(Object o : getFiltroListaTrabajo().mapProcedimiento.keySet()) {
 			Procedimiento p = (Procedimiento) o;
-			Option option = new Option(p, p.getNombre(),
-					String.valueOf(getFiltroListaTrabajo().mapProcedimiento.get(p).size()));
+			Option option = new Option(p, p.getNombre(), String.valueOf(getFiltroListaTrabajo().mapProcedimiento.get(p).size()));
 			setOptionProcedimientos.add(option);
 		}
-		getLbProcedimientosMultipleOptions().setOptions(
-				setOptionProcedimientos.toArray(new Option[setOptionProcedimientos.size()]));
+		getLbProcedimientosMultipleOptions().setOptions(setOptionProcedimientos.toArray(new Option[setOptionProcedimientos.size()]));
 		limpiarSeleccionProcedimiento();
 	}
 
@@ -284,13 +286,11 @@ public class PanelListaTrabajo {
 
 	public void actualizarListboxFases() {
 		Set<Option> setOptionFaseCatalogo = new HashSet<Option>();
-		for (Object o : getFiltroListaTrabajo().mapFaseCatalogo.keySet()) {
+		for(Object o : getFiltroListaTrabajo().mapFaseCatalogo.keySet()) {
 			FaseCatalogo fc = (FaseCatalogo) o;
-			setOptionFaseCatalogo.add(new Option(fc, fc.getNombre(), String
-					.valueOf(getFiltroListaTrabajo().mapFaseCatalogo.get(fc).size())));
+			setOptionFaseCatalogo.add(new Option(fc, fc.getNombre(), String.valueOf(getFiltroListaTrabajo().mapFaseCatalogo.get(fc).size())));
 		}
-		getLbFasesMultipleOptions().setOptions(
-				setOptionFaseCatalogo.toArray(new Option[setOptionFaseCatalogo.size()]));
+		getLbFasesMultipleOptions().setOptions(setOptionFaseCatalogo.toArray(new Option[setOptionFaseCatalogo.size()]));
 		limpiarSeleccionFase();
 	}
 
@@ -301,13 +301,11 @@ public class PanelListaTrabajo {
 
 	public void actualizarListboxTramites() {
 		Set<Option> setOptionTramiteCatalogo = new HashSet<Option>();
-		for (Object o : getFiltroListaTrabajo().mapTramiteCatalogo.keySet()) {
+		for(Object o : getFiltroListaTrabajo().mapTramiteCatalogo.keySet()) {
 			TramiteCatalogo tc = (TramiteCatalogo) o;
-			setOptionTramiteCatalogo.add(new Option(tc, tc.getNombre(), String
-					.valueOf(getFiltroListaTrabajo().mapTramiteCatalogo.get(tc).size())));
+			setOptionTramiteCatalogo.add(new Option(tc, tc.getNombre(), String.valueOf(getFiltroListaTrabajo().mapTramiteCatalogo.get(tc).size())));
 		}
-		getLbTramitesMultipleOptions().setOptions(
-				setOptionTramiteCatalogo.toArray(new Option[setOptionTramiteCatalogo.size()]));
+		getLbTramitesMultipleOptions().setOptions(setOptionTramiteCatalogo.toArray(new Option[setOptionTramiteCatalogo.size()]));
 		limpiarSeleccionTramite();
 	}
 
@@ -317,18 +315,17 @@ public class PanelListaTrabajo {
 	}
 
 	public void actualizarSegunProcedimientosSeleccionados() {
-		Object[] selected = lbProcedimientos.getSelected() != null ? (Object[]) lbProcedimientos
-				.getSelected() : new Object[0];
+		Object[] selected = lbProcedimientos.getSelected() != null ? (Object[]) lbProcedimientos.getSelected() : new Object[0];
 		List<Procedimiento> list = new ArrayList<Procedimiento>();
-		for (Option op : getLbProcedimientosMultipleOptions().getOptions()) {
-			for (Object object : selected) {
-				if (op.getLabel().equals(object.toString())) {
+		for(Option op : getLbProcedimientosMultipleOptions().getOptions()) {
+			for(Object object : selected) {
+				if(op.getLabel().equals(object.toString())) {
 					list.add((Procedimiento) op.getValue());
 				}
 			}
 		}
 		getFiltroListaTrabajo().listaSeleccionProcedimiento = list;
-		if (!list.isEmpty()) {
+		if(!list.isEmpty()) {
 			getFiltroListaTrabajo().actualizarMapasSegunSeleccionProcedimiento(list);
 		} else {
 			this.getFiltroListaTrabajo().inicializarMapas();
@@ -339,12 +336,11 @@ public class PanelListaTrabajo {
 	}
 
 	public void actualizarSegunFasesSeleccionadas() {
-		Object[] selected = lbFases.getSelected() != null ? (Object[]) lbFases.getSelected()
-				: new Object[0];
+		Object[] selected = lbFases.getSelected() != null ? (Object[]) lbFases.getSelected() : new Object[0];
 		List<FaseCatalogo> list = new ArrayList<FaseCatalogo>();
-		for (Option op : getLbFasesMultipleOptions().getOptions()) {
-			for (Object object : selected) {
-				if (op.getLabel().equals(object.toString())) {
+		for(Option op : getLbFasesMultipleOptions().getOptions()) {
+			for(Object object : selected) {
+				if(op.getLabel().equals(object.toString())) {
 					list.add((FaseCatalogo) op.getValue());
 				}
 			}
@@ -352,16 +348,14 @@ public class PanelListaTrabajo {
 		getFiltroListaTrabajo().listaSeleccionFaseCatalogo = list;
 		getFiltroListaTrabajo().actualizarMapasSegunSeleccionFaseCatalogo(list);
 		resetListBoxTramites();
-
 	}
 
 	public void actualizarSegunTramitesSeleccionados() {
-		Object[] selected = lbTramites.getSelected() != null ? (Object[]) lbTramites.getSelected()
-				: new Object[0];
+		Object[] selected = lbTramites.getSelected() != null ? (Object[]) lbTramites.getSelected() : new Object[0];
 		List<TramiteCatalogo> list = new ArrayList<TramiteCatalogo>();
-		for (Option op : getLbTramitesMultipleOptions().getOptions()) {
-			for (Object object : selected) {
-				if (op.getLabel().equals(object.toString())) {
+		for(Option op : getLbTramitesMultipleOptions().getOptions()) {
+			for(Object object : selected) {
+				if(op.getLabel().equals(object.toString())) {
 					list.add((TramiteCatalogo) op.getValue());
 				}
 			}
@@ -371,8 +365,7 @@ public class PanelListaTrabajo {
 	}
 
 	public void actualizarSegunVencidos() {
-		getFiltroListaTrabajo().soloVencidos = chPlazoVencido.getValue() != null ? (Boolean) chPlazoVencido
-				.getValue() : false;
+		getFiltroListaTrabajo().soloVencidos = chPlazoVencido.getValue() != null ? (Boolean) chPlazoVencido.getValue() : false;
 		getFiltroListaTrabajo().inicializarMapas();
 		resetListBoxProcedimiento();
 		resetListBoxFases();
@@ -400,12 +393,13 @@ public class PanelListaTrabajo {
 		@Override
 		public Object getAsObject(FacesContext context, UIComponent component, String value) {
 			Procedimiento p = null;
-			for (Option option : getLbProcedimientosMultipleOptions().getOptions()) {
-				if (option.getLabel().equals(value)) {
+			for(Option option : getLbProcedimientosMultipleOptions().getOptions()) {
+				if(option.getLabel().equals(value)) {
 					p = (Procedimiento) option.getValue();
 					break;
 				}
 			}
+			
 			return p;
 		}
 
@@ -421,12 +415,13 @@ public class PanelListaTrabajo {
 		@Override
 		public Object getAsObject(FacesContext context, UIComponent component, String value) {
 			FaseCatalogo p = null;
-			for (Option option : getLbFasesMultipleOptions().getOptions()) {
-				if (option.getLabel().equals(value)) {
+			for(Option option : getLbFasesMultipleOptions().getOptions()) {
+				if(option.getLabel().equals(value)) {
 					p = (FaseCatalogo) option.getValue();
 					break;
 				}
 			}
+			
 			return p;
 		}
 
@@ -442,12 +437,13 @@ public class PanelListaTrabajo {
 		@Override
 		public Object getAsObject(FacesContext context, UIComponent component, String value) {
 			TramiteCatalogo p = null;
-			for (Option option : getLbTramitesMultipleOptions().getOptions()) {
-				if (option.getLabel().equals(value)) {
+			for(Option option : getLbTramitesMultipleOptions().getOptions()) {
+				if(option.getLabel().equals(value)) {
 					p = (TramiteCatalogo) option.getValue();
 					break;
 				}
 			}
+			
 			return p;
 		}
 
@@ -467,15 +463,16 @@ public class PanelListaTrabajo {
 	}
 
 	public Object getSessionBean(String pBeanName) {
-		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(pBeanName);
+		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(pBeanName);
 	}
 
 	private static Comparator<Option> comparatorOrdenAlfabetico = new Comparator<Option>() {
+
 		@Override
-		public  int compare(Option o1, Option o2) {
+		public int compare(Option o1, Option o2) {
 			return o1.getLabel().compareTo(o2.getLabel());
 		}
+		
 	};
-	
+
 }

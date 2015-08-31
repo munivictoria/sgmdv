@@ -1,9 +1,16 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMProcedimiento;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.event.ActionEvent;
 
@@ -17,6 +24,7 @@ import com.sun.rave.web.ui.component.Label;
 import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.component.TreeNode;
 import com.sun.rave.web.ui.model.Option;
+import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.expedientes.recurso.persistent.DocumentoCatalogo;
 import com.trascender.expedientes.recurso.persistent.DocumentoProcedimiento;
@@ -30,17 +38,18 @@ import com.trascender.expedientes.recurso.persistent.Responsable;
 import com.trascender.expedientes.recurso.persistent.TramiteCatalogo;
 import com.trascender.expedientes.recurso.persistent.TramiteProcedimiento;
 import com.trascender.expedientes.recurso.persistent.UsuarioExtensor;
+import com.trascender.framework.recurso.persistent.Numerador;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.presentacion.navegacion.ElementoPila;
 
-/**
- * @author martin
- * 
- */
 public class ABMProcedimiento extends ABM_Table {
 
 	private TextField tfNombre = new TextField();
 	private Label lblNombre = new Label();
+
+	private Label lblNumerador = new Label();
+	private DropDown ddNumerador = new DropDown();
+	private SingleSelectOptionsList ddNumeradorDefaultOptions = new SingleSelectOptionsList();
 
 	private PanelResponsableProcedimiento panelResponsable = new PanelResponsableProcedimiento();
 	private PanelPlazo panelPlazo = new PanelPlazo();
@@ -58,6 +67,30 @@ public class ABMProcedimiento extends ABM_Table {
 	public String usuarioSeleccion;
 
 	private boolean renderPanelOrden = true;
+
+	public Label getLblNumerador() {
+		return lblNumerador;
+	}
+
+	public void setLblNumerador(Label lblNumerador) {
+		this.lblNumerador = lblNumerador;
+	}
+
+	public DropDown getDdNumerador() {
+		return ddNumerador;
+	}
+
+	public void setDdNumerador(DropDown ddNumerador) {
+		this.ddNumerador = ddNumerador;
+	}
+
+	public SingleSelectOptionsList getDdNumeradorDefaultOptions() {
+		return ddNumeradorDefaultOptions;
+	}
+
+	public void setDdNumeradorDefaultOptions(SingleSelectOptionsList ddNumeradorDefaultOptions) {
+		this.ddNumeradorDefaultOptions = ddNumeradorDefaultOptions;
+	}
 
 	public DropDown getDdResponsabilidadArea() {
 		return ddResponsabilidadArea;
@@ -141,6 +174,15 @@ public class ABMProcedimiento extends ABM_Table {
 	protected void _init() throws Exception {
 		panelResponsable._initTables();
 		panelEditNodo._init();
+
+		Set<String> locListaNumeradores = this.getComunicationBean().getMapaNumerador().keySet();
+		Option[] opNumerador = new Option[locListaNumeradores.size() + 1];
+		int i = 0;
+		opNumerador[i++] = new Option("", "");
+		for(String cadaNumerador : locListaNumeradores) {
+			opNumerador[i++] = new Option(cadaNumerador, cadaNumerador);
+		}
+		ddNumeradorDefaultOptions.setOptions(opNumerador);
 	}
 
 	@Override
@@ -161,6 +203,7 @@ public class ABMProcedimiento extends ABM_Table {
 	@SuppressWarnings("unchecked")
 	protected void setElementosPila() {
 		int ind = 0;
+
 		this.getElementoPila().getObjetos().set(ind++, procedimiento);
 		this.getElementoPila().getObjetos().set(ind++, responsable);
 		this.getElementoPila().getObjetos().set(ind++, selectedNode);
@@ -192,7 +235,12 @@ public class ABMProcedimiento extends ABM_Table {
 			textNombre = capitalizeOnlyFirst(textNombre);
 		}
 		procedimiento.setNombre(textNombre);
-
+		
+		Numerador locNumerador = this.getDDObjectValue(this.getDdNumerador(), this.getComunicationBean().getMapaNumerador());
+		if(locNumerador != null) {
+			procedimiento.setNumerador(locNumerador);
+		}
+		
 		this.setElementosPila();
 	}
 
@@ -212,6 +260,10 @@ public class ABMProcedimiento extends ABM_Table {
 
 		this.setTrProcedimiento(armarArbol(procedimiento));
 		this.getTfNombre().setText(procedimiento.getNombre());
+		
+		if(procedimiento.getNumerador() != null) {
+			this.getDdNumerador().setSelected(procedimiento.getNumerador().getNombre());
+		}
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -230,8 +282,7 @@ public class ABMProcedimiento extends ABM_Table {
 		ep.getObjetos().add(ind++, null); // 9 tramite
 		ep.getObjetos().add(ind++, null); // 10 String para distinguir el tipo de Usuario a seleccionar
 
-		// Dejar siempre en la ultimo posicion del arreglo. Manejo de
-		// seleccionado.
+		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
 		return ep;
 	}
@@ -369,6 +420,7 @@ public class ABMProcedimiento extends ABM_Table {
 	private TreeProcedimiento armarArbol(Procedimiento pProcedimiento) {
 		TreeProcedimiento arbol = new TreeProcedimiento();
 		arbol.createTreeProcedimiento(pProcedimiento, 0);
+
 		return arbol;
 	}
 
@@ -378,6 +430,7 @@ public class ABMProcedimiento extends ABM_Table {
 			this.getElementoPila().getObjetos().set(7, 1);
 			retorno = navegarParaSeleccionar(retorno);
 		}
+
 		return retorno;
 	}
 
@@ -387,6 +440,7 @@ public class ABMProcedimiento extends ABM_Table {
 			this.getElementoPila().getObjetos().set(7, 2);
 			retorno = navegarParaSeleccionar(retorno);
 		}
+
 		return retorno;
 	}
 
@@ -395,6 +449,7 @@ public class ABMProcedimiento extends ABM_Table {
 		if(retorno != null) {
 			retorno = navegarParaSeleccionar(retorno);
 		}
+
 		return retorno;
 	}
 
@@ -403,6 +458,7 @@ public class ABMProcedimiento extends ABM_Table {
 		if(retorno != null) {
 			retorno = navegarParaSeleccionar(retorno);
 		}
+
 		return retorno;
 	}
 
@@ -415,6 +471,7 @@ public class ABMProcedimiento extends ABM_Table {
 		getElementosPila();
 		bean = "AbmProcedimiento";
 		setElementosPila();
+
 		return navegarParaSeleccionar("AdminArea");
 	}
 
@@ -431,6 +488,7 @@ public class ABMProcedimiento extends ABM_Table {
 		getElementosPila();
 		bean = "AbmProcedimiento";
 		setElementosPila();
+
 		return navegarParaSeleccionar("AdminUsuario");
 	}
 
@@ -524,4 +582,5 @@ public class ABMProcedimiento extends ABM_Table {
 	public long getSerialVersionUID() {
 		return Procedimiento.serialVersionUID;
 	}
+
 }

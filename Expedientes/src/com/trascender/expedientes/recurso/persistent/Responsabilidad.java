@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import java.io.Serializable;
@@ -25,16 +32,14 @@ import com.trascender.framework.util.Util;
 @Table(name = "EXP_RESPONSABILIDAD")
 public abstract class Responsabilidad implements Serializable {
 
-	
 	private static final long serialVersionUID = -7302469664678518496L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id_exp_responsabilidad")
-	@SequenceGenerator(name = "gen_id_exp_responsabilidad",
-			sequenceName = "gen_id_exp_responsabilidad", allocationSize = 1)
+	@SequenceGenerator(name = "gen_id_exp_responsabilidad", sequenceName = "gen_id_exp_responsabilidad", allocationSize = 1)
 	@Column(name = "ID_RESPONSABILIDAD")
 	private long idResponsabilidad;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_RESPONSABLE")
 	private Responsable responsable;
@@ -46,6 +51,7 @@ public abstract class Responsabilidad implements Serializable {
 
 	public enum Accion {
 		SUPERVISOR, RESPONSABLE;
+
 		public String toString() {
 			return Util.capitalizeEnumName(this.name());
 		};
@@ -79,25 +85,25 @@ public abstract class Responsabilidad implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (int) (idResponsabilidad ^ (idResponsabilidad >>> 32));
+		result = prime * result + (int) (idResponsabilidad ^ (idResponsabilidad >>> 32));
+		
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if(this == obj)
 			return true;
-		if (obj == null)
+		if(obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if(getClass() != obj.getClass())
 			return false;
 		Responsabilidad other = (Responsabilidad) obj;
-		if (this.idResponsabilidad == -1 
-				|| other.idResponsabilidad == -1)
+		if(this.idResponsabilidad == -1 || other.idResponsabilidad == -1)
 			return this.getEntidadResponsable().equals(other.getEntidadResponsable());
-		if (idResponsabilidad != other.idResponsabilidad)
+		if(idResponsabilidad != other.idResponsabilidad)
 			return false;
+		
 		return true;
 	}
 

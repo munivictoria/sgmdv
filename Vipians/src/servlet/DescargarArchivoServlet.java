@@ -1,6 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * 
+ * © Copyright 2015, CoDeSoftTodos los derechos reservados.
+ * 
  */
 
 package servlet;
@@ -16,24 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * 
- * @author pedro
- */
 public class DescargarArchivoServlet extends HttpServlet {
 
-	/**
-	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-	 * 
-	 * @param request
-	 *            servlet request
-	 * @param response
-	 *            servlet response
-	 * @throws ServletException
-	 *             if a servlet-specific error occurs
-	 * @throws IOException
-	 *             if an I/O error occurs
-	 */
+	private static final long serialVersionUID = -171817994046635785L;
+
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
@@ -62,60 +49,38 @@ public class DescargarArchivoServlet extends HttpServlet {
 		}
 
 		session.removeAttribute("nombreArchivoOriginal");
-
-		response.setContentType("application/force-download");
+		
+		String formatoArchivo = (String) session.getAttribute("formatoDeArchivo");
+		if (formatoArchivo == null || formatoArchivo.equals("application/force-download")) {
+			response.setContentType("application/force-download");
+			response.setHeader("Content-Disposition", "attachment; filename=" + nombreArchivo);
+		} else {
+			response.setContentType(formatoArchivo);
+			session.removeAttribute("formatoDeArchivo");
+			response.setHeader("Content-Disposition", "inline; filename=" + nombreArchivo);
+		}
+		
 		response.setHeader("Content-Length", String.valueOf(bytes.length));
-		response.setHeader("Content-Disposition", "attachment; filename=" + nombreArchivo);
 
 		OutputStream output = response.getOutputStream();
 		output.write(bytes);
 		output.flush();
 		output.close();
-
 	}
 
-	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-	/**
-	 * Handles the HTTP <code>GET</code> method.
-	 * 
-	 * @param request
-	 *            servlet request
-	 * @param response
-	 *            servlet response
-	 * @throws ServletException
-	 *             if a servlet-specific error occurs
-	 * @throws IOException
-	 *             if an I/O error occurs
-	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	/**
-	 * Handles the HTTP <code>POST</code> method.
-	 * 
-	 * @param request
-	 *            servlet request
-	 * @param response
-	 *            servlet response
-	 * @throws ServletException
-	 *             if a servlet-specific error occurs
-	 * @throws IOException
-	 *             if an I/O error occurs
-	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	/**
-	 * Returns a short description of the servlet.
-	 * 
-	 * @return a String containing servlet description
-	 */
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	}// </editor-fold>
+	}
+	
 }

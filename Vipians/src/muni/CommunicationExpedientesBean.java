@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni;
 
@@ -5,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +25,7 @@ import muni.expedientes.utils.FiltroListaTrabajo;
 
 import com.sun.rave.web.ui.appbase.AbstractSessionBean;
 import com.sun.rave.web.ui.model.MultipleSelectOptionsList;
-import com.trascender.compras.recurso.persistent.suministros.SolicitudSuministro;
+import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.expedientes.recurso.filtro.FiltroDocumentoCatalogo;
 import com.trascender.expedientes.recurso.filtro.FiltroEstadoTramite;
 import com.trascender.expedientes.recurso.filtro.FiltroExpediente;
@@ -39,11 +44,7 @@ import com.trascender.expedientes.recurso.persistent.TramiteProcedimiento;
 import com.trascender.expedientes.system.interfaces.SystemCatalogos;
 import com.trascender.expedientes.system.interfaces.SystemExpedientes;
 import com.trascender.expedientes.system.interfaces.SystemProcedimientos;
-import com.trascender.framework.recurso.persistent.Area;
 import com.trascender.framework.recurso.persistent.DiaFeriado;
-import com.trascender.framework.recurso.persistent.Permiso;
-import com.trascender.framework.recurso.persistent.Secretaria;
-import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.PaginatedTable;
 import com.trascender.presentacion.utiles.Constantes;
@@ -193,6 +194,14 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 		this.listaDocumentoCatalogos = listaDocumentoCatalogos;
 	}
 
+	public List getListaDocumentoTramitesProcesar() {
+		return listaDocumentoTramitesProcesar;
+	}
+
+	public void setListaDocumentoTramitesProcesar(List listaDocumentoTramitesProcesar) {
+		this.listaDocumentoTramitesProcesar = listaDocumentoTramitesProcesar;
+	}
+
 	public List<EstadoTramite> getListaEstadosTramite() {
 		return listaEstadosTramite;
 	}
@@ -292,14 +301,11 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 		props.put(Context.PROVIDER_URL, "localhost:1099");
 		try {
 			ctx = new InitialContext(props);
-			// interfaces
-			// TABLAS
 
 			this.remoteSystemCatalogos = (SystemCatalogos) ctx.lookup(SystemCatalogos.JNDI_NAME);
 			this.remoteSystemExpedientes = (SystemExpedientes) ctx.lookup(SystemExpedientes.JNDI_NAME);
 			this.remoteSystemProcedimientos = (SystemProcedimientos) ctx.lookup(SystemProcedimientos.JNDI_NAME);
 
-			System.out.println("CommunicationExpedientesBean");
 			FiltroTramiteCatalogo locFiltroTramiteCatalogo = new FiltroTramiteCatalogo();
 			locFiltroTramiteCatalogo.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaTramiteCatalogo = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(TramiteCatalogo.serialVersionUID),
@@ -319,6 +325,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 			locFiltroProcedimiento.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaProcedimiento = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(Procedimiento.serialVersionUID),
 					"#{expedientes$ABMProcedimiento$AdminProcedimiento}", locFiltroProcedimiento);
+
 			// FiltroFaseProcedimiento locFiltroFaseProcedimiento = new
 			// FiltroFaseProcedimiento();
 			// locFiltroFaseProcedimiento.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
@@ -344,9 +351,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 			locFiltroEstadosTramite.setCantidadPorPagina(Constantes.cantidadFilasTablasAdmin);
 			this.tablaEstadosTramite = new PaginatedTable(this.getSessionBean1().getAtributosConsultables(EstadoTramite.serialVersionUID),
 					"#{expedientes$ABMEstadoTramite$AdminEstadoTramite}", locFiltroEstadosTramite);
-
 		} catch(Exception e) {
-
 			e.printStackTrace();
 		}
 	}
@@ -363,6 +368,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 		return (muni.SessionBean1) getBean("SessionBean1");
 	}
 
+	@SuppressWarnings("unused")
 	private muni.ComunicationBean getComunicationBean() {
 		return (muni.ComunicationBean) getBean("ComunicationBean");
 	}
@@ -436,15 +442,17 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 	private List listaUsuariosResponsablesNodo = null;
 	@SuppressWarnings("rawtypes")
 	private List listaUsuariosExtensores = null;
-	
+
 	// asociaciones expediente
 	@SuppressWarnings("rawtypes")
 	private List listaTramitesExpediente = null;
 	@SuppressWarnings("rawtypes")
 	private List listaDocumentoTramites = null;
 	@SuppressWarnings("rawtypes")
+	private List listaDocumentoTramitesProcesar = null;
+	@SuppressWarnings("rawtypes")
 	private List listaHitos = null;
-	
+
 	private List listaDocPresentada = null;
 	// Lista de trabajo
 	private List<Expediente> listaExpedientesSoyResponsable = null;
@@ -454,7 +462,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 	public List getListaDocPresentada() {
 		return listaDocPresentada;
 	}
-	
+
 	public List getListaUsuariosExtensores() {
 		return listaUsuariosExtensores;
 	}
@@ -595,6 +603,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 			// locFiltro.setEstado(true);
 			List<TramiteCatalogo> locListaTramiteCatalogos = this.getRemoteSystemCatalogos().findListaTramiteCatalogos(locFiltro).getListaResultados();
 			Collections.sort(locListaTramiteCatalogos, new Comparator<TramiteCatalogo>() {
+
 				@Override
 				public int compare(TramiteCatalogo o1, TramiteCatalogo o2) {
 					String calle1 = Util.reemplazarAcentos(o1.getNombre());
@@ -604,7 +613,6 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 			});
 			for(TramiteCatalogo cadaTramiteCatalogo : locListaTramiteCatalogos) {
 				mapaTramiteCatalogo.put(cadaTramiteCatalogo.getNombre(), cadaTramiteCatalogo);
-
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -617,6 +625,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 		if(this.mapaProcedimiento == null) {
 			armarMapaProcedimientos();
 		}
+
 		return mapaProcedimiento;
 	}
 
@@ -632,6 +641,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 			// locFiltro.setEstado(true);
 			List<Procedimiento> locListaProcedimientos = this.getRemoteSystemProcedimientos().findListaProcedimiento(locFiltro).getListaResultados();
 			Collections.sort(locListaProcedimientos, new Comparator<Procedimiento>() {
+
 				@Override
 				public int compare(Procedimiento o1, Procedimiento o2) {
 					String calle1 = Util.reemplazarAcentos(o1.getNombre());
@@ -640,11 +650,12 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 				}
 			});
 			for(Procedimiento cadaProcedimiento : locListaProcedimientos) {
-				mapaProcedimiento.put(cadaProcedimiento.getNombre(), cadaProcedimiento);
-
+				if(cadaProcedimiento.getEstado().equals(EstadoPlantilla.ACTIVO)) {
+					mapaProcedimiento.put(cadaProcedimiento.getNombre(), cadaProcedimiento);
+				}
 			}
 		} catch(Exception e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 	}
 
@@ -690,6 +701,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 
 	public void setOpcionesMapaEstadoTramite(List<EstadoTramite> pListaEstadoTramite) {
 		mapaEstadoTramite = new TreeMap<String, EstadoTramite>(new Comparator<String>() {
+
 			@Override
 			public int compare(String o1, String o2) {
 				String objeto1 = Util.reemplazarAcentos(o1);
@@ -717,6 +729,7 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 			try {
 				this.getRemoteSystemCatalogos().setLlave(this.getSessionBean1().getLlave());
 				mapaFasesEspeciales = new TreeMap<String, FaseProcedimiento>(new Comparator<String>() {
+
 					@Override
 					public int compare(String o1, String o2) {
 						String objeto1 = Util.reemplazarAcentos(o1);
@@ -732,34 +745,37 @@ public class CommunicationExpedientesBean extends AbstractSessionBean {
 				e.printStackTrace();
 			}
 		}
+
 		return mapaFasesEspeciales;
 	}
-	
+
 	public Map<String, Procedimiento> mapaProcedimientoExpediente;
 
 	public Map<String, Procedimiento> getMapaProcedimientoExpediente() {
-		if(mapaProcedimientoExpediente == null){
-		try {
-			this.mapaProcedimientoExpediente = new HashMap<String, Procedimiento>();
-			this.getRemoteSystemProcedimientos().setLlave(this.getSessionBean1().getLlave());
-			List<Procedimiento> locListaProcedimientos = 
-					this.getRemoteSystemProcedimientos().getListaProcedimientosPuedoEmpezar(this.getSessionBean1().getUsuario());
-			
-			Collections.sort(locListaProcedimientos, new Comparator<Procedimiento>() {
-				@Override
-				public int compare(Procedimiento o1, Procedimiento o2) {
-					String calle1 = Util.reemplazarAcentos(o1.getNombre());
-					String calle2 = Util.reemplazarAcentos(o2.getNombre());
-					return calle1.compareToIgnoreCase(calle2);
+		if(mapaProcedimientoExpediente == null) {
+			try {
+				this.mapaProcedimientoExpediente = new HashMap<String, Procedimiento>();
+				this.getRemoteSystemProcedimientos().setLlave(this.getSessionBean1().getLlave());
+				List<Procedimiento> locListaProcedimientos = this.getRemoteSystemProcedimientos().getListaProcedimientosPuedoEmpezar(this.getSessionBean1().getUsuario());
+
+				Collections.sort(locListaProcedimientos, new Comparator<Procedimiento>() {
+
+					@Override
+					public int compare(Procedimiento o1, Procedimiento o2) {
+						String calle1 = Util.reemplazarAcentos(o1.getNombre());
+						String calle2 = Util.reemplazarAcentos(o2.getNombre());
+						return calle1.compareToIgnoreCase(calle2);
+					}
+				});
+				for(Procedimiento cadaProcedimiento : locListaProcedimientos) {
+					mapaProcedimientoExpediente.put(cadaProcedimiento.getNombre(), cadaProcedimiento);
 				}
-			});
-			for (Procedimiento cadaProcedimiento : locListaProcedimientos) {
-				mapaProcedimientoExpediente.put(cadaProcedimiento.getNombre(), cadaProcedimiento);
+			} catch(Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		}
+
 		return mapaProcedimientoExpediente;
 	}
+
 }

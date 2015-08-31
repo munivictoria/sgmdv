@@ -1,6 +1,15 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,23 +51,34 @@ public class FiltroListaTrabajo {
 	public List<NodoExpediente> actualizarListaResultado() {
 		listaResultado.clear();
 		Set<NodoExpediente> set = new HashSet<NodoExpediente>();
-		if (!listaSeleccionTramiteCatalogo.isEmpty()) {
-			for (TramiteCatalogo tc : listaSeleccionTramiteCatalogo) {
-				List<NodoExpediente> listNE = (mapTramiteCatalogo
-						.get(MapUtils.getKey(mapTramiteCatalogo, tc)));
-				for (NodoExpediente tramite : listNE) {
+		if(!listaSeleccionTramiteCatalogo.isEmpty()) {
+			for(TramiteCatalogo tc : listaSeleccionTramiteCatalogo) {
+				List<NodoExpediente> listNE = (mapTramiteCatalogo.get(MapUtils.getKey(mapTramiteCatalogo, tc)));
+				for(NodoExpediente tramite : listNE) {
 					set.add(tramite.getNodoPadre().getNodoPadre());
 				}
 			}
 		} else {
-			for (List<NodoExpediente> listNE : mapTramiteCatalogo.values()) {
-				for (NodoExpediente tramite : listNE) {
+			for(List<NodoExpediente> listNE : mapTramiteCatalogo.values()) {
+				for(NodoExpediente tramite : listNE) {
 					set.add(tramite.getNodoPadre().getNodoPadre());
 				}
 			}
 
 		}
 		listaResultado.addAll(set);
+		
+		Collections.sort(listaResultado, new Comparator<NodoExpediente>() {
+
+			@Override
+			public int compare(NodoExpediente o1, NodoExpediente o2) {
+				Expediente exp1 = (Expediente) o1;
+				Expediente exp2 = (Expediente) o2;
+				
+				return exp2.getNroRegistro().compareTo(exp1.getNroRegistro());
+			}
+		});
+		
 		return listaResultado;
 	}
 
@@ -105,57 +125,54 @@ public class FiltroListaTrabajo {
 		mapTramiteCatalogo.clear();
 		armarMap(listaExpediente, mapProcedimiento);
 		armarMap(getListaFaseActiva(listaExpediente), mapFaseCatalogo);
-		for (Object fc : mapFaseCatalogo.keySet()) {
+		for(Object fc : mapFaseCatalogo.keySet()) {
 			armarMapTramites(fc);
 		}
-
 	}
 
 	private List<NodoExpediente> getListaFaseActiva(List<NodoExpediente> lista) {
 		List<NodoExpediente> list = new ArrayList<NodoExpediente>();
-		for (NodoExpediente ne : lista) {
+		for(NodoExpediente ne : lista) {
 			Expediente e = (Expediente) ne;
 			list.add(e.getFaseActual());
 		}
+		
 		return list;
 	}
 
-	
-
-
 	private void armarMap(List<NodoExpediente> lista, Map<Object, List<NodoExpediente>> map) {
-		for (NodoExpediente ne : lista) {
+		for(NodoExpediente ne : lista) {
 			Object key = ne.getPlantilla();
-			if (soloVencidos && !ne.tieneVencimientos(listaFeriados)) continue;
-			if (ne instanceof Tramite) {
-				//No agregamos los tramites cuyo estado representa cerrado
+			if(soloVencidos && !ne.tieneVencimientos(listaFeriados))
+				continue;
+			if(ne instanceof Tramite) {
+				// No agregamos los tramites cuyo estado representa cerrado
 				Tramite locTramite = (Tramite) ne;
-				if (locTramite.isCerrado()) continue;
-				//TODO Preguntar y filtrar por Tramites no trabajados.
+				if(locTramite.isCerrado())
+					continue;
+				// TODO Preguntar y filtrar por Tramites no trabajados.
 			}
 			MapUtils.put(map, ne, key);
 		}
 	}
 
-	
 	public void actualizarMapasSegunSeleccionProcedimiento(List<Procedimiento> listaSeleccionada) {
-		if (listaSeleccionada != null && !listaSeleccionada.isEmpty()) {
+		if(listaSeleccionada != null && !listaSeleccionada.isEmpty()) {
 			mapFaseCatalogo.clear();
 			mapTramiteCatalogo.clear();
-			for (Procedimiento procedimiento : listaSeleccionada) {
-				armarMap(getListaFaseActiva(mapProcedimiento.get(MapUtils.getKey(mapProcedimiento,
-						procedimiento))), mapFaseCatalogo);
+			for(Procedimiento procedimiento : listaSeleccionada) {
+				armarMap(getListaFaseActiva(mapProcedimiento.get(MapUtils.getKey(mapProcedimiento, procedimiento))), mapFaseCatalogo);
 			}
-			for (Object fc : mapFaseCatalogo.keySet()) {
+			for(Object fc : mapFaseCatalogo.keySet()) {
 				armarMapTramites(fc);
 			}
 		}
 	}
 
 	public void actualizarMapasSegunSeleccionFaseCatalogo(List<FaseCatalogo> listaSeleccionada) {
-		if (listaSeleccionada != null && !listaSeleccionada.isEmpty()) {
+		if(listaSeleccionada != null && !listaSeleccionada.isEmpty()) {
 			mapTramiteCatalogo.clear();
-			for (FaseCatalogo fc : listaSeleccionada) {
+			for(FaseCatalogo fc : listaSeleccionada) {
 				armarMapTramites(fc);
 			}
 		}
@@ -163,26 +180,26 @@ public class FiltroListaTrabajo {
 
 	private List<NodoExpediente> filtrarTramitesResponsables(List<NodoExpediente> lista) {
 		List<NodoExpediente> locLista = new ArrayList<NodoExpediente>();
-		for (NodoExpediente t : lista) {
+		for(NodoExpediente t : lista) {
 			boolean ok = false;
-			for (Boolean bool : t.getPermisos(usuario)) {
-				if (bool != null) {
+			for(Boolean bool : t.getPermisos(usuario)) {
+				if(bool != null) {
 					ok = true;
 					break;
 				}
 			}
-			if (ok) {
+			if(ok) {
 				locLista.add(t);
 			}
 		}
+		
 		return locLista;
 	}
 
 	private void armarMapTramites(Object fc) {
 		List<NodoExpediente> listaFase = mapFaseCatalogo.get(MapUtils.getKey(mapFaseCatalogo, fc));
-		for (NodoExpediente fase : listaFase) {
-			armarMap(filtrarTramitesResponsables(fase.getListaNodosExpedientes()),
-					mapTramiteCatalogo);
+		for(NodoExpediente fase : listaFase) {
+			armarMap(filtrarTramitesResponsables(fase.getListaNodosExpedientes()), mapTramiteCatalogo);
 		}
 	}
 
@@ -191,17 +208,16 @@ public class FiltroListaTrabajo {
 	}
 
 	public Object getSessionBean(String pBeanName) {
-		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(pBeanName);
+		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(pBeanName);
 	}
 
 	public List<DiaFeriado> getListaFeriados(Date from) {
 		try {
-			listaFeriados = getCommunicationExpedienteBean().getRemoteSystemExpedientes()
-					.getDiasFeriadosEntre(from, null);
-		} catch (Exception e) {
+			listaFeriados = getCommunicationExpedienteBean().getRemoteSystemExpedientes().getDiasFeriadosEntre(from, null);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		return listaFeriados;
 	}
 

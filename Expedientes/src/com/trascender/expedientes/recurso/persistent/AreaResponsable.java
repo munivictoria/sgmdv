@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.persistent;
 
 import javax.persistence.DiscriminatorValue;
@@ -8,10 +15,11 @@ import javax.persistence.ManyToOne;
 import com.trascender.framework.recurso.persistent.Area;
 
 @Entity
-@DiscriminatorValue( value = "area")
-public class AreaResponsable extends Responsabilidad{
+@DiscriminatorValue(value = "area")
+public class AreaResponsable extends Responsabilidad {
+
 	private static final long serialVersionUID = -5642602333567155302L;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_AREA")
 	private Area area;
@@ -28,5 +36,5 @@ public class AreaResponsable extends Responsabilidad{
 	public void setArea(Area area) {
 		this.area = area;
 	}
-	
+
 }

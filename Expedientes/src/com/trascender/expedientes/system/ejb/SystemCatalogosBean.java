@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.system.ejb;
 
 import java.rmi.RemoteException;
@@ -29,27 +36,21 @@ public class SystemCatalogosBean implements SystemCatalogos {
 	@Override
 	public void setLlave(long pLlave) throws RemoteException {
 		llave = pLlave;
-
 	}
 
 	@Override
-	public void addTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception,
-			RemoteException, CatalogosException {
+	public void addTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception, RemoteException, CatalogosException {
 		locCatalogos.addTramiteCatalogo(pTramiteCatalogo);
-
 	}
 
 	@Override
-	public void updateTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception,
-			RemoteException, CatalogosException {
+	public void updateTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception, RemoteException, CatalogosException {
 		locCatalogos.updateTramiteCatalogo(pTramiteCatalogo);
 	}
 
 	@Override
-	public void deleteTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception,
-			RemoteException {
-		locCatalogos.deleteTramiteCatalogo(pTramiteCatalogo);
-
+	public String deleteTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception, RemoteException {
+		return locCatalogos.deleteTramiteCatalogo(pTramiteCatalogo);
 	}
 
 	@Override
@@ -58,29 +59,23 @@ public class SystemCatalogosBean implements SystemCatalogos {
 	}
 
 	@Override
-	public FiltroTramiteCatalogo findListaTramiteCatalogos(FiltroTramiteCatalogo pFiltro)
-			throws Exception, RemoteException {
+	public FiltroTramiteCatalogo findListaTramiteCatalogos(FiltroTramiteCatalogo pFiltro) throws Exception, RemoteException {
 		return locCatalogos.findListaTramiteCatalogos(pFiltro);
 	}
 
 	@Override
-	public void addFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception, RemoteException,
-			CatalogosException {
+	public void addFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception, RemoteException, CatalogosException {
 		locCatalogos.addFaseCatalogo(pFaseCatalogo);
-
 	}
 
 	@Override
-	public void updateFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception, RemoteException,
-			CatalogosException {
+	public void updateFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception, RemoteException, CatalogosException {
 		locCatalogos.updateFaseCatalogo(pFaseCatalogo);
-
 	}
 
 	@Override
-	public void deleteFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception, RemoteException {
-		locCatalogos.deleteFaseCatalogo(pFaseCatalogo);
-
+	public String deleteFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception, RemoteException {
+		return locCatalogos.deleteFaseCatalogo(pFaseCatalogo);
 	}
 
 	@Override
@@ -89,30 +84,23 @@ public class SystemCatalogosBean implements SystemCatalogos {
 	}
 
 	@Override
-	public FiltroFaseCatalogo findListaFaseCatalogo(FiltroFaseCatalogo pFiltro) throws Exception,
-			RemoteException {
+	public FiltroFaseCatalogo findListaFaseCatalogo(FiltroFaseCatalogo pFiltro) throws Exception, RemoteException {
 		return locCatalogos.findListaFaseCatalogo(pFiltro);
 	}
 
 	@Override
-	public void addDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception,
-			RemoteException, CatalogosException {
+	public void addDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception, RemoteException, CatalogosException {
 		locCatalogos.addDocumentoCatalogo(pDocumentoCatalogo);
-
 	}
 
 	@Override
-	public void updateDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception,
-			RemoteException, CatalogosException {
+	public void updateDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception, RemoteException, CatalogosException {
 		locCatalogos.updateDocumentoCatalogo(pDocumentoCatalogo);
-
 	}
 
 	@Override
-	public void deleteDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception,
-			RemoteException {
-		locCatalogos.deleteDocumentoCatalogo(pDocumentoCatalogo);
-
+	public String deleteDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception, RemoteException {
+		return locCatalogos.deleteDocumentoCatalogo(pDocumentoCatalogo);
 	}
 
 	@Override
@@ -121,53 +109,53 @@ public class SystemCatalogosBean implements SystemCatalogos {
 	}
 
 	@Override
-	public FiltroDocumentoCatalogo findListaDocumentoCatalogo(FiltroDocumentoCatalogo pFiltro)
-			throws Exception, RemoteException {
+	public FiltroDocumentoCatalogo findListaDocumentoCatalogo(FiltroDocumentoCatalogo pFiltro) throws Exception, RemoteException {
 		return locCatalogos.findListaDocumentoCatalogo(pFiltro);
 	}
-	
+
 	@Override
-	public FiltroEstadoTramite findListaEstadosTramite(FiltroEstadoTramite pFiltroEstadosTramite) throws Exception{
+	public FiltroEstadoTramite findListaEstadosTramite(FiltroEstadoTramite pFiltroEstadosTramite) throws Exception {
 		return locCatalogos.findListaEstadosTramite(pFiltroEstadosTramite);
 	}
-	
+
 	@Override
 	public EstadoTramite getEstadosTramitePorId(long pId) throws Exception {
 		return locCatalogos.getEstadosTramitePorId(pId);
 	}
-	
+
 	@Override
 	public void addEstadosTramite(EstadoTramite pEstadosTramite) throws Exception {
-			locCatalogos.addEstadosTramite(pEstadosTramite);
+		locCatalogos.addEstadosTramite(pEstadosTramite);
 	}
-	
+
 	@Override
 	public void updateEstadosTramite(EstadoTramite pEstadosTramite) throws Exception {
-			locCatalogos.updateEstadosTramite(pEstadosTramite);
+		locCatalogos.updateEstadosTramite(pEstadosTramite);
 	}
-	
+
 	@Override
-	public void deleteEstadosTramite(EstadoTramite pEstadosTramite) throws Exception {
-			locCatalogos.deleteEstadosTramite(pEstadosTramite);
+	public String deleteEstadosTramite(EstadoTramite pEstadosTramite) throws Exception {
+		return locCatalogos.deleteEstadosTramite(pEstadosTramite);
 	}
-	
+
 	@Override
 	public void restoreTramiteCatalogo(TramiteCatalogo pTramiteCatalogo) throws Exception {
-			locCatalogos.restoreTramiteCatalogo(pTramiteCatalogo);
+		locCatalogos.restoreTramiteCatalogo(pTramiteCatalogo);
 	}
-	
+
 	@Override
 	public void restoreFaseCatalogo(FaseCatalogo pFaseCatalogo) throws Exception {
-			locCatalogos.restoreFaseCatalogo(pFaseCatalogo);
+		locCatalogos.restoreFaseCatalogo(pFaseCatalogo);
 	}
-	
+
 	@Override
 	public void restoreDocumentoCatalogo(DocumentoCatalogo pDocumentoCatalogo) throws Exception {
-			locCatalogos.restoreDocumentoCatalogo(pDocumentoCatalogo);
+		locCatalogos.restoreDocumentoCatalogo(pDocumentoCatalogo);
 	}
-	
+
 	@Override
 	public void restoreEstadoTramiteCatalogo(EstadoTramite pEstadoTramiteCatalogo) throws Exception {
-			locCatalogos.restoreEstadoTramiteCatalogo(pEstadoTramiteCatalogo);
+		locCatalogos.restoreEstadoTramiteCatalogo(pEstadoTramiteCatalogo);
 	}
+	
 }

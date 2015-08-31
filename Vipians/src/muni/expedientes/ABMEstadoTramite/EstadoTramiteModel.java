@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.ABMEstadoTramite;
 
 import javax.faces.component.UIComponent;
@@ -12,7 +19,7 @@ import com.trascender.presentacion.abstracts.controller.ModificarAbstractControl
 import com.trascender.presentacion.utiles.Constantes;
 import com.trascender.presentacion.validadores.Validador;
 
-public class EstadoTramiteModel extends ABMModel{
+public class EstadoTramiteModel extends ABMModel {
 
 	@Override
 	public String getReglaNavegacion() {
@@ -23,7 +30,7 @@ public class EstadoTramiteModel extends ABMModel{
 	public String getNombreEntidad() {
 		return "Estados Tramite";
 	}
-	
+
 	private Validador getValidadorAgregarModificar() {
 		Validador v = new Validador();
 		UIComponent[] noVacios = new UIComponent[1];
@@ -32,12 +39,13 @@ public class EstadoTramiteModel extends ABMModel{
 		noVacios[pos] = getBeanEstadoTramite().getTfNombre();
 		nomNoVacios[pos] = "Nombre";
 		v.noSonVacios(noVacios, nomNoVacios);
+		
 		return v;
 	}
 
 	private void deshabilitarElementosConsultarEliminar() {
 		ABMEstadoTramite abmABMEstadosTramite = getBeanEstadoTramite();
-		
+
 		abmABMEstadosTramite.getTfNombre().setDisabled(true);
 		abmABMEstadosTramite.getCbCierreTramite().setDisabled(true);
 	}
@@ -64,7 +72,6 @@ public class EstadoTramiteModel extends ABMModel{
 
 		@Override
 		public void ocultarDeshabilitarEnVista() {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -137,9 +144,9 @@ public class EstadoTramiteModel extends ABMModel{
 		public String accionBotonAceptar(Object pObject) throws Exception {
 			EstadoTramite locEstadosTramite = (EstadoTramite) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
-			getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteEstadosTramite(locEstadosTramite);
+			String mensaje = getCommunicationExpedientesBean().getRemoteSystemCatalogos().deleteEstadosTramite(locEstadosTramite);
 
-			return "El Estado Tramite se elimin\363 exitosamente";
+			return mensaje;
 		}
 
 		@Override
@@ -153,6 +160,7 @@ public class EstadoTramiteModel extends ABMModel{
 		}
 
 	}
+
 	public class RecuperarEstadoTramiteCatalogo implements ABMController {
 
 		@Override
@@ -165,7 +173,7 @@ public class EstadoTramiteModel extends ABMModel{
 			EstadoTramite locEstadoTramite = (EstadoTramite) pObject;
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().setLlave(getSessionBean1().getLlave());
 			getCommunicationExpedientesBean().getRemoteSystemCatalogos().restoreEstadoTramiteCatalogo(locEstadoTramite);
-			
+
 			return "El Estado Trámite se recuper\363 exitosamente";
 		}
 
@@ -211,7 +219,7 @@ public class EstadoTramiteModel extends ABMModel{
 
 		@Override
 		public String getTituloPagina() {
-			return "Recuperar";
+			return "Recuperar Estado Trámite";
 		}
 
 		@Override
@@ -228,5 +236,7 @@ public class EstadoTramiteModel extends ABMModel{
 		public boolean seleccionarObjeto() {
 			return true;
 		}
+		
 	}
+	
 }

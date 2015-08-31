@@ -140,7 +140,8 @@ public class SystemImpresionBean implements SystemImpresion {
 	}
 
 	public JasperPrint getReporteListadoCuotasRefinanciacion(List<CuotaRefinanciacion> pListaCuotasRefinanciacion) throws Exception{
-		return businessImpresionLocal.getReporteListadoCuotasRefinanciacion(pListaCuotasRefinanciacion);
+		Usuario locUsuario = SecurityMgr.getInstance().getUsuario(llave);
+		return businessImpresionLocal.getReporteListadoCuotasRefinanciacion(pListaCuotasRefinanciacion, locUsuario);
 	}
 
 	@Override

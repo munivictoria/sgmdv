@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.exception;
 
 import com.trascender.framework.exception.TrascenderException;
@@ -12,13 +19,12 @@ public class ProcedimientosException extends TrascenderException {
 
 	@Override
 	protected void setMsg() {
-		switch (getCodeTrascenderException()) {
-		// Expediente
-		case 7001:
-			this.msg = "El Nombre ya se encuentra utilizado por otro Procedimiento.";
-			break;
-		default:
-			this.msg = "Ha ocurrido un error inesperado.";
+		switch(getCodeTrascenderException()) {
+			// Expediente
+			case 7001: this.msg = "El Nombre ya se encuentra utilizado por otro Procedimiento."; break;
+			
+			default:
+				this.msg = "Ha ocurrido un error inesperado.";
 		}
 	}
 

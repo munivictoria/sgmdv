@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package com.trascender.expedientes.recurso.filtro;
 
 import com.trascender.expedientes.enums.EstadoPlantilla;
@@ -10,8 +17,17 @@ public class FiltroDocumentoCatalogo extends FiltroAbstracto<DocumentoCatalogo> 
 
 	private String nombre;
 	private EstadoPlantilla estado;
-	
-	
+	private DocumentoCatalogo.Tipo tipo;
+
+	public FiltroDocumentoCatalogo() {
+	}
+
+	public FiltroDocumentoCatalogo(String nombre, EstadoPlantilla estado) {
+		super();
+		this.nombre = nombre;
+		this.estado = estado;
+	}
+
 	public EstadoPlantilla getEstado() {
 		return estado;
 	}
@@ -26,6 +42,14 @@ public class FiltroDocumentoCatalogo extends FiltroAbstracto<DocumentoCatalogo> 
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public DocumentoCatalogo.Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(DocumentoCatalogo.Tipo tipo) {
+		this.tipo = tipo;
 	}
 
 }

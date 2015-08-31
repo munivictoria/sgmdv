@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package muni.expedientes.ABMExpediente;
 
@@ -7,7 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.component.UIComponent;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import muni.expedientes.AbmNodoExpediente;
 import muni.expedientes.NodoExpedienteControler;
@@ -49,6 +57,7 @@ import com.trascender.expedientes.recurso.persistent.UsuarioResponsable;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.presentacion.conversores.Conversor;
 import com.trascender.presentacion.navegacion.ElementoPila;
+import com.trascender.presentacion.validadores.Validador;
 
 public class ABMExpediente extends AbmNodoExpediente {
 
@@ -73,13 +82,12 @@ public class ABMExpediente extends AbmNodoExpediente {
 	private Label lblProcedimiento = new Label();
 	private Label lblEstadoProcedimiento = new Label();
 	private PanelGroup gpBotones = new PanelGroup();
-	private Button btnSeleccionarProcedimiento = new Button();
+	private HtmlAjaxCommandButton btnSeleccionarProcedimiento = new HtmlAjaxCommandButton();
 
 	private PanelPlazoExpediente panelPlazoExpediente = new PanelPlazoExpediente();
 	private PanelFases panelFases = new PanelFases();
 
 	private TextArea taComentario = new TextArea();
-	private TextArea taComentarioOculto = new TextArea();
 	private HtmlAjaxCommandButton btnComentarioIrAFaseEspecial = new HtmlAjaxCommandButton();
 	private HtmlAjaxCommandButton btnComentarioRetroceso = new HtmlAjaxCommandButton();
 	private HtmlAjaxCommandButton btnComentarioCancelarAvance = new HtmlAjaxCommandButton();
@@ -117,6 +125,16 @@ public class ABMExpediente extends AbmNodoExpediente {
 
 	private Label lbContraseniaExpediente = new Label();
 	private PasswordField pfContraseniaExpediente = new PasswordField();
+
+	private HtmlAjaxCommandButton btnGuardarAjax = new HtmlAjaxCommandButton();
+
+	public HtmlAjaxCommandButton getBtnGuardarAjax() {
+		return btnGuardarAjax;
+	}
+
+	public void setBtnGuardarAjax(HtmlAjaxCommandButton btnGuardarAjax) {
+		this.btnGuardarAjax = btnGuardarAjax;
+	}
 
 	public PanelGroup getPgBotonesFases() {
 		return pgBotonesFases;
@@ -341,14 +359,6 @@ public class ABMExpediente extends AbmNodoExpediente {
 		this.taComentario = taComentario;
 	}
 
-	public TextArea getTaComentarioOculto() {
-		return taComentarioOculto;
-	}
-
-	public void setTaComentarioOculto(TextArea taComentarioOculto) {
-		this.taComentarioOculto = taComentarioOculto;
-	}
-
 	public HtmlAjaxCommandButton getBtnComentarioIrAFaseEspecial() {
 		return btnComentarioIrAFaseEspecial;
 	}
@@ -416,11 +426,13 @@ public class ABMExpediente extends AbmNodoExpediente {
 	private StaticText staticText1 = new StaticText();
 
 	public Expediente expediente;
+
 	// // mantiente los tramites modificados hasta que se haga un avance de fase o
 	// // se guarde el expediente
 	// // util para mantener los tramites entre las navegaciones sin tener que
 	// // llamar al metodo getPorId(..);
 	// private Map<Integer, Tramite> mapTramitesModificados = new HashMap<Integer, Tramite>();
+
 	private Persona interesado;
 	private String comentarioExpediente;
 	private String strContraseniaExpediente = new String();
@@ -481,11 +493,11 @@ public class ABMExpediente extends AbmNodoExpediente {
 		this.gpBotones = gpBotones;
 	}
 
-	public Button getBtnSeleccionarProcedimiento() {
+	public HtmlAjaxCommandButton getBtnSeleccionarProcedimiento() {
 		return btnSeleccionarProcedimiento;
 	}
 
-	public void setBtnSeleccionarProcedimiento(Button btnSeleccionarProcedimiento) {
+	public void setBtnSeleccionarProcedimiento(HtmlAjaxCommandButton btnSeleccionarProcedimiento) {
 		this.btnSeleccionarProcedimiento = btnSeleccionarProcedimiento;
 	}
 
@@ -601,6 +613,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 	protected void _init() throws Exception {
 		panelFases._init();
 		super._init();
+
 		if(this.getCommunicationExpedientesBean().getListaDocPresentada() != null) {
 			this.getLdpDocPresentada().setList(this.getCommunicationExpedientesBean().getListaDocPresentada());
 		}
@@ -616,11 +629,9 @@ public class ABMExpediente extends AbmNodoExpediente {
 			opProcedimiento[i++] = new Option(cadaProcedimiento, cadaProcedimiento);
 		}
 		ddProcedimientoDefaultOptions.setOptions(opProcedimiento);
-
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void getElementosPila() {
 		int ind = 0;
 		expediente = obtenerObjetoDelElementoPila(ind++, Expediente.class);
@@ -703,9 +714,26 @@ public class ABMExpediente extends AbmNodoExpediente {
 
 		panelPlazoExpediente.mostrarDatos(expediente.getPlazo());
 
-		if(expediente.getNodoProcedimiento() != null) {
-			this.lblProcedimiento.setText(((Procedimiento) expediente.getNodoProcedimiento()).getNombre());
+		this.lblProcedimiento.setText(expediente.getNodoProcedimiento() != null ? ((Procedimiento) expediente.getNodoProcedimiento()).getNombre() : "");
+		this.ddProcedimiento.setSelected(this.lblProcedimiento.getText());
+	}
+	
+	public void eventoActualizarDatosInteresado(ValueChangeEvent event) {
+		expediente = obtenerObjetoDelElementoPila(0, Expediente.class);
+		interesado = obtenerObjetoDelElementoPila(1, Persona.class);
+
+		if(interesado != null) {
+			interesado.setTelefono(this.getTextFieldValue(getTfNroTelefono()));
+			interesado.setCelular(this.getTextFieldValue(getTfNroCelular()));
+			interesado.setEmail(this.getTextFieldValue(getTfEmail()));
+
+			expediente.setInteresado(interesado);
+		} else {
+			limpiarYDeshabilitarDatosDeContacto();
 		}
+
+		this.getElementoPila().getObjetos().set(0, expediente);
+		this.getElementoPila().getObjetos().set(1, interesado);
 	}
 
 	private void limpiarYDeshabilitarDatosDeContacto() {
@@ -771,14 +799,19 @@ public class ABMExpediente extends AbmNodoExpediente {
 		getElementosPila();
 		Procedimiento procedimiento = this.getDDObjectValue(ddProcedimiento, getCommunicationExpedientesBean().getMapaProcedimientoExpediente());
 		this.setProcedimientoExpediente(procedimiento);
+
 		setElementosPila();
 		mostrarEstadoObjetosUsados();
 	}
 
 	public void setProcedimientoExpediente(Procedimiento procedimiento) {
 		try {
-			procedimiento = this.getCommunicationExpedientesBean().getRemoteSystemProcedimientos().getProcedimientoPorId(procedimiento.getIdNodoProcedimiento());
-			expediente.setProcedimiento(procedimiento, getSessionBean1().getUsuario());
+			if(procedimiento != null) {
+				procedimiento = this.getCommunicationExpedientesBean().getRemoteSystemProcedimientos().getProcedimientoPorId(procedimiento.getIdNodoProcedimiento());
+				expediente.setProcedimiento(procedimiento, getSessionBean1().getUsuario());
+			} else {
+				expediente = new Expediente();
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -806,6 +839,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 		} else {
 			retorno = this.prepararCaducidad();
 		}
+
 		return retorno;
 	}
 
@@ -829,7 +863,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 		try {
 			getElementosPila();
 			System.out.println(this.getDdFaseEspecial().getSelected());
-			comentarioExpediente = (String) this.getTaComentarioOculto().getText();
+			comentarioExpediente = (String) this.getTaComentario().getText();
 			panelFases.irAFaseEspecial(expediente, this.getSessionBean1().getUsuario(), comentarioExpediente);
 			// mapTramitesModificados.clear();
 			setElementosPila();
@@ -850,6 +884,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 				for(TramiteCatalogo cadaTramite : locTramitesPorTrabajar) {
 					warn(cadaTramite.getNombre() + " debe ser trabajado para avanzar de Fase.");
 				}
+
 				return null;
 			}
 			panelFases.avanzarFase(expediente, AccionFase.AVANCE, this.getSessionBean1().getUsuario(), null);
@@ -860,6 +895,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 			e.printStackTrace();
 			warn(e.getMessage());
 		}
+
 		return null;
 	}
 
@@ -872,23 +908,25 @@ public class ABMExpediente extends AbmNodoExpediente {
 		NodoExpediente nodoFaseEnvio = expediente.getListaFasesOrdenada().get(expediente.getIndexActiva() - 1);
 		if(!nodoFaseEnvio.esResponsableDirectoOPadre(this.getSessionBean1().getUsuario())) {
 			warn("No tiene permisos para realizar esta acción");
+
 			return null;
 		}
 		try {
-			comentarioExpediente = (String) this.getTaComentarioOculto().getText();
+			comentarioExpediente = (String) this.getTaComentario().getText();
 			panelFases.retrocederFase(expediente, AccionFase.CANCELACION, this.getSessionBean1().getUsuario(), comentarioExpediente);
 			this.deshabilitarComponentesPanelFases();
 		} catch(Exception e) {
 			e.printStackTrace();
 			warn(e.getMessage());
 		}
+
 		return null;
 	}
 
 	public String btnRetrocederFase_action() {
 		try {
 			getElementosPila();
-			comentarioExpediente = (String) this.getTaComentarioOculto().getText();
+			comentarioExpediente = (String) this.getTaComentario().getText();
 			panelFases.retrocederFase(expediente, AccionFase.RETROCESO, this.getSessionBean1().getUsuario(), comentarioExpediente);
 			for(NodoExpediente cadaNodo : expediente.getFaseActual().getListaNodosExpedientes()) {
 				Tramite tramite = (Tramite) cadaNodo;
@@ -904,6 +942,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 			e.printStackTrace();
 			warn(e.getMessage());
 		}
+
 		return null;
 	}
 
@@ -917,6 +956,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 				locLista.add(tramiteCatalogo);
 			}
 		}
+
 		return locLista;
 	}
 
@@ -927,10 +967,11 @@ public class ABMExpediente extends AbmNodoExpediente {
 			for(TramiteCatalogo cadaTramite : locTramitesPorTrabajar) {
 				warn(cadaTramite.getNombre() + " debe ser trabajado para cerrar el Expediente.");
 			}
+
 			return null;
 		}
 
-		comentarioExpediente = (String) this.getTaComentarioOculto().getText();
+		comentarioExpediente = (String) this.getTaComentario().getText();
 		expediente.setEstado(Estado.CERRADO);
 		try {
 			panelFases.cerrarExpediente(expediente);
@@ -938,11 +979,12 @@ public class ABMExpediente extends AbmNodoExpediente {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		;
+
 		setElementosPila();
 		this.deshabilitarComponentesPanelFases();
 		panelFases.getTableTramite().getBtnConsultarTramite().setRendered(false);
 		panelFases.getTableTramite().getBtnModificarTramite().setRendered(false);
+
 		return null;
 	}
 
@@ -962,6 +1004,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 
 			return "ABMExtension";
 		}
+
 		return null;
 	}
 
@@ -982,11 +1025,39 @@ public class ABMExpediente extends AbmNodoExpediente {
 			}
 		}
 		warn("Debe seleccionar un Tramite");
+
 		return null;
 	}
 
 	public String btnConsultarTramite_action() {
 		return toAbm(new TramiteModel().new ConsultarControler());
+	}
+
+	public void btnGuardarAjax_action() {
+		Validador v = new Validador();
+		UIComponent[] noVacios = new UIComponent[3];
+		String[] nomNoVacios = new String[3];
+		int pos = 0;
+
+		noVacios[pos] = this.getTfPersona();
+		nomNoVacios[pos++] = "Interesado";
+		noVacios[pos] = this.getTaAsunto();
+		nomNoVacios[pos++] = "Asunto";
+		noVacios[pos] = this.getTfNroRegistro();
+		nomNoVacios[pos++] = "Nro Registro";
+		v.noSonVacios(noVacios, nomNoVacios);
+
+		Expediente locExpediente = (Expediente) obtenerObjetoDelElementoPila(0, Expediente.class);
+		if(locExpediente.getInteresado() != null && locExpediente.getInteresado().getTelefono() == null && locExpediente.getInteresado().getCelular() == null) {
+			v.getErrores().add("El interesado no tiene teléfono ni celular de contacto.");
+		}
+
+		if(v.getErrores().size() > 0) {
+			error("Errores:");
+			for(Object obj : v.getErrores()) {
+				warn(obj.toString());
+			}
+		}
 	}
 
 	protected String toAbm(NodoExpedienteControler pController) {
@@ -1029,6 +1100,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 			retorno = this.prepararCaducidad();
 		}
 		setElementosPila();
+
 		return retorno;
 	}
 
@@ -1064,6 +1136,7 @@ public class ABMExpediente extends AbmNodoExpediente {
 	public boolean isHayPersona() {
 		getElementoPila();
 		Persona locInteresado = interesado;
+
 		return(locInteresado != null && locInteresado.getIdPersona() != -1);
 	}
 
@@ -1074,4 +1147,5 @@ public class ABMExpediente extends AbmNodoExpediente {
 	public void setDdFaseEspecial(DropDown ddFaseEspecial) {
 		this.ddFaseEspecial = ddFaseEspecial;
 	}
+
 }

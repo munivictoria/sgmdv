@@ -1,3 +1,10 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
+
 package muni.expedientes.tables;
 
 import java.util.List;
@@ -10,21 +17,20 @@ public class TableEstadosTramite extends TableBean {
 		return (muni.CommunicationExpedientesBean) getSessionBean("CommunicationExpedientesBean");
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void addToList(List pList, Object pObject) {
-
 		EstadoTramite nuevaEstadosTramite = (EstadoTramite) pObject;
 		List locEstadosTramite = pList;
 
 		EstadoTramite deLaTabla = null;
 		boolean esta = false;
 		int i = 0;
-		while (i < locEstadosTramite.size() && !esta) {
+		while(i < locEstadosTramite.size() && !esta) {
 			deLaTabla = (EstadoTramite) locEstadosTramite.get(i++);
 			esta = (deLaTabla.getIdEstadoTramite() == nuevaEstadosTramite.getIdEstadoTramite());
 		}
-		if (!esta) {
+		if(!esta) {
 			locEstadosTramite.add(nuevaEstadosTramite);
 		} else {
 			warn("El estado trámite que intenta agregar ya se encuentra en la lista.");
@@ -40,4 +46,5 @@ public class TableEstadosTramite extends TableBean {
 	public void setListaDelCommunication(List lista) {
 		this.getCommunicationExpedientesBean().setListaEstadosTramitePorTramiteCatalogo(lista);
 	}
+	
 }

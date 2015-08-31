@@ -1,3 +1,9 @@
+/**
+ * 
+ * © Copyright 2015, CoDeSoft
+ * Todos los derechos reservados.
+ * 
+ */
 
 package com.trascender.expedientes.recurso.persistent;
 
@@ -14,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.trascender.expedientes.enums.EstadoPlantilla;
 import com.trascender.framework.recurso.persistent.DiaFeriado;
 import com.trascender.framework.recurso.persistent.Usuario;
 
@@ -42,7 +49,9 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 		this.setOrden(pTProcedimiento.getOrden());
 
 		for(DocumentoProcedimiento dp : pTProcedimiento.getListaDocumentosProcedimiento()) {
-			this.listaDocumentos.add(new Documento(dp, this));
+			if(!dp.getEstado().equals(EstadoPlantilla.BAJA)){
+				this.listaDocumentos.add(new Documento(dp, this));
+			}
 		}
 	}
 
@@ -70,6 +79,40 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 		this.listaDocumentos = listaDocumentos;
 	}
 
+	public List<Documento> getListaDocumentoEntrada() {
+		List<Documento> lista = new ArrayList<Documento>();
+		for(Documento doc : listaDocumentos) {
+			DocumentoCatalogo docCatalogo = doc.getDocumentoProcedimiento().getDocumentoCatalogo();
+			if(docCatalogo.getTipo().equals(DocumentoCatalogo.Tipo.ENTRADA)) {
+				lista.add(doc);
+			}
+		}
+
+		return lista;
+	}
+
+	public void setListaDocumentoEntrada(List<Documento> listaDocumentosEntrada) {
+		for(Documento doc : this.listaDocumentos) {
+			if(!listaDocumentosEntrada.contains(doc)) {
+				listaDocumentosEntrada.add(doc);
+			}
+		}
+
+		this.listaDocumentos = listaDocumentosEntrada;
+	}
+
+	public List<Documento> getListaDocumentoSalida() {
+		List<Documento> lista = new ArrayList<Documento>();
+		for(Documento doc : listaDocumentos) {
+			DocumentoCatalogo docCatalogo = doc.getDocumentoProcedimiento().getDocumentoCatalogo();
+			if(docCatalogo.getTipo().equals(DocumentoCatalogo.Tipo.SALIDA)) {
+				lista.add(doc);
+			}
+		}
+
+		return lista;
+	}
+
 	public void cambioEstado(Usuario pUsuario, EstadoTramite pEstado) {
 		boolean generarHito = false;
 		if((this.estadoTramite == null && pEstado != null) || (this.estadoTramite != null && (pEstado == null || !this.estadoTramite.equals(pEstado)))) {
@@ -94,7 +137,7 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 		}
 	}
 
-	public void documentacionPresentada(Usuario pUsuario, List<Boolean> pListaActual, List<Documento> pListaModificada) {		
+	public void documentacionPresentada(Usuario pUsuario, List<Boolean> pListaActual, List<Documento> pListaModificada) {
 		boolean generarHito1 = false;
 		boolean generarHito2 = false;
 		String documentos1 = "";
@@ -110,7 +153,7 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 				documentos2 = documentos2 + doc.getNombre() + ", ";
 			}
 		}
-		this.setListaDocumentos(pListaModificada);
+		this.setListaDocumentoEntrada(pListaModificada);
 
 		if(generarHito1) {
 			if(documentos1.length() > 0) {
@@ -135,6 +178,7 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		String retorno = " Tramite: " + getPlantilla();
+
 		return retorno;
 	}
 
@@ -154,17 +198,18 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 			if(this.nodoPadre.nodoPadre.isVencido(diasFeriados)) {
 				return true;
 			}
+
 			// fase vencida
 			if(this.nodoPadre.isVencido(diasFeriados)) {
 				return true;
 			}
+
 			// este tramite vencido
 			return isVencido(diasFeriados);
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
 	@Override
@@ -172,6 +217,7 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 		if(estadoTramite != null && estadoTramite.isCierraTramite()) {
 			return false;
 		}
+
 		return super.isVencido(diasFeriados);
 	}
 
@@ -187,4 +233,5 @@ public class Tramite extends NodoExpediente implements Serializable, Cloneable {
 			return null;
 		}
 	}
+
 }

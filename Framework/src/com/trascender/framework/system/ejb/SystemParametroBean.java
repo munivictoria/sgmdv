@@ -1,6 +1,7 @@
 
 package com.trascender.framework.system.ejb;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,12 +17,14 @@ import com.trascender.framework.business.interfaces.BusinessParametroLocal;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.filtros.FiltroConfiguracionRecurso;
+import com.trascender.framework.recurso.filtros.FiltroNumerador;
 import com.trascender.framework.recurso.filtros.FiltroPlantillaAtributosDinamicos;
 import com.trascender.framework.recurso.filtros.FiltroProcesoDB;
 import com.trascender.framework.recurso.filtros.FiltroReporte;
 import com.trascender.framework.recurso.filtros.FiltroReportesJasper;
 import com.trascender.framework.recurso.persistent.ConfiguracionAccesosDirectos;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
+import com.trascender.framework.recurso.persistent.Numerador;
 import com.trascender.framework.recurso.persistent.ParametroSistema;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Permiso.Accion;
@@ -620,6 +623,82 @@ public class SystemParametroBean implements SystemParametro {
 
 	public List<Reporte> getListaReportesPorUsuario(long idUsuario) throws Exception {
 		return this.parametroLocal.getListaReportesPorUsuario(idUsuario);
+	}
+	
+	public Numerador addNumerador(Numerador pNumerador) throws TrascenderFrameworkException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Numerador.serialVersionUID, Permiso.Accion.INSERT)) {
+				return this.parametroLocal.addNumerador(pNumerador);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(520);
+		}
+	}
+
+	public Numerador updateNumerador(Numerador pNumerador) throws TrascenderFrameworkException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Numerador.serialVersionUID, Permiso.Accion.UPDATE)) {
+				return this.parametroLocal.updateNumerador(pNumerador);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(521);
+		}
+	}
+
+	public void removeNumerador(Numerador pNumerador) throws TrascenderFrameworkException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Numerador.serialVersionUID, Permiso.Accion.DELETE)) {
+				this.parametroLocal.removeNumerador(pNumerador);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw e;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(522);
+		}
+	}
+
+	public FiltroNumerador findListaNumeradores(FiltroNumerador pFiltro) throws RemoteException, Exception {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Numerador.serialVersionUID, Permiso.Accion.SELECT)) {
+				return this.parametroLocal.findListaNumeradores(pFiltro);
+			} else
+				throw new TrascenderFrameworkException(805);
+		} catch(TrascenderFrameworkException e) {
+			e.printStackTrace();
+			throw new TrascenderFrameworkException(523);
+		}
+	}
+
+	public Numerador getNumeradorPorId(long pIdNumerador) throws TrascenderException {
+		try {
+			if(SecurityMgr.getInstance().getPermiso(this.llave, Numerador.serialVersionUID, Accion.SELECT)) {
+				return this.parametroLocal.getNumeradorPorId(pIdNumerador);
+			} else {
+				throw new TrascenderFrameworkException(805);
+			}
+		} catch(TrascenderException locE) {
+			locE.printStackTrace();
+			throw new TrascenderFrameworkException(524);
+		} catch(Exception locE2) {
+			locE2.printStackTrace();
+			throw new TrascenderFrameworkException(999);
+		}
 	}
 
 }
