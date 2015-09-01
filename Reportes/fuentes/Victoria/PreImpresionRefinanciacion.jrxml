@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PreImpresionRefinanciacion" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PreImpresionRefinanciacion" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="51"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="PAR_TITULO" class="java.lang.String"/>
 	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
 	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
@@ -194,9 +194,9 @@
 		</band>
 	</pageHeader>
 	<summary>
-		<band height="159" splitType="Stretch">
+		<band height="206" splitType="Stretch">
 			<crosstab ignoreWidth="true">
-				<reportElement positionType="Float" x="10" y="10" width="555" height="43"/>
+				<reportElement positionType="Float" x="4" y="113" width="555" height="43"/>
 				<rowGroup name="F_LIQUIDACION_TASA" width="0">
 					<bucket class="java.lang.Double">
 						<bucketExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getIdRegistroDeuda()]]></bucketExpression>
@@ -219,7 +219,7 @@
 					<crosstabRowHeader>
 						<cellContents>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="100" height="10"/>
+								<reportElement x="0" y="0" width="100" height="10"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="Courier New" size="7"/>
 								</textElement>
@@ -246,7 +246,7 @@ $V{F_NOMBRE_COLUMNAmeasure}.equals("ReAc") ? "g" : "z"]]></orderByExpression>
 					<crosstabColumnHeader>
 						<cellContents>
 							<textField>
-								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="31" height="15" backcolor="#CCCCCC"/>
+								<reportElement mode="Opaque" x="0" y="0" width="31" height="15" backcolor="#CCCCCC"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="SansSerif" size="7"/>
 								</textElement>
@@ -278,7 +278,7 @@ $V{F_NOMBRE_COLUMNAmeasure}.equals("ReAc") ? "g" : "z"]]></orderByExpression>
 				<crosstabCell width="31" height="10">
 					<cellContents>
 						<textField pattern="###0.00" isBlankWhenNull="false">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="31" height="10"/>
+							<reportElement x="0" y="0" width="31" height="10"/>
 							<textElement verticalAlignment="Middle">
 								<font fontName="Courier New" size="7"/>
 							</textElement>
@@ -289,7 +289,7 @@ $V{F_NOMBRE_COLUMNAmeasure}.equals("ReAc") ? "g" : "z"]]></orderByExpression>
 				<crosstabCell width="50" height="10" columnTotalGroup="F_NOMBRE_COLUMNA">
 					<cellContents>
 						<textField pattern="###0.00" isBlankWhenNull="true">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="10"/>
+							<reportElement x="0" y="0" width="50" height="10"/>
 							<textElement verticalAlignment="Middle">
 								<font fontName="Courier New" size="7"/>
 							</textElement>
@@ -298,30 +298,66 @@ $V{F_NOMBRE_COLUMNAmeasure}.equals("ReAc") ? "g" : "z"]]></orderByExpression>
 					</cellContents>
 				</crosstabCell>
 			</crosstab>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="313" y="48" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getCapitalAPagar()
+-
+$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getTotalCondonado()]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="206" y="66" width="164" height="20"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Deuda 2015]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="206" y="88" width="164" height="20"/>
-				<textElement textAlignment="Center">
+				<reportElement x="114" y="28" width="164" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Deuda Años Anteriores]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="206" y="109" width="164" height="20"/>
-				<textElement textAlignment="Center">
+				<reportElement x="114" y="70" width="164" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto del Beneficio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="49" width="164" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Régimen de Regulación a Pagar]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="465" y="109" width="100" height="20"/>
-				<textElement/>
+			<staticText>
+				<reportElement x="114" y="6" width="164" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deuda 2015]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="313" y="6" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getImporteRegistroDeudaExcluidoPorAnio(2015)]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="313" y="28" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getImporteRegistrosDeudaCondonados()
++
+$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getCapitalAPagar()]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="313" y="70" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_REFINANCIACION}
 .getRegCancelacionPorRefinanciacion()
 .getTotalCondonado()
@@ -330,13 +366,6 @@ $P{PAR_DOCUMENTO_REFINANCIACION}
 .getRegCancelacionPorRefinanciacion()
 .getImporteRegistrosDeudaCondonados()]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="206" y="130" width="164" height="20"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Monto del Beneficio]]></text>
-			</staticText>
 		</band>
 	</summary>
 </jasperReport>

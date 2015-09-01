@@ -1,198 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cuotas_Refinanciacion" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.2100000000000002"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cuotas_Refinanciacion" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.7261356071965555"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="158"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="P_DOCUMENTO_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion"/>
 	<parameter name="P_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_IMAGEN" class="net.sf.jasperreports.engine.JRImageRenderer"/>
+	<parameter name="P_USUARIO" class="java.lang.String"/>
+	<parameter name="PAR_PARCELA" class="com.trascender.catastro.recurso.persistent.Parcela"/>
+	<parameter name="PAR_PERIODOS_ABARCADOS" class="java.lang.String"/>
+	<parameter name="PAR_DOCUMENTO_SHPS" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS"/>
+	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoTGI"/>
+	<parameter name="PAR_DOCUMENTO_OSP" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoOSP"/>
 	<field name="F_CUOTA_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion"/>
 	<field name="F_NUMERO_EN_TEXTO" class="java.lang.String"/>
+	<field name="field1" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="360" splitType="Stretch">
+		<band height="367" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="1" width="100" height="50"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="1" width="555" height="340"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="366" y="230" width="186" height="94"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="203" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="59" width="141" height="144"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="141" y="59" width="414" height="144"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="100" y="1" width="455" height="50"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="1" width="100" height="50"/>
+			</rectangle>
 			<staticText>
-				<reportElement x="0" y="31" width="217" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Courier New" isBold="false"/>
-				</textElement>
-				<text><![CDATA[************************************]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="144" y="51" width="169" height="20"/>
+				<reportElement x="105" y="31" width="185" height="20"/>
 				<textElement>
-					<font fontName="Courier New"/>
+					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[*** Depto. RECAUDACIONES ***]]></text>
+				<text><![CDATA[Dirección Municipal de Rentas ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="71" width="121" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="371" y="31" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Nro. PLAN DE PAGO:]]></text>
+				<text><![CDATA[Plan de Pago:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="91" width="121" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="0" y="64" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TITULAR DEL PLAN:]]></text>
+				<text><![CDATA[Contribuyente:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="111" width="121" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="0" y="84" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CONCEPTO PLAN:]]></text>
+				<text><![CDATA[Régimen:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="131" width="121" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="0" y="104" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CUOTA Nro.:]]></text>
+				<text><![CDATA[Forma de Pago:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="151" width="121" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="0" y="124" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[VENCIMIENTO:]]></text>
+				<text><![CDATA[Poder Cancelatorio:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="184" width="121" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="375" y="300" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[SON: ]]></text>
+				<text><![CDATA[Importe a Abonar:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="379" y="214" width="109" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="376" y="276" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[IMPORTE A ABONAR: ]]></text>
+				<text><![CDATA[$ Interés: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="379" y="244" width="109" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="376" y="255" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[$ Nominal: ]]></text>
+				<text><![CDATA[$ Recargo Venc.: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="379" y="264" width="109" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
+				<reportElement x="376" y="235" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[$ Recargo: ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="379" y="284" width="109" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isBold="true"/>
-				</textElement>
-				<text><![CDATA[$ Total: ]]></text>
+				<text><![CDATA[$ Total Cuota: ]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="13" y="244" width="300" height="60"/>
+				<reportElement x="33" y="275" width="300" height="60"/>
 				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128B" drawText="true" checksumRequired="false">
 					<jr:codeExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getCodigoBarrasEstandar()]]></jr:codeExpression>
 				</jr:barbecue>
 			</componentElement>
 			<textField>
-				<reportElement x="144" y="71" width="100" height="20"/>
-				<textElement>
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="505" y="31" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{P_DOCUMENTO_REFINANCIACION}.getNumeroRefinanciacion()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="144" y="91" width="397" height="20"/>
-				<textElement>
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="144" y="64" width="281" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{P_DOCUMENTO_REFINANCIACION}.getObligacion().getPersona().toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{P_DOCUMENTO_REFINANCIACION}.getObligacion().getPersona().getCuim().equals("99-99999999-9") ?
+$P{PAR_DOCUMENTO_TGI}.getAtributoDinamicoPorNombre("APELLIDO_Y_NOMBRE_DE_REFERENCIA") :
+$P{P_DOCUMENTO_REFINANCIACION}.getObligacion().getPersona()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement x="144" y="111" width="344" height="20"/>
-				<textElement>
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="144" y="84" width="344" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{P_DOCUMENTO_REFINANCIACION}.getPlantilla().getNombre()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="144" y="131" width="169" height="20"/>
-				<textElement>
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="144" y="104" width="169" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getNumeroCuota() + " DE UN PLAN DE " + $P{P_DOCUMENTO_REFINANCIACION}.getCantidadCuotas()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getNumeroCuota() + " / " + $P{P_DOCUMENTO_REFINANCIACION}.getCantidadCuotas()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="144" y="151" width="100" height="20"/>
-				<textElement>
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="191" y="234" width="87" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getFechaVencimiento()]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="144" y="184" width="397" height="20"/>
-				<textElement>
-					<font fontName="Courier New" isItalic="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{F_NUMERO_EN_TEXTO}]]></textFieldExpression>
-			</textField>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement x="493" y="214" width="48" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="490" y="300" width="48" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getMonto()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getMonto() +$F{F_CUOTA_REFINANCIACION}.getInteres() + $F{F_CUOTA_REFINANCIACION}.getRecargo()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="493" y="244" width="48" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="490" y="276" width="48" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getValorCuota() + $F{F_CUOTA_REFINANCIACION}.getInteres()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getInteres()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="493" y="264" width="48" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="490" y="255" width="48" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getRecargo()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement x="493" y="284" width="48" height="20"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" isItalic="false"/>
+				<reportElement x="490" y="235" width="48" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getMonto()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="13" y="11" width="528" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Courier New" size="14" isBold="true"/>
+				<reportElement x="105" y="8" width="303" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{P_TITULO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="318" width="555" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font fontName="Courier New" size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[*******************************************************************************************]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="338" y="31" width="217" height="20"/>
+				<reportElement x="52" y="234" width="134" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Courier New" isBold="false"/>
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[************************************]]></text>
+				<text><![CDATA[Vencimiento:]]></text>
 			</staticText>
+			<textField pattern="dd/MM/yyyy h.mm">
+				<reportElement x="0" y="332" width="68" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="332" width="100" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_USUARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="64" width="114" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{PAR_PARCELA} != null ?
+   "SM: " + $P{PAR_PARCELA}.getNroParcela() :
+   "Inscripción: " + $P{PAR_DOCUMENTO_SHPS}.getNumeroInscripcion())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="124" width="408" height="65"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{PAR_PERIODOS_ABARCADOS}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

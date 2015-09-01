@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_DD JJ Moratoria 15" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6934217901613344"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="366"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Copropietarios">
+		<parameter name="NRO_PARCELA" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select coalesce(pj.razon_social, pf.nombre||' '||pf.apellido), pers.cuim
+
+ from parcela p
+
+join registro_propietario reg on  (reg.id_titulo_propiedad = p.id_titulo_propiedad and reg.encargado_de_obligaciones =FALSE)
+join persona pers on reg.id_persona = pers.id_persona
+left join persona_fisica pf on reg.id_persona = pf.id_persona
+left join persona_juridica pj on reg.id_persona = pj.id_persona
+WHERE p.nro_parcela = $P{NRO_PARCELA}::varchar]]>
+		</queryString>
+		<field name="coalesce" class="java.lang.String"/>
+		<field name="cuim" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PARCELA_SOLIC_SM" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_USUARIO_IMPRIME" class="com.trascender.framework.recurso.persistent.Usuario"/>
+	<parameter name="P_EXPEDIENTE" class="com.trascender.expedientes.recurso.persistent.Expediente"/>
+	<parameter name="P_CARACTER" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+--reg.id_persona, pf.nombre, pf.apellido,  pj.razon_social,
+	pers.cuim, p.nro_partida_provincial , p.nro_parcela, pers.telefono, dom_pers.domicilio_armado as dom_persona, dom_parc.domicilio_armado as dom_parcela,
+	case when pers.cuim ='99-99999999-9' then adinam.valor_cadena else coalesce(pj.razon_social, pf.nombre||' '||pf.apellido) end as nombre_formu
+ from parcela p
+
+join registro_propietario reg on  (reg.id_titulo_propiedad = p.id_titulo_propiedad and reg.encargado_de_obligaciones =true)
+join persona pers on reg.id_persona = pers.id_persona
+left join persona_fisica pf on reg.id_persona = pf.id_persona
+left join persona_juridica pj on reg.id_persona = pj.id_persona
+join domicilio dom_pers on dom_pers.id_domicilio = pers.id_domicilio
+join domicilio dom_parc on dom_parc.id_domicilio = p.id_domicilio
+join doc_hab_especializado dh on dh.id_parcela = p.id_parcela
+left join atributo_dinamico adinam on ( adinam.id_entidad = dh.id_doc_hab_especializado and id_plantilla ='20' )
+ where (nro_parcela= $P{PARCELA_SOLIC_SM}::VARCHAR and tipo_doc_hab_especializado ='TGI')]]>
+	</queryString>
+	<field name="cuim" class="java.lang.String"/>
+	<field name="nro_partida_provincial" class="java.lang.String"/>
+	<field name="nro_parcela" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="dom_persona" class="java.lang.String"/>
+	<field name="dom_parcela" class="java.lang.String"/>
+	<field name="nombre_formu" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="612">
+			<rectangle>
+				<reportElement mode="Transparent" x="133" y="590" width="196" height="21"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="419" width="529" height="64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="493" width="529" height="74"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="442" width="528" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="207" width="529" height="30"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="185" width="529" height="37"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="107" width="528" height="37"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="10" width="114" height="75"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="130" width="528" height="45"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="130" width="166" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[ Apellido y Nombres o Razón Social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="160" width="130" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[ Domicilio Fiscal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="145" width="131" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[ CUIT/CUIL/CDI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="272" y="145" width="57" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="207" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Partida Provincial:]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="2" y="14" width="113" height="75"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="115" y="10" width="414" height="75"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="123" y="20" width="339" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Condonación por pago de deudas en Tasa General]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="415" y="97" width="71" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="445" y="532" width="35" height="8"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Firma y sello]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="167" y="57" width="254" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declaración Jurada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="123" y="40" width="339" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Inmobiliaria y/o Servicios Sanitarios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="107" width="527" height="22" backcolor="#C0C0C0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[   Identificación del Contribuyente]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="433" y="67" width="96" height="18"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="433" y="69" width="36" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Form.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="185" width="527" height="22" backcolor="#C0C0C0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[   Identificación del Inmueble]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="207" width="97" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Nº Parcela (cta SM):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="222" width="100" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[ Domicilio Parcelario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="251" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[El/La que suscribe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="265" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[en su carácter de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="96" y="280" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Propietario,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="96" y="295" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Copropietario,]]></text>
+			</staticText>
+			<ellipse>
+				<reportElement x="81" y="280" width="14" height="15"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="81" y="295" width="14" height="15"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="81" y="367" width="14" height="15"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="81" y="352" width="14" height="15"/>
+			</ellipse>
+			<staticText>
+				<reportElement x="97" y="352" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Usufructuario,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="97" y="367" width="122" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Poseedor o Adjudicatario,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="385" width="98" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[declara]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="385" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bajo Juramento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="385" width="419" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[que encuadra en las previsiones del primer y segundo párrafo del art. 216ª de la Ordenanza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="400" width="427" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[2.475 T.O. s/Dto. 705/13 D.E.M. y que la presente fue conformada con información veraz.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="420" width="525" height="22" backcolor="#C0C0C0"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[  Recepción]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="329" y="442" width="201" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="442" width="113" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma del Contribuyente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="468" width="113" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="5"/>
+				</textElement>
+				<text><![CDATA[Espacio para Certificación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="516" width="113" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Firma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="494" width="525" height="22" backcolor="#C0C0C0"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[  Presentante]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="544" width="328" height="67"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="329" y="516" width="201" height="95"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="349" y="516" width="171" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma y Sello Agente Municipal Receptor]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="2" y="590" width="131" height="21"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="544" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Aclaración:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="567" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Carácter:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="590" width="96" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[M.I.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="590" width="142" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Teléfono de contacto:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" style="table" x="199" y="295" width="330" height="57"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Copropietarios">
+						<datasetParameter name="NRO_PARCELA">
+							<datasetParameterExpression><![CDATA[$P{PARCELA_SOLIC_SM}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="202">
+						<jr:detailCell style="table_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="1" y="1" width="201" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{coalesce}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="114">
+						<jr:detailCell style="table_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="13" y="0" width="96" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{cuim}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField>
+				<reportElement x="168" y="130" width="361" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_formu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="95" y="145" width="177" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="145" width="200" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="160" width="222" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dom_persona}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="207" width="175" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_parcela}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="95" y="207" width="177" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{nro_partida_provincial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="222" width="429" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dom_parcela}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="251" width="419" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_formu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="97" width="44" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_USUARIO_IMPRIME}.getUser()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="469" y="69" width="58" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{P_EXPEDIENTE}.getNroRegistro()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="78" y="281" width="19" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{P_CARACTER}.equals("Propietario") ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="78" y="295" width="19" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{P_CARACTER}.equals("Copropietario") ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="78" y="352" width="19" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{P_CARACTER}.equals("Usufructuario") ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="78" y="367" width="19" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{P_CARACTER}.equals("Poseedor o Adjudicatario") ? "X" : ""]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

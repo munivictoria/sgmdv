@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Parcela" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="2.357947691000002"/>
-	<property name="ireport.x" value="708"/>
+	<property name="ireport.zoom" value="1.366026910730142"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="PAR_TITULO" class="java.lang.String"/>
 	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
@@ -10,6 +10,7 @@
 	<parameter name="PAR_PARCELA" class="com.trascender.catastro.recurso.persistent.Parcela"/>
 	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
 	<parameter name="PAR_STRING_ZONAS" class="java.lang.String"/>
+	<parameter name="PAR_TITULAR" class="com.trascender.framework.recurso.persistent.Persona"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -94,24 +95,26 @@
 				<text><![CDATA[   Datos del Contribuyente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="13" y="122" width="185" height="15"/>
+				<reportElement x="13" y="122" width="131" height="15"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<text><![CDATA[ Apellido y Nombres o Razón Social]]></text>
+				<text><![CDATA[ Apellido y Nombres o Razón Social:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="198" y="122" width="345" height="15"/>
+				<reportElement x="144" y="122" width="399" height="15"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getStringTitular()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{PAR_TITULAR}.getCuim().equals("99-99999999-9") ?
+$P{PAR_DOCUMENTO_TGI}.getAtributoDinamicoPorNombre("APELLIDO_Y_NOMBRE_DE_REFERENCIA") :
+$P{PAR_TITULAR}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="13" y="137" width="98" height="15"/>
@@ -131,7 +134,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getTituloPropiedad().getListaRegistrosPropietarios().get(0).getPersona().getDomicilio().getCalle()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{PAR_TITULAR}.getDomicilio().getCalle()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="14" y="167" width="98" height="15"/>
@@ -165,7 +168,7 @@
 				<text><![CDATA[M.I.Nº]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="381" y="167" width="162" height="15"/>
+				<reportElement x="381" y="167" width="57" height="15"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -175,11 +178,11 @@
 				<text><![CDATA[Teléfono]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="14" y="182" width="100" height="15"/>
+				<reportElement x="14" y="182" width="87" height="15"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<text><![CDATA[ E-Mail]]></text>
+				<text><![CDATA[Registro de Propiedad]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="13" y="203" width="529" height="90"/>
@@ -540,7 +543,24 @@
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getTituloPropiedad().getListaRegistrosPropietarios().get(0).getPersona()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{PAR_TITULAR}.getCuim()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="167" width="103" height="15"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_TITULAR}.getTelefono()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="183" width="440" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getStringListaPropietarios().replace("\n", "")]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
