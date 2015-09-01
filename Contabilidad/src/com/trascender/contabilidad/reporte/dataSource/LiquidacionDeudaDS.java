@@ -46,6 +46,7 @@ public class LiquidacionDeudaDS extends TrascenderDataSource{
 		mapaParametro.put("PAR_PARCELA", locParcela);
 		mapaParametro.put("PAR_DOCUMENTO_TGI", locDocTGI);
 		mapaParametro.put("PAR_DOCUMENTO_OSP", locDocOSP);
+		mapaParametro.put("PAR_TITULAR", locParcela.getTituloPropiedad().getRegistroPropietarioEncargadoObligaciones().getPersona());
 		
 		for (LiquidacionTasaAgrupada cadaLiquidacionAgrupada : pListaLiquidacionTasa) {
 			//Importe de cada tasa:
