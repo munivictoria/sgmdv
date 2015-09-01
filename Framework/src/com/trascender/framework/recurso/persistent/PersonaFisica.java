@@ -42,7 +42,7 @@ public class PersonaFisica extends Persona implements Serializable, EntidadTrasc
 	@Column(nullable = false)
 	private String apellido;
 
-	@Column(name = "FECHA_NACIMIENTO", nullable = false)
+	@Column(name = "FECHA_NACIMIENTO")
 	private Date fechaNacimiento;
 
 	@Column(name = "NUMERO_DOCUMENTO", nullable = false)
@@ -54,14 +54,14 @@ public class PersonaFisica extends Persona implements Serializable, EntidadTrasc
 	private Integer edad;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "TIPO_DOCUMENTO", nullable = false)
+	@Column(name = "TIPO_DOCUMENTO")
 	private TipoDocumento tipoDocumento;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "ESTADO_CIVIL", nullable = false)
+	@Column(name = "ESTADO_CIVIL")
 	private EstadoCivil estadoCivil;
 
-	@Column(nullable = false)
+	@Column
 	private boolean jubilado = false;
 
 	@Where(clause = "id_recurso = " + serialVersionUID)

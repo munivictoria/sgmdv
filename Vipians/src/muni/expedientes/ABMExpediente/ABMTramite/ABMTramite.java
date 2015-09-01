@@ -584,7 +584,6 @@ public class ABMTramite extends AbmNodoExpediente {
 			return toAbmProcesar(new EjecutarReporteModel().new ProcesarReporteController());
 		} else {
 			warn("Debe guardar el expediente para poder procesar un reporte.");
-
 			return null;
 		}
 	}

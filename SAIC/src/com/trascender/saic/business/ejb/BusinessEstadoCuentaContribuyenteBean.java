@@ -1008,6 +1008,7 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			cadaLiquidacion.getStringParametrosValuados();
 			cadaLiquidacion.getStringParametrosValuadosAlicuota();
 			cadaLiquidacion.getStringPeriodoLiquidado();
+			cadaLiquidacion.getCuotaLiquidacion().getListaVencimientos().size();
 			cadaLiquidacion.getStringVencimientos();
 			if(cadaLiquidacion.getDocGeneradorDeuda().getObligacion().getParcela() != null) {
 				cadaLiquidacion.getDocGeneradorDeuda().getObligacion().getParcela().getDomicilioParcelario().toString();

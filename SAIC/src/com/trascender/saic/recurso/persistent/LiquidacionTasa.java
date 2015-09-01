@@ -154,6 +154,11 @@ public class LiquidacionTasa extends RegistroDeuda implements Cloneable {
 		Vencimiento locVencimiento = this.getListaVencimientos().last();
 		return Util.isFechaAfterNoTima(pFecha, locVencimiento.getFecha());
 	}
+	
+	public boolean isVencidaFechaVencimientoOriginal(Date pFecha) {
+		Date fechaVencimientoOriginal = getCuotaLiquidacion().getListaVencimientos().get(0).getTime();
+		return Util.isFechaAfterNoTima(pFecha, fechaVencimientoOriginal);
+	}
 
 	/**
 	 * 

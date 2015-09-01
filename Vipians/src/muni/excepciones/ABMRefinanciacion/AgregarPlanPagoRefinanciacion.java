@@ -21,10 +21,13 @@ import java.util.Set;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.event.ValueChangeEvent;
+
+import org.ajax4jsf.ajax.html.HtmlAjaxStatus;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
@@ -286,7 +289,23 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 	private Form form1 = new Form();
 
 	public Form getForm1() {
+		form1.getChildren().add(this.getStatusGifLoading());
 		return form1;
+	}
+	
+	private HtmlAjaxStatus getStatusGifLoading() {
+		HtmlAjaxStatus status = new HtmlAjaxStatus();
+		status.setId("ajCargando");
+		status.setStartStyle("z-index: 5; position: fixed; top: 50%; left: 50%; margin-top: -50px; margin-left: -100px;");
+		status.getFacets().put("start", this.getGiGifLoading());
+		return status;
+	}
+
+	private HtmlGraphicImage getGiGifLoading() {
+		HtmlGraphicImage giLoading = new HtmlGraphicImage();
+		giLoading.setId("giLoading");
+		giLoading.setValue("/resources/gifs/cargando.gif");
+		return giLoading;
 	}
 
 	public void setForm1(Form f) {
@@ -2075,7 +2094,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		//Validar cantidad de propiedades
 		if (locPlantilla != null && locPlantilla.getCantidadPropiedadesMaxima() != null) {
 			Persona persona = (Persona) obtenerObjetoDelElementoPila(8, DocumentoRefinanciacion.class);
-			if (persona != null && !persona.getCuim().equals("99-99999999-99")) {
+			if (persona != null && !persona.getCuim().equals("99-99999999-9")) {
 				FiltroParcela filtro = new FiltroParcela();
 				filtro.setPersona(persona);
 				try {
@@ -2100,6 +2119,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 	}
 
 	private void aplicarPlantilla(PlantillaPlanDePago plantilla) {
+		DocumentoRefinanciacion doc = (DocumentoRefinanciacion) obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
+		doc.setPlantilla(plantilla);
 		if(plantilla != null) {
 			if(plantilla.getMontoCondonacionImporte() != null) {
 				tfImporteACondonar.setText(plantilla.getMontoCondonacionImporte());
@@ -2152,6 +2173,11 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				opCuotas[i++] = new Option(j.toString(), j.toString());
 			}
 			this.ddCantidadCuotasOptions.setOptions(opCuotas);
+			//Si hay un numero de cuota disponible, la seleccionamos.
+			if (opCuotas.length > 0) {
+				this.ddCantidadCuotas.setSelected(opCuotas[1].getValue());
+				eventoSeleccionCantidadCuotas(null);
+			}
 			
 			RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
 			reg.getListaRegistroDeudaExcluidos().clear();
@@ -2160,8 +2186,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				for (LiquidacionTasa cadaLiq : cadaLinea.getMapaLiquidacion().values()) {
 					//De la deuda que tengo levantada, voy a poner la que no corresponda.
 					if (plantilla.esCuotaLiquidacionExcluida(cadaLiq.getCuotaLiquidacion())
-							&& (cadaLiq.getEstado() == EstadoRegistroDeuda.VIGENTE
-							|| cadaLiq.getEstado() == EstadoRegistroDeuda.VENCIDA)) {
+							&& cadaLiq.getRegistroCancelacion() == null
+							&& cadaLiq.isVencidaFechaVencimientoOriginal(new Date())) {
 						reg.getListaRegistroDeudaExcluidos().add(cadaLiq);
 					}
 				}
@@ -2188,6 +2214,11 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
 			reg.getListaRegistroDeudaExcluidos().clear();
 		}
+		
+		RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
+		reg.getListaRegistrosDeuda().clear();
+		reg.getListaRegistrosDeudaCondonados().clear();
+		this.listaLiqTasaAgrupadaSeleccionada.clear();
 
 		this.guardarEstadoObjetosUsados();
 	}

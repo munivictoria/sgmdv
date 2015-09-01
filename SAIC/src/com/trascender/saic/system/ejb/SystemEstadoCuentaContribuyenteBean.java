@@ -401,10 +401,9 @@ public class SystemEstadoCuentaContribuyenteBean implements SystemEstadoCuentaCo
 	public FiltroPlantillaPlanDePago findListaPlantillaPlanDePago(
 			FiltroPlantillaPlanDePago filtro) throws TrascenderException{
 		try{
-			if (SecurityMgr.getInstance().getPermiso(this.llave, PlantillaPlanDePago.serialVersionUID, Permiso.Accion.SELECT)){
+			if (SecurityMgr.getInstance().getUsuario(llave) != null) {
 				return businessRefinanciacion.findListaPlantillaPlanDePago(filtro);
-			}
-			else{
+			} else {
 				throw new SaicException(222);
 			}
 		}

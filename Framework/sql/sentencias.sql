@@ -923,3 +923,5 @@ alter table condonacion_registro_deuda owner to vipians;
 create sequence gen_id_condonacion_registro_deuda;
 
 alter sequence gen_id_condonacion_registro_deuda owner to vipians;
+
+insert into log_scripts_corridos values(127,127,now());

@@ -51,10 +51,10 @@ public abstract class Persona implements Serializable {
 	private String celular;
 	private String email;
 	
-	@Column(name="CANTIDAD_PROPIEDADES", nullable=false)
+	@Column(name="CANTIDAD_PROPIEDADES")
 	private Integer cantidadPropiedades=0;
 	
-	@Column(name="CANTIDAD_VEHICULOS", nullable=false)
+	@Column(name="CANTIDAD_VEHICULOS")
 	private Integer cantidadVehiculos=0;
 	
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

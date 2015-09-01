@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import ar.trascender.criterio.clases.Criterio;
+import ar.trascender.criterio.clases.Orden;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
 import ar.trascender.criterio.enums.Posicion;
@@ -606,9 +607,9 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				LiquidacionTasa locLiquidacion = (LiquidacionTasa) cadaPagable;
 				if(conIntereses) {
 					LiquidacionTasa liquidacionConInteres = businessReliquidacion.calcularIntereses(locLiquidacion, new Date(), true, false, false);
-					locListaTemporal.addAll(this.getListaMovimientosCaja(liquidacionConInteres));
+					locListaTemporal.addAll(this.getListaMovimientosCaja(liquidacionConInteres, null));
 				} else {
-					locListaTemporal.addAll(this.getListaMovimientosCaja(cadaPagable));
+					locListaTemporal.addAll(this.getListaMovimientosCaja(cadaPagable, null));
 				}
 			}
 		}
@@ -626,8 +627,6 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		return locListaRetorno;
 	}
 	
-	private Double porcentajeCondonacionIntereses = null;
-	
 	/**
 	 * Busca un listado de MOvimientos de Caja ingreso por cada Detalle del pagable
 	 * 
@@ -635,7 +634,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	 * @return Un listado con los movimientos de un detalle
 	 * @throws Exception
 	 */
-	private List<MovimientoCajaIngreso> getListaMovimientosCaja(Pagable locDeuda) throws TrascenderException {
+	private List<MovimientoCajaIngreso> getListaMovimientosCaja(Pagable locDeuda, Double porcentajeCondonacionInteres) throws TrascenderException {
 
 		List<MovimientoCajaIngreso> locListaRetorno = new ArrayList<MovimientoCajaIngreso>();
 		if(locDeuda instanceof LiquidacionTasa) {
@@ -681,13 +680,15 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			}
 			//Intereses.
 			Double interes = locLiquidacionTasa.getInteres();
+			Double interesARestar = new Double(interes);
 			/*
 			 * Si arriba esta setado un porcentajeCondonacionInteres, estamos generando
 			 * movimientos de caja a partir de una Refinanaciacion que tiene condonacion
 			 * de intereses. Hay que ajustar los importes correspondientes.
 			 */
-			if (porcentajeCondonacionIntereses != null) {
-				interes = interes - interes * porcentajeCondonacionIntereses / 100;
+			if (porcentajeCondonacionInteres != null) {
+				interes = interes - interes * porcentajeCondonacionInteres / 100d;
+				interesARestar = interesARestar - interes;
 			}
 			if(interes != null && interes > 0D) {
 				MovimientoCajaIngreso locMovimientoIngresoInteres = new MovimientoCajaIngreso();
@@ -697,9 +698,9 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				locMovimientoIngresoInteres.setCuenta(locCuenta);
 				if(locCuenta != null) {
 					locListaRetorno.add(locMovimientoIngresoInteres);
-					importeTotal -= locMovimientoIngresoInteres.getImporte();
 				}
 			}
+			importeTotal -= interesARestar;
 
 			if(locLiquidacionTasa.getRecargo() != null && locLiquidacionTasa.getRecargo() > 0D) {
 				MovimientoCajaIngreso locMovimientoIngresoRecargo = new MovimientoCajaIngreso();
@@ -723,16 +724,19 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			THashMap<Cuenta> locMapaCuentasAux = new THashMap<Cuenta>();
 			for (RegistroDeuda cadaRegistro : locDocumento.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
 				//Puede ser deuda condonada, no genera ingreso
+				//TODO Contemplar condonacion parcial.
 				if (locDocumento.getRegCancelacionPorRefinanciacion().estaCondonado(cadaRegistro)) {
 					continue;
 				}
 				
+				Double locPorcentajeCondonacionInteres = null;
 				//Puede tener interes condonado, ajustar el importe del mismo.
 				if (!locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado().equals(0D)) {
-					this.porcentajeCondonacionIntereses = locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado();
+					locPorcentajeCondonacionInteres = locDocumento.getRegCancelacionPorRefinanciacion().getPorcentajeInteresCondonado();
+					locPorcentajeCondonacionInteres = Util.redondear(locPorcentajeCondonacionInteres, 2);
 				}
 				
-				List<MovimientoCajaIngreso> listaMovimientos = getListaMovimientosCaja(cadaRegistro);
+				List<MovimientoCajaIngreso> listaMovimientos = getListaMovimientosCaja(cadaRegistro, locPorcentajeCondonacionInteres);
 				for (MovimientoCajaIngreso cadaMovimiento : listaMovimientos) {
 					locMapaCuentasAux.add(cadaMovimiento.getCuenta(), cadaMovimiento.getImporte());
 				}
@@ -756,7 +760,29 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
 				locMovimientoCajaIngreso.setImporte(locCuotaRefinanciacion.getInteres());
 				locListaRetorno.add(locMovimientoCajaIngreso);
+			}			
+			//TODO Los "recargos" por pago fuera de termino van imputados en su propia cuenta.
+			
+			/*
+			 * Chequeo de redondeo: Por la lógica de reparticion de las imputaciones de la cuota de un plan
+			 * (dividiendo la imputacino original por el valor de la cuota) se producen diferencias de redondeo.
+			 * Si es por menos, lo imputamos en la de refinanciacion. Si es por mas, no nos importa, lo descartamos.
+			 */
+			
+			Double sumaImputaciones = 0D;
+			for (MovimientoCajaIngreso cadaMovimiento : locListaRetorno) {
+				sumaImputaciones += cadaMovimiento.getImporte();
 			}
+			
+			if (sumaImputaciones.compareTo(locDeuda.getMonto()) < 0) {
+				ParametroAsociacion locParametro = locDocumento.getPlantilla().getListaParametrosAsociacion().get(0);
+				MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
+				locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, locParametro.getCuenta().getIdCuenta()));
+				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
+				locMovimientoCajaIngreso.setImporte(locDeuda.getMonto() - sumaImputaciones);
+				locListaRetorno.add(locMovimientoCajaIngreso);
+			}
+			
 		} else if(locDeuda instanceof IngresoVario) {
 			// En caso que no sea una liquidación no va a tener modificadores, así que no hay tanto drama
 			IngresoVario locIngresoVario = (IngresoVario) locDeuda;
@@ -1149,6 +1175,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				.add(Restriccion.MENOR("fecha", pFechaHasta))
 				.add(Restriccion.IGUAL("usuario", pUsuario))
 				.add(Restriccion.IGUAL("caja", pCaja))
+				.add(Orden.ASC("numero"))
 				.setModoDebug(true);
 		List<TicketCaja> listaTickets = locCriterio.list();
 		
@@ -1517,7 +1544,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			listaPagables.addAll(this.getListaPagablesTasaAgrupada(codigo));
 		}
 		for(Pagable cadaPagable : listaPagables) {
-			List<MovimientoCajaIngreso> listaMovimientos = this.getListaMovimientosCaja(cadaPagable);
+			List<MovimientoCajaIngreso> listaMovimientos = this.getListaMovimientosCaja(cadaPagable, null);
 			if(listaMovimientos.isEmpty()) {
 				throw new TrascenderContabilidadException(56);
 			}

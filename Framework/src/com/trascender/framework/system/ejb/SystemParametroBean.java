@@ -579,7 +579,7 @@ public class SystemParametroBean implements SystemParametro {
 	@Override
 	public Reporte getReporteByID(Long pIdReporte) throws Exception {
 		try {
-			if(SecurityMgr.getInstance().getPermiso(this.llave, Reporte.serialVersionUID, Permiso.Accion.SELECT)) {
+			if(SecurityMgr.getInstance().getUsuario(llave) != null) {
 				return this.parametroLocal.getReporteByID(pIdReporte);
 			} else {
 				throw new TrascenderFrameworkException(805);
