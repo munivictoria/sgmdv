@@ -25,6 +25,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -840,6 +841,8 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			locListaReportesOrdenados.put(cadaLocalidad.getCodigoPostal(),
 					new ArrayList<LiquidacionDS>());
 		}
+		
+		
 
 		for (LiquidacionDS cadaLiquidacionDS : pLiquidacionAgrupadaDS
 				.getListaLiquidacionesDS()) {
@@ -862,9 +865,14 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 	public JasperPrint getReporteListadoCuotasRefinanciacion(
 			List<CuotaRefinanciacion> pListaCuotasRefinanciacion, Usuario pUsuario) throws Exception {
 		try {
-			CuotaRefinanciacionDS cuotasDS = new CuotaRefinanciacionDS(pListaCuotasRefinanciacion, this.getTituloReporte(), pUsuario);
-			cuotasDS.getMapaParametros().put("PAR_IMAGEN", getLogoMunicipalidad());
+			List<CuotaRefinanciacion> cuotas = new ArrayList<CuotaRefinanciacion>();
+			for (CuotaRefinanciacion cadaCuota : pListaCuotasRefinanciacion) {
+				cuotas.add(entityManager.merge(cadaCuota));	
+			}
+			CuotaRefinanciacionDS cuotasDS = new CuotaRefinanciacionDS(cuotas, this.getTituloReporte(), pUsuario);
+			cuotasDS.getMapaParametros().put("PAR_IMAGEN", JRImageRenderer.getInstance(getLogoMunicipalidad()));
 			JasperPrint jp = this.getJasperPrint2(cuotasDS);
+			entityManager.clear();
 			return jp;
 		} catch(Exception e) {
 			e.printStackTrace();

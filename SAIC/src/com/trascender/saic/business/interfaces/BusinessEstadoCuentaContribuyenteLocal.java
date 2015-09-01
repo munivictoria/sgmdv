@@ -127,7 +127,9 @@ public interface BusinessEstadoCuentaContribuyenteLocal{
 	
 	public Set getListaDeudasContribuyente(Obligacion pObligacion, Periodo pPeriodo) throws Exception;
 	
-	public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(LiquidacionTasaRefer pLiquidacion);
+	public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(LiquidacionTasaRefer pLiquidacion, boolean actualizar);
 	
 	public FiltroLiquidacionTasaRefer findListaLiquidacionTasaRefer(FiltroLiquidacionTasaRefer pFiltro) throws Exception;
+
+	void setLlave(long llave);
 }

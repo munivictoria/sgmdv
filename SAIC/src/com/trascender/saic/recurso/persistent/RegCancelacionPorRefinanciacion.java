@@ -1,6 +1,8 @@
 	package com.trascender.saic.recurso.persistent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.mapping.Array;
 
 import com.trascender.framework.recurso.persistent.DigestoMunicipal;
 import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
@@ -194,8 +199,6 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 			}
 		}
 	}
-
-	
 	
 	/**
 	 * @return la cantidad de registros de deuda a refinanciar
@@ -260,4 +263,38 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 			Set<RegistroDeuda> listaRegistrosDeudaCondonados) {
 		this.listaRegistrosDeudaCondonados = listaRegistrosDeudaCondonados;
 	}
+	
+	@Transient
+	private Set<RegistroDeuda> listaRegistroDeudaExcluidos = new HashSet<RegistroDeuda>();
+
+	public Set<RegistroDeuda> getListaRegistroDeudaExcluidos() {
+		return listaRegistroDeudaExcluidos;
+	}
+
+	public void setListaRegistroDeudaExcluidos(
+			Set<RegistroDeuda> listaRegistroDeudaExcluidos) {
+		this.listaRegistroDeudaExcluidos = listaRegistroDeudaExcluidos;
+	}
+	
+	public Double getImporteRegistroDeudaExcluidoPorAnio(Integer anio) {
+		Double resultado = 0D;
+		for (RegistroDeuda cadaReg : getListaRegistrosDeudaExcluidoPorAnio(anio)) {
+			resultado += cadaReg.getMonto();
+		}
+		return resultado;
+	}
+	
+	public List<RegistroDeuda> getListaRegistrosDeudaExcluidoPorAnio(Integer anio) {
+		List<RegistroDeuda> listaResultado = new ArrayList<RegistroDeuda>();
+		for (RegistroDeuda cadaRegistro : listaRegistroDeudaExcluidos) {
+			if (cadaRegistro instanceof LiquidacionTasa) {
+				LiquidacionTasa liq = (LiquidacionTasa) cadaRegistro;
+				if (liq.getCuotaLiquidacion().getAnio().equals(anio)){
+					listaResultado.add(liq);
+				}
+			}
+		}
+		return listaResultado;
+	}
+	
 }

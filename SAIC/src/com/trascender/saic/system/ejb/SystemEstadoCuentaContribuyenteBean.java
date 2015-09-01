@@ -322,7 +322,14 @@ public class SystemEstadoCuentaContribuyenteBean implements SystemEstadoCuentaCo
 	@Override
 	public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(
 			LiquidacionTasaRefer pLiquidacion) {
-		return this.business.inicializarLiquidacionTasaAgrupada(pLiquidacion);
+		return this.inicializarLiquidacionTasaAgrupada(pLiquidacion, false);
+	}
+	
+	@Override
+	public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(
+			LiquidacionTasaRefer pLiquidacion, boolean actualizar) {
+		this.business.setLlave(llave);
+		return this.business.inicializarLiquidacionTasaAgrupada(pLiquidacion, actualizar);
 	}
 
 	@Override

@@ -74,4 +74,7 @@ public interface SystemEstadoCuentaContribuyente{
    public void deletePlantillaPlanDePago(PlantillaPlanDePago plantilla) throws TrascenderException;
 	
    public FiltroPlantillaPlanDePago findListaPlantillaPlanDePago(FiltroPlantillaPlanDePago filtro) throws TrascenderException;
+
+   public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(
+		LiquidacionTasaRefer pLiquidacion, boolean actualizar);
 }

@@ -25,6 +25,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+
 import org.hibernate.mapping.Array;
 
 import ar.trascender.criterio.clases.Criterio;
@@ -988,9 +989,16 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 		}
 		return locListaResultado;
 	}
+	
+	private long llave;
+	
+	@Override
+	public void setLlave(long llave) {
+		this.llave = llave;
+	}
 
 	@Override
-	public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(LiquidacionTasaRefer pLiquidacion) {
+	public LiquidacionTasaAgrupada inicializarLiquidacionTasaAgrupada(LiquidacionTasaRefer pLiquidacion, boolean actualizar) {
 		LiquidacionTasaAgrupada locLiquidacionTasaAgrupada = new LiquidacionTasaAgrupada();
 		for(Long id : pLiquidacion.getIdsRegistrosDeuda()) {
 			LiquidacionTasa cadaLiquidacion = entityManager.find(LiquidacionTasa.class, id);
@@ -1008,6 +1016,14 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			cadaLiquidacion.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado().getListaAsocRegAlicuota().size();
 			if(cadaLiquidacion.getRegistroCancelacion() != null) {
 				cadaLiquidacion.getRegistroCancelacion().toString();
+			}
+			if (actualizar && (cadaLiquidacion.getEstado() == EstadoRegistroDeuda.VIGENTE || cadaLiquidacion.getEstado() == EstadoRegistroDeuda.VENCIDA)) {
+				try {
+					businessReLiquidacionLocal.setLlave(this.llave);
+					cadaLiquidacion = businessReLiquidacionLocal.calcularIntereses(cadaLiquidacion, new Date(), true, true, false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			locLiquidacionTasaAgrupada.getListaLiquidacionesTasa().add(cadaLiquidacion);
 		}
