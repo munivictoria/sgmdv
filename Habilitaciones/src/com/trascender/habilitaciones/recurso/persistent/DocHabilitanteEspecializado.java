@@ -368,5 +368,14 @@ public abstract class DocHabilitanteEspecializado implements Serializable, Entid
 	public boolean isAuditable() {
 		return true;
 	}
+	
+	public Object getAtributoDinamicoPorNombre(String pNombre) {
+		for (AtributoDinamico<?> cadaAtributo : getListaAtributosDinamicos()){
+			if (cadaAtributo.getNombre().replace(" ", "_").toUpperCase().equals(pNombre)){
+				return cadaAtributo.getValor();
+			}
+		}
+		return null;
+	}
 
 }

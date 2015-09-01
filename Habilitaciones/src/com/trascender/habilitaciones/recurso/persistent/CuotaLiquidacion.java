@@ -177,7 +177,7 @@ public class CuotaLiquidacion implements Serializable, Comparable<CuotaLiquidaci
 	public int compareTo(CuotaLiquidacion o) {
 		int intPeriodo = this.getPeriodo().compareTo(o.getPeriodo());
 		if (intPeriodo != 0) return intPeriodo;
-		return this.numero.compareTo(o.numero);
+		return this.getNumero().compareTo(o.getNumero());
 	}
 
 	@Override

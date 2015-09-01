@@ -31,6 +31,9 @@ public class InformacionParcelariaDS extends TrascenderDataSource {
 		parametros.put("PAR_PARCELA", pParcela);
 		parametros.put("PAR_DOCUMENTO_TGI", pDocumentoTGI);
 		parametros.put("PAR_DOCUMENTO_OSM", pDocumentoOSP);
+		parametros.put("PAR_TITULAR", pParcela
+				.getTituloPropiedad()
+				.getRegistroPropietarioEncargadoObligaciones().getPersona());
 		parametros.put("PAR_STRING_ZONAS", this.getZonas(pParcela));
 	}
 	
