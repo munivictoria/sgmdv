@@ -2942,10 +2942,13 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			}
 		}
 		int tamanio = listaTotalSeleccionable.size();
-		System.out.println(tamanio);
-		//Si es impar, resto uno.
-		if((tamanio%2)!=0) tamanio--;
-		listaLiqTasaAgrupadaSeleccionada = listaTotalSeleccionable.subList(0, (tamanio / 2) + 1);
+		DocumentoRefinanciacion doc = (DocumentoRefinanciacion) obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
+			if (doc.getPlantilla() != null && doc.getPlantilla().getCondonaDeudaAntigua()) {
+			//Si es impar, resto uno.
+			if((tamanio%2)!=0) tamanio--;
+			tamanio = (tamanio / 2) + 1;
+		}
+		listaLiqTasaAgrupadaSeleccionada = listaTotalSeleccionable.subList(0, tamanio);
 		System.out.println(listaLiqTasaAgrupadaSeleccionada.size());
 		btnCalcular_action();
 		return null;
