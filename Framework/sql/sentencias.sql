@@ -896,3 +896,30 @@ alter table plantilla_plan_de_pago add anios_aplicacion varchar(200);
 alter table plantilla_plan_de_pago add fecha_vencimiento_primer_cuota date;
 
 insert into log_scripts_corridos values(126,126,now());
+
+create table condicion_condonacion_periodo (
+id_condicion_condonacion_periodo clave not null primary key,
+id_plantilla clave not null,
+anio integer,
+porcentaje porcentaje
+);
+
+alter table condicion_condonacion_periodo owner to vipians;
+
+create sequence gen_id_condicion_condonacion_periodo;
+
+alter sequence gen_id_condicion_condonacion_periodo owner to vipians;
+
+alter table condicion_condonacion_periodo add condicion varchar(30);
+
+create table condonacion_registro_deuda(
+id_condonacion_registro_deuda clave not null primary key,
+ID_REG_CANCELACION_POR_REF clave not null,
+id_registro_deuda clave not null,
+porcentaje porcentaje);
+
+alter table condonacion_registro_deuda owner to vipians;
+
+create sequence gen_id_condonacion_registro_deuda;
+
+alter sequence gen_id_condonacion_registro_deuda owner to vipians;

@@ -347,9 +347,9 @@
 													value="Calcular" styleClass="btnAjax" reRender="form1"/>
 											</td>
 											<td>
-												<a4j:commandButton 
-													action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnImprimir_action}" 
-													value="Imprimir" styleClass="btnAjax" />
+												<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnPreImprimir_action}"
+															id="btnImprimirPreimpresion" styleClass="button" text="Pre Imprimir"
+															onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')" />
 											</td>
 											</tr>
 											<tr>

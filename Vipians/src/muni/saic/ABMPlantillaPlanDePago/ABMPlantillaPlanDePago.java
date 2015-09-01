@@ -28,6 +28,7 @@ import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.contabilidad.recurso.persistent.Cuenta;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
+import com.trascender.saic.recurso.persistent.CondicionCondonacionPeriodo;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
 import com.trascender.saic.recurso.persistent.TasaNominalAnual;
@@ -50,6 +51,9 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		if(this.getCommunicationSAICBean().getListaTasaNominalAnualPlantilla() != null) {
 			this.ldpTasas.setList(this.getCommunicationSAICBean().getListaTasaNominalAnualPlantilla());
 		}
+		if(this.getCommunicationSAICBean().getListaCondicionCondonacion() != null) {
+			this.ldpCondicionCondonacion.setList(this.getCommunicationSAICBean().getListaCondicionCondonacion());
+		}
 		Option[] opciones = null;
 		opciones = this.getApplicationBean1().getMgrDropDown().armarArrayOptionsList(PlantillaPlanDePago.TipoCalculoInteres.values(), "cap");
 		ddTipoCalculoInteresDefaultOptions.setOptions(opciones);
@@ -57,6 +61,7 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 
 	private ObjectListDataProvider ldpCuentas = new ObjectListDataProvider();
 	private ObjectListDataProvider ldpTasas = new ObjectListDataProvider();
+	private ObjectListDataProvider ldpCondicionCondonacion = new ObjectListDataProvider();
 	private TextField tfNombre = new TextField();
 	private TextField tfMontoCondonacionImporte = new TextField();
 	private TextField tfMontoCondonacionInteres = new TextField();
@@ -77,6 +82,7 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	private TableColumn tcPorcentaje = new TableColumn();
 	private TextField tfPorcentaje = new TextField();
 	private PanelGroup pgCuentas = new PanelGroup();
+	private PanelGroup pgCondicionCondonacion = new PanelGroup();
 	private Button btnAgregarCuenta = new Button();
 	private HtmlAjaxCommandButton btnQuitarCuenta = new HtmlAjaxCommandButton();
 	private DropDown ddTipoCalculoInteres = new DropDown();
@@ -92,6 +98,72 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	private TextField tfCantidadPropiedades = new TextField();
 	private TextField tfFechaVencimientoPrimerCuota = new TextField();
 	
+	private Table tablaCondicionCondonacion = new Table();
+	private TableRowGroup trgCondicionCondonacion = new TableRowGroup();
+	private RadioButton rbCondicionCondonacion = new RadioButton();
+	private HtmlAjaxCommandButton btnAgregarCondicionCondonacion = new HtmlAjaxCommandButton();
+	private HtmlAjaxCommandButton btnQuitarCondicionCondonacion = new HtmlAjaxCommandButton();
+	
+	
+	public PanelGroup getPgCondicionCondonacion() {
+		return pgCondicionCondonacion;
+	}
+
+	public void setPgCondicionCondonacion(PanelGroup pgCondicionCondonacion) {
+		this.pgCondicionCondonacion = pgCondicionCondonacion;
+	}
+
+	public HtmlAjaxCommandButton getBtnAgregarCondicionCondonacion() {
+		return btnAgregarCondicionCondonacion;
+	}
+
+	public void setBtnAgregarCondicionCondonacion(
+			HtmlAjaxCommandButton btnAgregarCondicionCondonacion) {
+		this.btnAgregarCondicionCondonacion = btnAgregarCondicionCondonacion;
+	}
+
+	public HtmlAjaxCommandButton getBtnQuitarCondicionCondonacion() {
+		return btnQuitarCondicionCondonacion;
+	}
+
+	public void setBtnQuitarCondicionCondonacion(
+			HtmlAjaxCommandButton btnQuitarCondicionCondonacion) {
+		this.btnQuitarCondicionCondonacion = btnQuitarCondicionCondonacion;
+	}
+
+	public RadioButton getRbCondicionCondonacion() {
+		return rbCondicionCondonacion;
+	}
+
+	public void setRbCondicionCondonacion(RadioButton rbCondicionCondonacion) {
+		this.rbCondicionCondonacion = rbCondicionCondonacion;
+	}
+
+	public ObjectListDataProvider getLdpCondicionCondonacion() {
+		return ldpCondicionCondonacion;
+	}
+
+	public void setLdpCondicionCondonacion(
+			ObjectListDataProvider ldpCondicionCondonacion) {
+		this.ldpCondicionCondonacion = ldpCondicionCondonacion;
+	}
+
+	public Table getTablaCondicionCondonacion() {
+		return tablaCondicionCondonacion;
+	}
+
+	public void setTablaCondicionCondonacion(Table tablaCondicionCondonacion) {
+		this.tablaCondicionCondonacion = tablaCondicionCondonacion;
+	}
+
+	public TableRowGroup getTrgCondicionCondonacion() {
+		return trgCondicionCondonacion;
+	}
+
+	public void setTrgCondicionCondonacion(TableRowGroup trgCondicionCondonacion) {
+		this.trgCondicionCondonacion = trgCondicionCondonacion;
+	}
+
 	public TextField getTfFechaVencimientoPrimerCuota() {
 		return tfFechaVencimientoPrimerCuota;
 	}
@@ -449,6 +521,10 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		this.getLdpTasas().commitChanges();
 		plantillaPlanDePago.setListaTasaNominalAnual(this.getLdpTasas().getList());
 		this.getCommunicationSAICBean().setListaTasaNominalAnualPlantilla(plantillaPlanDePago.getListaTasaNominalAnual());
+		
+		this.getLdpCondicionCondonacion().commitChanges();
+		plantillaPlanDePago.setListaCondicionCondonacionPeriodo(getLdpCondicionCondonacion().getList());
+		this.getCommunicationSAICBean().setListaCondicionCondonacion(plantillaPlanDePago.getListaCondicionCondonacionPeriodo());
 
 		ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, plantillaPlanDePago);
@@ -485,6 +561,9 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		
 		this.getLdpTasas().setList(plantillaPlanDePago.getListaTasaNominalAnual());
 		this.getCommunicationSAICBean().setListaTasaNominalAnualPlantilla(getLdpTasas().getList());
+		
+		this.getLdpCondicionCondonacion().setList(plantillaPlanDePago.getListaCondicionCondonacionPeriodo());
+		this.getCommunicationSAICBean().setListaCondicionCondonacion(getLdpCondicionCondonacion().getList());
 	}
 
 	@Override
@@ -588,6 +667,26 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 	public void setCurrentRowTasas(int row) {
 	}
 	
+	private Object lastSelectedCondicionCondonacion = null;
+
+	public Object getRBCondicionCondonacion() {
+		String sv = (String) rbCondicionCondonacion.getSelectedValue();
+		return sv.equals(lastSelectedCondicionCondonacion) ? sv : null;
+	}
+
+	public void setRBCondicionCondonacion(Object selected) {
+		if(selected != null) {
+			lastSelectedCondicionCondonacion = selected;
+		}
+	}
+	
+	public String getCurrentRowCondicionCondonacion() {
+		return trgCondicionCondonacion.getRowKey().getRowId();
+	}
+
+	public void setCurrentRowCondicionCondonacion(int row) {
+	}
+	
 	public String btnAgregarCuenta_action() {
 		return navegarParaSeleccionar("AdminCuenta");
 	}
@@ -606,7 +705,17 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		RowKey rk = null;
 		try {
 			String aRowId = (String) RadioButton.getSelected("buttonGroupTasas");
-			rk = this.getLdpCuentas().getRowKey(aRowId);
+			rk = this.getLdpTasas().getRowKey(aRowId);
+		} catch(Exception ex) {
+		}
+		return rk;
+	}
+	
+	public RowKey getSeleccionadoCondicionCondonacion() {
+		RowKey rk = null;
+		try {
+			String aRowId = (String) RadioButton.getSelected("buttonGroupCondicionCondonacion");
+			rk = this.getLdpCondicionCondonacion().getRowKey(aRowId);
 		} catch(Exception ex) {
 		}
 		return rk;
@@ -642,16 +751,55 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 		return retorno;
 	}
 	
+	public String btnAgregarCondicionCondonacion_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+		this.guardarEstadoObjetosUsados();
+		if(ultimo) {
+			CondicionCondonacionPeriodo condicion = new CondicionCondonacionPeriodo();
+			this.getLdpCondicionCondonacion().getList().add(condicion);
+			this.guardarEstadoObjetosUsados();
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+		return retorno;
+	}
+	
 	public String btnAgregarTasa_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+		this.guardarEstadoObjetosUsados();
+		if(ultimo) {
+			TasaNominalAnual tna = new TasaNominalAnual();
+			this.getLdpTasas().getList().add(tna);
+			this.guardarEstadoObjetosUsados();
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+		return retorno;
+	}
+	
+	public String btnQuitarCondicionCondonacion_action() {
 		String retorno = null;
 		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
 
 		this.guardarEstadoObjetosUsados();
 
 		if(ultimo) {
-			TasaNominalAnual tna = new TasaNominalAnual();
-			this.getLdpTasas().getList().add(tna);
-			
+			RowKey rk = null;
+			try {
+				rk = this.getSeleccionadoCondicionCondonacion();
+				if(rk != null) {
+					int index = getNroFila(rk.toString());
+					Object obj = this.getLdpCondicionCondonacion().getObjects()[index];
+					PlantillaPlanDePago locPlantilla = this.obtenerObjetoDelElementoPila(0, PlantillaPlanDePago.class);
+					locPlantilla.getListaCondicionCondonacionPeriodo().remove(obj);
+				}
+			} catch(Exception ex) {
+			}
+
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 
@@ -677,7 +825,7 @@ public class ABMPlantillaPlanDePago extends ABMPageBean {
 					int index = getNroFila(rk.toString());
 					Object obj = this.getLdpTasas().getObjects()[index];
 					PlantillaPlanDePago locPlantilla = this.obtenerObjetoDelElementoPila(0, PlantillaPlanDePago.class);
-					locPlantilla.getListaParametrosAsociacion().remove(obj);
+					locPlantilla.getListaTasaNominalAnual().remove(obj);
 				}
 			} catch(Exception ex) {
 			}

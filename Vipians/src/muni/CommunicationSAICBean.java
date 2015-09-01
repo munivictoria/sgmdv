@@ -65,6 +65,7 @@ import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.filtros.FiltroValorMedidor;
 import com.trascender.saic.recurso.persistent.AlicuotaLiquidada;
 import com.trascender.saic.recurso.persistent.CobroExterno;
+import com.trascender.saic.recurso.persistent.CondicionCondonacionPeriodo;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.LogLiquidacion;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
@@ -2212,6 +2213,17 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		return mapaPlantillas;
 	}
 	
+	private List<CondicionCondonacionPeriodo> listaCondicionCondonacion;
+	
+	public List<CondicionCondonacionPeriodo> getListaCondicionCondonacion() {
+		return listaCondicionCondonacion;
+	}
+
+	public void setListaCondicionCondonacion(
+			List<CondicionCondonacionPeriodo> listaCondicionCondonacion) {
+		this.listaCondicionCondonacion = listaCondicionCondonacion;
+	}
+
 	private List<TasaNominalAnual> listaTasaNominalAnualPlantilla;
 	
 	public List<TasaNominalAnual> getListaTasaNominalAnualPlantilla() {

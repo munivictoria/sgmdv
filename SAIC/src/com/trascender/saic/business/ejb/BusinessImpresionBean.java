@@ -104,6 +104,7 @@ import com.trascender.saic.reporte.dataSource.LiquidacionOspDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionPfoDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionShpsDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionTasaAgrupadaDS;
+import com.trascender.saic.reporte.dataSource.PreImpresionRefinanciacionDS;
 import com.trascender.saic.reporte.dataSource.ReconocimientoDeudaDS;
 import com.trascender.saic.reporte.dataSource.ReliquidacionDS;
 
@@ -1436,6 +1437,11 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 		}
 		return mapaReportesDDJJ;
 	
+	}
+	
+	public JasperPrint getPreImpresionRefinanciacion(DocumentoRefinanciacion pDocumento) throws Exception{
+		PreImpresionRefinanciacionDS ds = new PreImpresionRefinanciacionDS(pDocumento);
+		return getJasperPrint2(ds);
 	}
 
 }

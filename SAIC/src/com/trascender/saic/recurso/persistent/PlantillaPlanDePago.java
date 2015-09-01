@@ -94,7 +94,20 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(name = "FECHA_VENCIMIENTO_PRIMER_CUOTA")
 	private Date fechaVencimientoPrimerCuota;
+
+	@OrderBy("anio")
+	@OneToMany(mappedBy = "plantilla", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CondicionCondonacionPeriodo> listaCondicionCondonacionPeriodo = new ArrayList<CondicionCondonacionPeriodo>();
 	
+	public List<CondicionCondonacionPeriodo> getListaCondicionCondonacionPeriodo() {
+		return listaCondicionCondonacionPeriodo;
+	}
+
+	public void setListaCondicionCondonacionPeriodo(
+			List<CondicionCondonacionPeriodo> listaCondicionCondonacionPeriodo) {
+		this.listaCondicionCondonacionPeriodo = listaCondicionCondonacionPeriodo;
+	}
+
 	public Date getFechaVencimientoPrimerCuota() {
 		return fechaVencimientoPrimerCuota;
 	}

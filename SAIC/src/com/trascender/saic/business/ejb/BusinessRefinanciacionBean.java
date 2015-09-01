@@ -13,6 +13,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import net.sf.jasperreports.engine.JasperPrint;
+
 import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Proyeccion;
 import ar.trascender.criterio.clases.Restriccion;
@@ -35,6 +37,8 @@ import com.trascender.saic.exception.SaicException;
 import com.trascender.saic.recurso.filtros.FiltroPlantillaPlanDePago;
 import com.trascender.saic.recurso.filtros.FiltroRefinanciacion;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda.TipoDocGeneradorDeuda;
+import com.trascender.saic.recurso.persistent.CondicionCondonacionPeriodo;
+import com.trascender.saic.recurso.persistent.CondonacionRegistroDeuda;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ParametroAsociacion;
 import com.trascender.saic.recurso.persistent.PlantillaPlanDePago;
@@ -239,6 +243,24 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			
 			lista = getRegistrosDeudaOriginales(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeudaCondonados());
 			pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().setListaRegistrosDeudaCondonados(lista);
+			
+//			Set<CondonacionRegistroDeuda> listaFinal = new HashSet<CondonacionRegistroDeuda>();
+//			for (CondonacionRegistroDeuda cadaCondonacion : pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeudaCondonados()) {
+//				if (cadaCondonacion.getRegistroDeuda() instanceof LiquidacionTasaAgrupada) {
+//					LiquidacionTasaAgrupada lta = (LiquidacionTasaAgrupada) cadaCondonacion.getRegistroDeuda();
+//					for (LiquidacionTasa cadaLiq : lta.getListaLiquidacionesTasa()) {
+//						CondonacionRegistroDeuda nuevaCondonacion = new CondonacionRegistroDeuda();
+//						nuevaCondonacion.setRegistroDeuda(cadaLiq);
+//						nuevaCondonacion.setPorcentaje(cadaCondonacion.getPorcentaje());
+//						nuevaCondonacion.setRegCancelacionPorRefinanciacion(pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion());
+//						listaFinal.add(nuevaCondonacion);
+//					}
+//				} else {
+//					listaFinal.add(cadaCondonacion);
+//				}
+//			}
+//		
+//			pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().setListaRegistrosDeudaCondonados(listaFinal);
 			
 			for (RegistroDeuda cadaRegistroDeuda : pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()){
 				entityManager.detach(cadaRegistroDeuda);
@@ -555,6 +577,10 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 		for (TasaNominalAnual cadaTasa : plantilla.getListaTasaNominalAnual()) {
 			cadaTasa.setPlantilla(plantilla);
 		}
+		
+		for (CondicionCondonacionPeriodo cadaCondicion : plantilla.getListaCondicionCondonacionPeriodo()) {
+			cadaCondicion.setPlantilla(plantilla);
+		}
 	}
 	
 	public void addPlantillaPlanDePago(PlantillaPlanDePago plantilla) {
@@ -583,6 +609,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 			cadaPlantilla.getListaLogsAuditoria().size();
 			cadaPlantilla.getListaTasaNominalAnual().size();
 			cadaPlantilla.getListaParametrosAsociacion().size();
+			cadaPlantilla.getListaCondicionCondonacionPeriodo().size();
 		}
 		return filtro;
 	}

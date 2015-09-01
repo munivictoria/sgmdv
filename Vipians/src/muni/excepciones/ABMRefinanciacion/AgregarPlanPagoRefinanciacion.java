@@ -1,6 +1,8 @@
 package muni.excepciones.ABMRefinanciacion;
 
 //import com.trascender.saic.util.enumerations.DocGeneradorDeudaTipo;
+import jasper.ConstantesReportes;
+
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,8 +23,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
 
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
@@ -2810,7 +2813,20 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		return null;
 	}
 	
-	public String btnImprimir_action() {
+	public String btnPreImprimir_action() {
+		//Que primero calcule, por las dudas.
+		btnCalcular_action();
+		DocumentoRefinanciacion doc = (DocumentoRefinanciacion) obtenerObjetoDelElementoPila(2, DocumentoRefinanciacion.class);
+		try {
+			JasperPrint jp = 
+					getCommunicationSAICBean().getRemoteSystemImpresion().getPreImpresionRefinanciacion(doc);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.PDF);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Pre Impresion Refinanciacion");
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
+			error(e.getMessage());
+		}
 		return null;
 	}
 	

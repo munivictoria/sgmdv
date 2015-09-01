@@ -187,4 +187,8 @@ public class SystemImpresionBean implements SystemImpresion {
 	public  Map<String, JasperPrint> getListaObligacionSHPSPorContador(FiltroObligacionSHPS pFiltro,CuotaLiquidacion pCuota,String pTipoZip) throws Exception{
 		return this.businessImpresionLocal.getListaObligacionSHPSPorContador(pFiltro, pCuota,pTipoZip);
 	}
+	
+	public JasperPrint getPreImpresionRefinanciacion(DocumentoRefinanciacion pDocumento) throws Exception {
+		return this.businessImpresionLocal.getPreImpresionRefinanciacion(pDocumento);
+	}
 }

@@ -109,4 +109,6 @@ public interface BusinessImpresionLocal
 			List<LiquidacionTasa> pListaLiquidacionesTasa, Usuario pUsuario);
 	
 	public Map<String, JasperPrint> getListaObligacionSHPSPorContador(FiltroObligacionSHPS pFiltro,CuotaLiquidacion pCuota,String pTipoZip) throws Exception;
+	
+	public JasperPrint getPreImpresionRefinanciacion(DocumentoRefinanciacion pDocumento) throws Exception;
 }
