@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -1709,7 +1710,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			calInicio.setTime(fechaInicio);
 
 			calHoy.add(Calendar.MONTH, 1);
-			if(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH)) {
+			if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null &&
+					(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH))) {
 				documentoRefinanciacion.setDiaVencimiento(null);
 				documentoRefinanciacion.setMesInicioRefinanciacion(null);
 				documentoRefinanciacion.setAnioInicioRefinanciacion(null);
@@ -1855,7 +1857,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				@Override
 				public int compare(LineaTablaSeleccionPeriodo o1,
 						LineaTablaSeleccionPeriodo o2) {
-					return o1.getPeriodo().getNumero().compareTo(o2.getPeriodo().getNumero());
+					return o1.getPeriodo().getNumero().compareTo(o2.getPeriodo().getNumero()) * -1;
 				}
 			});
 			
@@ -2058,12 +2060,13 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			Integer cantidadCuotas = Integer.parseInt(cantidadCuotasSeleccionadas);
 			this.getTfTasaNominalAnual().setText(documentoRefinanciacion.getPlantilla().getInteresTNASegunCantidadCuota(cantidadCuotas));
 			Double condonacionInteres = documentoRefinanciacion.getPlantilla().getCondinacionInteresSegunCantidadCuota(cantidadCuotas);
-			if (condonacionInteres != null) {
+			if (condonacionInteres != null && !condonacionInteres.equals(0D)) {
 				this.getTfInteresesACondonar().setText(condonacionInteres);
 			}
 		} else {
 			this.getTfTasaNominalAnual().setText("");
 		}
+		guardarEstadoObjetosUsados();
 	}
 
 	public void eventoSeleccionPlantilla(ValueChangeEvent event) {
@@ -2072,7 +2075,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		//Validar cantidad de propiedades
 		if (locPlantilla != null && locPlantilla.getCantidadPropiedadesMaxima() != null) {
 			Persona persona = (Persona) obtenerObjetoDelElementoPila(8, DocumentoRefinanciacion.class);
-			if (persona != null) {
+			if (persona != null && !persona.getCuim().equals("99-99999999-99")) {
 				FiltroParcela filtro = new FiltroParcela();
 				filtro.setPersona(persona);
 				try {
@@ -2092,6 +2095,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				}
 			}
 		}
+		
 		aplicarPlantilla(locPlantilla);
 	}
 
@@ -2149,6 +2153,20 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			}
 			this.ddCantidadCuotasOptions.setOptions(opCuotas);
 			
+			RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
+			reg.getListaRegistroDeudaExcluidos().clear();
+			for (Object cadaO : this.getCommunicationSAICBean().getListaLineasSeleccionPeriodoRefinanciacion()) {
+				LineaTablaSeleccionPeriodo cadaLinea = (LineaTablaSeleccionPeriodo) cadaO;
+				for (LiquidacionTasa cadaLiq : cadaLinea.getMapaLiquidacion().values()) {
+					//De la deuda que tengo levantada, voy a poner la que no corresponda.
+					if (plantilla.esCuotaLiquidacionExcluida(cadaLiq.getCuotaLiquidacion())
+							&& (cadaLiq.getEstado() == EstadoRegistroDeuda.VIGENTE
+							|| cadaLiq.getEstado() == EstadoRegistroDeuda.VENCIDA)) {
+						reg.getListaRegistroDeudaExcluidos().add(cadaLiq);
+					}
+				}
+			}
+			
 		} else {
 			tfImporteACondonar.setText("0.0");
 
@@ -2166,6 +2184,9 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			tfFechaVencimiento.setText("");
 			tfCantidadDiasCaida.setText("30");
 			tfCantidadCuotasCaida.setText("5");
+			
+			RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
+			reg.getListaRegistroDeudaExcluidos().clear();
 		}
 
 		this.guardarEstadoObjetosUsados();
@@ -2479,7 +2500,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 //				}
 				
 				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
-					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() != null
+					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null
 							&& this.getTfFechaVencimiento().getText() != null 
 							&& this.getTfFechaVencimiento().getText().toString().length() > 0) {
 						Calendar calHoy = Calendar.getInstance();
@@ -2635,7 +2656,8 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 //				}
 				
 				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
-					if(this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {
+					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null
+							&& this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {
 						Calendar calHoy = Calendar.getInstance();
 						Calendar calInicio = Calendar.getInstance();
 						Date fechaInicio = Conversor.getFechaCortaDeString(this.getTfFechaVencimiento().getText().toString());
@@ -2851,12 +2873,13 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		}
 		reg.getListaRegistrosDeuda().addAll(listaLiqTasaAgrupadaSeleccionada);
 		mostrarEstadoObjetosUsados();
+		guardarEstadoObjetosUsados();
 		return null;
 	}
 	
 	private List<LiquidacionTasa> listaLiquidacionTasaOrdenada = null;
 	
-	private LiquidacionTasa getRegistroDeudaMasViejo(Collection<? extends LiquidacionTasa> registrosAExcluir) {
+	private void armarListaOrdenada() {
 		if (listaLiquidacionTasaOrdenada == null) {
 			listaLiquidacionTasaOrdenada = new ArrayList<LiquidacionTasa>();
 			for (Object cadaO : 
@@ -2872,7 +2895,10 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				}
 			});
 		}
-		
+	}
+	
+	private LiquidacionTasa getRegistroDeudaMasViejo(Collection<? extends LiquidacionTasa> registrosAExcluir) {
+		armarListaOrdenada();
 		for (LiquidacionTasa cadaLiq : listaLiquidacionTasaOrdenada) {
 			if (cadaLiq.getEstado() != EstadoRegistroDeuda.VIGENTE
 					&& cadaLiq.getEstado() != EstadoRegistroDeuda.VENCIDA) {
@@ -2905,11 +2931,35 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 		return Util.formatNumero(lta.getMonto());
 	}
 	
+	public String btnSeleccionarTodo_action() {
+		armarListaOrdenada();
+		List<LiquidacionTasaAgrupada> listaTotalSeleccionable = new ArrayList<LiquidacionTasaAgrupada>();
+		ListIterator<LiquidacionTasa> li = listaLiquidacionTasaOrdenada.listIterator(listaLiquidacionTasaOrdenada.size());
+		while (li.hasPrevious()) {
+			LiquidacionTasaAgrupada lta = (LiquidacionTasaAgrupada) li.previous();
+			if (!noEsPeriodoSeleccionable(lta)) {
+				listaTotalSeleccionable.add(lta);
+			}
+		}
+		int tamanio = listaTotalSeleccionable.size();
+		System.out.println(tamanio);
+		//Si es impar, resto uno.
+		if((tamanio%2)!=0) tamanio--;
+		listaLiqTasaAgrupadaSeleccionada = listaTotalSeleccionable.subList(0, (tamanio / 2) + 1);
+		System.out.println(listaLiqTasaAgrupadaSeleccionada.size());
+		btnCalcular_action();
+		return null;
+	}
+	
 	public Boolean getDeshabilitarPeriodo(TableRowDataProvider dato, Integer anio) {
 		if (dato == null) return true;
 		Map mapa = (Map) dato.getValue("mapaLiquidacion");
 		LiquidacionTasaAgrupada lta = (LiquidacionTasaAgrupada) mapa.get(anio);
 		if (lta == null) return true;
+		return noEsPeriodoSeleccionable(lta);
+	}
+	
+	public Boolean noEsPeriodoSeleccionable(LiquidacionTasaAgrupada lta) {
 		//Si es un Periodo condonado automaticamente
 		RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
 		if (reg != null && reg.getListaRegistrosDeudaCondonados().contains(lta)) return true;

@@ -453,6 +453,8 @@ public class ABMTramite extends AbmNodoExpediente {
 				} else if(interesado instanceof PersonaJuridica) {
 					mapaParametros.put("P_PERSONA_J", interesado);
 				}
+				
+				mapaParametros.put("P_USUARIO_IMPRIME", this.getSessionBean1().getUsuario());
 
 				Reporte locReporte = locDocumento.getDocumentoProcedimiento().getDocumentoCatalogo().getReporte();
 

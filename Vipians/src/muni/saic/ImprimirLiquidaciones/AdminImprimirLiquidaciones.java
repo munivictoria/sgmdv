@@ -2438,7 +2438,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 					ArrayList<LiquidacionTasaAgrupada> listaLta = new ArrayList<LiquidacionTasaAgrupada>();
 					for (LiquidacionTasaRefer ltr : locListaLiquidacion) {
 					 	listaLta.add(
-					 			this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(ltr));
+					 			this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(ltr, true));
 					}
 					this.getRequestBean1().setObjetosSeleccionMultiple(listaLta);
 					this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
