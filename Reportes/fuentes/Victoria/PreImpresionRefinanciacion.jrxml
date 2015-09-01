@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PreImpresionRefinanciacion" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="51"/>
+	<parameter name="PAR_TITULO" class="java.lang.String"/>
+	<parameter name="PAR_SUBTITULO" class="java.lang.String"/>
+	<parameter name="PAR_IMAGEN" class="java.awt.Image"/>
+	<parameter name="PAR_PARCELA" class="com.trascender.catastro.recurso.persistent.Parcela"/>
+	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI"/>
+	<parameter name="PAR_DOCUMENTO_OSP" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP"/>
+	<parameter name="PAR_FECHA_LIQUIDACION_DEUDA" class="java.util.Date"/>
+	<parameter name="PAR_DOCUMENTO_SHPS" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoSHPS"/>
+	<parameter name="PAR_DOCUMENTO_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion"/>
+	<field name="F_LIQUIDACION_TASA" class="com.trascender.saic.recurso.persistent.LiquidacionTasa"/>
+	<field name="F_CUOTA_LIQUIDACION" class="com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion"/>
+	<field name="F_DOCUMENTO_ESPECIALIZADO" class="com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado"/>
+	<field name="F_NOMBRE_COLUMNA" class="java.lang.String"/>
+	<field name="F_VALOR_COLUMNA" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="10" y="10" width="61" height="60"/>
+				<imageExpression><![CDATA[$P{PAR_IMAGEN}]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="500" y="10" width="59" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="53" width="59" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hoja Nº " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="111" y="16" width="146" height="18"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dirección de Rentas Municipal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="34" width="146" height="18"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Servicios Municipales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="52" width="146" height="18"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Liquidación de Deuda]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="10" width="38" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Cuenta Nº:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="10" width="31" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[TGI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="10" width="28" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[OSM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="10" width="29" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Partida:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="10" width="47" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Servicio OSM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="25" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Contribuyente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="40" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio postal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="55" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio parcelario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="70" width="73" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Deuda liquidada al:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="25" width="471" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getPersona().getDenominacion()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="40" width="471" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getPersona().getDomicilioPostal()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="55" width="471" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO_ESPECIALIZADO}.getParcela().getDomicilioParcelario()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="10" width="35" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroParcela()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="10" width="26" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["----"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="10" width="57" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{PAR_DOCUMENTO_OSP}.getNumeroCuenta() == null ?  "----"  : $P{PAR_DOCUMENTO_OSP}.getNumeroCuenta())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="253" y="10" width="60" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_PARCELA}.getNroPartidaProvincial()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="10" width="195" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{PAR_DOCUMENTO_OSP}.getRegistroAlicuota() != null ? $P{PAR_DOCUMENTO_OSP}.getRegistroAlicuota().toString() : "----" )]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="83" y="70" width="141" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PAR_FECHA_LIQUIDACION_DEUDA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="159" splitType="Stretch">
+			<crosstab ignoreWidth="true">
+				<reportElement positionType="Float" x="10" y="10" width="555" height="43"/>
+				<rowGroup name="F_LIQUIDACION_TASA" width="0">
+					<bucket class="java.lang.Double">
+						<bucketExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getIdRegistroDeuda()]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{F_LIQUIDACION_TASA_MEA}.getCuotaLiquidacion().getPeriodo()]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents/>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="PERIODO" width="100">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_CUOTA_LIQUIDACION}.getPeriodo().getNumero()
++ "/"
++ $F{F_CUOTA_LIQUIDACION}.getPeriodo().getCalendario().getAnio()]]></bucketExpression>
+						<orderByExpression><![CDATA[]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="100" height="10"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Courier New" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{PERIODO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="F_NOMBRE_COLUMNA" height="15" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{F_NOMBRE_COLUMNA}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{F_NOMBRE_COLUMNAmeasure} == null ? "z" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("TGI") ? "a" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("OSM") ? "b" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("FBV") ? "c" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("FMP") ? "d" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("FON") ? "e" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("AdBa") ? "f" :
+$V{F_NOMBRE_COLUMNAmeasure}.equals("ReAc") ? "g" : "z"]]></orderByExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<textField>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="31" height="15" backcolor="#CCCCCC"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{F_NOMBRE_COLUMNA}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="15" backcolor="#CCCCCC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="7"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="F_VALOR_COLUMNAMeasure" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{F_VALOR_COLUMNA}]]></measureExpression>
+				</measure>
+				<measure name="F_NOMBRE_COLUMNAmeasure" class="java.lang.String">
+					<measureExpression><![CDATA[$F{F_NOMBRE_COLUMNA}]]></measureExpression>
+				</measure>
+				<measure name="F_LIQUIDACION_TASA_MEA" class="com.trascender.saic.recurso.persistent.LiquidacionTasa">
+					<measureExpression><![CDATA[$F{F_LIQUIDACION_TASA}]]></measureExpression>
+				</measure>
+				<crosstabCell width="31" height="10">
+					<cellContents>
+						<textField pattern="###0.00" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="31" height="10"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[( $V{F_VALOR_COLUMNAMeasure} != null ? $V{F_VALOR_COLUMNAMeasure} : 0d )]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="10" columnTotalGroup="F_NOMBRE_COLUMNA">
+					<cellContents>
+						<textField pattern="###0.00" isBlankWhenNull="true">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="10"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Courier New" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{F_VALOR_COLUMNAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<staticText>
+				<reportElement x="206" y="66" width="164" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deuda 2015]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="88" width="164" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deuda Años Anteriores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="109" width="164" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Régimen de Regulación a Pagar]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="465" y="109" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getTotalCondonado()
++
+$P{PAR_DOCUMENTO_REFINANCIACION}
+.getRegCancelacionPorRefinanciacion()
+.getImporteRegistrosDeudaCondonados()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="206" y="130" width="164" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto del Beneficio]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
