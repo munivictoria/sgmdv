@@ -10,7 +10,7 @@
 	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI"/>
 	<parameter name="PAR_DOCUMENTO_OSP" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP"/>
 	<parameter name="PAR_FECHA_LIQUIDACION_DEUDA" class="java.util.Date"/>
-	<parameter name="PAR_DOCUMENTO_SHPS" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoSHPS"/>
+	<parameter name="PAR_DOCUMENTO_SHPS" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS"/>
 	<parameter name="PAR_DOCUMENTO_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion"/>
 	<field name="F_LIQUIDACION_TASA" class="com.trascender.saic.recurso.persistent.LiquidacionTasa"/>
 	<field name="F_CUOTA_LIQUIDACION" class="com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion"/>
@@ -133,7 +133,9 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_LIQUIDACION_TASA}.getPersona().getDenominacion()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{PAR_DOCUMENTO_TGI}.getObligacion().getPersona().getCuim().equals("99-99999999-9") ?
+$P{PAR_DOCUMENTO_TGI}.getAtributoDinamicoPorNombre("APELLIDO_Y_NOMBRE_DE_REFERENCIA") :
+$P{PAR_DOCUMENTO_TGI}.getObligacion().getPersona()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="83" y="40" width="471" height="13"/>

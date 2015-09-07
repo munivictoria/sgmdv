@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cuotas_Refinanciacion" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.7261356071965555"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<parameter name="P_DOCUMENTO_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion"/>
 	<parameter name="P_TITULO" class="java.lang.String"/>
 	<parameter name="PAR_IMAGEN" class="net.sf.jasperreports.engine.JRImageRenderer"/>
@@ -10,8 +10,8 @@
 	<parameter name="PAR_PARCELA" class="com.trascender.catastro.recurso.persistent.Parcela"/>
 	<parameter name="PAR_PERIODOS_ABARCADOS" class="java.lang.String"/>
 	<parameter name="PAR_DOCUMENTO_SHPS" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS"/>
-	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoTGI"/>
-	<parameter name="PAR_DOCUMENTO_OSP" class="com.trascender.habilitaciones.recurso.persistent.shps.DocumentoOSP"/>
+	<parameter name="PAR_DOCUMENTO_TGI" class="com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI"/>
+	<parameter name="PAR_DOCUMENTO_OSP" class="com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP"/>
 	<field name="F_CUOTA_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion"/>
 	<field name="F_NUMERO_EN_TEXTO" class="java.lang.String"/>
 	<field name="field1" class="java.lang.String"/>

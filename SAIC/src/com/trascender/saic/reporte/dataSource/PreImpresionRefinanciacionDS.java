@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
@@ -28,7 +30,7 @@ public class PreImpresionRefinanciacionDS extends TrascenderDataSource{
 	private int lineaActual = -1;
 	List<Pagable> listaLiquidacionTasa = new ArrayList<Pagable>();
 	
-	public PreImpresionRefinanciacionDS(DocumentoRefinanciacion pDocumento) {
+	public PreImpresionRefinanciacionDS(DocumentoRefinanciacion pDocumento, EntityManager entity) {
 		
 		Map<String, Object> locMapa;
 		mapaParametro.put("PAR_TITULO", "Titulo");
@@ -45,10 +47,19 @@ public class PreImpresionRefinanciacionDS extends TrascenderDataSource{
 		Date ultimaFechaVencimiento = listaLiquidacion.get(0).getListaLiquidacionesTasa().get(0).getListaVencimientos().last().getFecha();
 		mapaParametro.put("PAR_FECHA_LIQUIDACION_DEUDA", ultimaFechaVencimiento);
 		
+		
 		Parcela locParcela = listaLiquidacion.get(0).getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado().getParcela();
+		locParcela = getMergeado(locParcela, entity);
+		
 		DocumentoTGI locDocTGI = listaLiquidacion.get(0).getDocHabilitanteEspecializado(DocumentoTGI.class);
+		locDocTGI = getMergeado(locDocTGI, entity);
+		
 		DocumentoOSP locDocOSP = listaLiquidacion.get(0).getDocHabilitanteEspecializado(DocumentoOSP.class);
+		locDocOSP = getMergeado(locDocOSP, entity);
+		
 		DocumentoSHPS locDocSHPS = listaLiquidacion.get(0).getDocHabilitanteEspecializado(DocumentoSHPS.class);
+		locDocSHPS = getMergeado(locDocSHPS, entity);
+		
 		mapaParametro.put("PAR_PARCELA", locParcela);
 		mapaParametro.put("PAR_DOCUMENTO_TGI", locDocTGI);
 		mapaParametro.put("PAR_DOCUMENTO_OSP", locDocOSP);
@@ -81,6 +92,13 @@ public class PreImpresionRefinanciacionDS extends TrascenderDataSource{
 			locMapa.put("F_VALOR_COLUMNA", cadaLiquidacionAgrupada.getInteres());
 			mapaLineas.add(locMapa);
 		}
+	}
+	
+	private <T> T getMergeado(T pObject, EntityManager entity) {
+		if (pObject != null) {
+			return entity.merge(pObject);
+		}
+		return null;
 	}
 	
 	private Map<String, Object> getMapaInicial(LiquidacionTasa pLiquidacion) {

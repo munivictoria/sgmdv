@@ -1448,8 +1448,10 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 	}
 	
 	public JasperPrint getPreImpresionRefinanciacion(DocumentoRefinanciacion pDocumento) throws Exception{
-		PreImpresionRefinanciacionDS ds = new PreImpresionRefinanciacionDS(pDocumento);
-		return getJasperPrint2(ds);
+		PreImpresionRefinanciacionDS ds = new PreImpresionRefinanciacionDS(pDocumento, entityManager);
+		JasperPrint jp = getJasperPrint2(ds);
+		entityManager.clear();		
+		return jp;
 	}
 
 }
