@@ -333,7 +333,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		Recurso locRefinanciacion = new Recurso();
 		locRefinanciacion.setIdRecurso(DocumentoRefinanciacion.serialVersionUID);
 		locRefinanciacion.setNombre("Refinanciación");
-		locRefinanciacion.setAtributosConsultables("Nº de Refinanciación", "numeroRefinanciacion", "Contribuyente", "stringPersona", Tipo.TEXTO_LARGO, "Mes/Año de Inicio", "stringMesAnioInicio",
+		locRefinanciacion.setAtributosConsultables("Nº de Refinanciación", "numeroRefinanciacion", "Contribuyente", "stringPersona", Tipo.TEXTO_LARGO, "Plantilla", "plantilla",
 				"Total A Pagar", "totalAPagar", Tipo.MONTO, "Estado", "stringEstadoRefinanciacion");
 		locRefinanciacion.setClase(DocumentoRefinanciacion.class);
 		grupo.getListaRecursos().add(locRefinanciacion);
@@ -5163,9 +5163,12 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		pFiltro.getMapaOrden().put("fecha", FiltroAbstracto.ASC);
 
 		try {
-			Criterio crit = Criterio.getInstance(this.entityManager, LogLiquidacion.class).add(Restriccion.IGUAL("obligacion", pFiltro.getObligacion()))
-					.add(Restriccion.ILIKE("usuario.user", pFiltro.getUsuario())).add(Restriccion.IGUAL("evento", pFiltro.getEvento()))
-					.add(Restriccion.MAYOR("fecha", pFiltro.getFechaDesdeInicioDia())).add(Restriccion.MENOR("fecha", pFiltro.getFechaHastaFinDia()));
+			Criterio crit = Criterio.getInstance(this.entityManager, LogLiquidacion.class)
+					.add(Restriccion.IGUAL("obligacion", pFiltro.getObligacion()))
+					.add(Restriccion.ILIKE("usuario.user", pFiltro.getUsuario()))
+					.add(Restriccion.IGUAL("evento", pFiltro.getEvento()))
+					.add(Restriccion.MAYOR("fecha", pFiltro.getFechaDesdeInicioDia()))
+					.add(Restriccion.MENOR("fecha", pFiltro.getFechaHastaFinDia()));
 
 			pFiltro.procesarYListar(crit);
 		} catch(Exception e) {
@@ -5177,7 +5180,9 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 
 	@Override
 	public LogLiquidacion getLogLiquidacionesPorId(long pId) throws Exception {
-		LogLiquidacion locLogLiquidacion = (LogLiquidacion) Criterio.getInstance(this.entityManager, LogLiquidacion.class).add(Restriccion.IGUAL("idLogLiquidacion", pId))
+		LogLiquidacion locLogLiquidacion = 
+				(LogLiquidacion) Criterio.getInstance(this.entityManager, LogLiquidacion.class)
+				.add(Restriccion.IGUAL("idLogLiquidacion", pId))
 				.uniqueResult();
 		if(locLogLiquidacion == null) {
 			return null;

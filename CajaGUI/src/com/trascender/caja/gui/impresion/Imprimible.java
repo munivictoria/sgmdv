@@ -136,19 +136,31 @@ public abstract class Imprimible {
 		return resultado;
 	}
 	
+	public static void main(String... args) {
+		System.out.println(acortarString("Concepto: CEMENTERIO - Por unidad urnario", 
+				40, 3));
+		System.out.println(acortarString("CEMENTERIO - Por cada panteón y bóveda de los restantes contribuyentes (NO obras sociales, mutuales y/o asociaciones civiles)", 
+				40, 3));
+		System.out.println(acortarString("Concepto: CEMENTERIO - Por urnario", 
+				40, 3));
+		
+	}
+	
 	/**
 	 * @param cantidadCaractares El maximo de caracter por linea que puede tener el string
 	 * @param cantidadLineas el maximo de lineas que puede tener el string
 	 * @return
 	 */
-	private String acortarString(String cadena, int cantidadCaractares, int cantidadLineas) {
+	private static String acortarString(String cadena, int cantidadCaractares, int cantidadLineas) {
+		cadena = cadena.trim();
 		if (cantidadCaractares >= cadena.length())
 			return cadena;
 		String resultado = "";
-		for (int i = 0 ; i < cantidadLineas ; i++) {
+		for (int i = 0 ; i < cantidadLineas && !cadena.isEmpty() ; i++) {
 			int posicion = cadena.lastIndexOf(" ", cantidadCaractares);
+			if (posicion == -1) posicion = cadena.length();
 			resultado += cadena.substring(0, posicion) + "\n";
-			cadena = cadena.substring(posicion + 1);
+			cadena = cadena.substring(posicion).trim();
 		}
 		if (!cadena.trim().isEmpty())
 			resultado = resultado.substring(0, resultado.length() - 3) + "...";

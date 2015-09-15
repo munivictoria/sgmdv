@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cuotas_Refinanciacion" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.7261356071965555"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="245"/>
 	<property name="ireport.y" value="144"/>
 	<parameter name="P_DOCUMENTO_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion"/>
 	<parameter name="P_TITULO" class="java.lang.String"/>
@@ -221,7 +221,9 @@ $P{P_DOCUMENTO_REFINANCIACION}.getObligacion().getPersona()]]></textFieldExpress
 				</textElement>
 				<textFieldExpression><![CDATA[($P{PAR_PARCELA} != null ?
    "SM: " + $P{PAR_PARCELA}.getNroParcela() :
-   "Inscripción: " + $P{PAR_DOCUMENTO_SHPS}.getNumeroInscripcion())]]></textFieldExpression>
+   $P{PAR_DOCUMENTO_SHPS} != null ?
+   "Inscripción: " + $P{PAR_DOCUMENTO_SHPS}.getNumeroInscripcion() :
+"")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="144" y="124" width="408" height="65"/>

@@ -61,6 +61,9 @@ public class AdminMovimientoCajaIngreso extends AdminController<MovimientoCajaIn
 	private void setModels(){
 		this.getView().setBusquedaModel(this.getBusquedaModel());
 		this.getView().setTableModel(this.getTableModel());
+		
+		this.getBusquedaModel().reiniciar();
+		this.actualizarBusquedaView();
 	}
 	
 	private void setListeners() {

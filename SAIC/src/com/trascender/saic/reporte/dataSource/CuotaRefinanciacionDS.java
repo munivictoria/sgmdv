@@ -65,10 +65,7 @@ public class CuotaRefinanciacionDS extends TrascenderDataSource {
 
 		for(CuotaRefinanciacion cadaCuota : pListaCuotasRefinanciacion) {
 			Map<String, Object> locMapa = new HashMap<String, Object>();
-			
 			locMapa.put("F_CUOTA_REFINANCIACION", cadaCuota);
-//			locMapa.put("F_NUMERO_EN_TEXTO", NumberToText.numeroATexto(new BigDecimal(cadaCuota.getMonto())));
-			
 			filas.add(locMapa);
 		}
 		List<CuotaLiquidacion> listaCuotasAbarcadas = new ArrayList<CuotaLiquidacion>();
@@ -84,6 +81,12 @@ public class CuotaRefinanciacionDS extends TrascenderDataSource {
 			String cuotaString = cadaCuota.getAnio() + "-" + cadaCuota.getPeriodo().getNumero();
 			if (!listaCuotasString.contains(cuotaString)) {
 				listaCuotasString.add(cuotaString);
+			}
+		}
+		if (listaCuotasString.isEmpty()) {
+			//No eran Liquidaciones Tasa, usamos Registro Deuda
+			for (RegistroDeuda cadaRegistro : pDocumento.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
+				listaCuotasString.add(cadaRegistro.getNombre());
 			}
 		}
 		parametros.put("PAR_PERIODOS_ABARCADOS", Util.getStringDeLista(listaCuotasString, "; "));

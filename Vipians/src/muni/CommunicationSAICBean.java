@@ -2291,7 +2291,7 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		this.listaUsuariosReporte = listaUsuariosReporte;
 	}
 	
-	private List listaLineasSeleccionPeriodoRefinanciacion;
+	private List listaLineasSeleccionPeriodoRefinanciacion = new ArrayList();
 
 	public List getListaLineasSeleccionPeriodoRefinanciacion() {
 		return listaLineasSeleccionPeriodoRefinanciacion;

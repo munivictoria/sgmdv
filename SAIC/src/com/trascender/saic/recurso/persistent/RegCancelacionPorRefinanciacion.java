@@ -93,6 +93,11 @@ public class RegCancelacionPorRefinanciacion extends RegistroCancelacion{
 		return getInteresCondonado() * 100 / getInteres();
 	}
 	
+	public Double getPorcentajeMontoCondonado() {
+		if (getImporteCondonado().equals(0D)) return 0D;
+		return getImporteCondonado() * 100 / getImporteTotal();
+	}
+	
 	/**
 	 * 
 	 * @return retorna el total de los recargos de las liquidaciones

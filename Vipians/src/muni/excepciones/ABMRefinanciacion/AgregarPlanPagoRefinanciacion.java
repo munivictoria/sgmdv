@@ -1600,7 +1600,17 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 
 		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
+		
+		//Limpio algunas listas
+		if (this.getCommunicationSAICBean().getListaLineasSeleccionPeriodoRefinanciacion() != null) {
+			this.getCommunicationSAICBean().getListaLineasSeleccionPeriodoRefinanciacion().clear();
+		}
 		return ep;
+	}
+	
+	public boolean getMostrarSeleccionPeriodos() {
+		return this.getCommunicationSAICBean().getListaLineasSeleccionPeriodoRefinanciacion() != null
+				&& !this.getCommunicationSAICBean().getListaLineasSeleccionPeriodoRefinanciacion().isEmpty();
 	}
 
 	private void guardarEstadoObjetosUsados() {
@@ -2060,7 +2070,13 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 	private void addPeriodoALista(LiquidacionTasaAgrupada lta, List<LineaTablaSeleccionPeriodo> lista) {
 		for (LineaTablaSeleccionPeriodo cadaLinea : lista) {
 			if (cadaLinea.getPeriodo().getNumero().equals(lta.getCuotaLiquidacion().getPeriodo().getNumero())) {
-				cadaLinea.getMapaLiquidacion().put(lta.getCuotaLiquidacion().getAnio(), lta);
+				//Me quiero morir
+				LiquidacionTasaAgrupada locLta = cadaLinea.getMapaLiquidacion().get(lta.getCuotaLiquidacion().getAnio()); 
+				if (locLta != null) {
+					locLta.getListaLiquidacionesTasa().addAll(lta.getListaLiquidacionesTasa());
+				} else {
+					cadaLinea.getMapaLiquidacion().put(lta.getCuotaLiquidacion().getAnio(), lta);
+				}
 				return;
 			}
 		}
@@ -2215,10 +2231,12 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			reg.getListaRegistroDeudaExcluidos().clear();
 		}
 		
-		RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
-		reg.getListaRegistrosDeuda().clear();
-		reg.getListaRegistrosDeudaCondonados().clear();
-		this.listaLiqTasaAgrupadaSeleccionada.clear();
+		if (getMostrarSeleccionPeriodos()) {
+			RegCancelacionPorRefinanciacion reg = (RegCancelacionPorRefinanciacion) obtenerObjetoDelElementoPila(3, RegCancelacionPorRefinanciacion.class);
+			reg.getListaRegistrosDeuda().clear();
+			reg.getListaRegistrosDeudaCondonados().clear();
+			this.listaLiqTasaAgrupadaSeleccionada.clear();
+		}
 
 		this.guardarEstadoObjetosUsados();
 	}
@@ -2750,6 +2768,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 				}
 
 				this.setListaDelCommunication(null);
+				this.getRequestBean1().setRefrescarTabla(true);
 				info("La Refinanciaci\363n se agreg\363 exitosamente.");
 
 				retorno = "AdminRefinanciacion";

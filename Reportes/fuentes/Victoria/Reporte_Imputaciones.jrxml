@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Imputaciones" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.996500000000001"/>
-	<property name="ireport.x" value="259"/>
+	<property name="ireport.zoom" value="1.2396694214876038"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -31,7 +31,6 @@
 from cuenta c
 join movimiento_caja_ingreso m on c.id_cuenta = m.id_cuenta
 where fecha between $P{FECHA_DESDE_IMPUTACION} and $P{FECHA_HASTA_IMPUTACION}
-and c.abreviatura in ('225', '16', '334', '171', '237', '14', '15', '224', '1', '2', '19', '124')
 group by c.abreviatura, c.nombre
 order by c.nombre;]]>
 		</queryString>
@@ -58,18 +57,18 @@ join detalle_ticket_caja d on r.id_registro_cancelacion = d.id_registro_cancelac
 join ticket_caja t on t.id_ticket_caja = d.id_ticket_caja
 join usuario us on us.id_usuario = t.id_usuario
 join caja ca on ca.id_caja = t.id_caja
-join registro_deuda rd on rd.id_registro_cancelacion = r.id_registro_cancelacion
-join liquidacion_tasa lt on rd.id_registro_deuda = lt.id_Registro_deuda
-join doc_generador_deuda doc on rd.id_doc_generador_deuda = doc.id_doc_generador_deuda
-join obligacion o on doc.id_obligacion = o.id_obligacion
-join doc_hab_especializado dh on o.id_obligacion = dh.id_obligacion
+left join registro_deuda rd on rd.id_registro_cancelacion = r.id_registro_cancelacion
+left join liquidacion_tasa lt on rd.id_registro_deuda = lt.id_Registro_deuda
+left join doc_generador_deuda doc on rd.id_doc_generador_deuda = doc.id_doc_generador_deuda
+left join obligacion o on doc.id_obligacion = o.id_obligacion
+left join doc_hab_especializado dh on o.id_obligacion = dh.id_obligacion
 left join parcela parcela on dh.id_parcela = parcela.id_parcela
-join persona per on o.id_persona = per.id_persona
+left join persona per on o.id_persona = per.id_persona
 left join persona_fisica pf on per.id_persona = pf.id_persona
 left join persona_juridica pj on per.id_persona = pj.id_persona
-join cuota_liquidacion cuota on lt.id_cuota_liquidacion = cuota.id_cuota_liquidacion
-join periodo p on p.id_periodo = cuota.id_periodo
-join calendario calendario on calendario.id_calendario = p.id_calendario
+left join cuota_liquidacion cuota on lt.id_cuota_liquidacion = cuota.id_cuota_liquidacion
+left join periodo p on p.id_periodo = cuota.id_periodo
+left join calendario calendario on calendario.id_calendario = p.id_calendario
 where t.fecha between $P{FECHA_DESDE} and $P{FECHA_HASTA} and t.estado = 'ACTIVO'
 group by t.numero, per.cuim, persona, n_inscripcion_cuenta, t.importe, periodo, ca.numero, us.usuario, tasa
 order by t.numero;]]>

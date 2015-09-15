@@ -212,14 +212,14 @@ public class AdminIngresoVario extends AdminPageBean {
 		op = this.getApplicationBean1().getMgrDropDown().armarArrayOptions(RegistroDeuda.EstadoRegistroDeuda.values(), "may");
 		ddEstadoDefaultOptions.setOptions(op);
 
-		Set<String> locListaConceptos = this.getCommunicationCajaBean().getMapaConceptosIngresosVarios().keySet();
-		Option[] opConceptos = new Option[locListaConceptos.size() + 1];
-		int i = 0;
-		opConceptos[i++] = new Option("", "");
-		for(String cadaConcepto : locListaConceptos) {
-			opConceptos[i++] = new Option(cadaConcepto, cadaConcepto);
-		}
-		ddConceptoIngresoVarioOptions.setOptions(opConceptos);
+//		Set<String> locListaConceptos = this.getCommunicationCajaBean().getMapaConceptosIngresosVarios().keySet();
+//		Option[] opConceptos = new Option[locListaConceptos.size() + 1];
+//		int i = 0;
+//		opConceptos[i++] = new Option("", "");
+//		for(String cadaConcepto : locListaConceptos) {
+//			opConceptos[i++] = new Option(cadaConcepto, cadaConcepto);
+//		}
+//		ddConceptoIngresoVarioOptions.setOptions(opConceptos);
 	}
 
 	public AdminIngresoVario() {

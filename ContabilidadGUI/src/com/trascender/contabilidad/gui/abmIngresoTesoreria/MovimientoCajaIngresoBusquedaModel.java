@@ -20,11 +20,11 @@ public class MovimientoCajaIngresoBusquedaModel extends TAbstractBusquedaModel<M
 			locSystem.findListaMovimientoCajaIngreso(this.getFechaEmisionDesde(), this.getFechaEmisionHasta(), null, null, null);
 		return locLista;
 	}
-
+	
 	@Override
 	public void reiniciar() {
-		this.setFechaEmisionDesde(null);
-		this.setFechaEmisionHasta(null);
+		this.setFechaEmisionDesde(new Date());
+		this.setFechaEmisionHasta(new Date());
 		this.fireActualizarDatos();
 	}
 

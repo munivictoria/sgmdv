@@ -230,7 +230,8 @@
 											</tr>
 											<tr>
 												<td colspan="4">
-													<ui:table augmentTitle="false" binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tableSeleccionPeriodos}" id="tableSeleccionPeriodos" width="192">
+													<ui:table augmentTitle="false" binding="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.tableSeleccionPeriodos}" 
+													id="tableSeleccionPeriodos" width="192" rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.mostrarSeleccionPeriodos}">
 														<script>
 															<![CDATA[
 															/* ----- Functions for Table Preferences Panel ----- */
@@ -344,15 +345,16 @@
 											<tr>
 											<td>
 												<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnCalcular_action}" 
-													text="Calcular" styleClass="button" />
+													text="Calcular" styleClass="button" rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.mostrarSeleccionPeriodos}"/>
 											</td>
 											<td>
 												<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnSeleccionarTodo_action}" 
-													text="Seleccionar Todo" styleClass="button" />
+													text="Seleccionar Todo" styleClass="button" rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.mostrarSeleccionPeriodos}"/>
 											</td>
 											<td>
 												<ui:button action="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.btnPreImprimir_action}"
-															id="btnImprimirPreimpresion" styleClass="button" text="Pre Imprimir"
+															id="btnImprimirPreimpresion" styleClass="button" text="Pre Imprimir" 
+															rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.mostrarSeleccionPeriodos}"
 															onClick="newWindow = window.open('/Vipians/faces/ImpresionServlet', 'Reporte')" />
 											</td>
 											</tr>

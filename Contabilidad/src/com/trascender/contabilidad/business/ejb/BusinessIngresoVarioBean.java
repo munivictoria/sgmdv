@@ -138,15 +138,23 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 	
 	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena, Usuario pUsuario) {
 		Criterio locCriterio = Criterio.getInstance(entity, ConceptoIngresoVario.class);
-		locCriterio.add(Restriccion.ILIKE("nombre", cadena).SIN_PROCESAR_ENTIDADES());
+		locCriterio.add(Restriccion.ILIKE("nombre", cadena));
+		
 		if (!pUsuario.getUser().equals("root")) {
-			locCriterio.crearAliasLeft("listaUsuarios", "cadaUsuario")
-				.crearAliasLeft("listaRoles", "cadaRol")
-//				.add(Restriccion.IGUAL("cadaUsuario", pUsuario))
-				.add(Restriccion.EN("cadaRol", pUsuario.getListaRoles()));
-						;
+			Restriccion[] arregloRestricciones = new Restriccion[pUsuario.getListaRoles().size() + 1];
+			int i = 0;
+			for(Iterator<Rol> locIterador = pUsuario.getListaRoles().iterator(); locIterador.hasNext();) {
+				Rol cadaRol = locIterador.next();
+				arregloRestricciones[i] = Restriccion.IGUAL("cadaRol", cadaRol);
+				i++;
+			}
+			arregloRestricciones[i] = Restriccion.IGUAL("cadaUsuario", pUsuario);
+	
+			locCriterio.add(Restriccion.OR(arregloRestricciones));
+			locCriterio.crearAliasLeft("listaRoles", "cadaRol");
+			locCriterio.crearAliasLeft("listaUsuarios", "cadaUsuario");
 		}
-		locCriterio.setProyeccion(Proyeccion.NEW(AuxIdEntidad.class, "idConceptoIngresoVario", "nombre").SIN_PROCESAR_ENTIDADES());
+		locCriterio.setProyeccion(Proyeccion.NEW(AuxIdEntidad.class, "idConceptoIngresoVario", "nombre"));
 		locCriterio.setModoDebug(true);
 		List<AuxIdEntidad> locListaResultado = locCriterio.list();
 		return locListaResultado;
@@ -184,7 +192,7 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 				.setModoDebug(true);
 		IngresoVario locIngresoVario = locCriterio.uniqueResult();
 		if(locIngresoVario != null) {
-			locIngresoVario.getConceptoIngresoVario();
+			locIngresoVario.getConceptoIngresoVario().getListaRelaConceptoIngresoVarioCuenta().size();
 			locIngresoVario.getFechaEmision();
 			locIngresoVario.getValor();
 			locIngresoVario.getNombre();
@@ -278,6 +286,7 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		locCriterio.add(Restriccion.OR(arregloRestricciones));
 		locCriterio.crearAliasLeft("listaRoles", "cadaRol");
 		locCriterio.crearAliasLeft("listaUsuarios", "cadaUsuario");
+		locCriterio.setModoDebug(true);
 
 		List<ConceptoIngresoVario> listaResultado = locCriterio.list();
 		for(ConceptoIngresoVario cadaConcepto : listaResultado) {

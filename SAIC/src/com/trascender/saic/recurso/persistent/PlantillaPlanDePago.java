@@ -367,4 +367,11 @@ public class PlantillaPlanDePago implements EntidadTrascender, Serializable{
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return getNombre();
+	}
+	
+	
+
 }
