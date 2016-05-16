@@ -1,6 +1,7 @@
 package com.trascender.habilitaciones.recurso.persistent;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -15,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 
 @Entity
 @Table(name="ASOC_REG_ALICUOTA")
@@ -89,5 +92,23 @@ public class AsocRegAlicuota implements Serializable{
 		if (idAsocRegAlicuota != other.idAsocRegAlicuota)
 			return false;
 		return true;
+	}
+	
+	public Integer getNumeroCuenta() {
+		return this.getDocHabilitanteEspecializado().getObligacion().getNumeroCuenta();
+	}
+	
+	//Para las clases hijas.
+	public List<AtributoDinamico<?>> getListaAtributosDinamicos() {
+		return null;
+	}
+	
+	public Object getAtributoDinamicoPorNombre(String pNombre) {
+		for (AtributoDinamico<?> cadaAtributo : getListaAtributosDinamicos()){
+			if (cadaAtributo.getNombre().replace(" ", "_").toUpperCase().equals(pNombre)){
+				return cadaAtributo.getValor();
+			}
+		}
+		return null;
 	}
 }

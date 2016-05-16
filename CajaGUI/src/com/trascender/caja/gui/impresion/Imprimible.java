@@ -13,6 +13,7 @@ import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.framework.recurso.persistent.Persona;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado;
+import com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio;
 import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.pfo.DocumentoPlanObra;
 import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
@@ -82,6 +83,8 @@ public abstract class Imprimible {
 			LiquidacionTasa locLiquidacionTasa =  (LiquidacionTasa)locDeuda;
 			if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoSHPS){						//SHPS
 				resultado+="Concepto: Pago Tasa Higiene y Seguridad \n";
+			} else if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoCementerio) {
+				resultado+="Concepto: Pago Cementerio \n";
 			}else{
 				resultado+="Concepto: Pago Servicios Municipales \n";
 			}
@@ -96,6 +99,10 @@ public abstract class Imprimible {
 			if (locDocumento instanceof DocumentoSHPS){						//SHPS
 				DocumentoSHPS locDocumentoSHPS = (DocumentoSHPS) locDocumento;
 				resultado+="Nro. Inscripción:       "+locDocumentoSHPS.getNumeroInscripcion() +" \n";
+			}
+			if (locDocumento instanceof DocumentoCementerio){						//SHPS
+				DocumentoCementerio locDocumentoCementerio = (DocumentoCementerio) locDocumento;
+				resultado+="Nro. Cuenta:       "+locDocumentoCementerio.getNumeroCuenta() +" \n";
 			}
 			if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoPlanObra){ 					//PFO
 				DocumentoPlanObra locDocumentoPlanObra = (DocumentoPlanObra)locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
@@ -201,6 +208,8 @@ public abstract class Imprimible {
 			LiquidacionTasa locLiquidacionTasa =  (LiquidacionTasa)locDeuda;
 			if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoSHPS){						//SHPS
 				resultado+="Concepto: Pago Tasa Higiene y Seguridad \n";
+			} else if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoCementerio) {
+				resultado+="Concepto: Pago Cementerio \n";
 			}else{
 				resultado+="Concepto: Pago Servicios Municipales \n";
 			}
@@ -215,6 +224,10 @@ public abstract class Imprimible {
 			if (locDocumento instanceof DocumentoSHPS){						//SHPS
 				DocumentoSHPS locDocumentoSHPS = (DocumentoSHPS) locDocumento;
 				resultado+="Nro. Inscripción:       "+locDocumentoSHPS.getNumeroInscripcion() +" \n";
+			}
+			if (locDocumento instanceof DocumentoCementerio){						//SHPS
+				DocumentoCementerio locDocumentoCementerio = (DocumentoCementerio) locDocumento;
+				resultado+="Nro. Cuenta:       "+locDocumentoCementerio.getNumeroCuenta() +" \n";
 			}
 			if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoPlanObra){ 					//PFO
 				DocumentoPlanObra locDocumentoPlanObra = (DocumentoPlanObra)locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
@@ -293,6 +306,8 @@ public abstract class Imprimible {
 			LiquidacionTasa locLiquidacionTasa =  (LiquidacionTasa)locDeuda;
 			if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoSHPS){						//SHPS
 				resultado+="Concepto: Pago Tasa Higiene y Seguridad \n";
+			} else if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoCementerio) {
+				resultado+="Concepto: Pago Cementerio \n";
 			}else{
 				resultado+="Concepto: Pago Servicios Municipales \n";
 			}
@@ -307,6 +322,10 @@ public abstract class Imprimible {
 			if (locDocumento instanceof DocumentoSHPS){						//SHPS
 				DocumentoSHPS locDocumentoSHPS = (DocumentoSHPS) locDocumento;
 				resultado+="Nro. Inscripción:       "+locDocumentoSHPS.getNumeroInscripcion() +" \n";
+			}
+			if (locDocumento instanceof DocumentoCementerio){						//SHPS
+				DocumentoCementerio locDocumentoCementerio = (DocumentoCementerio) locDocumento;
+				resultado+="Nro. Cuenta:       "+locDocumentoCementerio.getNumeroCuenta() +" \n";
 			}
 			if (locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado() instanceof DocumentoPlanObra){ 					//PFO
 				DocumentoPlanObra locDocumentoPlanObra = (DocumentoPlanObra)locLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();

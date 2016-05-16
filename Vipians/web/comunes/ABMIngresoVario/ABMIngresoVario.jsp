@@ -153,6 +153,27 @@
 									</td>
 								</tr>
 								<tr>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="tfFechaVencimiento" id="lblFechaVencimiento"
+											styleClass="label" text="Fecha Vencimiento" />
+									</td>
+									<td>
+										<ui:textField binding="#{comunes$ABMIngresoVario$ABMIngresoVario.tfFechaVencimiento}" disabled="true"
+											id="tfFechaVencimiento" styleClass="textField" />
+									</td>
+								</tr>
+								<tr>
+									<td align="right" nowrap="nowrap">
+										<ui:label for="tfFechaVencimiento" id="lblFechaActualizacion"
+											styleClass="label" text="Fecha Actualización" />
+									</td>
+									<td>
+										<ui:textField binding="#{comunes$ABMIngresoVario$ABMIngresoVario.tfFechaActualizacion}" 
+											disabled="true"
+											id="tfFechaActualizacion" styleClass="textField" />
+									</td>
+								</tr>
+								<tr>
                                     <td>
                                         <br/>
                                     </td>

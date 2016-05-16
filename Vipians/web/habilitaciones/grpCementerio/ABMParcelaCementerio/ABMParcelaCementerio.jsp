@@ -179,6 +179,10 @@
 																		<ui:staticText binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$ABMParcelaCementerio.stPersona}"
 																			id="stPersona" text="#{currentRow.value['persona']}" />
 																	</ui:tableColumn>
+																	<ui:tableColumn headerText="Difunto" id="tcDifunto" sort="difunto">
+																		<ui:staticText
+																			id="stDifunto" text="#{currentRow.value['difunto']}" />
+																	</ui:tableColumn>
 																	<ui:tableColumn binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$ABMParcelaCementerio.tcFechaDeceso}"
 																		headerText="Fecha Deceso" id="tcFechaDeceso" sort="fechaDeceso">
 																		<ui:staticText binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$ABMParcelaCementerio.stFechaDeceso}"

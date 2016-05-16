@@ -106,8 +106,8 @@ public class FuncionesFecha {
 		@Override
 		public void run(Stack stack) throws ParseException {
 			checkStack(stack);
-			Date fecha1 = parsear(stack.pop()).getTime();
 			Date fecha2 = parsear(stack.pop()).getTime();
+			Date fecha1 = parsear(stack.pop()).getTime();
 			boolean menor = !Util.isFechaAfterNoTima(fecha1, fecha2);
 			stack.push(menor ? 1D : 0D);
 		}
@@ -122,8 +122,9 @@ public class FuncionesFecha {
 		@Override
 		public void run(Stack stack) throws ParseException {
 			checkStack(stack);
-			Date fecha1 = parsear(stack.pop()).getTime();
+			//Los parametros se leen de atras para adelante.
 			Date fecha2 = parsear(stack.pop()).getTime();
+			Date fecha1 = parsear(stack.pop()).getTime();
 			boolean mayor = Util.isFechaAfterNoTima(fecha1, fecha2);
 			stack.push(mayor ? 1D : 0D);
 		}
@@ -138,8 +139,8 @@ public class FuncionesFecha {
 		@Override
 		public void run(Stack stack) throws ParseException {
 			checkStack(stack);
-			Date fecha1 = parsear(stack.pop()).getTime();
 			Date fecha2 = parsear(stack.pop()).getTime();
+			Date fecha1 = parsear(stack.pop()).getTime();
 			boolean igual = Util.isFechaEqualsNoTima(fecha1, fecha2);
 			stack.push(igual ? 1D : 0D);
 		}

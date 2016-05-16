@@ -1741,11 +1741,9 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			calHoy.add(Calendar.MONTH, 1);
 			if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null &&
 					(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH))) {
-				documentoRefinanciacion.setDiaVencimiento(null);
-				documentoRefinanciacion.setMesInicioRefinanciacion(null);
-				documentoRefinanciacion.setAnioInicioRefinanciacion(null);
-				
-				errores[i++] = "La fecha del segundo vencimiento es incorrecta.";
+				documentoRefinanciacion.setDiaVencimiento(calHoy.get(Calendar.DAY_OF_MONTH));
+				documentoRefinanciacion.setMesInicioRefinanciacion(calHoy.get(Calendar.MONTH));
+				documentoRefinanciacion.setAnioInicioRefinanciacion(calHoy.get(Calendar.YEAR));
 			} else {
 				documentoRefinanciacion.setDiaVencimiento(calInicio.get(Calendar.DAY_OF_MONTH));
 				documentoRefinanciacion.setMesInicioRefinanciacion(calInicio.get(Calendar.MONTH) + 1);
@@ -2113,6 +2111,7 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			if (persona != null && !persona.getCuim().equals("99-99999999-9")) {
 				FiltroParcela filtro = new FiltroParcela();
 				filtro.setPersona(persona);
+				filtro.setEstado(Parcela.Estado.ACTIVO);
 				try {
 					getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().setLlave(this.getSessionBean1().getLlave());
 					filtro = getComunicationCatastroBean().getRemoteSystemInformacionParcelaria().findListaParcelas(filtro);
@@ -2162,13 +2161,14 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 			if(plantilla.getInteresPunitorio() != null) {
 				tfInteresPunitorio.setText(plantilla.getInteresPunitorio());
 			}
+			
+			Calendar cal = Calendar.getInstance();
 			if(plantilla.getDiaVencimiento() != null) {
-				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.MONTH, 1);
 				cal.set(Calendar.DAY_OF_MONTH, plantilla.getDiaVencimiento());
-
-				tfFechaVencimiento.setText(Conversor.getStringDeFechaCorta(cal.getTime()));
 			}
+			tfFechaVencimiento.setText(Conversor.getStringDeFechaCorta(cal.getTime()));
+			
 			if (plantilla.getFechaVencimientoPrimerCuota() != null) {
 				tfFechaVencimiento.setText(Conversor.getStringDeFechaCorta(plantilla.getFechaVencimientoPrimerCuota()));
 			}
@@ -2548,23 +2548,23 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 //					return null;
 //				}
 				
-				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
-					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null
-							&& this.getTfFechaVencimiento().getText() != null 
-							&& this.getTfFechaVencimiento().getText().toString().length() > 0) {
-						Calendar calHoy = Calendar.getInstance();
-						Calendar calInicio = Calendar.getInstance();
-						Date fechaInicio = Conversor.getFechaCortaDeString(this.getTfFechaVencimiento().getText().toString());
-						calInicio.setTime(fechaInicio);
-	
-						calHoy.add(Calendar.MONTH, 1);
-						if(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH)) {
-							locValidador.getErrores().add("La fecha del segundo vencimiento es incorrecta.");
-						}
-					}
-				} else {
-					return null;
-				}
+//				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
+//					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null
+//							&& this.getTfFechaVencimiento().getText() != null 
+//							&& this.getTfFechaVencimiento().getText().toString().length() > 0) {
+//						Calendar calHoy = Calendar.getInstance();
+//						Calendar calInicio = Calendar.getInstance();
+//						Date fechaInicio = Conversor.getFechaCortaDeString(this.getTfFechaVencimiento().getText().toString());
+//						calInicio.setTime(fechaInicio);
+//	
+//						calHoy.add(Calendar.MONTH, 1);
+//						if(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH)) {
+//							locValidador.getErrores().add("La fecha del segundo vencimiento es incorrecta.");
+//						}
+//					}
+//				} else {
+//					return null;
+//				}
 
 				if(locValidador.getErrores().size() > 0) {
 					error("Existen Errores:");
@@ -2704,22 +2704,22 @@ public class AgregarPlanPagoRefinanciacion extends AbstractPageBean {
 //					return null;
 //				}
 				
-				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
-					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null
-							&& this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {
-						Calendar calHoy = Calendar.getInstance();
-						Calendar calInicio = Calendar.getInstance();
-						Date fechaInicio = Conversor.getFechaCortaDeString(this.getTfFechaVencimiento().getText().toString());
-						calInicio.setTime(fechaInicio);
-	
-						calHoy.add(Calendar.MONTH, 1);
-						if(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH)) {
-							v.getErrores().add("La fecha del segundo vencimiento es incorrecta.");
-						}
-					}
-				} else {
-					return null;
-				}
+//				if(documentoRefinanciacion.getAnioInicioRefinanciacion() != null) {
+//					if(documentoRefinanciacion.getPlantilla().getFechaVencimientoPrimerCuota() == null
+//							&& this.getTfFechaVencimiento().getText() != null && this.getTfFechaVencimiento().getText().toString().length() > 0) {
+//						Calendar calHoy = Calendar.getInstance();
+//						Calendar calInicio = Calendar.getInstance();
+//						Date fechaInicio = Conversor.getFechaCortaDeString(this.getTfFechaVencimiento().getText().toString());
+//						calInicio.setTime(fechaInicio);
+//	
+//						calHoy.add(Calendar.MONTH, 1);
+//						if(calHoy.get(Calendar.YEAR) != calInicio.get(Calendar.YEAR) || calHoy.get(Calendar.MONTH) != calInicio.get(Calendar.MONTH)) {
+//							v.getErrores().add("La fecha del segundo vencimiento es incorrecta.");
+//						}
+//					}
+//				} else {
+//					return null;
+//				}
 
 				// DigestoMunicipal locDigestoMunicipal = documentoRefinanciacion.getRegCancelacionPorRefinanciacion().getDigestoMunicipal();
 				// DocGeneradorDeuda docGeneradorDeuda = documentoRefinanciacion.getDocGeneradorDeudaAnterior();

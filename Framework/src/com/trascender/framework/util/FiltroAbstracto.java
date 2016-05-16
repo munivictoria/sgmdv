@@ -19,6 +19,7 @@ import ar.trascender.util.ReflectionUtils;
 import com.trascender.framework.recurso.persistent.ConfiguracionAtributoTabla;
 import com.trascender.framework.recurso.persistent.ConfiguracionRecurso;
 import com.trascender.framework.recurso.persistent.ConjuntoAtributoTabla;
+import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
 
 public abstract class FiltroAbstracto<T> implements Serializable {
 
@@ -129,7 +130,10 @@ public abstract class FiltroAbstracto<T> implements Serializable {
 			for(ConjuntoAtributoTabla cadaConjunto : configuracionRecurso.getListaConjuntoAtributosTabla()) {
 				List<Method> listaGeters = new ArrayList<Method>();
 				for(ConfiguracionAtributoTabla cadaConf : cadaConjunto.getListaAtributosTabla()) {
-					listaGeters.add(ReflectionUtils.getGeter(claseEjemplo, cadaConf.getNombreAtributo()));
+					if (cadaConf.getTipoDato() == Tipo.ATRIBUTO_DINAMICO)
+						listaGeters.add(ReflectionUtils.getGeter(claseEjemplo, "listaAtributosDinamicos"));
+					else 
+						listaGeters.add(ReflectionUtils.getGeter(claseEjemplo, cadaConf.getNombreAtributo()));
 				}
 
 				for(Method cadaMethod : listaGeters) {

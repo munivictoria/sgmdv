@@ -687,6 +687,11 @@
 
 	<!-- Concepto Ingreso Vario -->
 	<managed-bean>
+		<managed-bean-name>comunes$ABMIngresoVario$ABMActualizarDeudaIngresoVario</managed-bean-name>
+		<managed-bean-class>muni.comunes.ABMIngresoVario.ABMActualizarDeudaIngresoVario</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
 		<managed-bean-name>comunes$ABMConceptoIngresoVario$AdminConceptoIngresoVario</managed-bean-name>
 		<managed-bean-class>muni.comunes.ABMConceptoIngresoVario.AdminConceptoIngresoVario</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>

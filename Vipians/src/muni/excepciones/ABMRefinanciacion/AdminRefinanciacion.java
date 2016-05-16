@@ -61,8 +61,17 @@ public class AdminRefinanciacion extends AdminPageBean {
 		ddEstadoDefaultOptions.setOptions(opEstado);
 	}
 
+	private TextField tfNumeroCuenta = new TextField();
 	private DropDown ddEstado = new DropDown();
 	private SingleSelectOptionsList ddEstadoDefaultOptions = new SingleSelectOptionsList();
+
+	public TextField getTfNumeroCuenta() {
+		return tfNumeroCuenta;
+	}
+
+	public void setTfNumeroCuenta(TextField tfNumeroCuenta) {
+		this.tfNumeroCuenta = tfNumeroCuenta;
+	}
 
 	public DropDown getDdEstado() {
 		return ddEstado;
@@ -474,6 +483,8 @@ public class AdminRefinanciacion extends AdminPageBean {
 		} else {
 			locFiltro.setEstado(null);
 		}
+		
+		locFiltro.setNumeroCuenta(this.getTextFieldValueInteger(tfNumeroCuenta));
 	}
 
 	@Override
@@ -481,6 +492,7 @@ public class AdminRefinanciacion extends AdminPageBean {
 		FiltroRefinanciacion locFiltro = this.getFiltro();
 
 		this.getTfNumeroTramite().setText(locFiltro.getNroRefinanciacion());
+		this.setTextFieldValueInteger(tfNumeroCuenta, locFiltro.getNumeroCuenta());
 
 		if(locFiltro.getPersona() != null && locFiltro.getPersona().getIdPersona() != -1) {
 			this.getTfPersonaSeleccionada().setText(locFiltro.getPersona().toString());
@@ -496,10 +508,12 @@ public class AdminRefinanciacion extends AdminPageBean {
 		locFiltro.setPersona(null);
 		locFiltro.setNroRefinanciacion(null);
 		locFiltro.setEstado(null);
+		locFiltro.setNumeroCuenta(null);
 
 		this.getSessionBean1().setPersonaSeleccionada(null);
 
 		this.getTfNumeroTramite().setText(null);
+		this.getTfNumeroCuenta().setText(null);
 		this.getTfPersonaSeleccionada().setText(null);
 		this.getDdEstado().setSelected(null);
 	}

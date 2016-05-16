@@ -32,6 +32,16 @@ public class ABMDifunto extends ABMPageBean {
 	private Button btnSeleccionarPersona = new Button();
 
 	private MessageGroup messageGroup1 = new MessageGroup();
+	
+	private TextArea taDifunto = new TextArea();
+
+	public TextArea getTaDifunto() {
+		return taDifunto;
+	}
+
+	public void setTaDifunto(TextArea taDifunto) {
+		this.taDifunto = taDifunto;
+	}
 
 	public TextArea getTaCausaDeceso() {
 		return taCausaDeceso;
@@ -147,6 +157,7 @@ public class ABMDifunto extends ABMPageBean {
 		difunto.setInmunoinfecciosa(this.getCkbInmunoinfecciosa().isChecked());
 		difunto.setCremado(this.getCkbCremado().isChecked());
 		difunto.setReducido(this.getCkbReducido().isChecked());
+		difunto.setDifunto(this.getTextAreaValue(taDifunto));
 
 		this.getElementoPila().getObjetos().set(0, difunto);
 		this.getElementoPila().getObjetos().set(1, persona);
@@ -170,6 +181,8 @@ public class ABMDifunto extends ABMPageBean {
 
 		this.getTaCausaDeceso().setText(difunto.getCausa());
 		this.getTfFechaDeceso().setText(Conversor.getStringDeFechaCorta(difunto.getFechaDeceso()));
+		
+		this.getTaDifunto().setText(difunto.getDifunto());
 
 		if(persona != null && persona.getIdPersona() != -1) {
 			this.getTfPersona().setText(persona);

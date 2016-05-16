@@ -48,14 +48,24 @@ public class Difunto implements Serializable{
 	@JoinColumn(name="ID_PARCELA_CEMENTERIO")
 	private ParcelaCementerio parcelaCementerio;
 	
-	@ManyToOne(optional=false)
-	@JoinColumn(name="ID_PERSONA",nullable=false)
+	@ManyToOne
+	@JoinColumn(name="ID_PERSONA")
 	private PersonaFisica persona;
 	
 	@Where(clause = "id_recurso = " + serialVersionUID)
 	@OneToMany(mappedBy = "idEntidad", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 	private List<AtributoDinamico<?>> listaAtributosDinamicos = new ArrayList<AtributoDinamico<?>>();
 	
+	private String difunto;
+	
+	public String getDifunto() {
+		return difunto;
+	}
+
+	public void setDifunto(String difunto) {
+		this.difunto = difunto;
+	}
+
 	public void addAtributoDinamico(AtributoDinamico<?> pAtributoDinamico){
 		pAtributoDinamico.setIdEntidad(this.getIdDifunto());
 		this.listaAtributosDinamicos.add(pAtributoDinamico);

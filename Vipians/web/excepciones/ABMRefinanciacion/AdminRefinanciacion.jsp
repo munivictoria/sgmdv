@@ -138,6 +138,15 @@
 													</tr>
 													<tr>
 														<td align="right" nowrap="nowrap">
+															<ui:label for="tfNumeroCuenta" id="lblNumeroCuenta" styleClass="label" text="Nº de Cuenta" />
+														</td>
+														<td>
+															<ui:textField binding="#{excepciones$ABMRefinanciacion$AdminRefinanciacion.tfNumeroCuenta}" onKeyPress="return ValidarNum(event,this)" columns="10" id="tfNumeroCuenta"
+															 	styleClass="textField" />
+														</td>
+													</tr>
+													<tr>
+														<td align="right" nowrap="nowrap">
 															<ui:label binding="#{excepciones$ABMRefinanciacion$AdminRefinanciacion.label2}" for="tfPersona" id="label2" styleClass="label" text="Contribuyente" />
 														</td>
 														<td>

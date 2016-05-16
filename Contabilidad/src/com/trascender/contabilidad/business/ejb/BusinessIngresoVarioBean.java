@@ -2,15 +2,21 @@
 package com.trascender.contabilidad.business.ejb;
 
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.CreateException;
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.nfunk.jep.JEP;
 
 import ar.trascender.criterio.clases.Criterio;
 import ar.trascender.criterio.clases.Orden;
@@ -27,12 +33,29 @@ import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.framework.recurso.transients.AtributoConsultable;
 import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
 import com.trascender.framework.recurso.transients.AuxIdEntidad;
 import com.trascender.framework.recurso.transients.Grupo;
 import com.trascender.framework.recurso.transients.Recurso;
+import com.trascender.framework.util.FiltroAbstracto;
 import com.trascender.framework.util.SecurityMgr;
+import com.trascender.framework.util.Util;
+import com.trascender.habilitaciones.business.interfaces.BusinessTipoTasaLocal;
+import com.trascender.habilitaciones.recurso.persistent.ConceptoPorMora;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
+import com.trascender.habilitaciones.recurso.persistent.TipoParametro;
+import com.trascender.habilitaciones.recurso.persistent.TipoParametroConstante;
+import com.trascender.habilitaciones.recurso.persistent.TipoParametroVencimiento;
+import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
+import com.trascender.habilitaciones.recurso.persistent.enums.TipoParametroInteres;
+import com.trascender.habilitaciones.recurso.persistent.tipoParametroGrilla.TipoParametroGrilla;
+import com.trascender.habilitaciones.util.GrillaFunction;
+import com.trascender.habilitaciones.util.MotorFormulas;
+import com.trascender.saic.recurso.persistent.ParametroValuado;
+import com.trascender.saic.recurso.persistent.ParametroValuadoDouble;
+import com.trascender.saic.recurso.persistent.ParametroValuadoString;
+import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 
 @Stateless(name = "ejb/BusinessIngresoVarioLocal")
@@ -45,8 +68,12 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		Recurso ingresoVario = new Recurso();
 		ingresoVario.setIdRecurso(IngresoVario.serialVersionUID);
 		ingresoVario.setNombre("Ingresos Varios");
-		ingresoVario.setAtributosConsultables("Persona", "persona", "Concepto", "conceptoIngresoVario", "Monto", "valor", Tipo.MONTO, "Fecha Emisión", "fechaEmision", Tipo.FECHA, "Estado",
-				"estado");
+		ingresoVario.setAtributosConsultables("Número", "numero", 
+				"Persona", "persona", 
+				"Concepto", "conceptoIngresoVario", AtributoConsultable.Tipo.TEXTO_LARGO, 
+				"Monto", "monto", Tipo.MONTO, 
+				"Fecha Emisión", "fechaEmision", Tipo.FECHA, 
+				"Estado", "estado");
 		ingresoVario.setClase(IngresoVario.class);
 		grupoRecursos.getListaRecursos().add(ingresoVario);
 
@@ -65,6 +92,11 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 
 	@PersistenceContext
 	private EntityManager entity;
+	private Date fechaActualizacionRefinanciacion;
+	
+	@EJB
+	private BusinessTipoTasaLocal businessTipoTasa;
+	private JEP jep;
 
 	public BusinessIngresoVarioBean() {
 	}
@@ -234,16 +266,20 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 	}
 
 	public FiltroIngresoVario findListaIngresoVario(FiltroIngresoVario pFiltro) throws java.lang.Exception {
+		
+		pFiltro.getMapaOrden().put("numero", FiltroAbstracto.DESC);
+		
 		Criterio locCriterio = Criterio.getInstance(entity, IngresoVario.class)
 			.add(Restriccion.IGUAL("conceptoIngresoVario", pFiltro.getConceptoIngresoVario()))
 			.add(Restriccion.IGUAL("estado", pFiltro.getEstado()))
+			.add(Restriccion.IGUAL("numero", pFiltro.getNumero()))
 			.add(Restriccion.MAYOR("fechaEmision", pFiltro.getFechaDesde()))
 			.add(Restriccion.MENOR("fechaEmision", pFiltro.getFechaHasta()));
 
 		if(pFiltro.getPersona() != null) {
-			locCriterio.add(Restriccion.IGUAL("persona", pFiltro.getPersona()));
+			locCriterio.add(Restriccion.IGUAL("docGeneradorDeuda.obligacion.persona", pFiltro.getPersona()));
 		} else {
-			locCriterio.add(Restriccion.EN("persona.idPersona", pFiltro.getListaIdPersonas()));
+			locCriterio.add(Restriccion.EN("docGeneradorDeuda.obligacion.persona.idPersona", pFiltro.getListaIdPersonas()));
 		}
 
 		pFiltro.procesarYListar(locCriterio);
@@ -297,6 +333,152 @@ public class BusinessIngresoVarioBean implements BusinessIngresoVarioLocal {
 		}
 
 		return listaResultado;
+	}
+	
+	public void actualizarDeudaIngresoVario(IngresoVario pIngresoVario, Date pFecha, boolean pAplicarInteres) throws Exception {
+		fechaActualizacionRefinanciacion = pFecha;
+		Double locValorInteresAnterior = pIngresoVario.getInteres();
+
+		boolean estaVencida = Util.isFechaAfterNoTima(pFecha, pIngresoVario.getFechaVencimientoOriginal());
+
+		// Calculo interés solo cuando el ingreso vario esta vencido y el parametro asi lo indique
+		if(estaVencida && pAplicarInteres) {
+			this.jep = MotorFormulas.initializeJEP();
+
+			pIngresoVario = getIngresoVarioByID(pIngresoVario.getIdRegistroDeuda());
+
+			pIngresoVario.setInteres(0d);
+			TipoTasa locTipoTasa = pIngresoVario.getConceptoIngresoVario().getTipoTasa();
+
+			// Calculamos y agregamos los parametros de vencimiento, también reemplazamos los viejos en la liquidacion.
+			List<ParametroValuado> listaParametrosVencimientosActualizados = this.getListaParametrosVencimientosActualizados(pIngresoVario);
+			for(ParametroValuado cadaParametroValuado : listaParametrosVencimientosActualizados) {
+				this.jep.addVariable(cadaParametroValuado.getNombreParametro(), cadaParametroValuado.getValorParametro());
+			}
+
+			/*
+			 * Agregamos los Parametros Grilla que podria haber en la Tipo Tasa. Esto provaca el recalculo de algunas cosas, que es algo que no queremos hacer
+			 * aqui, pero solo seria para Intereses y Recargos, y eso está bien.
+			 */
+			for(TipoParametro cadaTipoParametro : locTipoTasa.getListaParametros()) {
+				if(cadaTipoParametro instanceof TipoParametroGrilla) {
+					TipoParametroGrilla locTipoParametroGrilla = businessTipoTasa.getTipoParametroGrillaPorId(cadaTipoParametro.getIdTipoParametro());
+
+					GrillaFunction cadaFunction = new GrillaFunction(TipoParametroGrilla.getGrillaDeCache(locTipoParametroGrilla));
+					jep.addFunction(cadaTipoParametro.getNombreVariable(), cadaFunction);
+				} else if(cadaTipoParametro instanceof TipoParametroConstante) {
+					TipoParametroConstante tpc = (TipoParametroConstante) cadaTipoParametro;
+					jep.addVariable(cadaTipoParametro.getNombreVariable(), tpc.getValor());
+				}
+			}
+
+			this.setInteres(pIngresoVario);
+		} else if(pAplicarInteres) {
+			pIngresoVario.setInteres(locValorInteresAnterior);
+		} else {
+			pIngresoVario.setInteres(0D);
+		}
+
+		pIngresoVario.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
+		pIngresoVario.setFechaVencimiento(pFecha);
+
+		entity.merge(pIngresoVario);
+	}
+
+	/**
+	 * Calcula el interés y el recargo por mora, necesita que estén seteados los valores del jep
+	 */
+	private void setInteres(IngresoVario pIngresoVario) {
+		TipoTasa locFormula = pIngresoVario.getConceptoIngresoVario().getTipoTasa();
+		ConceptoPorMora locInteres = locFormula.getInteres();
+
+		Double locValorInteres = this.calcularConceptoPorMora(locInteres);
+		jep.addVariable(TipoParametroInteres.IMPORTE_INTERES.getNombreVariable(), locValorInteres);
+
+		pIngresoVario.setInteres(locValorInteres);
+	}
+
+	private Double calcularConceptoPorMora(ConceptoPorMora pConceptoPorMora) {
+		Double valorRetorno = 0d;
+		if(pConceptoPorMora != null) {
+			jep.parseExpression(pConceptoPorMora.getFormula());
+			if(jep.getErrorInfo() != null) {
+				System.err.println(jep.getErrorInfo());
+				valorRetorno = 0d;
+			} else {
+				Double valor = jep.getValue();
+				valorRetorno = Util.redondear(valor.doubleValue(), 2);
+			}
+		}
+
+		return valorRetorno;
+	}
+
+	/**
+	 * @return la lista actualizada de parámetros valuados
+	 */
+	private List<ParametroValuado> getListaParametrosVencimientosActualizados(IngresoVario pIngresoVario) throws Exception {
+		List<ParametroValuado> locListaNuevosParametrosVencimiento = new ArrayList<ParametroValuado>();
+
+		locListaNuevosParametrosVencimiento.add(this.getParametroImporteVencimiento(pIngresoVario));
+		locListaNuevosParametrosVencimiento.add(this.getParametroDiasDesdeVencimiento(pIngresoVario));
+		locListaNuevosParametrosVencimiento.add(this.getParametroMesesDesdeVencimiento(pIngresoVario));
+		locListaNuevosParametrosVencimiento.add(this.getParametroFechaActualizacionDeuda());
+		locListaNuevosParametrosVencimiento.add(this.getParametroFechaVencimiento(pIngresoVario));
+
+		return locListaNuevosParametrosVencimiento;
+	}
+
+	private ParametroValuado getParametroImporteVencimiento(IngresoVario pIngresoVario) {
+		ParametroValuadoDouble locParametroValuado = new ParametroValuadoDouble();
+		locParametroValuado.setValorParametro(pIngresoVario.getMonto());
+		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.IMPORTE_PRIMER_VENCIMIENTO.toString()));
+
+		return locParametroValuado;
+	}
+
+	private ParametroValuado getParametroDiasDesdeVencimiento(IngresoVario pIngresoVario) throws Exception {
+		ParametroValuadoDouble locParametroValuado = new ParametroValuadoDouble();
+		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.DIAS_DESDE_PRIMER_VENCIMIENTO.toString()));
+
+		if(pIngresoVario.getFechaVencimiento().after(pIngresoVario.getFechaVencimientoOriginal())) {
+			locParametroValuado.setValorParametro(Integer.valueOf(Util.getDiasDiferencia(pIngresoVario.getFechaVencimientoOriginal(), pIngresoVario.getFechaVencimiento()))
+					.doubleValue());
+		} else {
+			locParametroValuado.setValorParametro(0D);
+		}
+
+		return locParametroValuado;
+	}
+
+	private ParametroValuado getParametroMesesDesdeVencimiento(IngresoVario pIngresoVario) throws Exception {
+		ParametroValuadoDouble locParametroValuado = new ParametroValuadoDouble();
+		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.MESES_DESDE_PRIMER_VENCIMIENTO.toString()));
+
+		if(pIngresoVario.getFechaVencimiento().after(pIngresoVario.getFechaVencimientoOriginal())) {
+			locParametroValuado.setValorParametro(Integer.valueOf(Util.getMesesDiferencia(pIngresoVario.getFechaVencimientoOriginal(), pIngresoVario.getFechaVencimiento()))
+					.doubleValue());
+		} else {
+			locParametroValuado.setValorParametro(0D);
+		}
+
+		return locParametroValuado;
+	}
+
+	private ParametroValuado getParametroFechaActualizacionDeuda() throws Exception {
+		ParametroValuadoString locParametroValuado = new ParametroValuadoString();
+		locParametroValuado.setValorParametro(new SimpleDateFormat("dd/MM/yyyy").format(fechaActualizacionRefinanciacion));
+		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.FECHA_ACTUALIZACION_DEUDA.toString()));
+
+		return locParametroValuado;
+	}
+
+	private ParametroValuado getParametroFechaVencimiento(IngresoVario pIngresoVario) {
+		ParametroValuadoString locParametroValuado = new ParametroValuadoString();
+		locParametroValuado.setNombreParametro(Util.getEnumNameFromString(TipoParametroVencimiento.TipoAtributoVencimiento.FECHA_VENCIMIENTO_CUOTA.toString()));
+		locParametroValuado.setValorParametro(new SimpleDateFormat("dd/MM/yyyy").format(pIngresoVario.getFechaVencimientoOriginal()));
+
+		return locParametroValuado;
 	}
 }
 

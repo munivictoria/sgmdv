@@ -232,6 +232,15 @@ public class RegAlicuota implements Serializable{
 		return null;
 	}
 	
+	public Object getAtributoDinamicoPorNombre(String pNombre) {
+		for (AtributoDinamico<?> cadaAtributo : getListaAtributosDinamicos()){
+			if (cadaAtributo.getNombre().replace(" ", "_").toUpperCase().equals(pNombre)){
+				return cadaAtributo.getValor();
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public int hashCode() {
 		if (this.idTipoAlicuota==-1)

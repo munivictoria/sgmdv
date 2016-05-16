@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -39,7 +40,9 @@ import com.sun.rave.web.ui.event.TableSelectPhaseListener;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.conversores.Conversor;
@@ -51,6 +54,7 @@ import com.trascender.saic.recurso.persistent.RegistroDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
 import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
+import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
 
 public class ABMRefinanciacion extends ABMPageBean {
 
@@ -84,9 +88,27 @@ public class ABMRefinanciacion extends ABMPageBean {
 		ddTipoObligacionDefaultOptions.setOptions(op);
 	}
 
+	private TextField tfFechaActualizacionDeuda = new TextField();
+	private Checkbox cbAplicarIntereses = new Checkbox();
 	private PanelGroup groupPanel1 = new PanelGroup();
 	private HtmlAjaxCommandButton btnActualizarDeuda = new HtmlAjaxCommandButton();
 	private Checkbox cbSeleccion = new Checkbox();
+	
+	public TextField getTfFechaActualizacionDeuda() {
+		return tfFechaActualizacionDeuda;
+	}
+
+	public void setTfFechaActualizacionDeuda(TextField tfFechaActualizacionDeuda) {
+		this.tfFechaActualizacionDeuda = tfFechaActualizacionDeuda;
+	}
+
+	public Checkbox getCbAplicarIntereses() {
+		return cbAplicarIntereses;
+	}
+
+	public void setCbAplicarIntereses(Checkbox cbAplicarIntereses) {
+		this.cbAplicarIntereses = cbAplicarIntereses;
+	}
 
 	public Checkbox getCbSeleccion() {
 		return cbSeleccion;
@@ -1495,6 +1517,8 @@ public class ABMRefinanciacion extends ABMPageBean {
 		ep.getObjetos().add(ind++, new DocumentoRefinanciacion());
 		ep.getObjetos().add(ind++, new ArrayList()); // lista de periodos adeudados (......)
 		ep.getObjetos().add(ind++, null); // persona
+		ep.getObjetos().add(ind++, new Date()); //3 - Fecha actualizacion.
+		ep.getObjetos().add(ind++, new Boolean(true)); //4 - Aplicar intereses.
 
 		// Dejar siempre en la ultimo posicion del arreglo. Manejo de seleccionado.
 		ep.getObjetos().add(ind++, new Integer(0));
@@ -1517,6 +1541,8 @@ public class ABMRefinanciacion extends ABMPageBean {
 		this.getElementoPila().getObjetos().set(ind++, documentoRefinanciacion);
 		this.getElementoPila().getObjetos().set(ind++, periodosAdeudados);
 		this.getElementoPila().getObjetos().set(ind++, persona);
+		this.getElementoPila().getObjetos().set(ind++, getTextFieldValueDate(tfFechaActualizacionDeuda));
+		this.getElementoPila().getObjetos().set(ind++, cbAplicarIntereses.isChecked());
 	}
 
 	@Override
@@ -1686,6 +1712,12 @@ public class ABMRefinanciacion extends ABMPageBean {
 		ordenarPeriodos(periodosAdeudados);
 		this.setListaDelCommunication2(periodosAdeudados);
 		this.getObjectListDataProviderTabla2().setList(periodosAdeudados);
+		
+		Date fechaActualizacion = (Date) obtenerObjetoDelElementoPila(3);
+		boolean aplicarIntereses = (Boolean) obtenerObjetoDelElementoPila(4);
+		
+		this.setTextFieldValueDate(tfFechaActualizacionDeuda, fechaActualizacion);
+		this.getCbAplicarIntereses().setValue(aplicarIntereses);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1858,26 +1890,15 @@ public class ABMRefinanciacion extends ABMPageBean {
 	}
 
 	public void btnActualizarDeuda_action() {
+		guardarEstadoObjetosUsados();
 		DocumentoRefinanciacion locRefinanciacion = (DocumentoRefinanciacion) this.obtenerObjetoDelElementoPila(0, DocumentoRefinanciacion.class);
-		List<CuotaRefinanciacion> listaCuotas = new ArrayList<CuotaRefinanciacion>();
-
-		for(Object obj : locRefinanciacion.getListaRegistrosDeuda()) {
-			CuotaRefinanciacion cuota = (CuotaRefinanciacion) obj;
-			if(cuota.getEstado() == RegistroDeuda.EstadoRegistroDeuda.VENCIDA) {
-				cuota.calcularRecargo();
-				cuota.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
-				cuota.setFechaVencimiento(Util.getFechaActualFormatoSimple());
-			}
-
-			listaCuotas.add(cuota);
+		Date fechaActualizar = (Date) obtenerObjetoDelElementoPila(3);
+		Boolean intereses = (Boolean) obtenerObjetoDelElementoPila(4);
+		
+		for (CuotaRefinanciacion cadaCuota : getCuotasSeleccionadas()) {
+			cadaCuota.calcularRecargo(intereses, fechaActualizar);
 		}
-
-		this.ordenarListaCuotas(listaCuotas);
-
 		try {
-			locRefinanciacion.getListaRegistrosDeuda().clear();
-			locRefinanciacion.getListaRegistrosDeuda().addAll(listaCuotas);
-
 			this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().setLlave(this.getSessionBean1().getLlave());
 			this.getCommunicationSAICBean().getRemoteSystemLiquidacionTasa().updateRefinanciacion(locRefinanciacion);
 
@@ -1888,8 +1909,8 @@ public class ABMRefinanciacion extends ABMPageBean {
 			e.printStackTrace();
 		}
 
-		this.setListaDelCommunication(new ArrayList(locRefinanciacion.getListaRegistrosDeuda()));
-		this.getObjectListDataProviderTabla1().setList(this.getListaDelCommunication());
+//		this.setListaDelCommunication(new ArrayList(locRefinanciacion.getListaRegistrosDeuda()));
+//		this.getObjectListDataProviderTabla1().setList(this.getListaDelCommunication());
 	}
 
 	public String btnVerPeriodos_action() {
@@ -1936,6 +1957,25 @@ public class ABMRefinanciacion extends ABMPageBean {
 
 		return retorno;
 	}
+	
+	private List<CuotaRefinanciacion> getCuotasSeleccionadas() {
+		List<CuotaRefinanciacion> cuotasSeleccionadas = new ArrayList<CuotaRefinanciacion>();
+		RowKey[] selectedRowKeys = getTableRowGroup1().getSelectedRowKeys();
+
+		if(selectedRowKeys.length > 0) {
+			boolean noVigente = false;
+			for(int i = 0; i < selectedRowKeys.length; i++) {
+				String rowId = selectedRowKeys[i].getRowId();
+				RowKey rowKey = this.getObjectListDataProviderTabla1().getRowKey(rowId);
+				Object obj = this.getObjectListDataProviderTabla1().getObjects()[Integer.valueOf(rowKey.getRowId()).intValue()];
+
+				CuotaRefinanciacion c = (CuotaRefinanciacion) obj;
+
+				cuotasSeleccionadas.add(c);
+			}
+		}
+		return cuotasSeleccionadas;
+	}
 
 	public String btnImprimirCuotasGeneradas_action() {
 		String retorno = null;
@@ -1943,56 +1983,55 @@ public class ABMRefinanciacion extends ABMPageBean {
 
 		if(ultimo) {
 			this.guardarEstadoObjetosUsados();
-			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 			try {
-				List<CuotaRefinanciacion> cuotasSeleccionadas = new ArrayList<CuotaRefinanciacion>();
-				RowKey[] selectedRowKeys = getTableRowGroup1().getSelectedRowKeys();
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+				List<CuotaRefinanciacion> cuotasSeleccionadas = getCuotasSeleccionadas();
+				cuotasSeleccionadas = quitarCuotasPagadasSegunPermiso(cuotasSeleccionadas);
 
-				if(selectedRowKeys.length > 0) {
-					boolean noVigente = false;
-					for(int i = 0; i < selectedRowKeys.length; i++) {
-						String rowId = selectedRowKeys[i].getRowId();
-						RowKey rowKey = this.getObjectListDataProviderTabla1().getRowKey(rowId);
-						Object obj = this.getObjectListDataProviderTabla1().getObjects()[Integer.valueOf(rowKey.getRowId()).intValue()];
+				if(!cuotasSeleccionadas.isEmpty()) {
+					 ordenarListaCuotas(cuotasSeleccionadas);
 
-						CuotaRefinanciacion c = (CuotaRefinanciacion) obj;
+					this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
+					JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteListadoCuotasRefinanciacion(cuotasSeleccionadas);
 
-						if(!c.getEstado().equals(EstadoRegistroDeuda.VIGENTE)) {
-							noVigente = true;
-							break;
-						}
-
-						cuotasSeleccionadas.add(c);
-					}
-
-					if(!noVigente) {
-						 ordenarListaCuotas(cuotasSeleccionadas);
-
-						this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
-						JasperPrint jp = this.getCommunicationSAICBean().getRemoteSystemImpresion().getReporteListadoCuotasRefinanciacion(cuotasSeleccionadas);
-
-						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.PDF);
-						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_CuotasRefinanciacion");
-						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
-					} else {
-						retorno = null;
-						warn("Una o mas cuotas estan VENCIDAS. Actualice la deuda.");
-						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
-					}
+					subirReporteASesion("Reporte_CuotasRefinanciacion", ConstantesReportes.PDF, jp);
 				} else {
 					retorno = null;
-					warn("Seleccione al menos una Cuota.");
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
+					warn("Solo se pueden imprimir cuotas VIGENTES.");
+					subirErrorEnReporteASesion();
 				}
-			} catch(Exception e) {
-				log(CASO_NAVEGACION + "_ReporteDinamicoError: ", e);
-				error(NOMBRE_PAGINA + " - ReporteDinamico: " + e.getMessage());
+			} catch (Exception e) {
+				error(e.getMessage());
+				subirErrorEnReporteASesion();
 			}
 		} else {
 			retorno = this.prepararCaducidad();
 		}
 
 		return retorno;
+	}
+	
+	private List<CuotaRefinanciacion> quitarCuotasPagadas(List<CuotaRefinanciacion> pListaCuotas) {
+		List<CuotaRefinanciacion> locListaResultado = new ArrayList<CuotaRefinanciacion>();
+		for(Iterator<CuotaRefinanciacion> it = pListaCuotas.iterator(); it.hasNext();) {
+			CuotaRefinanciacion cuotaRefinanciacion = it.next();
+			if(cuotaRefinanciacion.getEstado() == EstadoRegistroDeuda.VIGENTE) {
+				locListaResultado.add(cuotaRefinanciacion);
+			}
+		}
+		return locListaResultado;
+	}
+
+	private List<CuotaRefinanciacion> quitarCuotasPagadasSegunPermiso(
+			List<CuotaRefinanciacion> pListaCuotas) throws Exception{
+		boolean permiso = SecurityMgr.getInstance().getPermiso(
+						this.getSessionBean1().getLlave(),
+						DocumentoRefinanciacion.serialVersionUID, 
+						Permiso.Accion.AUDITH);
+		if(!permiso) {
+			return quitarCuotasPagadas(pListaCuotas);
+		}
+		return pListaCuotas;
 	}
 
 	public String btnImprimirTodas_action() {
@@ -2004,16 +2043,9 @@ public class ABMRefinanciacion extends ABMPageBean {
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 			try {
 				List<CuotaRefinanciacion> cuotasSeleccionadas = this.getListaDelCommunication();
+				cuotasSeleccionadas = quitarCuotasPagadasSegunPermiso(cuotasSeleccionadas);
 
-				boolean noVigente = false;
-				for(CuotaRefinanciacion cadaCuota : cuotasSeleccionadas) {
-					if(!cadaCuota.getEstado().equals(EstadoRegistroDeuda.VIGENTE)) {
-						noVigente = true;
-						break;
-					}
-				}
-
-				if(!noVigente) {
+				if(!cuotasSeleccionadas.isEmpty()) {
 					ordenarListaCuotas(cuotasSeleccionadas);
 
 					this.getCommunicationSAICBean().getRemoteSystemImpresion().setLlave(this.getSessionBean1().getLlave());
@@ -2024,7 +2056,7 @@ public class ABMRefinanciacion extends ABMPageBean {
 					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
 				} else {
 					retorno = null;
-					warn("Una o mas cuotas estan VENCIDAS. Actualice la deuda.");
+					warn("Solo se pueden imprimir cuotas VIGENTES.");
 					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
 				}
 			} catch(Exception e) {
@@ -2034,7 +2066,6 @@ public class ABMRefinanciacion extends ABMPageBean {
 		} else {
 			retorno = this.prepararCaducidad();
 		}
-
 		return retorno;
 	}
 

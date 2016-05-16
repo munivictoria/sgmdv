@@ -29,7 +29,7 @@ public class Reliquidacion extends RegistroCancelacion {
 	public static Reliquidacion getInstance(LiquidacionTasa pLiquidacionTasa){
 		Reliquidacion locReliquidacion = new Reliquidacion();
 		locReliquidacion.setDeuda(pLiquidacionTasa);
-		pLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
+//		pLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
 		//Le comento esta linea porque esta trayendo problemas para 
 		//obtener el estado de la Liquidacion luego
 //		pLiquidacionTasa.setEstado(EstadoRegistroDeuda.RELIQUIDADA);

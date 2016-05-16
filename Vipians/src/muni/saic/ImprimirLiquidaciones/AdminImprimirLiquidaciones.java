@@ -104,11 +104,10 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 
 	@Override
 	protected void _init() throws Exception {
-		Option[] opTipoTasa = new Option[2];
-		Option opcion = new Option("Servicios Municipales");
-		opTipoTasa[0] = opcion;
-		Option opcion2 = new Option("TSH");
-		opTipoTasa[1] = opcion2;
+		Option[] opTipoTasa = new Option[3];
+		opTipoTasa[0] = new Option("Servicios Municipales");
+		opTipoTasa[1] = new Option("TSH");
+		opTipoTasa[2] = new Option("Cementerio");
 		rbgTipoObligacionOptions.setOptions(opTipoTasa);
 
 		if(this.getListaDelCommunication() != null) {
@@ -179,8 +178,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 			if(ddCuotasOptions.getOptions().length > 1) {
 				llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalTGI(null).keySet());
 			}
-		}
-		if(opcionSeleccionada.equalsIgnoreCase("TSH")) {
+		} else if(opcionSeleccionada.equalsIgnoreCase("TSH")) {
 			llenarDD(ddAniosOptions, this.getCommunicationSAICBean().getMapaAniosCalendarioMunicipalSHPS().keySet());
 			llenarDD(ddCalendariosOptions, this.getCommunicationSAICBean().getMapaCalendariosSHPS(null).keySet());
 			if(ddCalendariosOptions.getOptions().length < 1) {
@@ -189,8 +187,19 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 			if(ddCuotasOptions.getOptions().length > 1) {
 				llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalSHPS(null).keySet());
 			}
+		} else if(opcionSeleccionada.equalsIgnoreCase("Cementerio")) {
+			String opcion = llenarDD(ddAniosOptions, this.getCommunicationSAICBean().getMapaAniosCalendarioMunicipalCementerio().keySet());
+			if (opcion == null)
+				return;
+			opcion = llenarDD(ddCalendariosOptions, this.getCommunicationSAICBean().getMapaCalendariosCementerio(opcion).keySet());
+			if (opcion == null)
+				return;
+			opcion = llenarDD(ddPeriodosOptions, this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalCementerio(opcion).keySet());
+			if (opcion == null)
+				return;
+			opcion = llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalCementerio(null).keySet());
 		}
-	}
+	} 
 
 	private String getAnioCorriente() {
 		String anioActual = new Integer(Calendar.getInstance().get(Calendar.YEAR)).toString();
@@ -283,6 +292,8 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				opcion = llenarDD(ddCalendariosOptions, pAnio.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCalendariosTGI(pAnio).keySet());
 			} else if(opcionSeleccionada.equals("TSH")) {
 				opcion = llenarDD(ddCalendariosOptions, pAnio.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCalendariosSHPS(pAnio).keySet());
+			} else if(opcionSeleccionada.equals("Cementerio")) {
+				opcion = llenarDD(ddCalendariosOptions, pAnio.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCalendariosCementerio(pAnio).keySet());
 			}
 		}
 		seleccionarCalendario(opcion, true);
@@ -296,6 +307,8 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				opcion = llenarDD(ddPeriodosOptions, pCalendario.isEmpty() ? null : this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalTGI(pCalendario).keySet());
 			} else if(opcionSeleccionada.equals("TSH")) {
 				opcion = llenarDD(ddPeriodosOptions, pCalendario.isEmpty() ? null : this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalSHPS(pCalendario).keySet());
+			} else if(opcionSeleccionada.equals("Cementerio")) {
+				opcion = llenarDD(ddPeriodosOptions, pCalendario.isEmpty() ? null : this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalCementerio(pCalendario).keySet());
 			}
 		}
 		seleccionarPeriodo(opcion, true);
@@ -310,6 +323,8 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 					opcion = llenarDD(ddCuotasOptions, pPeriodo.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalTGI(pPeriodo).keySet());
 				}
 			} else if(opcionSeleccionada.equals("TSH")) {
+				opcion = llenarDD(ddCuotasOptions, pPeriodo.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalSHPS(pPeriodo).keySet());
+			}  else if(opcionSeleccionada.equals("Cementerio")) {
 				opcion = llenarDD(ddCuotasOptions, pPeriodo.isEmpty() ? null : this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalSHPS(pPeriodo).keySet());
 			}
 		}
@@ -1140,7 +1155,9 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				this.rbgTipoObligacion.setSelected("Servicios Municipales");
 			} else if(opcionSeleccionada.equalsIgnoreCase("TSH")) {
 				this.rbgTipoObligacion.setSelected("TSH");
-			}
+			} else if(opcionSeleccionada.equalsIgnoreCase("Cementerio")) {
+				this.rbgTipoObligacion.setSelected("Cementerio");
+			} 
 		}
 
 		if(!ocurrioEventoSeleccion) {
@@ -1154,6 +1171,11 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				llenarDD(ddCalendariosOptions, this.getCommunicationSAICBean().getMapaCalendariosSHPS(null).keySet());
 				llenarDD(ddPeriodosOptions, this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalSHPS(null).keySet());
 				llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalSHPS(null).keySet());
+			} else if(opcionSeleccionada.equalsIgnoreCase("Cementerio")) {
+				llenarDD(ddAniosOptions, this.getCommunicationSAICBean().getMapaAniosCalendarioMunicipalCementerio().keySet());
+				llenarDD(ddCalendariosOptions, this.getCommunicationSAICBean().getMapaCalendariosCementerio(null).keySet());
+				llenarDD(ddPeriodosOptions, this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalCementerio(null).keySet());
+				llenarDD(ddCuotasOptions, this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalCementerio(null).keySet());
 			}
 		}
 	}
@@ -1225,6 +1247,16 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 
 				try {
 					listaTipoTasa.add(this.getCommunicationHabilitacionesBean().getRemoteSystemTipoTasa().findListaTipoObligacion("Shps", null).get(0));
+				} catch(TrascenderException e) {
+					e.printStackTrace();
+				}
+			} else if(tasaSeleccionada.equalsIgnoreCase("Cementerio")) {
+				locCalendario = this.getCommunicationSAICBean().getMapaCalendariosCementerio(anioSeleccionado).get(calendarioSeleccionado);
+				locPeriodo = this.getCommunicationSAICBean().getMapaPeriodosCalendarioMunicipalCementerio(calendarioSeleccionado).get(periodoCalendarioSeleccionado);
+				locCuota = this.getCommunicationSAICBean().getMapaCuotasCalendarioMunicipalCementerio(periodoCalendarioSeleccionado).get(cuotaSeleccionada);
+
+				try {
+					listaTipoTasa.add(this.getCommunicationHabilitacionesBean().getRemoteSystemTipoTasa().findListaTipoObligacion("Cementerio", null).get(0));
 				} catch(TrascenderException e) {
 					e.printStackTrace();
 				}
@@ -1616,6 +1648,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				if(locLiquidacion.getEstado().equals("VIGENTE") || (locLiquidacion.getEstado().equals("VENCIDA")) || (locLiquidacion.getEstado().equals("NO_OPTADA"))) {
 					obj = this.getCommunicationSAICBean().getRemoteSystemEstadoCuentaContribuyente().inicializarLiquidacionTasaAgrupada(locLiquidacion);
 					this.getRequestBean1().setObjetoABM(obj);
+					this.getCommunicationSAICBean().getSeleccionadosSeleccionMultipleImprimirLiquidaciones().clear();
 					retorno = "GenerarReliquidacion";
 				} else {
 					warn("S\363lo pueden Reliquidarse obligaciones Vigentes, Vencidas y No Optadas.");
@@ -1650,8 +1683,8 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				this.getRequestBean1().setObjetoABM(listaLiquidacionesAgrupadas);
 				this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 				this.getRequestBean1().setAbmController(new ReliquidarVariasModel().new ReliquidarVariasController());
+				this.getCommunicationSAICBean().getSeleccionadosSeleccionMultipleImprimirLiquidaciones().clear();
 				retorno = "ReliquidarVarias";
-
 			} else {
 				warn("Debe seleccionar una liquidación");
 				return null;
@@ -1744,7 +1777,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 		List<LiquidacionTasaRefer> locListaResultado = new ArrayList<LiquidacionTasaRefer>();
 		for(Iterator<LiquidacionTasaRefer> it = pListaLiquidaciones.iterator(); it.hasNext();) {
 			LiquidacionTasaRefer liquidacionTasaRefer = it.next();
-			if(!liquidacionTasaRefer.getEstado().equals("PAGADA") && !liquidacionTasaRefer.getEstado().equals("NO_OPTADA")) {
+			if(!liquidacionTasaRefer.getEstado().startsWith("PAGADA") && !liquidacionTasaRefer.getEstado().equals("NO_OPTADA")) {
 				locListaResultado.add(liquidacionTasaRefer);
 			}
 		}
@@ -1842,7 +1875,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				List<LiquidacionTasaAgrupada> listaLiquidacionesAgrupadas = new ArrayList<LiquidacionTasaAgrupada>();
 
 				for(LiquidacionTasaRefer cadaLiquidacionRefer : listaLiquidacionesRefer) {
-					if(cadaLiquidacionRefer.getEstado().equals("PAGADA") || cadaLiquidacionRefer.getEstado().equals("RELIQUIDADA")) {
+					if(cadaLiquidacionRefer.getEstado().startsWith("PAGADA") || cadaLiquidacionRefer.getEstado().equals("RELIQUIDADA")) {
 						warn("Las Liquidaciones seleccionadas no deben estar en estado PAGADA o RELIQUIDADA");
 						return null;
 					}
@@ -1904,7 +1937,7 @@ public class AdminImprimirLiquidaciones extends AdminPageBean {
 				List<LiquidacionTasaAgrupada> listaLiquidacionesAgrupadas = new ArrayList<LiquidacionTasaAgrupada>();
 
 				for(LiquidacionTasaRefer cadaLiquidacionRefer : listaLiquidacionesRefer) {
-					if(!cadaLiquidacionRefer.getEstado().equals("PAGADA")) {
+					if(!cadaLiquidacionRefer.getEstado().startsWith("PAGADA")) {
 						warn("Las Liquidaciones seleccionadas deben estar en estado PAGADA");
 						return null;
 					}

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cuotas_Refinanciacion" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.7261356071965555"/>
 	<property name="ireport.x" value="245"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.y" value="387"/>
 	<parameter name="P_DOCUMENTO_REFINANCIACION" class="com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion"/>
 	<parameter name="P_TITULO" class="java.lang.String"/>
 	<parameter name="PAR_IMAGEN" class="net.sf.jasperreports.engine.JRImageRenderer"/>
@@ -163,7 +163,7 @@ $P{P_DOCUMENTO_REFINANCIACION}.getObligacion().getPersona()]]></textFieldExpress
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" isBold="true" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getMonto() +$F{F_CUOTA_REFINANCIACION}.getInteres() + $F{F_CUOTA_REFINANCIACION}.getRecargo()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getMonto()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="490" y="276" width="48" height="20"/>
@@ -184,7 +184,7 @@ $P{P_DOCUMENTO_REFINANCIACION}.getObligacion().getPersona()]]></textFieldExpress
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getMonto()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{F_CUOTA_REFINANCIACION}.getValorCuota()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="105" y="8" width="303" height="20"/>

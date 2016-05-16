@@ -23,6 +23,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.kohsuke.rngom.digested.DInterleavePattern;
+
 import ar.trascender.util.ReflectionUtils;
 
 import com.sun.rave.web.ui.appbase.AbstractSessionBean;
@@ -37,6 +39,7 @@ import com.trascender.framework.recurso.persistent.PersonaFisica;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.persistent.reporteDinamico.Reporte;
 import com.trascender.framework.recurso.transients.AtributoConsultable;
+import com.trascender.framework.recurso.transients.AtributoConsultable.Tipo;
 import com.trascender.framework.system.interfaces.SystemParametro;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TListMap;
@@ -503,7 +506,8 @@ public class SessionBean1 extends AbstractSessionBean {
 					});
 
 					for(ConfiguracionAtributoTabla cadaAtributo : listaOrdenada) {
-						locListaResultado.add(new AtributoConsultable(ReflectionUtils.decapitalizeOnlyFirst(cadaAtributo.getNombreAtributo()),
+						String nombre = cadaAtributo.getTipoDato() != Tipo.ATRIBUTO_DINAMICO ? ReflectionUtils.decapitalizeOnlyFirst(cadaAtributo.getNombreAtributo()) :cadaAtributo.getNombreAtributo();
+						locListaResultado.add(new AtributoConsultable(nombre,
 								cadaAtributo.getNombreAtributoTabla() != null && !cadaAtributo.getNombreAtributoTabla().isEmpty() ? cadaAtributo.getNombreAtributoTabla() : cadaAtributo
 										.getNombreAtributo(), cadaAtributo.getTipoDato(), cadaAtributo.getAnchoColumna()));
 					}

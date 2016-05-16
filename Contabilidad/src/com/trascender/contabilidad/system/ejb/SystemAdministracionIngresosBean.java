@@ -1040,4 +1040,13 @@ public class SystemAdministracionIngresosBean implements SystemAdministracionIng
 		return locIngresoVario.findListaAuxIdConceptoIngresoVario(cadena, locUsuario);
 	}
 	
+	@Override
+	public void actualizarDeudaIngresoVario(IngresoVario pIngresoVario, Date pFecha, boolean pAplicarInteres) throws TrascenderException {
+		try {
+			this.locIngresoVario.actualizarDeudaIngresoVario(pIngresoVario, pFecha, pAplicarInteres);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

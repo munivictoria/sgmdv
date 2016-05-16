@@ -12,8 +12,8 @@ import jasper.ConstantesReportes;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.context.FacesContext;
 
@@ -42,7 +42,6 @@ import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.AdminPageBean;
 import com.trascender.presentacion.abstracts.PaginatedTable;
 import com.trascender.presentacion.navegacion.ElementoPila;
-import com.trascender.presentacion.reportes.ImpresionReporteDinamico;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
 
 public class AdminIngresoVario extends AdminPageBean {
@@ -61,6 +60,17 @@ public class AdminIngresoVario extends AdminPageBean {
 	private HtmlAjaxCommandButton btnLimpiarConcepto = new HtmlAjaxCommandButton();
 	private TextField tfConcepto = new TextField();
 	private Button btnRefinanciar = new Button();
+	private TextField tfNumero = new TextField();
+	
+	private Button btnActualizarDeuda = new Button();
+
+	public Button getBtnActualizarDeuda() {
+		return btnActualizarDeuda;
+	}
+
+	public void setBtnActualizarDeuda(Button btnActualizarDeuda) {
+		this.btnActualizarDeuda = btnActualizarDeuda;
+	}
 	
 	public Button getBtnRefinanciar() {
 		return btnRefinanciar;
@@ -205,6 +215,14 @@ public class AdminIngresoVario extends AdminPageBean {
 	public void setTfFechaHasta(TextField tfFechaHasta) {
 		this.tfFechaHasta = tfFechaHasta;
 	}
+	
+	public TextField getTfNumero() {
+		return tfNumero;
+	}
+
+	public void setTfNumero(TextField tfNumero) {
+		this.tfNumero = tfNumero;
+	}
 
 	@Override
 	protected void _init() throws Exception {
@@ -243,6 +261,8 @@ public class AdminIngresoVario extends AdminPageBean {
 		
 		locFiltro.setFechaDesde(this.getTextFieldValueDate(this.tfFechaDesde));
 		locFiltro.setFechaHasta(this.getTextFieldValueDate(this.tfFechaHasta));
+		
+		locFiltro.setNumero(getTextFieldValueInteger(tfNumero));
 	}
 
 	@Override
@@ -262,7 +282,8 @@ public class AdminIngresoVario extends AdminPageBean {
 		
 		setTextFieldValueDate(this.tfFechaDesde, locFiltro.getFechaDesde());
 		setTextFieldValueDate(this.tfFechaHasta, locFiltro.getFechaHasta());
-
+		
+		setTextFieldValueInteger(this.tfNumero, locFiltro.getNumero());
 	}
 
 	@Override
@@ -271,6 +292,7 @@ public class AdminIngresoVario extends AdminPageBean {
 		locFiltro.setConceptoIngresoVario(null);
 		locFiltro.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
 		locFiltro.setPersona(null);
+		locFiltro.setNumero(null);
 
 		this.getSessionBean1().setPersonaSeleccionada(null);
 		this.getSessionBean1().getListaIdPersonas().clear();
@@ -282,6 +304,7 @@ public class AdminIngresoVario extends AdminPageBean {
 		
 		this.setTextFieldValueDate(this.tfFechaDesde, new Date());
 		this.setTextFieldValueDate(this.tfFechaHasta, new Date());
+		this.limpiarObjeto(this.tfNumero);
 	}
 
 	@Override
@@ -377,29 +400,6 @@ public class AdminIngresoVario extends AdminPageBean {
 		return toAbm(new IngresoVarioModel().new ConsultarIngresoVarioController());
 	}
 
-	public String btnExportar_action() {
-		String retorno = null;
-		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
-
-		if(ultimo) {
-			try {
-				JasperPrint jp = ImpresionReporteDinamico.imprimirLista(this.getListaDelCommunication(), this.getTableRowGroup1(), "Reporte Din\341mico de Ingresos Varios");
-
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.XLSX);
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_SelladosAdministrativos");
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
-
-			} catch(Exception e) {
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
-				log(CASO_NAVEGACION + "_ReporteDinamicoError: ", e);
-				error(NOMBRE_PAGINA + " - ReporteDinamico: " + e.getMessage());
-			}
-		} else {
-			retorno = this.prepararCaducidad();
-		}
-		return retorno;
-	}
-
 	public String btnImprimir_action() {
 		String retorno = null;
 		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
@@ -478,6 +478,41 @@ public class AdminIngresoVario extends AdminPageBean {
 	@Override
 	protected String getCasoNavegacion() {
 		return "AdminIngresoVario";
+	}
+	
+	public String btnActualizarDeuda_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		this.guardarEstadoObjetosUsados();
+
+		if(ultimo) {
+			IngresoVario ingresoVario = (IngresoVario) getObjetoSeleccionado();
+			if(ingresoVario == null) {
+				return null;
+			}
+			if(ingresoVario.getConceptoIngresoVario().getTipoTasa() == null) {
+				warn("Solo se pueden actualizar los Ingresos Varios que tengan una Fórmula de Cáculo.");
+
+				return null;
+			}
+
+			// Se hizo una lista por las dudas si el dia de mañana quieren seleccionar varios Ingresos Varios para actualizarlos U_U
+			List<IngresoVario> listaIngresosVarios = new ArrayList<IngresoVario>();
+			listaIngresosVarios.add(ingresoVario);
+
+			this.getCommunicationSAICBean().setSeleccionadosSeleccionMultipleActualizarDeudaIngresoVario(new HashSet());
+			
+			this.getRequestBean1().setObjetoABM(listaIngresosVarios);
+			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
+			this.getRequestBean1().setAbmController(new ActualizarDeudaIngresoVarioModel().new ActualizarController());
+
+			retorno = "ABMActualizarDeudaIngresoVario";
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+
+		return retorno;
 	}
 	
 	public String btnRefinanciar_action() {

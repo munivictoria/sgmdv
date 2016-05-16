@@ -925,3 +925,82 @@ create sequence gen_id_condonacion_registro_deuda;
 alter sequence gen_id_condonacion_registro_deuda owner to vipians;
 
 insert into log_scripts_corridos values(127,127,now());
+
+alter table tasa_nominal_anual alter column interes type numeric(10,8);
+alter table cuota_refinanciac add fecha_vencimiento_original date;
+update cuota_refinanciac set fecha_vencimiento_original = fecha_vencimiento;
+
+insert into log_scripts_corridos values(128,128,now());
+
+alter table ingreso_vario add fecha_vencimiento date;
+alter table ingreso_vario add fecha_vencimiento_original date;
+alter table concepto_ingreso_vario add id_tipo_tasa clave;
+
+update ingreso_vario set fecha_vencimiento = fecha_emision;
+update ingreso_vario set fecha_vencimiento_original = fecha_emision;
+
+alter table ingreso_vario add interes importe default 0;
+
+insert into log_scripts_corridos values(129,129,now());
+
+-- Function: eliminar_liquidaciones(text)
+
+-- DROP FUNCTION eliminar_liquidaciones(text);
+
+CREATE OR REPLACE FUNCTION eliminar_liquidaciones(nombre_tabla_temp text)
+  RETURNS text AS
+$BODY$
+declare
+sql text;
+BEGIN
+
+sql = 'delete from rela_modif_liq_liq_t rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+sql = 'delete from rela_par_val_liq_t rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+sql = 'delete from rela_venc_liq_t rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+sql = 'delete from liquidacion_tasa rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+sql = 'delete from rela_liq_t_alic_liq rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+sql = 'delete from registro_deuda rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+sql = 'delete from rela_liq_t_alic_liq rela using '||nombre_tabla_temp||' deu
+	where rela.id_registro_deuda = deu.id_registro_deuda;';
+RAISE NOTICE '%', sql;
+execute sql;
+
+return 'Exito';
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION eliminar_liquidaciones(text)
+  OWNER TO vipians;
+COMMENT ON FUNCTION eliminar_liquidaciones(text) IS 'Elimina las liquidaciones y todo lo relacionado a ellas, joineando con el nombre de la tabla 
+pasada por parametro. Dicha tabla debe tener la columna ID_REGISTRO_DEUDA';
+
+alter table difunto alter column id_persona drop not null;
+
+alter table difunto add difunto varchar(255);
+
+alter table ingreso_vario alter column observaciones type varchar(500);

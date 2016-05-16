@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FECHA_DESDE" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FECHA_HASTA" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select tc.numero as numero_ticket,
+case when iv.id_registro_deuda is not null then 'Contado' else 'Cuota '||cuota.numero_cuota||' de '||ref.cantidad_cuotas end as plan,
+coalesce(iv.numero, ref.numero_refinanciacion) as numero_ingreso_plan,
+coalesce(iv.observaciones, ivplan.observaciones) as observaciones,
+coalesce(pj.razon_social, pf.nombre||' '||pf.apellido) as nombre,
+p.cuim,tc.importe, u.usuario, c.nombre as caja
+from ticket_caja tc
+join detalle_ticket_caja dt on dt.id_ticket_caja = tc.id_ticket_caja
+join caja c on c.id_caja = tc.id_caja
+join usuario u on u.id_usuario = tc.id_usuario
+join registro_deuda rd on rd.id_registro_cancelacion = dt.id_registro_cancelacion
+join doc_generador_deuda doc on doc.id_doc_generador_deuda = rd.id_doc_generador_deuda
+join obligacion o on o.id_obligacion = doc.id_obligacion
+join persona p on p.id_persona = o.id_persona
+left join persona_fisica pf on pf.id_persona = p.id_persona
+left join persona_juridica pj on pj.id_persona = p.id_persona
+left join ingreso_vario iv on iv.id_registro_deuda = rd.id_registro_deuda
+left join cuota_refinanciac cuota on cuota.id_registro_deuda = rd.id_registro_deuda
+left join documento_refinanciacion ref on ref.id_doc_generador_deuda = doc.id_doc_generador_deuda
+left join reg_canc_por_ref reg_can on reg_can.id_doc_generador_deuda = ref.id_doc_generador_deuda
+left join registro_deuda reg_deuda_plan on reg_deuda_plan.id_registro_cancelacion = reg_can.id_registro_cancelacion
+left join ingreso_vario ivplan on ivplan.id_registro_deuda = reg_deuda_plan.id_registro_deuda
+where (iv.id_concepto_ingreso_vario = 258 or ivplan.id_concepto_ingreso_vario = 258)
+and ($P{FECHA_DESDE}::date is null or tc.fecha >= $P{FECHA_DESDE})
+and ($P{FECHA_HASTA}::date is null or tc.fecha <= $P{FECHA_HASTA})
+and tc.estado = 'ACTIVO'
+order by tc.numero]]>
+	</queryString>
+	<field name="numero_ticket" class="java.math.BigDecimal"/>
+	<field name="plan" class="java.lang.String"/>
+	<field name="numero_ingreso_plan" class="java.lang.Integer"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="cuim" class="java.lang.String"/>
+	<field name="importe" class="java.math.BigDecimal"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="caja" class="java.lang.String"/>
+	<variable name="IMPORTE_TOTAL" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="553" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingresos en concepto de Multas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="102" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{FECHA_DESDE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Desde fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="20" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Hasta fecha]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="102" y="20" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{FECHA_HASTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="0" width="41" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="519" y="0" width="32" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="0" width="39" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="0" width="39" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="45" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="0" width="33" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Ingreso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="0" width="86" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Cuit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="237" y="0" width="176" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="0" width="39" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Caja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="0" width="37" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Cajero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="0" width="66" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="0" width="73" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[F. de pago]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="20" width="515" height="20"/>
+				<box bottomPadding="0">
+					<bottomPen lineWidth="0.0" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="45" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{numero_ticket}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="0" width="33" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{numero_ingreso_plan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="151" y="0" width="86" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cuim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="0" width="176" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="0" width="39" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{caja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="0" width="37" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="489" y="0" width="66" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="0" width="73" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{plan}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="53" splitType="Stretch">
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="455" y="16" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{IMPORTE_TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="16" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Ingresos totales]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

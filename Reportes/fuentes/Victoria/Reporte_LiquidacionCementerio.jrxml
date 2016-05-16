@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cementerio" pageWidth="585" pageHeight="842" columnWidth="585" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.4615378250000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="198"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="P_USUARIO" class="com.trascender.framework.recurso.persistent.Usuario"/>
+	<parameter name="P_LOGO" class="net.sf.jasperreports.engine.JRRenderable"/>
+	<field name="F_LIQUIDACION" class="com.trascender.saic.recurso.persistent.LiquidacionTasa"/>
+	<field name="F_DOCUMENTO" class="com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio"/>
+	<detail>
+		<band height="400">
+			<rectangle radius="10">
+				<reportElement x="399" y="325" width="170" height="66"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="15" y="104" width="554" height="230"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="402" y="369" width="66" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="32" y="337" width="213" height="36"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128B" drawText="false" checksumRequired="false" barWidth="0" barHeight="5">
+					<jr:codeExpression><![CDATA[$F{F_LIQUIDACION}.getCodigoBarrasEstandar()]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="479" y="339" width="90" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION}.getFechaVencimiento()]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ ###0.00">
+				<reportElement x="468" y="369" width="98" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION}.getMonto()]]></textFieldExpression>
+			</textField>
+			<rectangle radius="10">
+				<reportElement x="18" y="108" width="192" height="110"/>
+			</rectangle>
+			<textField>
+				<reportElement x="23" y="152" width="171" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO}.getObligacion().getPersona().getIdPersona() == 0 ?
+$F{F_DOCUMENTO}.getAtributoDinamicoPorNombre("PERSONA_DE_REFERENCIA") != null?
+$F{F_DOCUMENTO}.getAtributoDinamicoPorNombre("PERSONA_DE_REFERENCIA")
+:$F{F_DOCUMENTO}.getListaAsocRegAlicuota().get(0)
+.getAtributoDinamicoPorNombre("NOMBRE_DE_LA_SEPULTURA")
+:$F{F_DOCUMENTO}.getObligacion().getPersona().getDenominacion()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="143" width="100" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="166" width="100" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Domicilio postal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="23" y="175" width="171" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO}.getDomicilio().getDomicilioArmado()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="18" y="118" width="192" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="69" y="108" width="96" height="11"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Contribuyente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="120" width="100" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Nº de Inscripción]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="18" y="224" width="305" height="105"/>
+			</rectangle>
+			<line>
+				<reportElement x="18" y="234" width="305" height="1"/>
+			</line>
+			<rectangle radius="10">
+				<reportElement x="213" y="109" width="110" height="110"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="326" y="109" width="240" height="220"/>
+			</rectangle>
+			<textField>
+				<reportElement x="23" y="129" width="72" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO}.getNumeroCuenta()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="264" y="161" width="52" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO}
+.getListaAsocRegAlicuota().get(0)
+.getAtributoDinamicoPorNombre("NUM._LUGAR")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="33" y="200" width="76" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período/Año]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="109" y="189" width="85" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION}.getCuotaLiquidacion().getAnio()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="326" y="119" width="240" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="144" y="225" width="50" height="9"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Inhumaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="339" width="77" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vencimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="109" width="107" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Liquidación administrativa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="264" y="334" width="84" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_USUARIO}.getUser()+ "  -"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="337" y="334" width="62" height="9"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="374" width="213" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION}.getCodigoBarrasEstandar()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="215" y="123" width="30" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serv.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="214" y="142" width="30" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zona:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="244" y="123" width="72" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO}
+.getListaRegAlicuotas().iterator().next()
+.getCodigo()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="264" y="142" width="52" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_DOCUMENTO}
+.getListaAsocRegAlicuota().get(0)
+.getAtributoDinamicoPorNombre("ZONA")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="213" y="161" width="51" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Lugar:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="180" width="43" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="198" width="23" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fila:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="264" y="180" width="58" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["--"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="264" y="198" width="52" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["--"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="218" y="109" width="96" height="11"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Ubicación]]></text>
+			</staticText>
+			<line>
+				<reportElement x="213" y="118" width="110" height="1"/>
+			</line>
+			<rectangle radius="10">
+				<reportElement x="15" y="20" width="554" height="75"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="113" y="48" width="454" height="38"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[  Derecho por concesiones, renovaciones y transferencias. Panteones, nichos, urnarios y fosas s/ O. M. 2475.]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="479" y="122" width="73" height="16"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION}.getValorTotal()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="348" y="122" width="131" height="16"/>
+				<textElement/>
+				<text><![CDATA[Derecho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="138" width="131" height="19">
+					<printWhenExpression><![CDATA[$F{F_LIQUIDACION}.getInteres() != null
+&& !$F{F_LIQUIDACION}.getInteres().equals(0D)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Intereses]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="479" y="138" width="73" height="20">
+					<printWhenExpression><![CDATA[$F{F_LIQUIDACION}.getInteres() != null
+&& !$F{F_LIQUIDACION}.getInteres().equals(0D)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{F_LIQUIDACION}.getInteres()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="127" y="28" width="397" height="20"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Municipalidad de Victoria]]></text>
+			</staticText>
+			<image>
+				<reportElement x="28" y="30" width="67" height="54"/>
+				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

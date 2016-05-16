@@ -127,10 +127,8 @@ public class EjecutarReporte extends ABMPageBean {
 		if(this.getRequestBean1().getObjetosSeleccionMultiple() != null
 				&& this.getRequestBean1().getObjetosSeleccionMultiple().size() > 0) {
 			this.getMapaParametros().put("registrosSeleccionados", this.getRequestBean1().getObjetosSeleccionMultiple());
-
 			this.getRequestBean1().setObjetosSeleccionMultiple(null);
 		}
-
 		int ind = 0;
 		this.getElementoPila().getObjetos().set(ind++, reporte);
 	}

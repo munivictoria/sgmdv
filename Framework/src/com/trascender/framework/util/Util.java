@@ -349,6 +349,10 @@ public class Util {
 		}
 		return locCadenaResultado;
 	}
+	
+	public static synchronized BigDecimal getBigDecimalMonto(double valor) {
+		return new BigDecimal(valor).setScale(2, RoundingMode.HALF_UP);
+	}
 
 	public static synchronized double redondear(double valor, int digitos) {
 		BigDecimal bd = new BigDecimal(valor);

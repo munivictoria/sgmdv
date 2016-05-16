@@ -34,6 +34,7 @@ import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.tgi.DocumentoTGI;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.ModificadorLiquidacion;
+import com.trascender.saic.recurso.persistent.ParametroValuado;
 import com.trascender.saic.recurso.transients.LiquidacionTasaAgrupada;
 
 public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
@@ -78,13 +79,15 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 			String nombreContribuyente = "";
 			if (primerLiquidacion.getDocGeneradorDeuda().getObligacion().getPersona().getCuim().equals("99-99999999-9")) {
 				//Tenemos que recuperar el valor del atri dinamico "Apellido y nom de referencia".
+				Object valor = null;
 				if (locDocumento instanceof DocumentoOSP) {
 					//Si el Documento es OSP, debemos buscar la obligacion TGI asociada a la parcela.
 					Obligacion obligacionTGI = getObligacionTGIAsociado(locDocumento.getParcela());
-					nombreContribuyente = getValorDinamicoDeDocumento(obligacionTGI.getDocumentoEspecializado(), "APELLIDO_Y_NOMBRE_DE_REFERENCIA").toString();
+					valor = getValorDinamicoDeDocumento(obligacionTGI.getDocumentoEspecializado(), "APELLIDO_Y_NOMBRE_DE_REFERENCIA");
 				} else {
-					nombreContribuyente = getValorDinamicoDeDocumento(locDocumento, "APELLIDO_Y_NOMBRE_DE_REFERENCIA").toString();
+					valor = getValorDinamicoDeDocumento(locDocumento, "APELLIDO_Y_NOMBRE_DE_REFERENCIA");
 				}
+				nombreContribuyente = valor != null ? valor.toString() : "A designar";
 			}else {
 				nombreContribuyente = primerLiquidacion
 						.getDocGeneradorDeuda().getObligacion().getPersona().getDenominacion();
@@ -141,11 +144,13 @@ public class LiquidacionTasaAgrupadaDS extends TrascenderDataSource{
 								locMapa.put("F_TEXTO_PAGO", "Pago fuera de término");
 							} else {
 								String textoPago;
-								if (cadaLiquidacion
-										.getModificadorPorNombre("Desc. Buen Pagador") != null){
-									textoPago = "No existen liquidaciones pendientes de pago \n- Período no prescripto -";
-								} else {
+								ParametroValuado parMorosoTGI =cadaLiquidacion.getParametroValuadoPorNombre("ES_ALGUN_PROPIETARIO_MOROSO_TGI");
+								ParametroValuado parMorosoOSP =cadaLiquidacion.getParametroValuadoPorNombre("ES_ALGUN_PROPIETARIO_MOROSO_OSP");
+								if ( (parMorosoOSP != null && parMorosoOSP.getValorParametro().equals(1D))
+										|| (parMorosoTGI != null && parMorosoTGI.getValorParametro().equals(1D)) ){
 									textoPago = "Hay deudas por períodos impagos";
+								} else {
+									textoPago = "No existen liquidaciones pendientes de pago \n- Período no prescripto -";
 								}
 								locMapa.put("F_TEXTO_PAGO", textoPago);
 							}

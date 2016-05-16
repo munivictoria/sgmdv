@@ -3,6 +3,7 @@ package com.trascender.presentacion.abstracts.controller;
 import com.trascender.presentacion.validadores.Validador;
 import javax.faces.context.FacesContext;
 import muni.ApplicationBean1;
+import muni.CommunicationContabilidadBean;
 
 /**
  *
@@ -66,7 +67,8 @@ public abstract class ABMModel {
     }
     
     public muni.CommunicationContabilidadBean getCommunicationContabilidadBean() {
-        return (muni.CommunicationContabilidadBean) getSessionBean("CommunicationContabilidadBean");
+        FacesContext context = FacesContext.getCurrentInstance();
+        return (CommunicationContabilidadBean) context.getApplication().evaluateExpressionGet(context, "#{CommunicationContabilidadBean}", CommunicationContabilidadBean.class);
     }
     
     public muni.CommunicationAccionSocialBean getCommunicationAccionSocialBean() {

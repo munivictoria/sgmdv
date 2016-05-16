@@ -38,6 +38,7 @@ public class IngresoVarioDS extends TrascenderDataSource{
 		parametros.put("PAR_NUMERO", locIngresoVario.getNumero());
 		parametros.put("PAR_CONCEPTO", locIngresoVario.getConceptoIngresoVario().getNombre());
 		parametros.put("PAR_OBS_INGRESO_VARIO", locIngresoVario.getObservaciones());
+		parametros.put("PAR_USUARIO", pUser);
 		
 		Persona locPersona = locIngresoVario.getPersona();
 		if(locPersona instanceof PersonaFisica) {
@@ -53,6 +54,7 @@ public class IngresoVarioDS extends TrascenderDataSource{
 //		parametros.put("PAR_OBS", locIngresoVario.getObservaciones());
 		parametros.put("PAR_CODIGOBARRA_INGRESO_VARIO", "2"+ Util.formatString(18, String.valueOf(locIngresoVario.getIdRegistroDeuda())));
 		parametros.put("PAR_IMPUTACIONES_DS", new ImputacionesIngresoVarioDS(locIngresoVario));
+		parametros.put("PAR_INGRESO_VARIO", locIngresoVario);
 	}
 	
 	@Override

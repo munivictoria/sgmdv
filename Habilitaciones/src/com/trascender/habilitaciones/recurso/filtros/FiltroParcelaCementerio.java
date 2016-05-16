@@ -24,7 +24,16 @@ public class FiltroParcelaCementerio extends FiltroAbstracto<ParcelaCementerio>{
 	private List<AtributoDinamico<?>> listaAtributoDinamico;
 	private List<AtributoDinamico<?>> listaAtributoDinamico2;
 	private List<Long> listaIdPersonas;
-		
+	private Integer numeroCuenta;
+	
+	public Integer getNumeroCuenta() {
+		return numeroCuenta;
+	}
+
+	public void setNumeroCuenta(Integer numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
+	}
+
 	public Concesion.TipoConcesion getTipoConcesion() {
 		return tipoConcesion;
 	}

@@ -115,7 +115,10 @@ public class BusinessDocumentoCementerioBean implements BusinessDocumentoCemente
 	}
 
 	public FiltroObligacionCementerio findListaObligacionesCementerio(FiltroObligacionCementerio pFiltro) throws Exception {
-		Criterio locCriterio = Criterio.getInstance(this.entityManager, Obligacion.class).setModoDebug(true).crearAlias("documentoEspecializado", "locDocEsp")
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, Obligacion.class)
+				.setModoDebug(true)
+				.crearAlias("documentoEspecializado", "locDocEsp")
+				.add(Restriccion.IGUAL("locDocEsp.numeroCuenta", pFiltro.getNumeroCuenta()))
 				.add(Restriccion.JPQL("TYPE (locDocEsp) = ".concat(DocumentoCementerio.class.getSimpleName())));
 
 		AtributoDinamico.addRestriccionesCriterio(locCriterio, DocumentoCementerio.serialVersionUID, "idDocHabilitanteEspecializado", "locDocEsp", pFiltro.getListaAtributosDinamicos());
@@ -228,8 +231,13 @@ public class BusinessDocumentoCementerioBean implements BusinessDocumentoCemente
 	}
 
 	public FiltroParcelaCementerio findListaParcelaCementerio(FiltroParcelaCementerio pFiltro) throws Exception {
-		Criterio locCriterio = Criterio.getInstance(this.entityManager, ParcelaCementerio.class).add(Restriccion.IGUAL("registroAlicuota", pFiltro.getTipoSepultura()))
-				.add(Restriccion.IGUAL("listaDifuntos.persona", pFiltro.getPersonaDifunto())).setModoDebug(true);
+		Criterio locCriterio = Criterio.getInstance(this.entityManager, ParcelaCementerio.class)
+				.add(Restriccion.IGUAL("registroAlicuota", pFiltro.getTipoSepultura()))
+				.add(Restriccion.IGUAL("listaDifuntos.persona", pFiltro.getPersonaDifunto()))
+				.add(Restriccion.IGUAL("docHabilitanteEspecializado.numeroCuenta", pFiltro.getNumeroCuenta()))
+				.setModoDebug(true);
+		
+		
 
 		AtributoDinamico.addRestriccionesCriterio(locCriterio, ParcelaCementerio.serialVersionUID, "idAsocRegAlicuota", pFiltro.getListaAtributoDinamico());
 		AtributoDinamico.addRestriccionesCriterio(locCriterio, Concesion.serialVersionUID, "concesion.idTituloPropiedad", pFiltro.getListaAtributoDinamico2());

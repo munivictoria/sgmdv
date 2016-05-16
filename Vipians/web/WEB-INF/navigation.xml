@@ -1892,6 +1892,10 @@
 			<from-outcome>ABMIngresoVario</from-outcome>
 			<to-view-id>/comunes/ABMIngresoVario/ABMIngresoVario.jsp</to-view-id>
 		</navigation-case>
+		<navigation-case>
+   			<from-outcome>ABMActualizarDeudaIngresoVario</from-outcome>
+   			<to-view-id>/comunes/ABMIngresoVario/ABMActualizarDeudaIngresoVario.jsp</to-view-id>
+ 		</navigation-case>
 	</navigation-rule>
 	<!-- Comunes - ConceptoIngresoVario -->
 	<navigation-rule>

@@ -25,6 +25,9 @@ public class CuotaRefinanciacion extends RegistroDeuda {
 
 	@Column(name = "FECHA_VENCIMIENTO")
 	private Date fechaVencimiento;
+	
+	@Column(name = "FECHA_VENCIMIENTO_ORIGINAL")
+	private Date fechaVencimientoOriginal;
 
 	@Column(name = "VALOR_CUOTA")
 	private Double valorCuota;
@@ -35,6 +38,14 @@ public class CuotaRefinanciacion extends RegistroDeuda {
 	private Double saldoCapital;
 	
 	private Double recargo = 0d;
+	
+	public Date getFechaVencimientoOriginal() {
+		return fechaVencimientoOriginal;
+	}
+
+	public void setFechaVencimientoOriginal(Date fechaVencimientoOriginal) {
+		this.fechaVencimientoOriginal = fechaVencimientoOriginal;
+	}
 
 	public CuotaRefinanciacion() {
 		this.setTipoDeuda(TipoDeuda.REFINANCIACION);
@@ -124,17 +135,34 @@ public class CuotaRefinanciacion extends RegistroDeuda {
 		this.recargo = pRecargo;
 	}
 	
-	public Double calcularRecargo() {
-		DocumentoRefinanciacion locDocumentoRefinanciacion = (DocumentoRefinanciacion) this.getDocGeneradorDeuda();
-		Double interesDiario = locDocumentoRefinanciacion.getInteresDiario();
-		
-		// Si la cantidad de dias es faltante (+) entonces no se aplican interes diarios...
-		Integer cantidadDias = this.getCantidadDiasDesdeVencimiento();
-		cantidadDias = (cantidadDias >= 0) ? 0 : cantidadDias;
-		
-		this.recargo = interesDiario * (cantidadDias * (-1)) * this.getValorCuota();
-		
+	public Double calcularRecargo(boolean aplicarInteres, Date fechaVencimiento) {
+		if (aplicarInteres && 
+				(this.getEstado() == EstadoRegistroDeuda.VIGENTE || this.getEstado() == EstadoRegistroDeuda.VENCIDA)) {
+			DocumentoRefinanciacion locDocumentoRefinanciacion = (DocumentoRefinanciacion) this.getDocGeneradorDeuda();
+			Double interesDiario = locDocumentoRefinanciacion.getPlantilla().getInteresPunitorio();
+			// Si la cantidad de dias es faltante (+) entonces no se aplican interes diarios...
+			Integer cantidadDias = this.getCantidadDiasDesdeVencimientoOriginal();
+			cantidadDias = (cantidadDias >= 0) ? 0 : cantidadDias;
+			this.recargo = interesDiario * (cantidadDias * (-1)) * this.getValorCuota();
+			this.recargo = Util.redondear(this.recargo, 2);
+			this.setFechaVencimiento(fechaVencimiento);
+			this.setEstado(RegistroDeuda.EstadoRegistroDeuda.VIGENTE);
+		}  else {
+			this.recargo = 0D;
+		}
 		return this.recargo;
+	}
+	
+	private Integer getCantidadDiasDesdeVencimientoOriginal() {
+		try {
+			return Util.getDiasDiferencia(SecurityMgr.getInstance().getFechaActual().getTime(), this.getFechaVencimientoOriginal());
+		} catch(Exception e) {
+			try {
+				return -1 * Util.getDiasDiferencia(this.getFechaVencimientoOriginal(), SecurityMgr.getInstance().getFechaActual().getTime());
+			} catch(Exception ex) {
+				return 0;
+			}
+		}
 	}
 
 	private Integer getCantidadDiasDesdeVencimiento() {

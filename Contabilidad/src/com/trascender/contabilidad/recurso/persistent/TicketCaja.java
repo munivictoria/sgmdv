@@ -22,10 +22,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.habilitaciones.recurso.persistent.CuotaLiquidacion;
 import com.trascender.habilitaciones.recurso.persistent.DocHabilitanteEspecializado;
 import com.trascender.saic.recurso.interfaces.Pagable;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
+import com.trascender.saic.recurso.persistent.refinanciacion.CuotaRefinanciacion;
+import com.trascender.saic.recurso.persistent.refinanciacion.DocumentoRefinanciacion;
 
 @Entity
 @Table(name = "TICKET_CAJA")
@@ -208,11 +211,20 @@ public class TicketCaja implements Serializable{
 	}
 	
 	public String getNroParcela(){
-		if(this.getDetalles().iterator().next().getDeuda() instanceof LiquidacionTasa){
-			DocHabilitanteEspecializado locDocumento = ((LiquidacionTasa)this.getDetalles().iterator().next().getDeuda()).getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
+		Pagable deuda = this.getDetalles().iterator().next().getDeuda();
+		if(deuda instanceof LiquidacionTasa){
+			LiquidacionTasa liq = (LiquidacionTasa) deuda;
+			DocHabilitanteEspecializado locDocumento = liq.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
 			if(locDocumento.getParcela() != null && locDocumento.getParcela().getNroParcela() != null){
 				return locDocumento.getParcela().getNroParcela().toString();
 			}
+			return liq.getDocGeneradorDeuda().getObligacion().getNroCuentaNroIncripcion();
+		} else if (deuda instanceof CuotaRefinanciacion) {
+			CuotaRefinanciacion cuota = (CuotaRefinanciacion) deuda;
+			return DocumentoRefinanciacion.class.cast(cuota.getDocGeneradorDeuda()).getNumeroRefinanciacion().toString();
+		} else if (deuda instanceof IngresoVario) {
+			IngresoVario iv = (IngresoVario) deuda;
+			return iv.getNumero().toString();
 		}
 		return "";
 	}

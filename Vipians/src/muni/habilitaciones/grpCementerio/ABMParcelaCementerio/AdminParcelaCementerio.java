@@ -55,7 +55,16 @@ public class AdminParcelaCementerio extends AdminPageBean{
 	private TextField tfFechaFinalizacion = new TextField();	
 	private DropDown ddTipoConcesion = new DropDown();
 	private SingleSelectOptionsList ddTipoConcesionDefaultOptions = new SingleSelectOptionsList();
+	private TextField tfNumeroCuenta = new TextField();
 	
+	public TextField getTfNumeroCuenta() {
+		return tfNumeroCuenta;
+	}
+
+	public void setTfNumeroCuenta(TextField tfNumeroCuenta) {
+		this.tfNumeroCuenta = tfNumeroCuenta;
+	}
+
 	public HtmlAjaxCommandButton getBtnLimpiarDifunto() {
 		return btnLimpiarDifunto;
 	}
@@ -231,6 +240,7 @@ public class AdminParcelaCementerio extends AdminPageBean{
 		this.getTfFechaInscripcion().setText("");
 		this.getTfFechaFinalizacion().setText("");
 		this.getDdTipoConcesion().setSelected(null);
+		this.getTfNumeroCuenta().setText(null);
 		
 		FiltroParcelaCementerio locFiltro = (FiltroParcelaCementerio) this.getFiltro();
 		locFiltro.setPersonaDifunto(null);
@@ -239,9 +249,9 @@ public class AdminParcelaCementerio extends AdminPageBean{
 		locFiltro.setTipoConcesion(null);
 		locFiltro.setFechaInscripcion(null);
 		locFiltro.setFechaFinalizacion(null);
+		locFiltro.setNumeroCuenta(null);
 		
 		this.panelAtributoDinamico.limpiarCampos();
-		this.panelAtributoDinamico2.limpiarCampos();
 		
 		this.getSessionBean1().getListaIdPersonas().clear();
 	}
@@ -274,9 +284,10 @@ public class AdminParcelaCementerio extends AdminPageBean{
 		if(locFiltro.getListaAtributoDinamico() != null){
 	        locFiltro.setListaAtributoDinamico((ArrayList) panelAtributoDinamico.obtenerListaAtributosDinamicos(locFiltro.getListaAtributoDinamico()));
 		}
-		if(locFiltro.getListaAtributoDinamico2() != null){
-	        locFiltro.setListaAtributoDinamico2((ArrayList) panelAtributoDinamico2.obtenerListaAtributosDinamicos(locFiltro.getListaAtributoDinamico2()));
-		}
+//		if(locFiltro.getListaAtributoDinamico2() != null){
+//	        locFiltro.setListaAtributoDinamico2((ArrayList) panelAtributoDinamico2.obtenerListaAtributosDinamicos(locFiltro.getListaAtributoDinamico2()));
+//		}
+		locFiltro.setNumeroCuenta(this.getTextFieldValueInteger(tfNumeroCuenta));
 	}
 
 	@Override
@@ -300,6 +311,7 @@ public class AdminParcelaCementerio extends AdminPageBean{
 		if(locFiltro.getTipoConcesion() != null) {
 			this.getDdTipoConcesion().setSelected(locFiltro.getTipoConcesion().toString().toUpperCase());
 		}
+		this.setTextFieldValueInteger(tfNumeroCuenta, locFiltro.getNumeroCuenta());
 	}
 
 	@Override

@@ -30,6 +30,7 @@ import com.trascender.contabilidad.recurso.persistent.Cuenta;
 import com.trascender.contabilidad.recurso.persistent.RelaConceptoIngresoVarioCuenta;
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.navegacion.ElementoPila;
 
@@ -94,6 +95,35 @@ public class ABMConceptoIngresoVario extends ABMPageBean {
 	private Checkbox ckbObligatoria = new Checkbox();
 	private TextField tfMontoPorDefecto = new TextField();
 	private TableColumn tcMontoPorDefecto = new TableColumn();
+	private TextField tfFormulaDeCalculo = new TextField();
+	private Button btnSeleccionarFormulaDeCalculo = new Button();
+	private HtmlAjaxCommandButton btnLimpiarFormulaDeCalculo = new HtmlAjaxCommandButton();
+	
+	public Button getBtnSeleccionarFormulaDeCalculo() {
+		return btnSeleccionarFormulaDeCalculo;
+	}
+
+	public void setBtnSeleccionarFormulaDeCalculo(
+			Button btnSeleccionarFormulaDeCalculo) {
+		this.btnSeleccionarFormulaDeCalculo = btnSeleccionarFormulaDeCalculo;
+	}
+
+	public HtmlAjaxCommandButton getBtnLimpiarFormulaDeCalculo() {
+		return btnLimpiarFormulaDeCalculo;
+	}
+
+	public void setBtnLimpiarFormulaDeCalculo(
+			HtmlAjaxCommandButton btnLimpiarFormulaDeCalculo) {
+		this.btnLimpiarFormulaDeCalculo = btnLimpiarFormulaDeCalculo;
+	}
+
+	public TextField getTfFormulaDeCalculo() {
+		return tfFormulaDeCalculo;
+	}
+
+	public void setTfFormulaDeCalculo(TextField tfFormulaDeCalculo) {
+		this.tfFormulaDeCalculo = tfFormulaDeCalculo;
+	}
 
 	public TextField getTfMontoPorDefecto() {
 		return tfMontoPorDefecto;
@@ -673,6 +703,10 @@ public class ABMConceptoIngresoVario extends ABMPageBean {
 
 		this.getTfNombre().setText(conceptoIngreso.getNombre());
 		this.getTaDescripcion().setText(conceptoIngreso.getDescripcion());
+		
+		if (conceptoIngreso.getTipoTasa() != null) {
+			this.setTextFieldValue(tfFormulaDeCalculo, conceptoIngreso.getTipoTasa().getNombre());
+		}
 
 		this.getObjectListDataProviderCuentas().setList(conceptoIngreso.getListaRelaConceptoIngresoVarioCuenta());
 		this.setListaDelCommunicationCuentas(this.getObjectListDataProviderCuentas().getList());
@@ -711,6 +745,28 @@ public class ABMConceptoIngresoVario extends ABMPageBean {
 			this.guardarEstadoObjetosUsados();
 			this.getRequestBean1().setIdSubSesion(this.getIdSubSesion());
 
+		} else {
+			retorno = this.prepararCaducidad();
+		}
+
+		return retorno;
+	}
+	
+	public String btnSeleccionarFormulaDeCalculo_action() {
+		return navegarParaSeleccionar("AdminTipoTasa");
+	}
+	
+	public String btnLimpiarFormulaDeCalculo_action() {
+		String retorno = null;
+		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
+
+		if(ultimo) {
+			this.limpiarObjeto(getTfFormulaDeCalculo());
+
+			ConceptoIngresoVario concepto = this.obtenerObjetoDelElementoPila(0, ConceptoIngresoVario.class);
+			concepto.setTipoTasa(null);
+
+			this.getElementoPila().getObjetos().set(0, concepto);
 		} else {
 			retorno = this.prepararCaducidad();
 		}
@@ -811,11 +867,12 @@ public class ABMConceptoIngresoVario extends ABMPageBean {
 		if(pObject instanceof Rol) {
 			Rol locRol = (Rol) pObject;
 			locConcepto.getListaRoles().add(locRol);
-		}
-
-		if(pObject instanceof Usuario) {
+		}else if(pObject instanceof Usuario) {
 			Usuario locUsuario = (Usuario) pObject;
 			locConcepto.getListaUsuarios().add(locUsuario);
+		} else if(pObject instanceof TipoTasa) {
+			TipoTasa locTipoTasa = (TipoTasa) pObject;
+			locConcepto.setTipoTasa(locTipoTasa);
 		}
 
 		this.getElementoPila().getObjetos().set(0, locConcepto);

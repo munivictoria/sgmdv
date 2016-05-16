@@ -21,6 +21,7 @@ import ar.trascender.criterio.clases.Restriccion;
 
 import com.trascender.framework.business.interfaces.BusinessCalendarioLocal;
 import com.trascender.framework.exception.TrascenderException;
+import com.trascender.framework.util.FiltroAbstracto;
 import com.trascender.framework.util.SecurityMgr;
 import com.trascender.framework.util.TrascenderEnverListener;
 import com.trascender.framework.util.Util;
@@ -150,6 +151,7 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 				fecha = Util.llevarFechaALunes(fecha);
 			}
 			locCuotaRefinanciacion.setFechaVencimiento(fecha);
+			locCuotaRefinanciacion.setFechaVencimientoOriginal(fecha);
 			
 			locCuotaRefinanciacion.setNumeroRegistroDeuda(i);
 			
@@ -366,25 +368,9 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 	 * @ejb.interface-method view-type = "local"
 	 */
 	public void updateRefinanciacion(DocumentoRefinanciacion pDocumentoRefinanciacion) throws Exception{
-			this.entityManager.merge(pDocumentoRefinanciacion);
-//		this.session = GestorPersistenciaSaic.getInstance().getSession();
-//		Transaction tx=null;
-//		try{
-//			tx = this.session.beginTransaction();
-//			this.session.update(pDocumentoRefinanciacion);
-//			tx.commit();
-//		}
-//		catch(Exception e){
-//			if ((tx!=null)&&(tx.isActive())){
-//				tx.rollback();
-//			}
-//			throw e;
-//		}
-//		finally{
-//			if ((this.session!=null)&&(this.session.isOpen())){
-//				this.session.close();
-//			}
-//		}
+		for (RegistroDeuda cadaRd : pDocumentoRefinanciacion.getListaRegistrosDeuda()) {
+			entityManager.merge(cadaRd);
+		}
 	}
 	
 	@Override
@@ -443,12 +429,21 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 	
 	@Override
 	public FiltroRefinanciacion findListaRefinanciaciones(FiltroRefinanciacion pFiltro) throws Exception {
+		if (pFiltro.getMapaOrden().get("numeroRefinanciacion") == null) {
+			pFiltro.getMapaOrden().put("numeroRefinanciacion", FiltroAbstracto.DESC);
+		}
 		Criterio locCriterio = Criterio.getInstance(this.entityManager, DocumentoRefinanciacion.class)
 				.add(Restriccion.IGUAL("numeroRefinanciacion", pFiltro.getNroRefinanciacion()))
-				.add(Restriccion.IGUAL("estadoRefinanciacion", pFiltro.getEstado()));
-
-		if(pFiltro.getPersona() != null) {
-			locCriterio.add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()));
+				.add(Restriccion.IGUAL("estadoRefinanciacion", pFiltro.getEstado()))
+				.add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()))
+				.setDistinct(true);
+		
+		if (pFiltro.getNumeroCuenta() != null) {
+			locCriterio.crearAlias("regCancelacionPorRefinanciacion.listaRegistrosDeuda.docGeneradorDeuda.obligacion.documentoEspecializado", "docHab");
+			locCriterio.add(Restriccion.OR(
+					Restriccion.IGUAL("docHab.parcela.nomenclaturaCatastral.nroParcela", pFiltro.getNumeroCuenta().toString()),
+					Restriccion.IGUAL("docHab.numeroCuenta", pFiltro.getNumeroCuenta()),
+					Restriccion.IGUAL("docHab.numeroInscripcion", pFiltro.getNumeroCuenta().toString())));
 		}
 		
 		pFiltro.procesarYListar(locCriterio);
@@ -631,14 +626,11 @@ public class BusinessRefinanciacionBean implements BusinessRefinanciacionLocal{
 	
 	private void volverEstadoDeuda(DocumentoRefinanciacion pDocumentoRefinanciacion) throws SaicException {
 		for(RegistroDeuda cadaRegistro : pDocumentoRefinanciacion.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda()) {
-			LiquidacionTasa liquidacion = (LiquidacionTasa) cadaRegistro;
+			cadaRegistro.setEstado(EstadoRegistroDeuda.VIGENTE);
+			cadaRegistro.setEstadoAnterior(EstadoRegistroDeuda.VIGENTE);
+			cadaRegistro.setRegistroCancelacion(null);
 			
-			EstadoRegistroDeuda estadoActual = liquidacion.getEstado();
-			liquidacion.setEstado(liquidacion.getEstadoAnterior());
-			liquidacion.setEstadoAnterior(estadoActual);
-			liquidacion.setRegistroCancelacion(null);
-			
-			this.entityManager.merge(liquidacion);
+			this.entityManager.merge(cadaRegistro);
 		}
 	}
 	

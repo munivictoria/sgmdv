@@ -64,6 +64,15 @@ public class AdminDocEspCementerio extends AdminPageBean{
 	protected PanelAtributoDinamico panelAtributoDinamico;
 	private Button btnSeleccionarParcelaCementerio = new Button();
 	private Button btnLimpiarParcelaCementerio = new Button();
+	private TextField tfNumeroCuenta = new TextField();
+	
+	public TextField getTfNumeroCuenta() {
+		return tfNumeroCuenta;
+	}
+
+	public void setTfNumeroCuenta(TextField tfNumeroCuenta) {
+		this.tfNumeroCuenta = tfNumeroCuenta;
+	}
 
 	public Button getBtnSeleccionarParcelaCementerio() {
 		return btnSeleccionarParcelaCementerio;
@@ -202,12 +211,14 @@ public class AdminDocEspCementerio extends AdminPageBean{
 		locFiltro.setEstado(Obligacion.Estado.CREADO);
 		locFiltro.setParcelaCementerio(null);
 		locFiltro.setPersona(null);
+		locFiltro.setNumeroCuenta(null);
 
 		this.getSessionBean1().setPersonaSeleccionada(null);
 		this.getSessionBean1().getListaIdPersonas().clear();
 		this.getTfPersonaSeleccionada().setText(null);
 		this.getTfParcelaCementerio().setText(null);
 		this.ddPlantillaObligacion.setSelected(null);
+		this.getTfNumeroCuenta().setText(null);
 		this.getDdEstado().setSelected(Util.getEnumNameFromString(String.valueOf(Obligacion.Estado.CREADO)));
 	}
 
@@ -226,34 +237,36 @@ public class AdminDocEspCementerio extends AdminPageBean{
 	protected void guardarEstadoObjetosUsados() {
 		// CAMBIAR: Revisar el metodo completo.
 		Persona persona = this.getSessionBean1().getPersonaSeleccionada();
-	PlantillaObligacion plantillaObligacion = this.obtenerObjetoDelElementoPila(0, PlantillaObligacion.class);
-
-	FiltroObligacionCementerio locFiltro = this.getFiltro();
+		PlantillaObligacion plantillaObligacion = this.obtenerObjetoDelElementoPila(0, PlantillaObligacion.class);
 	
-	borrarListIdAuxPersonas(this.getTfPersonaSeleccionada(), locFiltro.getPersona());
-	locFiltro.setListaIdPersonas(this.getSessionBean1().getListaIdPersonas());
-
-	if (this.ddPlantillaObligacion.getSelected() != null && this.ddPlantillaObligacion.getSelected() != "") {
-		plantillaObligacion = this.getPlantillaPorNombre(this.ddPlantillaObligacion.getSelected().toString());
-	} else {
-		plantillaObligacion = null;
-	}
-
-	if(persona != null && persona.getIdPersona() != -1){
-		locFiltro.setPersona(persona);
-	}else{
-		locFiltro.setPersona(null);
-	}
-
-	locFiltro.setEstado(getDDEnumValue(this.getDdEstado(), Obligacion.Estado.class));
-
-	if(locFiltro.getListaAtributosDinamicos() != null){
-		locFiltro.setListaAtributosDinamicos(panelAtributoDinamico.obtenerListaAtributosDinamicos(locFiltro.getListaAtributosDinamicos()));
-	}
-
-	this.getElementoPila().getObjetos().set(0, plantillaObligacion);
-	//        this.getElementoPila().getObjetos().set(1, obligacion);
-	//        this.getElementoPila().getObjetos().set(3, atributosDinamicos);
+		FiltroObligacionCementerio locFiltro = this.getFiltro();
+		
+		borrarListIdAuxPersonas(this.getTfPersonaSeleccionada(), locFiltro.getPersona());
+		locFiltro.setListaIdPersonas(this.getSessionBean1().getListaIdPersonas());
+	
+		if (this.ddPlantillaObligacion.getSelected() != null && this.ddPlantillaObligacion.getSelected() != "") {
+			plantillaObligacion = this.getPlantillaPorNombre(this.ddPlantillaObligacion.getSelected().toString());
+		} else {
+			plantillaObligacion = null;
+		}
+		
+		locFiltro.setNumeroCuenta(this.getTextFieldValueInteger(tfNumeroCuenta));
+	
+		if(persona != null && persona.getIdPersona() != -1){
+			locFiltro.setPersona(persona);
+		}else{
+			locFiltro.setPersona(null);
+		}
+	
+		locFiltro.setEstado(getDDEnumValue(this.getDdEstado(), Obligacion.Estado.class));
+	
+		if(locFiltro.getListaAtributosDinamicos() != null){
+			locFiltro.setListaAtributosDinamicos(panelAtributoDinamico.obtenerListaAtributosDinamicos(locFiltro.getListaAtributosDinamicos()));
+		}
+	
+		this.getElementoPila().getObjetos().set(0, plantillaObligacion);
+		//        this.getElementoPila().getObjetos().set(1, obligacion);
+		//        this.getElementoPila().getObjetos().set(3, atributosDinamicos);
 	}
 
 	private PlantillaObligacion getPlantillaPorNombre(String pPlantilla){
@@ -288,6 +301,8 @@ public class AdminDocEspCementerio extends AdminPageBean{
 		if(locFiltro.getParcelaCementerio() != null){
 			this.getTfParcelaCementerio().setText(locFiltro.getParcelaCementerio());
 		}
+		
+		this.setTextFieldValueInteger(tfNumeroCuenta, locFiltro.getNumeroCuenta());
 	}
 
 	@Override

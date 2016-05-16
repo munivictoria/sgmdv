@@ -16,18 +16,7 @@ public class DifuntoModel extends ABMModel{
 	}
 
 	private Validador getValidadorAgregarModificar() {
-		Validador v = new Validador();
-
-		UIComponent[] noVacios = new UIComponent[1];
-		String[] nomNoVacios = new String[1];
-
-		int pos = 0;
-		noVacios[pos] = getBeanDifunto().getTfPersona();
-		nomNoVacios[pos++] = "Persona";
-
-		v.noSonVacios(noVacios, nomNoVacios);
-
-		return v;
+		return null;
 	}
 
 	private void deshabilitarElementosConsultarEliminar() {

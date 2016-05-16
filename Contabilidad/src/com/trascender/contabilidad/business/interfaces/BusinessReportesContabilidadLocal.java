@@ -1,5 +1,6 @@
 package com.trascender.contabilidad.business.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -42,4 +43,9 @@ public interface BusinessReportesContabilidadLocal {
 	
 	public JasperPrint getReporteLiquidacionDeuda(List<LiquidacionTasaAgrupada> pListaLiquidacion) throws Exception;
 	
+	public JasperPrint getReporteMovimientosEgreso(Date fechaDesde, Date fechaHasta) 
+			throws Exception;
+	
+	public JasperPrint getReporteMovimientosIngreso(Date fechaDesde, Date fechaHasta) 
+			throws Exception;
 }

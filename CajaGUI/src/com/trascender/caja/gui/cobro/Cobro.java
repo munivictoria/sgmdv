@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -27,6 +28,7 @@ import com.trascender.contabilidad.recurso.persistent.PagoTicketEfectivo;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.framework.exception.TrascenderException;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.Util;
 import com.trascender.gui.framework.abmStandard.ABMView;
 import com.trascender.gui.framework.main.AppManager;
 import com.trascender.gui.framework.util.Conversor;
@@ -323,31 +325,31 @@ public class Cobro  {
 //			throw new Exception("No componerse mas de un Pago para mas de un Ticket.");
 			ListIterator<PagoTicket> itPagos = locListaPagosTicket.listIterator();
 			PagoTicket pagoActual = itPagos.next();
-			Double importePago = pagoActual.getMonto();
+			BigDecimal importePago = Util.getBigDecimalMonto(pagoActual.getMonto());
 			for (TicketDeuda cadaTicketDeuda : listaTicket) {
 				TicketCaja cadaTicket = cadaTicketDeuda.getTicket();
 				boolean pagado = false;
-				Double importeRestanteDeTicket = cadaTicket.getImporteTotal();
+				BigDecimal importeRestanteDeTicket = Util.getBigDecimalMonto(cadaTicket.getImporteTotal());
 				while (!pagado) {
 					PagoTicket nuevoPago = pagoActual.getClon(cadaTicket);
 					cadaTicket.addPagoTicket(nuevoPago);
 					//Alcanza para pagar con el pago actual?
-					if (importeRestanteDeTicket <= importePago) {
+					if (importeRestanteDeTicket.compareTo(importePago) <= 0) {
 						//Alcanza
 						pagado = true;
 						//Resto del pago
-						importePago = importePago - importeRestanteDeTicket;
-						nuevoPago.setMonto(importeRestanteDeTicket);
+						importePago = importePago.subtract(importeRestanteDeTicket);
+						nuevoPago.setMonto(importeRestanteDeTicket.doubleValue());
 					} else {
 						//No alcanza.
-						nuevoPago.setMonto(importePago);
-						importeRestanteDeTicket = importeRestanteDeTicket - importePago;
+						nuevoPago.setMonto(importePago.doubleValue());
+						importeRestanteDeTicket = importeRestanteDeTicket.subtract(importePago);
 						//Si no alcanza, no nos queda importe en este pago
-						importePago = 0D;
+						importePago = BigDecimal.ZERO;
 					}
-					if (importePago <= 0D && itPagos.hasNext()) {
+					if (importePago.compareTo(BigDecimal.ZERO) <= 0 && itPagos.hasNext()) {
 						pagoActual = itPagos.next();
-						importePago = pagoActual.getMonto();
+						importePago = Util.getBigDecimalMonto(pagoActual.getMonto());
 					}
 				}
 			}

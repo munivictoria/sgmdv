@@ -39,6 +39,7 @@ import com.trascender.framework.util.Util;
 import com.trascender.presentacion.conversores.Conversor;
 import com.trascender.presentacion.navegacion.ElementoPila;
 import com.trascender.presentacion.utiles.Constantes;
+import com.trascender.saic.recurso.persistent.RegCancelacionPorRefinanciacion;
 import com.trascender.saic.recurso.persistent.RegistroCancelacion;
 import com.trascender.saic.recurso.persistent.RegistroCancelacionManual;
 import com.trascender.saic.recurso.references.LiquidacionTasaRefer;
@@ -958,8 +959,7 @@ public class ConsultarLiquidaciones extends AbstractPageBean {
 					if(regCancelacionManual.getComentario() != null) {
 						this.getTaComentario().setText(regCancelacionManual.getComentario());
 					}
-				}
-				else if(registroCancelacion instanceof DetalleTicketCaja){
+				} else if (registroCancelacion instanceof DetalleTicketCaja){
 					DetalleTicketCaja locDetalle = (DetalleTicketCaja) registroCancelacion;
 					this.getTfFechaCancelacion().setText(locSdf.format(locDetalle.getFechaCancelacion()));
 
@@ -983,6 +983,9 @@ public class ConsultarLiquidaciones extends AbstractPageBean {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+				} else if (registroCancelacion instanceof RegCancelacionPorRefinanciacion) {
+					RegCancelacionPorRefinanciacion regCancRef = (RegCancelacionPorRefinanciacion) registroCancelacion;
+					this.getTaComentario().setText("Refinanciacion nro");
 				}
 			}
 		}

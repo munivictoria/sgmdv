@@ -14,7 +14,7 @@ public class AtributoConsultable implements Serializable {
 	private Integer anchoColumna = 0; 
 	
 	public enum Tipo{
-		TEXTO, TEXTO_LARGO, FECHA, FECHA_HORA, MONTO, BOOLEANO;
+		TEXTO, TEXTO_LARGO, FECHA, FECHA_HORA, MONTO, BOOLEANO, ATRIBUTO_DINAMICO;
 		
 		@Override
 		public String toString() {

@@ -20,6 +20,7 @@ import com.trascender.catastro.recurso.persistent.RegistroPropietario;
 import com.trascender.catastro.recurso.persistent.TituloPropiedadParcelario;
 import com.trascender.framework.recurso.persistent.Permiso;
 import com.trascender.framework.util.SecurityMgr;
+import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.controller.ABMModel;
 import com.trascender.presentacion.abstracts.controller.AgregarAbstractController;
 import com.trascender.presentacion.abstracts.controller.ConsultarAbstractController;
@@ -53,8 +54,8 @@ public class ParcelaModel extends ABMModel {
 		String[] nomNoVacios = new String[3];
 		UIComponent[] fechas = new UIComponent[3];
 		String[] nomFechas = new String[3];
-		UIComponent[] enteros = new UIComponent[13];
-		String[] nomEnteros = new String[13];
+		UIComponent[] enteros = new UIComponent[12];
+		String[] nomEnteros = new String[12];
 		UIComponent[] flotantes = new UIComponent[3];
 		String[] nomFlotantes = new String[3];
 
@@ -97,8 +98,8 @@ public class ParcelaModel extends ABMModel {
 		nomEnteros[pos++] = "Nro.Partida";
 		enteros[pos] = getBeanParcela().getTfNroRegistro();
 		nomEnteros[pos++] = "Nro.Registro";
-		enteros[pos] = getBeanParcela().getTfNroMatricula();
-		nomEnteros[pos++] = "Nro.Matr\355cula";
+//		enteros[pos] = getBeanParcela().getTfNroMatricula();
+//		nomEnteros[pos++] = "Nro.Matr\355cula";
 		enteros[pos] = getBeanParcela().getTfNroCuenta();
 		nomEnteros[pos++] = "Nro.Cuenta";
 
@@ -134,10 +135,11 @@ public class ParcelaModel extends ABMModel {
 			boolean alMenoUno = false;
 			for(RegistroPropietario cadaPropietario : listaPropietarios) {
 				if (cadaPropietario.getPorcentaje() != null) {
-					porcentajeTotal += cadaPropietario.getPorcentaje();
+					porcentajeTotal += Util.redondear(cadaPropietario.getPorcentaje(), 2);
 					alMenoUno = true;
 				}
 			}
+			porcentajeTotal = Util.redondear(porcentajeTotal, 2);
 			if (alMenoUno && porcentajeTotal != 0f && porcentajeTotal != 100f) {
 				v.getErrores().add("La suma de los Porcentajes de cada Propietario debe ser 100.");
 			}

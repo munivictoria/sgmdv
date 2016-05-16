@@ -391,7 +391,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		MovimientoCajaEgreso locMovimientoCajaEgreso = entity.find(MovimientoCajaEgreso.class, pId);
 		return locMovimientoCajaEgreso;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<MovimientoCajaEgreso> findListaMovimientoCajaEgreso(Date pFechaDesde, Date pFechaHasta, Double pImporteDesde, Double pImporteHasta) throws java.lang.Exception {
 		Criterio locCriterio = Criterio.getInstance(entity, MovimientoCajaEgreso.class).add(Restriccion.MAYOR("fecha", pFechaDesde)).add(Restriccion.MENOR("fecha", pFechaHasta))
@@ -487,6 +487,8 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				locDeuda.setEstado(RegistroDeuda.EstadoRegistroDeuda.PAGADA);
 				locDetalle.setDeuda(locDeuda);
 				this.entity.merge(locDeuda);
+			} else if (locDetalle.getDeuda() instanceof CuotaRefinanciacion) {
+				
 			}
 
 			locDetalle.setTicketCaja(pTicketCaja);
@@ -532,7 +534,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		this.entity.clear();
 		return pTicketCaja;
 	}
-
+	
 	/**
 	 * Toma el resto de las Liquidaciones generadas bajo la misma Tasa y las marca como No Optadas.
 	 * 
@@ -637,7 +639,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	private List<MovimientoCajaIngreso> getListaMovimientosCaja(Pagable locDeuda, 
 			Double porcentajeCondonacionInteres,
 			Double porcentajeCondonacionMonto) throws TrascenderException {
-
+	
 		List<MovimientoCajaIngreso> locListaRetorno = new ArrayList<MovimientoCajaIngreso>();
 		if(locDeuda instanceof LiquidacionTasa) {
 			LiquidacionTasa locLiquidacionTasa = (LiquidacionTasa) locDeuda;
@@ -673,7 +675,12 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 					locCadaMovimientoCajaIngreso.setImporte(locModificadorFormula.getValorModificador());
 					Cuenta locCuenta = this.getCuenta(locLiquidacionTasa, locModificadorFormula, fechaLiquidacionOriginal);
 					locCadaMovimientoCajaIngreso.setCuenta(locCuenta);
-					locCadaMovimientoCajaIngreso.setImporte(locModificadorLiquidacion.getValorModificador());
+					Double monto = locModificadorLiquidacion.getValorModificador();
+					if (porcentajeCondonacionMonto != null) {
+						monto = monto - (monto * porcentajeCondonacionMonto / 100d);
+					}
+//					locMovimientoCajaIngreso.setImporte(monto);
+					locCadaMovimientoCajaIngreso.setImporte(monto);
 					if(locCuenta != null) {
 						locListaRetorno.add(locCadaMovimientoCajaIngreso);
 						importeTotal -= locModificadorLiquidacion.getValorModificador();
@@ -689,7 +696,7 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			 * de intereses. Hay que ajustar los importes correspondientes.
 			 */
 			if (porcentajeCondonacionInteres != null) {
-				interes = interes - interes * porcentajeCondonacionInteres / 100d;
+				interes = interes - (interes * porcentajeCondonacionInteres / 100d);
 				interesARestar = interesARestar - interes;
 			}
 			if(interes != null && interes > 0D) {
@@ -714,6 +721,10 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 					locListaRetorno.add(locMovimientoIngresoRecargo);
 					importeTotal -= locMovimientoIngresoRecargo.getImporte();
 				}
+			}
+			
+			if (porcentajeCondonacionMonto != null) {
+				importeTotal = importeTotal - (importeTotal * porcentajeCondonacionMonto / 100d);
 			}
 
 			locMovimientoCajaIngreso.setImporte(importeTotal);
@@ -757,8 +768,16 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				locMovimiento.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
 				Double importe = Util.redondear(locMapaCuentasAux.get(cadaCuenta) / locDocumento.getCantidadCuotas(), 2);
 				locMovimiento.setImporte(importe);
+				//No agregamos imputaciones con monto 0
+				if (locMovimiento.getImporte().equals(0D)) {
+					continue;
+				}
 				locListaRetorno.add(locMovimiento);
 			}
+			
+//			for (MovimientoCajaIngreso cadaMov : locListaRetorno) {
+//				System.out.println(cadaMov.getCuenta().getNombre() + " - " + cadaMov.getImporte());
+//			}
 			
 			//El recargo por refinanciacion.
 			if (locCuotaRefinanciacion.getInteres() != null
@@ -784,12 +803,22 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			}
 			
 			if (sumaImputaciones.compareTo(locDeuda.getMonto()) < 0) {
+				//Creamos una imputacion a la cuenta de redondeos.
 				ParametroAsociacion locParametro = locDocumento.getPlantilla().getListaParametrosAsociacion().get(0);
 				MovimientoCajaIngreso locMovimientoCajaIngreso = new MovimientoCajaIngreso();
 				locMovimientoCajaIngreso.setCuenta(entity.find(Cuenta.class, locParametro.getCuenta().getIdCuenta()));
 				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
 				locMovimientoCajaIngreso.setImporte(locDeuda.getMonto() - sumaImputaciones);
 				locListaRetorno.add(locMovimientoCajaIngreso);
+			} else if (sumaImputaciones.compareTo(locDeuda.getMonto()) > 0) {
+				//Le quitamos la diferencia de cualquier de las imputaciones.
+				Double diferencia = sumaImputaciones - locDeuda.getMonto();
+				MovimientoCajaIngreso locMov = locListaRetorno.get(0);
+				locMov.setImporte(locMov.getImporte() - diferencia);
+			}
+			
+			for (MovimientoCajaIngreso cadaMov : locListaRetorno) {
+				System.out.println(cadaMov.getCuenta().getNombre() + " - " + cadaMov.getImporte());
 			}
 			
 		} else if(locDeuda instanceof IngresoVario) {
@@ -804,7 +833,8 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 				locMovimientoCajaIngreso.setFecha(SecurityMgr.getInstance().getFechaActual().getTime());
 				Double monto = cadaImputacion.getMonto();
 				if (porcentajeCondonacionMonto != null) {
-					monto = monto * porcentajeCondonacionMonto / 100d;
+					monto = monto - (monto * porcentajeCondonacionMonto / 100d);
+					monto = Util.redondear(monto, 2);
 				}
 				locMovimientoCajaIngreso.setImporte(monto);
 				locListaRetorno.add(locMovimientoCajaIngreso);
@@ -963,8 +993,12 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 	private Boolean getPagoAtrasadoBusquedaCuenta(LiquidacionTasa pLiquidacionTasa, Date pFechaVencimientoOriginal) {
 		Integer anioActual = Calendar.getInstance().get(Calendar.YEAR);
 		Integer anioCalendario = pLiquidacionTasa.getCuotaLiquidacion().getPeriodo().getCalendario().getAnio();
-		// El calendario es de un año pasado y la deuda ya esta vencida.
-		return anioCalendario < anioActual && Util.isFechaAfterNoTima(new Date(), pFechaVencimientoOriginal);
+		
+		//Enero 2016, se pidió que no se tenga en cuenta la fecha de vencimiento, 
+		//con que sea del año pasado, ya vá a cuenta atrasada.
+// 		El calendario es de un año pasado y la deuda ya esta vencida.
+//		return anioCalendario < anioActual && Util.isFechaAfterNoTima(new Date(), pFechaVencimientoOriginal);
+		return anioCalendario < anioActual;
 	}
 
 	/**
@@ -1137,11 +1171,12 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 			}
 		}
 		
-		Criterio locCriterio = Criterio.getInstance(entity, LiquidacionTasa.class)
+		Criterio locCriterio = Criterio.getInstance(entity, RegistroDeuda.class)
 				.add(Restriccion.EN("registroCancelacion.idRegistroCancelacion", listaIdsRegCancelacion))
-				.crearFetchAlias("docGeneradorDeuda.obligacion", "cadaObligacion")
-				.setProyeccion(Proyeccion.MAP("registroCancelacion.idRegistroCancelacion", "e"));
-
+//				.crearFetchAlias("docGeneradorDeuda.obligacion", "cadaObligacion")
+				.setProyeccion(Proyeccion.MAP("registroCancelacion.idRegistroCancelacion", "e"))
+				.setModoDebug(true);
+		
 		Map<Long, Pagable> locMapa = locCriterio.mapList();
 		
 		for (TicketCaja cadaTicketCaja : listaTickets) {
@@ -1638,12 +1673,15 @@ public class BusinessCajaBean implements BusinessCajaLocal {
 		locIngresoVario.getValor();
 		locIngresoVario.toString();
 		if(locIngresoVario.getRegistroCancelacion() != null) {
-			throw new TrascenderContabilidadException(413); // TODO:VER SOLUCION EN ESTO... ME DA PROBLEMA CUANDO QUIERA OBTENER UN INGRESO VARIO PAGADO Y
-															// CANCELADO PARA REIMPRIMIR
+			throw new TrascenderContabilidadException(413);
 		}
 		if(locIngresoVario.getEstado().equals(RegistroDeuda.EstadoRegistroDeuda.ANULADA)) {
 			throw new TrascenderContabilidadException(47);
 		}
+		if (locIngresoVario.getEstado() == EstadoRegistroDeuda.VENCIDA) {
+			throw new TrascenderContabilidadException(102);
+		}
+		
 		// //Validacion de la asociacion de cuentas.
 		// this.getCuenta(locIngresoVario);
 		return locIngresoVario;

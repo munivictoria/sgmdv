@@ -3,7 +3,9 @@ package com.trascender.contabilidad.business.ejb;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -278,10 +280,43 @@ public class BusinessReportesContabilidadBean implements BusinessReportesContabi
 		}
 		return parametroSubtitulo;
 	}
+	
+	public JasperPrint getReporteMovimientosEgreso(Date fechaDesde, Date fechaHasta) 
+			throws Exception {
+		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+		File fileReporte = new File(rutaReportes + "Reporte_Egreso_Tesoreria.jasper");
+		JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+		Map<String, Object> mapaParametros = new HashMap<String, Object>();
+		mapaParametros.put("PAR_FECHA_DESDE", fechaDesde);
+		mapaParametros.put("PAR_FECHA_HASTA", fechaHasta);
+		Connection con = datasource.getConnection();
+		JasperPrint jasperPrint = 
+				JasperFillManager.fillReport(reporte,mapaParametros, con);
+		con.close();
+		return jasperPrint;
+	}
 
 	private void setParametrosMunicipalidad(Map<String, Object> pMapaParametros) {
 		pMapaParametros.put("PAR_TITULO", SecurityMgr.getInstance().getMunicipalidad().getEncabezadoReportes());
 		pMapaParametros.put("PAR_SUBTITULO", SecurityMgr.getInstance().getMunicipalidad().getSubencabezadoReportes());
 		pMapaParametros.put("PAR_IMAGEN", new ImageIcon(SecurityMgr.getInstance().getMunicipalidad().getLogo()).getImage());
+	}
+
+	@Override
+	public JasperPrint getReporteMovimientosIngreso(Date fechaDesde,
+			Date fechaHasta) throws Exception {
+		String rutaReportes = SecurityMgr.getInstance().getMunicipalidad().getRutaReportes();
+		File fileReporte = new File(rutaReportes + "Reporte_Imputaciones.jasper");
+		JasperReport reporte = (JasperReport) JRLoader.loadObject(fileReporte);
+		reporte.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+		Map<String, Object> mapaParametros = new HashMap<String, Object>();
+		mapaParametros.put("FECHA_DESDE", fechaDesde);
+		mapaParametros.put("FECHA_HASTA", fechaHasta);
+		Connection con = datasource.getConnection();
+		JasperPrint jasperPrint = 
+				JasperFillManager.fillReport(reporte,mapaParametros, con);
+		con.close();
+		return jasperPrint;
 	}
 }

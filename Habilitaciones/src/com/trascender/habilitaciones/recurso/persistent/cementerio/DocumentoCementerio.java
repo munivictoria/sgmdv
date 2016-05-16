@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -33,6 +34,17 @@ public class DocumentoCementerio extends DocHabilitanteEspecializado{
 	@OneToMany(mappedBy = "idEntidad", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<LogAuditoria> listaLogsAuditoria = new ArrayList<LogAuditoria>();
 	
+	@Column(name = "NUMERO_CUENTA")
+	private Integer numeroCuenta;
+	
+	public Integer getNumeroCuenta() {
+		return numeroCuenta;
+	}
+
+	public void setNumeroCuenta(Integer numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
+	}
+
 	@Override
 	public void addAtributoDinamico(AtributoDinamico<?> pAtributoDinamico) {
 		pAtributoDinamico.setIdEntidad(this.getIdDocHabilitanteEspecializado());

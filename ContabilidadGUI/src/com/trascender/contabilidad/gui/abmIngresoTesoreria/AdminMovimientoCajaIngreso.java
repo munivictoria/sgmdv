@@ -4,27 +4,19 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
-import java.sql.SQLException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.swing.JRViewer;
 
+import com.trascender.contabilidad.gui.main.ContabilidadGUI;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
 import com.trascender.contabilidad.reporte.interfaz.InterfazModuloContable;
 import com.trascender.gui.framework.abmStandard.AdminController;
@@ -184,52 +176,10 @@ public class AdminMovimientoCajaIngreso extends AdminController<MovimientoCajaIn
 	}
 	
 	void imprimir() throws Exception {
-		JasperReport masterReport = null;
-		try {
-
-			URL urlMaestro = this.getClass().getResource("/reports/Reporte_Ingreso_Tesoreria.jasper");
-			
-			masterReport = (JasperReport) JRLoader.loadObject(urlMaestro);
-		} catch (JRException e) {
-			System.out.println("Error cargando el reporte maestro: " + e.getMessage());
-		}
-
-		JasperReport subReport = null;
-		try {
-
-			URL urlSubReport = this.getClass().getResource("/reports/Reporte_Ingreso_Tesoreria_Subreporte.jasper");
-			
-			subReport = (JasperReport) JRLoader.loadObject(urlSubReport);
-		} catch (JRException e) {
-			System.out.println("Error cargando el subreporte: " + e.getMessage());
-		}
+		Date fechaDesde = Conversor.getDate(this.view.getTfFechaDesde().getText());
+		Date fechaHasta = Conversor.getDate(this.view.getTfFechaHasta().getText());
 		
-		ConexionReportes.getInstance().conectar();
-		
-		URL urlImagen = this.getClass().getResource("/reports/logo.png");
-		String locLogo = Conversor.getString(urlImagen);
-		
-		DateFormat df = DateFormat.getDateInstance();
-
-		Map masterParams = new HashMap();
-		masterParams.put("PAR_IMAGEN", locLogo);
-		masterParams.put("PAR_FECHA_DESDE", df.parse(this.view.getTfFechaDesde().getText()));
-		masterParams.put("PAR_FECHA_HASTA", df.parse(this.view.getTfFechaHasta().getText()));
-		masterParams.put("PAR_CROSSTAB", subReport);
-		
-		JasperPrint masterPrint = null;
-		
-		try {
-			masterPrint = JasperFillManager.fillReport(masterReport, masterParams, ConexionReportes.getInstance().getConnection());
-			
-		} catch (JRException e) {
-			System.out.println("Error llenando el reporte maestro: " + e.getMessage());
-			try {
-				ConexionReportes.getInstance().getConnection().close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}	
+		JasperPrint masterPrint = ContabilidadGUI.getInstance().getAdminSystemsContabilidad().getSystemReportesContabilidad().getReporteMovimientosIngreso(fechaDesde, fechaHasta);
 		
 		// Obtener la resolucion de pantalla del usuario
 	    Toolkit toolkit = Toolkit.getDefaultToolkit();

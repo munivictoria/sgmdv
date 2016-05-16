@@ -298,6 +298,14 @@
 															<ui:tableColumn headerText="Periodo" id="tableColumnPeriodo" >
 																<ui:staticText text="#{currentRow.value['periodo'].numero}" />
 															</ui:tableColumn>
+															<ui:tableColumn headerText="2015" id="tc2015" >
+																	<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2015) != null}"
+																		disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2015)}"
+																		label="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2015)}"
+																		selected="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelected}"
+																		selectedValue="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.periodoSelectedValue(currentRow, 2015)}">
+																	</ui:checkbox>
+															</ui:tableColumn>
 															<ui:tableColumn headerText="2014" id="tc2014" >
 																	<ui:checkbox rendered="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getMontoSeleccionPeriodo(currentRow, 2014) != null}"
 																		disabled="#{excepciones$ABMRefinanciacion$AgregarPlanPagoRefinanciacion.getDeshabilitarPeriodo(currentRow, 2014)}"

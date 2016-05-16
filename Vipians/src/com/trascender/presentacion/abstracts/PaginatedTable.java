@@ -142,7 +142,7 @@ public class PaginatedTable extends Table {
 	private TableColumn getTableColumnPropiedad(String pPropiedad) {
 		TableColumn tc = new TableColumn();
 		tc.setWidth("1000");
-		tc.setId("tc" + pPropiedad.replace(".", "").replace("'", ""));
+		tc.setId("tc" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		tc.getFacets().put("header", getHpHeaderColumna(pPropiedad));
 		tc.setHeaderText(this.getMapaNombreColumnas().get(pPropiedad));
 		tc.getChildren().add(getComponenteValorColumna(pPropiedad));
@@ -166,14 +166,26 @@ public class PaginatedTable extends Table {
 				return this.getTextAreaPropiedad(pPropiedad);
 			case BOOLEANO:
 				return this.getCheckBoxPropiedad(pPropiedad);
+			case ATRIBUTO_DINAMICO:
+				return this.getStaticTextAtributoDinamico(pPropiedad);
 		}
 
 		return null;
 	}
+	
+	private StaticText getStaticTextAtributoDinamico(String pPropiedad) {
+		StaticText st = new StaticText();
+		st.setId("st" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
+		st.setValueBinding("text", this._getValueBinding(this.armarExpressionEnBean(getCurrentRowAtributoDinamico(pPropiedad))));
+		return st;
+	}
+	private String getCurrentRowAtributoDinamico(String nombreAtributo) {
+		return "obtenerMapaAtributosDinamicos(currentRow)['" + nombreAtributo + "']";
+	}
 
 	private Checkbox getCheckBoxPropiedad(String pPropiedad) {
 		Checkbox cb = new Checkbox();
-		cb.setId("ta" + pPropiedad.replace(".", "").replace("'", ""));
+		cb.setId("ta" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		cb.setDisabled(true);
 		cb.setValueBinding("selected", this._getValueBinding(getCurrentRowValue(pPropiedad)));
 
@@ -182,7 +194,7 @@ public class PaginatedTable extends Table {
 
 	private TextArea getTextAreaPropiedad(String pPropiedad) {
 		TextArea ta = new TextArea();
-		ta.setId("ta" + pPropiedad.replace(".", "").replace("'", ""));
+		ta.setId("ta" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		ta.setReadOnly(true);
 		ta.setStyleClass("textFieldDisabled");
 		ta.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
@@ -197,7 +209,7 @@ public class PaginatedTable extends Table {
 
 	private StaticText getStaticTextPropiedad(String pPropiedad) {
 		StaticText st = new StaticText();
-		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
+		st.setId("st" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		st.setValueBinding("text", this._getValueBinding(getCurrentRowValue(pPropiedad)));
 
 		return st;
@@ -205,7 +217,7 @@ public class PaginatedTable extends Table {
 
 	private StaticText getStaticTextPropiedadFecha(String pPropiedad) {
 		StaticText st = new StaticText();
-		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
+		st.setId("st" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		DateTimeConverter locConverter = new DateTimeConverter();
 		locConverter.setPattern("dd/MM/yyyy");
 		locConverter.setTimeZone(TimeZone.getDefault());
@@ -217,7 +229,7 @@ public class PaginatedTable extends Table {
 
 	private StaticText getStaticTextPropiedadFechaHora(String pPropiedad) {
 		StaticText st = new StaticText();
-		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
+		st.setId("st" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		DateTimeConverter locConverter = new DateTimeConverter();
 		locConverter.setPattern("dd/MM/yyyy hh:mm:ss");
 		locConverter.setTimeZone(TimeZone.getDefault());
@@ -229,7 +241,7 @@ public class PaginatedTable extends Table {
 
 	private StaticText getStaticTextPropiedadMonto(String pPropiedad) {
 		StaticText st = new StaticText();
-		st.setId("st" + pPropiedad.replace(".", "").replace("'", ""));
+		st.setId("st" + pPropiedad.replace(".", "").replace("'", "").replace(" ", ""));
 		NumberConverter locConverter = new NumberConverter();
 		locConverter.setPattern("$ #,##0.00");
 		st.setConverter(locConverter);

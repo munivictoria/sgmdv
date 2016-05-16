@@ -60,19 +60,11 @@ public class TipoTasa implements Serializable, Cloneable, EntidadTrascender{
 	@Column(name = "TIPO_TASA_FIJA")
 	private boolean fija;
 
-	@Column(name = "CANTIDAD_CUOTAS", nullable = false)
+	@Column(name = "CANTIDAD_CUOTAS")
 	private Integer cantidadCuotas;
 
 	@Column(name = "FECHA_CREACION")
 	private Date fechaCreacion;
-
-	//	@Enumerated(EnumType.STRING)
-	//	@Column(name = "PERIODICIDAD", nullable = false)
-	//	private Periodicidad periodicidad;
-	//	
-	//	@Enumerated(EnumType.STRING)
-	//	@Column(name = "PERIODICIDAD_CUOTAS")
-	//	private Periodicidad periodicidadCuotas;
 
 	@Column(name = "FECHA_BAJA")
 	private Date fechaBaja;

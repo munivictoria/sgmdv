@@ -62,9 +62,32 @@
 												<table>
 													<tr>
 														<td>
-															<div class="div" style="width: 610px; height: 15px;">Parcela Cementerio</div>
 															<table border="0" class="tablaInterna" style="-moz-border-radius: 0px 0px 5px 5px; width: 299px;">
 																<tr>
+																<td align="right" nowrap="nowrap">
+																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblPersonaSeleccionada}"
+																			for="tfPersonaSeleccionada" id="lblPersonaSeleccionada" styleClass="label" text="Titular" />
+																	</td>
+																	<td nowrap="nowrap">
+																		<ui:textField binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.tfPersonaSeleccionada}"
+																			columns="40" id="tfPersonaSeleccionada"
+																			styleClass="#{framework$ABMContrato$AdminContrato.paginatedTable.filtro.persona != null ? 'textFieldDisabled' : 'textField'}"
+																			disabled="#{framework$ABMContrato$AdminContrato.paginatedTable.filtro.persona != null}" />
+																		<ui:button
+																			action="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaFisica_action}"
+																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaFisica}"
+																			escape="false" id="btnSeleccionarPersonaFisica" mini="true" styleClass="button" text="PF"
+																			toolTip="Seleccionar Persona Física" />
+																		<ui:button
+																			action="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaJuridica_action}"
+																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaJuridica}"
+																			escape="false" id="btnSeleccionarPersonaJuridica" mini="true" styleClass="button" text="PJ"
+																			toolTip="Seleccionar Persona Jurídica" />
+																		<a4j:commandButton id="btnLimpiarPersona" reRender="form1:tfPersonaSeleccionada" title="Limpiar"
+																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnLimpiarPersona}"
+																			action="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnLimpiarPersona_action}"
+																			styleClass="buttonLimpiarAjax" oncomplete="cargarComportamientoJQuery(); focusearTfPersonaSeleccionada();" />
+																	</td>
 																	<td align="right" nowrap="nowrap">
 																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblPersona}" for="tfPersona"
 																			id="lblPersona" styleClass="label" text="Difunto" />
@@ -84,6 +107,14 @@
 																	</td>
 																</tr>
 																<tr>
+																	<td align="right" nowrap="nowrap">
+																		<ui:label 
+																			for="tfNumeroCuenta" id="lblNumeroCuenta" styleClass="label" text="Número Cuenta" />
+																	</td>
+																	<td>
+																		<ui:textField styleClass="textField" id="tfNumeroCuenta" 
+																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.tfNumeroCuenta}"/>
+																	</td>
 																	<td align="right" nowrap="nowrap">
 																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblTipoSepultura}"
 																			for="tfTipoSepultura" id="lblTipoSepultura" styleClass="label" text="Tipo de Sepultura" />
@@ -113,87 +144,6 @@
 																					<ui:panelGroup
 																						binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.panelAtributoDinamico}"
 																						id="panelAtributoDinamico">
-																						<!-- AQUI VA LO QUE SE CREA DINAMICAMENTE -->
-																					</ui:panelGroup>
-																				</td>
-																			</tr>
-																		</table>
-																	</td>
-																</tr>
-															</table>
-														</td>
-														<td>
-															<div class="div" style="width: 610px; height: 15px;">Concesión</div>
-															<table border="0" class="tablaInterna" style="-moz-border-radius: 0px 0px 5px 5px; width: 299px;">
-																<tr>
-																	<td align="right" nowrap="nowrap">
-																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblPersonaSeleccionada}"
-																			for="tfPersonaSeleccionada" id="lblPersonaSeleccionada" styleClass="label" text="Titular" />
-																	</td>
-																	<td nowrap="nowrap">
-																		<ui:textField binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.tfPersonaSeleccionada}"
-																			columns="40" id="tfPersonaSeleccionada"
-																			styleClass="#{framework$ABMContrato$AdminContrato.paginatedTable.filtro.persona != null ? 'textFieldDisabled' : 'textField'}"
-																			disabled="#{framework$ABMContrato$AdminContrato.paginatedTable.filtro.persona != null}" />
-																		<ui:button
-																			action="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaFisica_action}"
-																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaFisica}"
-																			escape="false" id="btnSeleccionarPersonaFisica" mini="true" styleClass="button" text="PF"
-																			toolTip="Seleccionar Persona Física" />
-																		<ui:button
-																			action="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaJuridica_action}"
-																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnSeleccionarPersonaJuridica}"
-																			escape="false" id="btnSeleccionarPersonaJuridica" mini="true" styleClass="button" text="PJ"
-																			toolTip="Seleccionar Persona Jurídica" />
-																		<a4j:commandButton id="btnLimpiarPersona" reRender="form1:tfPersonaSeleccionada" title="Limpiar"
-																			binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnLimpiarPersona}"
-																			action="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.btnLimpiarPersona_action}"
-																			styleClass="buttonLimpiarAjax" oncomplete="cargarComportamientoJQuery(); focusearTfPersonaSeleccionada();" />
-																	</td>
-																</tr>
-																<tr>
-																	<td align="right" nowrap="nowrap">
-																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblFechaInscripcion}"
-																			id="lblFechaInscripcion" styleClass="label" text="Fecha Inscripción" for="tfFechaInscripcion" />
-																	</td>
-																	<td>
-																		<ui:textField binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.tfFechaInscripcion}"
-																			id="tfFechaInscripcion" styleClass="textField" onKeyUp="mascara(this,'/',patronFecha,true)" maxLength="10" />
-																	</td>
-																</tr>
-																<tr>
-																	<td align="right" nowrap="nowrap">
-																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblFechaFinalizacion}"
-																			id="lblFechaFinalizacion" styleClass="label" text="Fecha Finalización" for="tfFechaFinalizacion" />
-																	</td>
-																	<td>
-																		<ui:textField binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.tfFechaFinalizacion}"
-																			id="tfFechaFinalizacion" styleClass="textField" onKeyUp="mascara(this,'/',patronFecha,true)" maxLength="10" />
-																	</td>
-																</tr>
-																<tr>
-																	<td align="right" nowrap="nowrap">
-																		<ui:label binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.lblTipoConcesion}"
-																			id="lblTipoConcesion" styleClass="label" text="Tipo de Concesión" for="ddTipoConcesion" />
-																	</td>
-																	<td>
-																		<ui:dropDown binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.ddTipoConcesion}"
-																			id="ddTipoConcesion"
-																			items="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.ddTipoConcesionDefaultOptions.options}"
-																			styleClass="textField" />
-																	</td>
-																</tr>
-																<tr>
-																	<td colspan="4">
-																		<table border="0" width="600">
-																			<tr>
-																				<td>
-																					<ui:label id="lblVacio2" styleClass="label" text="" />
-																				</td>
-																				<td>
-																					<ui:panelGroup
-																						binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$AdminParcelaCementerio.panelAtributoDinamico2}"
-																						id="panelAtributoDinamico2">
 																						<!-- AQUI VA LO QUE SE CREA DINAMICAMENTE -->
 																					</ui:panelGroup>
 																				</td>

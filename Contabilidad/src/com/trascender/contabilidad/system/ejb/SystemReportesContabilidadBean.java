@@ -1,5 +1,6 @@
 package com.trascender.contabilidad.system.ejb;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -95,6 +96,18 @@ public class SystemReportesContabilidadBean implements SystemReportesContabilida
 	@Override
 	public JasperPrint getReporteLiquidacionDeuda(List<LiquidacionTasaAgrupada> pListaLiquidacion) throws Exception {
 		return businessReportesContabilidad.getReporteLiquidacionDeuda(pListaLiquidacion);
+	}
+
+	@Override
+	public JasperPrint getReporteMovimientosEgreso(Date fechaDesde,
+			Date fechaHasta) throws Exception {
+		return businessReportesContabilidad.getReporteMovimientosEgreso(fechaDesde, fechaHasta);
+	}
+
+	@Override
+	public JasperPrint getReporteMovimientosIngreso(Date fechaDesde,
+			Date fechaHasta) throws Exception {
+		return businessReportesContabilidad.getReporteMovimientosIngreso(fechaDesde, fechaHasta);
 	}
 
 }

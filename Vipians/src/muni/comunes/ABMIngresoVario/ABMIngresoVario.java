@@ -9,6 +9,7 @@ package muni.comunes.ABMIngresoVario;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.contabilidad.recurso.persistent.RelaConceptoIngresoVarioCuenta;
 import com.trascender.framework.exception.TrascenderFrameworkException;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.Util;
 import com.trascender.presentacion.abstracts.ABMPageBean;
 import com.trascender.presentacion.conversores.Conversor;
 import com.trascender.presentacion.navegacion.ElementoPila;
@@ -86,7 +88,25 @@ public class ABMIngresoVario extends ABMPageBean {
 	private StaticText stTotal = new StaticText();
 	private TextField tfConcepto = new TextField();
 	private HtmlAjaxCommandButton btnLimpiarConcepto = new HtmlAjaxCommandButton();
+	private TextField tfFechaVencimiento = new TextField();
+	private TextField tfFechaActualizacion = new TextField();
 	
+	public TextField getTfFechaVencimiento() {
+		return tfFechaVencimiento;
+	}
+
+	public void setTfFechaVencimiento(TextField tfFechaVencimiento) {
+		this.tfFechaVencimiento = tfFechaVencimiento;
+	}
+	
+	public TextField getTfFechaActualizacion() {
+		return tfFechaActualizacion;
+	}
+
+	public void setTfFechaActualizacion(TextField tfFechaActualizacion) {
+		this.tfFechaActualizacion = tfFechaActualizacion;
+	}
+
 	public HtmlAjaxCommandButton getBtnLimpiarConcepto() {
 		return btnLimpiarConcepto;
 	}
@@ -530,7 +550,19 @@ public class ABMIngresoVario extends ABMPageBean {
 		if(ingresoVario.getFechaEmision() == null) {
 			ingresoVario.setFechaEmision(new Date());
 		}
-		this.getTfFechaEmision().setText(Conversor.getStringDeFechaCorta(ingresoVario.getFechaEmision()));
+		if (ingresoVario.getFechaVencimiento() == null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(ingresoVario.getFechaEmision());
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			Date fechaVencimiento = Util.llevarFechaALunes(cal.getTime());
+			ingresoVario.setFechaVencimiento(fechaVencimiento);
+		}
+		if (ingresoVario.getFechaVencimientoOriginal() == null) {
+			ingresoVario.setFechaVencimientoOriginal(ingresoVario.getFechaVencimiento());
+		}
+		this.setTextFieldValueDate(tfFechaEmision, ingresoVario.getFechaEmision());
+		this.setTextFieldValueDate(tfFechaVencimiento, ingresoVario.getFechaVencimientoOriginal());
+		this.setTextFieldValueDate(tfFechaActualizacion, ingresoVario.getFechaVencimiento());
 		if(persona != null)
 			this.getTfPersona().setText(persona.toString());
 

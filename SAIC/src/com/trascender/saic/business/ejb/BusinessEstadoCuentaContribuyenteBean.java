@@ -690,6 +690,11 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 
 	@Override
 	public FiltroLiquidacionTasaRefer findListaLiquidacionTasaRefer(FiltroLiquidacionTasaRefer pFiltro) throws Exception {
+		
+		boolean cementerio = pFiltro.getListaTipoObligacion().get(0).getNombre().equals("CEMENTERIO");
+		boolean oysp = pFiltro.getListaTipoObligacion().get(0).getNombre().equals("OYSP");
+		boolean tgi = pFiltro.getListaTipoObligacion().get(0).getNombre().equals("TGI");
+		boolean shps = pFiltro.getListaTipoObligacion().get(0).getNombre().equals("SHPS");
 
 		// Levantamos las parcelas
 		Map<Long, Parcela> locMapaParcelas = new HashMap<Long, Parcela>();
@@ -697,7 +702,8 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 		if(pFiltro.getParcela() != null) {
 			locMapaParcelas.put(pFiltro.getParcela().getIdParcela(), pFiltro.getParcela());
 		}
-		if(pFiltro.getNumeroParcela() != null && !pFiltro.getListaTipoObligacion().get(0).getNombre().equals("SHPS")) {
+		if(pFiltro.getNumeroParcela() != null 
+				&& (tgi || oysp || pFiltro.getListaTipoObligacion().get(0).getNombre().equals("ARRENDAMIENTO"))) {
 			FiltroParcela locFiltro = new FiltroParcela();
 			NomenclaturaCatastral locNomenclatura = new NomenclaturaCatastral();
 			locNomenclatura.setNroParcela(pFiltro.getNumeroParcela());
@@ -735,11 +741,12 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 					+ "(select array_agg(distinct cast(rd.id_registro_deuda as numeric))) as ids_registros_deuda, "
 					+ "cal.anio||' - '||per.nombre, rd.tipo||' ('||array_to_string(array_sort(array_agg(tipo_doc_hab_especializado::varchar)), '-')||')', "
 					+ "cal.anio, "
-					+ "case when every(doc_hab.tipo_doc_hab_especializado = 'SHPS') then doc_hab.numero_inscripcion else par.nro_parcela end, "
+					+ "coalesce(doc_hab.numero_inscripcion,par.nro_parcela"+(cementerio ? ", doc_hab.numero_cuenta::varchar), ":"),")
 					+ "case when pf.apellido is not null then (pf.apellido || ', ' ||pf.nombre) "
 					+ "else pj.razon_social end ||' ['||p.cuim||']' as persona, "
 					+ "dom_par.domicilio_armado as domicilio_parcelario, "
-					+ "case when ( bool_or(lt.fecha_apremio is not null) or bool_or(lt.fecha_notificacion is not null) ) then '*' else null end as aviso "
+					+ "case when ( bool_or(lt.fecha_apremio is not null) or bool_or(lt.fecha_notificacion is not null) ) then '*' else null end as aviso, "
+					+ "max(reg_can.fecha_cancelacion) as fecha_cancelacion "
 					
 					+ "from registro_deuda rd inner join liquidacion_tasa lt on lt.id_registro_deuda = rd.id_registro_deuda "
 					+ "inner join doc_generador_deuda doc on rd.id_doc_generador_deuda = doc.id_doc_generador_deuda " + "inner join obligacion o on doc.id_obligacion = o.id_obligacion "
@@ -748,7 +755,8 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 					+ "inner join calendario cal on cal.id_calendario = per.id_calendario " + "join persona p on p.id_persona = o.id_persona "
 					+ "left join parcela par on doc_hab.id_parcela = par.id_parcela " + "left join persona_fisica pf on p.id_persona = pf.id_persona "
 					+ "left join persona_juridica pj on p.id_persona = pj.id_persona "
-					+ "left join domicilio dom_par on dom_par.id_domicilio = par.id_domicilio ";
+					+ "left join domicilio dom_par on dom_par.id_domicilio = par.id_domicilio "
+					+ "left join registro_cancelacion reg_can on reg_can.id_registro_cancelacion = rd.id_registro_cancelacion ";
 
 			// /////////
 //			ParametroSistemaString locParametroMostrador = this.getParametroSistemaString("OMITIR_MOSTRADOR");
@@ -763,7 +771,8 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			if(pFiltro.getListaTipoObligacion() != null) {
 				boolean flagOr = false;
 				for(TipoObligacion cadaTipo : pFiltro.getListaTipoObligacion()) {
-					consulta += (flagOr ? "or" : "") + " doc_hab.tipo_doc_hab_especializado like '" + (cadaTipo.getNombre().equals("OYSP") ? "OSP" : cadaTipo.getNombre()) + "' ";
+					String nombre = cadaTipo.getNombre().equals("OYSP") ? "OSP" : cadaTipo.getNombre().equals("CEMENTERIO") ? "CMT" : cadaTipo.getNombre();
+					consulta += (flagOr ? "or" : "") + " doc_hab.tipo_doc_hab_especializado like '" + nombre + "' ";
 					flagOr = true;
 				}
 			}
@@ -790,11 +799,23 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 				consulta += "and cal.anio = ? ";
 				ind++;
 			}
+		
+			
 			if (pFiltro.getNumeroParcela() != null
-					&& !pFiltro.getNumeroParcela().trim().isEmpty()
-					&& pFiltro.getListaTipoObligacion().get(0).getNombre().equals("SHPS")) {
-				consulta += "and doc_hab.numero_inscripcion like '" + pFiltro.getNumeroParcela()+"'";
+					&& !pFiltro.getNumeroParcela().trim().isEmpty()) {
+				String valores = pFiltro.getNumeroParcela().replace(" ", ",");
+				if (shps) {
+					String procesado = "";
+					for (String cadaUno : valores.split(",")) {
+						procesado += "'"+cadaUno+"',";
+					}
+					procesado = procesado.substring(0, procesado.length() - 1);
+					consulta += "and doc_hab.numero_inscripcion in (" + procesado +") ";
+				} else if (cementerio) {
+					consulta += "and doc_hab.numero_cuenta in (" + valores +") ";
+				}
 			}
+			
 			if(!locMapaParcelas.isEmpty()) {
 				String parcelas = "(";
 				for(Iterator<Long> iterator = locMapaParcelas.keySet().iterator(); iterator.hasNext();) {
@@ -840,9 +861,13 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			consulta += " group by rd.estado,per.nombre, cuota.nombre, rd.tipo, par.nro_parcela, " 
 					+ "doc_hab.id_parcela, cal.anio, cal.nombre, per.numero, dom_par.domicilio_armado, "
 					+ "p.cuim, pf.apellido, pf.nombre, pj.razon_social, doc_hab.numero_inscripcion ";
-
+			
 			if(pFiltro.isNoAgrupar()) {
 				consulta += ", rd.id_registro_deuda ";
+			}
+			
+			if (cementerio) {
+				consulta += ", doc_hab.numero_cuenta ";
 			}
 			consulta += " order by cal.anio desc, per.numero desc ";
 			Connection con = datasource.getConnection();
@@ -985,6 +1010,7 @@ public class BusinessEstadoCuentaContribuyenteBean implements BusinessEstadoCuen
 			locLiquidacion.setStringPersona(rs.getString(10));
 			locLiquidacion.setDomicilioParcelario(rs.getString(11));
 			locLiquidacion.setAviso(rs.getString(12));
+			locLiquidacion.setFechaCancelacion(rs.getDate(13));
 			locListaResultado.add(locLiquidacion);
 		}
 		return locListaResultado;

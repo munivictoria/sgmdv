@@ -16,7 +16,14 @@ public class FiltroObligacionCementerio extends FiltroAbstracto<Obligacion>{
 	private List<AtributoDinamico<?>> listaAtributosDinamicos;
 	private Obligacion.Estado estado;
 	private List<Long> listaIdPersonas;
+	private Integer numeroCuenta;
 	
+	public Integer getNumeroCuenta() {
+		return numeroCuenta;
+	}
+	public void setNumeroCuenta(Integer numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
+	}
 	public List<AtributoDinamico<?>> getListaAtributosDinamicos() {
 		return listaAtributosDinamicos;
 	}

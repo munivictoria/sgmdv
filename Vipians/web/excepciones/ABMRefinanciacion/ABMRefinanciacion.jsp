@@ -322,6 +322,9 @@
 														</ui:tableRowGroup>
 														<f:facet name="actionsTop">
 															<ui:panelGroup binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.groupPanel1}" id="groupPanel1">
+																<ui:textField id="tfFechaActualizarDeuda" styleClass="textField" columns="10"
+																	binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.tfFechaActualizacionDeuda}"/>
+																<ui:checkbox binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.cbAplicarIntereses}" label="Aplicar intereses"/>
 																<a4j:commandButton action="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.btnActualizarDeuda_action}"
 																	binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.btnActualizarDeuda}" id="btnActualizarDeuda" styleClass="btnAjax" value="Actualizar Deuda" reRender="table1" />
 																<ui:staticText binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.stSeparador11}" escape="false" id="stSeparador11" text="&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;" />
@@ -469,7 +472,8 @@
 														<ui:tableRowGroup binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.tableRowGroup2}" id="tableRowGroup1" rows="15"
 															sourceData="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.ldpPeriodosAdeudados}" sourceVar="currentRow">
 															<ui:tableColumn binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.tableColumn10}" headerText="Período" id="tableColumn10" sort="stringPeriodoLiquidado">
-																<ui:staticText binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.staticText9}" id="staticText9" text="#{currentRow.value['stringPeriodoLiquidado']}" />
+																<ui:textArea id="taPeriodoLiquidado" disabled="true"
+																text="#{currentRow.value['stringPeriodoLiquidado']}" />
 															</ui:tableColumn>
 															<ui:tableColumn binding="#{excepciones$ABMRefinanciacion$ABMRefinanciacion.tableColumn11}" headerText="Obligación" id="tableColumn11" sort="stringObligacion">
 																<ui:textArea id="taObligacion" disabled="true" text="#{currentRow.value['stringObligacion']}" />

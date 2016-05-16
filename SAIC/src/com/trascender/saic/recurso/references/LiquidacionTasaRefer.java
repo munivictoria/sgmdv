@@ -28,7 +28,16 @@ public class LiquidacionTasaRefer implements Serializable{
 	private Long idPersona;
 	private String domicilioParcelario;
 	private String aviso;
+	private Date fechaCancelacion;
 	
+	public Date getFechaCancelacion() {
+		return fechaCancelacion;
+	}
+
+	public void setFechaCancelacion(Date fechaCancelacion) {
+		this.fechaCancelacion = fechaCancelacion;
+	}
+
 	public String getAviso() {
 		return aviso;
 	}
@@ -87,6 +96,8 @@ public class LiquidacionTasaRefer implements Serializable{
 					estado = "VENCIDA";
 				}
 			}
+		} else if (estado.equals("PAGADA")) {
+			estado += " ("+Util.getString(fechaCancelacion)+")";
 		}
 		return estado;
 	}

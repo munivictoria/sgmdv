@@ -26,7 +26,7 @@ public class ResumenCajaTableModel extends TAbstractTableModel<TicketCaja> {
 		List<TColumn> locListaColumnas = new ArrayList<TColumn>();
 		try {
 			locListaColumnas.add(new TColumnField("Nº Ticket",TicketCaja.class.getDeclaredField("numero")));
-			locListaColumnas.add(new TColumnGeter("Nº Parcela", TicketCaja.class.getDeclaredMethod("getNroParcela")));
+			locListaColumnas.add(new TColumnGeter("Número Cuenta", TicketCaja.class.getDeclaredMethod("getNroParcela")));
 			locListaColumnas.add(new TColumnGeter("Persona", TicketCaja.class.getDeclaredMethod("getStringPersona")));
 			locListaColumnas.add(new TColumnField("Importe",TicketCaja.class.getDeclaredField("importeTotal"),Double.class));
 			locListaColumnas.add(new TColumnField("Caja",TicketCaja.class.getDeclaredField("caja"),Caja.class));

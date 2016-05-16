@@ -82,6 +82,14 @@
 																action="#{habilitaciones$grpCementerio$ABMDocEspCementerio$AdminDocEspCementerio.btnLimpiarPersona_action}"
 																styleClass="buttonLimpiarAjax" oncomplete="cargarComportamientoJQuery(); focusearTfPersonaSeleccionada();" />
 														</td>
+														<td align="right" nowrap="true">
+															<ui:label id="lblNumeroCuenta" styleClass="label" text="Numero cuenta" />
+														</td>
+														<td nowrap="nowrap">
+															<ui:textField binding="#{habilitaciones$grpCementerio$ABMDocEspCementerio$AdminDocEspCementerio.tfNumeroCuenta}" id="tfNumeroCuenta"
+																styleClass="textField" />
+														</td>
+														
 													</tr>
 													<tr>
 														<td align="right" nowrap="nowrap">
@@ -101,8 +109,6 @@
 																action="#{habilitaciones$grpCementerio$ABMDocEspCementerio$AdminDocEspCementerio.btnLimpiarParcelaCementerio_action}"
 																styleClass="buttonLimpiarAjax" />
 														</td>
-													</tr>
-													<tr>
 														<td align="right" nowrap="true">
 															<ui:label binding="#{habilitaciones$grpCementerio$ABMDocEspCementerio$AdminDocEspCementerio.lblEstado}" id="label4" style=""
 																styleClass="label" text="Estado" />

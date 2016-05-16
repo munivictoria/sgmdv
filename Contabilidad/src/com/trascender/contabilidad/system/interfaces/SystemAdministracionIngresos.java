@@ -17,6 +17,7 @@ import com.trascender.contabilidad.recurso.filtros.FiltroIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.DetalleTicketCaja;
 import com.trascender.contabilidad.recurso.persistent.HistoricoReimpresionTicket;
+import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.recurso.persistent.TicketCancelado;
@@ -348,4 +349,7 @@ public interface SystemAdministracionIngresos
 			throws Exception;
 	
 	public List<AuxIdEntidad> findListaAuxIdConceptoIngresoVario(String cadena) throws Exception;
+
+	void actualizarDeudaIngresoVario(IngresoVario pIngresoVario, Date pFecha,
+			boolean pAplicarInteres) throws TrascenderException;
 }

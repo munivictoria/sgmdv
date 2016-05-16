@@ -1,8 +1,10 @@
 package com.trascender.habilitaciones.recurso.persistent;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,12 +25,11 @@ import javax.persistence.Table;
 
 import com.trascender.catastro.recurso.persistent.Parcela;
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.framework.util.AuditoriaIndirecta;
 import com.trascender.framework.util.EntidadTrascender;
 import com.trascender.habilitaciones.exception.HabilitacionesException;
-import com.trascender.habilitaciones.recurso.persistent.osp.DocumentoOSP;
 import com.trascender.habilitaciones.recurso.persistent.osp.ServicioOSP;
-import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
 
 /**
  * Representa una obligacion por parte del contribuyente con el municipio
@@ -337,31 +338,32 @@ public class Obligacion implements Serializable, AuditoriaIndirecta{
 
 	public void setServicios(String servicios) {
 	}
-
-	/**
-	 * Valido solo para los DocumentosSHPS
-	 * @return
-	 */
-	public String getNumeroInscripcion(){
+	
+	public String getNumeroInscripcion() {
 		String numero = null;
-		if (this.documentoEspecializado instanceof DocumentoSHPS){
-			DocumentoSHPS locDocumento = (DocumentoSHPS) documentoEspecializado;
-			numero = locDocumento.getNumeroInscripcion();
+		try {
+			Method metodo = documentoEspecializado.getClass().getMethod("getNumeroInscripcion");
+			numero = (String) metodo.invoke(documentoEspecializado);
+		} catch(Exception e) {
 		}
 		return numero;
 	}
 
-	/**
-	 * Valido solo para los Documentos OSP
-	 * @return
-	 */
-	public Integer getNumeroCuenta(){
+	public Integer getNumeroCuenta() {
 		Integer numero = null;
-		if (this.documentoEspecializado instanceof DocumentoOSP){
-			DocumentoOSP locDocumento = (DocumentoOSP) documentoEspecializado;
-			numero = locDocumento.getNumeroCuenta();
+		try {
+			Method metodo = documentoEspecializado.getClass().getMethod("getNumeroCuenta");
+			numero = (Integer) metodo.invoke(documentoEspecializado);
+		} catch(Exception e) {
 		}
 		return numero;
+	}
+
+	public String getNroCuentaNroIncripcion() {
+		if(this.getNumeroInscripcion() != null)
+			return this.getNumeroInscripcion();
+		else
+			return String.valueOf(this.getNumeroCuenta());
 	}
 
 	public void setComentarioAuditoria(String pComentario) {
@@ -388,6 +390,10 @@ public class Obligacion implements Serializable, AuditoriaIndirecta{
 	}
 	public boolean concatenaNombre() {
 		return false;
+	}
+	
+	public List<AtributoDinamico<?>> getListaAtributosDinamicos() {
+		return documentoEspecializado.getListaAtributosDinamicos();
 	}
 
 

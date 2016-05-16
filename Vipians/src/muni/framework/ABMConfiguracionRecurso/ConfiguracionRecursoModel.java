@@ -46,7 +46,7 @@ public class ConfiguracionRecursoModel extends ABMModel {
 		v.noSonVacios(noVacios, nomNoVacios);
 		
 		ConfiguracionRecurso confRec = (ConfiguracionRecurso) this.getBeanConfiguracionRecurso().getElementoPila().getObjetos().get(0);
-		if(confRec.getToString().length() > 0) {
+		if(confRec.getToString() != null && confRec.getToString().length() > 0) {
 			String texto = confRec.getToString();
 			int cantSignoPesoFormula = texto.length() - texto.replace("$", "").length();
 			int cantSignoPeso = (texto.length() - texto.replace("'$'", "").length()) / 3;

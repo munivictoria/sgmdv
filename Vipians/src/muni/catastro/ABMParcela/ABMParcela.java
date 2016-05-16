@@ -3338,7 +3338,7 @@ public class ABMParcela extends ABMPageBean {
 			aux = aux + cadaRegistro.getSuperficie();
 		}
 		this.getTfRegistroMejora().setText(aux.toString());
-
+		
 		TituloPropiedadParcelario tituloPropiedad = parcela.getTituloPropiedad();
 
 		if(tituloPropiedad != null) {

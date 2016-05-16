@@ -44,9 +44,6 @@ public class CuotaRefinanciacionDS extends TrascenderDataSource {
 		parametros.put("P_DOCUMENTO_REFINANCIACION", pDocumento);
 		parametros.put("P_USUARIO", pUsuario.getUser());
 		
-		System.out.println(pDocumento.getObligacion().getPersona().getCuim());
-		System.out.println(pDocumento.getObligacion().getPersona().getCuim().equals("99-99999999-9"));
-		
 		if (pDocumento.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda().iterator().next() instanceof LiquidacionTasa) {
 			LiquidacionTasa liq = (LiquidacionTasa) pDocumento.getRegCancelacionPorRefinanciacion().getListaRegistrosDeuda().iterator().next();
 			DocHabilitanteEspecializado doc = liq.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();

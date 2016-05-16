@@ -47,17 +47,15 @@ public class Rol implements Serializable, EntidadTrascender{
 	@Column(name="ID_ROL")
 	private long idRol=-1;
 	
-	@Column(nullable=false)
 	private String nombre;
 	
-	@Column(name="FECHA_DESDE", nullable=false)
+	@Column(name="FECHA_DESDE")
 	private Date desde;
 	
-	@Column(name="FECHA_HASTA", nullable=false)
+	@Column(name="FECHA_HASTA")
 	private Date hasta;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(nullable=false)
 	private Estado estado;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.ALL},mappedBy="rol")

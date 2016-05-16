@@ -2336,7 +2336,7 @@ public class ABMTipoTasa extends ABMPageBean {
 			opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.DEUDA;
 		} else {
 			FiltroPlantillaDocumentoTasaMenor locFiltro = new FiltroPlantillaDocumentoTasaMenor();
-			locFiltro.setNombre(tipoTasa.getPlan().getTipoObligacion().getNombre());
+			locFiltro.setNombre(tipoObligacion.getNombre());
 
 			try {
 				locFiltro = this.getCommunicationHabilitacionesBean().getRemoteSystemDocumentoTasaMenor().findListaPlantillaDocumentoTasaMenor(locFiltro);
@@ -2359,7 +2359,7 @@ public class ABMTipoTasa extends ABMPageBean {
 			if(valor == 1) {
 				opcionesAMostrar[k++] = TipoParametro.TIPOS_PARAMETRO.PARCELARIO;
 			}
-			opcionesAMostrar[k++] = tipoTasa.getPlan().getTipoObligacion().getNombre();
+			opcionesAMostrar[k++] = tipoObligacion.getNombre();
 		}
 
 		op = null;

@@ -9,7 +9,7 @@
 				<ui:link binding="#{comunes$ABMIngresoVario$AdminIngresoVario.link1}" id="link1" url="/resources/stylesheet.css" />
 				<script>
 					<![CDATA[
-					var nombreBean = "excepciones$ABMIngresoVario$AdminIngresoVario";
+					var nombreBean = "comunes$ABMIngresoVario$AdminIngresoVario";
 
 					function cargarComportamientoJQuery() {
 						autoCompletarEnTextField("#form1:tfPersonaSeleccionada", "persona", nombreBean, "setPersonaAutocompletar");
@@ -57,7 +57,7 @@
 															<ui:label binding="#{comunes$ABMIngresoVario$AdminIngresoVario.lblPersonaSeleccionada}" for="tfPersonaSeleccionada"
 																id="lblPersonaSeleccionada" styleClass="label" text="Persona" />
 														</td>
-														<td colspan="3">
+														<td nowrap="nowrap">
 															<ui:textField binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfPersonaSeleccionada}" columns="40"
 																id="tfPersonaSeleccionada"
 																styleClass="#{comunes$ABMIngresoVario$AdminIngresoVario.paginatedTable.filtro.persona != null ? 'textFieldDisabled' : 'textField'}"
@@ -73,12 +73,19 @@
 																action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnLimpiarPersona_action}" styleClass="buttonLimpiarAjax"
 																oncomplete="cargarComportamientoJQuery(); focusearTfPersonaSeleccionada();" />
 														</td>
+														<td align="right" nowrap="true">
+															<ui:label for="tfNumero"
+																id="lblNumero" styleClass="label" text="Número" />
+														</td>
+														<td>
+															<ui:textField styleClass="textField" binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfNumero}"/>
+														</td>
 													</tr>
 													<tr>
 														<td align="right" nowrap="nowrap">
 															<ui:label for="tfConceptoIngresoVario" id="lblConceptoIngresoVario" styleClass="label" text="Concepto" />
 														</td>
-														<td>
+														<td nowrap="nowrap">
 															<ui:textField binding="#{comunes$ABMIngresoVario$AdminIngresoVario.tfConcepto}" columns="40" id="tfConceptoIngresoVario"
 																styleClass="#{comunes$ABMIngresoVario$AdminIngresoVario.paginatedTable.filtro.conceptoIngresoVario != null ? 'textFieldDisabled' : 'textField'}"
 																disabled="#{comunes$ABMIngresoVario$AdminIngresoVario.paginatedTable.filtro.conceptoIngresoVario != null}" />
@@ -88,8 +95,6 @@
 																styleClass="buttonLimpiarAjax"
 																oncomplete="cargarComportamientoJQuery(); focusearTfConcepto();"/>
 														</td>
-													</tr>
-													<tr>
 														<td align="right" nowrap="true">
 															<ui:label binding="#{comunes$ABMIngresoVario$AdminIngresoVario.lblEstado}" for="ddEstado" id="lblEstado" styleClass="label"
 																text="Estado" />
@@ -164,6 +169,10 @@
 													<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnConsultar_action}"
 														binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnConsultar}" id="btnConsultar" styleClass="button" text="Consultar" />
 													<ui:staticText text="#{comunes$ABMIngresoVario$AdminIngresoVario.textoSeparador}" escape="false" id="stSeparador4" />
+													<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnActualizarDeuda_action}"
+															binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnActualizarDeuda}"
+															id="btnActualizar" styleClass="button"
+															text="Actualizar" />
 													<ui:button action="#{comunes$ABMIngresoVario$AdminIngresoVario.btnRefinanciar_action}"
 															binding="#{comunes$ABMIngresoVario$AdminIngresoVario.btnRefinanciar}"
 															id="btnRefinanciar" styleClass="button"

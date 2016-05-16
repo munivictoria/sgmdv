@@ -15,10 +15,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.trascender.framework.recurso.persistent.Persona;
+import com.trascender.framework.util.Util;
 import com.trascender.habilitaciones.recurso.persistent.Obligacion;
 import com.trascender.saic.recurso.interfaces.Pagable;
 import com.trascender.saic.recurso.persistent.DocGeneradorDeuda;
 import com.trascender.saic.recurso.persistent.RegistroDeuda;
+import com.trascender.saic.recurso.persistent.RegistroDeuda.EstadoRegistroDeuda;
 
 @Entity
 @Table(name = "INGRESO_VARIO")
@@ -27,20 +29,21 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 
 	public static final long serialVersionUID = -3670711348690088473L;
 
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id_ingreso_vario")
-//	@SequenceGenerator(name = "gen_id_ingreso_vario", sequenceName = "gen_id_ingreso_vario", allocationSize = 1)
-//	@Column(name = "ID_INGRESO_VARIO")
-//	private long idIngresoVario = -1;
-
 	@Column(name = "VALOR")
 	private Double valor = 0D;
 
 	@Column(name = "FECHA_EMISION")
 	private Date fechaEmision;
+	
+	@Column(name = "FECHA_VENCIMIENTO")
+	private Date fechaVencimiento;
+	
+	@Column(name = "FECHA_VENCIMIENTO_ORIGINAL")
+	private Date fechaVencimientoOriginal;
+	
 	private Integer numero = 0;
-
-	// Relacion con otros objetos
+	
+	private Double interes = 0D;
 
 	@ManyToOne
 	@JoinColumn(name = "ID_CONCEPTO_INGRESO_VARIO")
@@ -69,11 +72,6 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 
 	public void setListaImputacionIngresos(List<ImputacionIngresoVario> listaImputacionIngresos) {
 		this.listaImputacionIngresos = listaImputacionIngresos;
-	}
-
-	@Override
-	public EstadoRegistroDeuda getEstado() {
-		return estado;
 	}
 
 	public ConceptoIngresoVario getConceptoIngresoVario() {
@@ -105,7 +103,7 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 
 	@Override
 	public String getNombre() {
-		return this.getConceptoIngresoVario().getNombre();
+		return this.getConceptoIngresoVario().getNombre() + " - " + getObservaciones();
 	}
 
 	public Double getValor() {
@@ -121,37 +119,6 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 		String linea = this.getPersona().toString() + " - " + this.conceptoIngresoVario.getNombre() + " - $" + this.valor;
 		return linea;
 	}
-
-//	@Override
-//	public int hashCode() {
-//		if(this.idIngresoVario == -1) {
-//			return super.hashCode();
-//		}
-//		final int PRIME = 31;
-//		int result = 1;
-//		result = PRIME * result + (int) (idIngresoVario ^ (idIngresoVario >>> 32));
-//		return result;
-//	}
-
-//	@Override
-//	public boolean equals(Object obj) {
-//		if(this == obj) {
-//			return true;
-//		}
-//		if(obj == null) {
-//			return false;
-//		}
-//		if(getClass() != obj.getClass()) {
-//			return false;
-//		}
-//		final IngresoVario other = (IngresoVario) obj;
-//		if(idIngresoVario != other.idIngresoVario) {
-//			return false;
-//		}
-//		return true;
-//	}
-	
-	
 
 	public Integer getNumero() {
 		return numero;
@@ -176,7 +143,66 @@ public class IngresoVario extends RegistroDeuda implements Serializable, Pagable
 
 	@Override
 	public Double getMonto() {
-		return this.getValor();
+		return this.getValor() + getInteres();
 	}
 
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public Date getFechaVencimientoOriginal() {
+		return fechaVencimientoOriginal;
+	}
+
+	public void setFechaVencimientoOriginal(Date fechaVencimientoOriginal) {
+		this.fechaVencimientoOriginal = fechaVencimientoOriginal;
+	}
+
+	public Double getInteres() {
+		return interes;
+	}
+
+	public void setInteres(Double interes) {
+		this.interes = interes;
+	}
+
+	@Override
+	public EstadoRegistroDeuda getEstado() {
+		try {
+			if(this.estado.equals(EstadoRegistroDeuda.ANULADA) || this.estado.equals(EstadoRegistroDeuda.CANCELADA) || this.estado.equals(EstadoRegistroDeuda.VENCIDA)
+					|| this.estado.equals(EstadoRegistroDeuda.VIGENTE)) {
+				if(this.getRegistroCancelacion() == null) {// si no tiene reg de cancelacion, es vigente
+					estado = EstadoRegistroDeuda.VIGENTE;
+				}
+
+				if(estado.equals(EstadoRegistroDeuda.VIGENTE)) {
+					Date locFechaActual = Util.getFechaActualFormatoSimple();
+
+					if(this.getFechaVencimientoOriginal() != null) {// si es vigente y tiene una fecha de vencimiento, comprueba si no esta venciada
+						Date locFechaVencimiento = this.getFechaVencimiento();
+						estado = ((locFechaVencimiento.after(locFechaActual) || locFechaActual.getTime() == locFechaVencimiento.getTime()) ? EstadoRegistroDeuda.VIGENTE
+								: EstadoRegistroDeuda.VENCIDA);
+					} else {// si no tiene una fecha de vencimiento, el estado es vencido
+						estado = EstadoRegistroDeuda.VENCIDA;
+					}
+				}
+				// si el estado de la obligacion asociada es anulada, el registro es anulado.
+				if(this.getDocGeneradorDeuda() != null 
+						&& this.getDocGeneradorDeuda().getObligacion().getEstado().equals(Obligacion.Estado.ANULADO)
+						&& this.estado != EstadoRegistroDeuda.PAGADA) {
+					estado = EstadoRegistroDeuda.ANULADA;
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return estado;
+	}
+	
+	
+	
 }

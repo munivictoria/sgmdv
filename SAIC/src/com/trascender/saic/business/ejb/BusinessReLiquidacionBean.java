@@ -472,23 +472,25 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 			for(ParametroValuadoAlicuota cadaParametroActual : cadaAlicuotaLiquidada.getListaParametrosValuados()) {
 				// El parametro siempre es nuevo, luego se decide si el valor cambia o se mantiene.
 				Object locValor = null;
-				for(ParametroValuadoAlicuota cadaParametroNuevo : pListaNuevosParametrosAlicuotas) {
-					if(cadaParametroActual.getNombre().equals(cadaParametroNuevo.getNombre())
-							&& cadaParametroActual.getAlicuotaLiquidada().getRegAlicuota().equals(cadaParametroNuevo.getAlicuotaLiquidada().getRegAlicuota())) {
-						// El valor debe cambiar.
-						// Se recupera el TipoParametroAlicuota
-						TipoParametroAlicuota locTipoParametro = null;
-						Iterator<TipoParametroAlicuota> itTipoParametro = pLiquidacionTasa.getTipoTasa().getListaParamatrosAlicuota().iterator();
-						while(itTipoParametro.hasNext() && locTipoParametro == null) {
-							TipoParametroAlicuota cadaTipoParametroAlicuota = itTipoParametro.next();
-							if(cadaParametroNuevo.getNombre().equals(cadaTipoParametroAlicuota.getNombreVariable())) {
-								locTipoParametro = cadaTipoParametroAlicuota;
+				if (pListaNuevosParametrosAlicuotas != null) {
+					for(ParametroValuadoAlicuota cadaParametroNuevo : pListaNuevosParametrosAlicuotas) {
+						if(cadaParametroActual.getNombre().equals(cadaParametroNuevo.getNombre())
+								&& cadaParametroActual.getAlicuotaLiquidada().getRegAlicuota().equals(cadaParametroNuevo.getAlicuotaLiquidada().getRegAlicuota())) {
+							// El valor debe cambiar.
+							// Se recupera el TipoParametroAlicuota
+							TipoParametroAlicuota locTipoParametro = null;
+							Iterator<TipoParametroAlicuota> itTipoParametro = pLiquidacionTasa.getTipoTasa().getListaParamatrosAlicuota().iterator();
+							while(itTipoParametro.hasNext() && locTipoParametro == null) {
+								TipoParametroAlicuota cadaTipoParametroAlicuota = itTipoParametro.next();
+								if(cadaParametroNuevo.getNombre().equals(cadaTipoParametroAlicuota.getNombreVariable())) {
+									locTipoParametro = cadaTipoParametroAlicuota;
+								}
 							}
+							locTipoParametro.setCuotaLiquidacion(pLiquidacionTasa.getCuotaLiquidacion());
+							locValor = locTipoParametro.getValor(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado()
+									.getAsocRegAlicuotaPorAlicuota(cadaAlicuotaLiquidada.getRegAlicuota()));
+							break;
 						}
-						locTipoParametro.setCuotaLiquidacion(pLiquidacionTasa.getCuotaLiquidacion());
-						locValor = locTipoParametro.getValor(pLiquidacionTasa.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado()
-								.getAsocRegAlicuotaPorAlicuota(cadaAlicuotaLiquidada.getRegAlicuota()));
-						break;
 					}
 				}
 				// Si no cambio el valor es porque no se recalculo y sigue con el valor actual.
@@ -1133,6 +1135,7 @@ public class BusinessReLiquidacionBean implements BusinessReLiquidacionLocal {
 		locLiquidacionTasa = this.entityManager.merge(locLiquidacionTasa);
 		locReliquidacion.setLiquidacionTasa(locLiquidacionTasa);
 		locReliquidacion = this.entityManager.merge(locReliquidacion);
+		pLiquidacionTasa.setRegistroCancelacion(locReliquidacion);
 		return locReliquidacion;
 	}
 

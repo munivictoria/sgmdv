@@ -1239,26 +1239,7 @@ public class AdminLiquidacionSHPS extends AdminPageBean {
 
 	@Override
 	public String btnExportar_action() {
-		String retorno = null;
-		boolean ultimo = this.ultimoElementoPilaDeSubSesion();
-
-		if(ultimo) {
-			try {
-				JasperPrint jp = ImpresionReporteDinamico.imprimirLista(this.getListaDelCommunication(), this.getTableRowGroup1(), "Reporte Din\341mico de Liquidaciones SHPS");
-
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ConstantesReportes.FORMATO_REPORTE, ConstantesReportes.XLSX);
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("reportName", "Reporte_LiquidacionesSHPS");
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);
-
-			} catch(Exception e) {
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ErrorEnReporte", true);
-				log("AdminLiquidacionSHPS" + "_ReporteDinamicoError: ", e);
-				error("Administraci\363n de Liquidaciones de SHPS" + " - ReporteDinamico: " + e.getMessage());
-			}
-		} else {
-			retorno = this.prepararCaducidad();
-		}
-		return retorno;
+		return super.btnExportar_action();
 	}
 
 	public String btnSeleccionarTodas_action() {

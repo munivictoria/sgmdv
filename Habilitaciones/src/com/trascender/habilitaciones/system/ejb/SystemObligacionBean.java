@@ -196,6 +196,8 @@ public class SystemObligacionBean implements SystemObligacion {
 			serialVersion = DocumentoSHPS.serialVersionUID;
 		} else if (locDocumento instanceof DocumentoArrendamiento) {
 			serialVersion = DocumentoArrendamiento.serialVersionUID;
+		} else if (locDocumento instanceof DocumentoCementerio) {
+			serialVersion = DocumentoCementerio.serialVersionUID;
 		}
 		return SecurityMgr.getInstance().getPermiso(this.llave,serialVersion,pAccion);
 	}

@@ -938,6 +938,7 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 			
 			if (valor.isNaN()) {
 				System.out.println("NaN");
+				System.out.println(jep.getErrorInfo());
 			}
 
 			if(valor.equals(0d)) { // Si el valor del modificador es 0 significa q no es aplicable
@@ -4216,10 +4217,6 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 	@SuppressWarnings("unchecked")
 	public FiltroLiquidacionSHPS findListaLiquidacionesSHPS(FiltroLiquidacionSHPS pFiltro) throws Exception {
 
-		if((pFiltro.getPersona() == null) && (pFiltro.getCuota() == null)) {
-			throw new SaicException(37);
-		}
-		
 		Criterio locCritDocumento = Criterio.getInstance(this.entityManager, DocumentoSHPS.class)
 				.add(Restriccion.IGUAL("obligacion.persona", pFiltro.getPersona()))
 				.add(Restriccion.IGUAL("listaAsocRegAlicuota.registroAlicuota", pFiltro.getRubro()))
@@ -5029,7 +5026,11 @@ public class BusinessLiquidacionTasaBean implements BusinessLiquidacionTasaLocal
 		levantarLiquidacionesParaCuota(pCuota, listaDocumentos);
 
 		for(DocumentoCementerio cadaDocumento : listaDocumentos) {
-			locListaLiquidacionesRetorno.addAll(liquidarObligacion(cadaDocumento.getObligacion(), pCuota, Calendar.getInstance(), locTipoTasa));
+			try {
+				locListaLiquidacionesRetorno.addAll(liquidarObligacion(cadaDocumento.getObligacion(), pCuota, Calendar.getInstance(), locTipoTasa));
+			} catch (Exception e) {
+				locResultadoLiquidacion.getListaMensajes().add(e.getMessage());
+			}
 		}
 
 		if(!locListaLiquidacionesRetorno.isEmpty()) {

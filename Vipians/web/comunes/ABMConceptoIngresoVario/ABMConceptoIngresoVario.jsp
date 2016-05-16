@@ -42,6 +42,24 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td align="right" nowrap="nowrap">
+                                            <ui:label for="tfFormulaDeCalculo" id="lblFormulaCalculo"
+                                                styleClass="label" text="Fórmula Calculo Interes"/>
+                                        </td>
+                                        <td>
+											<ui:textField binding="#{comunes$ABMConceptoIngresoVario$ABMConceptoIngresoVario.tfFormulaDeCalculo}" columns="40"
+												id="tfFormulaDeCalculo" styleClass="textFieldDisabled" disabled="true" />
+											<ui:button id="btnSeleccionarFormulaDeCalculo"
+												binding="#{comunes$ABMConceptoIngresoVario$ABMConceptoIngresoVario.btnSeleccionarFormulaDeCalculo}"
+												action="#{comunes$ABMConceptoIngresoVario$ABMConceptoIngresoVario.btnSeleccionarFormulaDeCalculo_action}" escape="false"
+												mini="true" styleClass="buttonSeleccionar" text="&amp;nbsp;" toolTip="Seleccionar" />
+											<a4j:commandButton id="btnLimpiarFormulaDeCalculo" reRender="form1:tfFormulaDeCalculo" title="Limpiar"
+												binding="#{comunes$ABMConceptoIngresoVario$ABMConceptoIngresoVario.btnLimpiarFormulaDeCalculo}"
+												action="#{comunes$ABMConceptoIngresoVario$ABMConceptoIngresoVario.btnLimpiarFormulaDeCalculo_action}"
+												styleClass="buttonLimpiarAjax" />
+										</td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <br/>
                                         </td>

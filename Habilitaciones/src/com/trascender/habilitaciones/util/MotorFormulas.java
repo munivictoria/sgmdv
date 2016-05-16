@@ -34,5 +34,14 @@ public class MotorFormulas {
 		return jep;
 	}
 	
+	public static void main(String... args) {
+		JEP jep = MotorFormulas.initializeJEP();
+		jep.addVariable("FECHA_VENCIMIENTO_CUOTA", "21/01/2016");
+		jep.addVariable("RÉGIMEN_DE_TRIBUTACIÓN", "RÉGIMEN_GENERAL");
+		jep.parseExpression("FECHA_MAYOR(HOY(), FECHA_VENCIMIENTO_CUOTA)");
+		Double valor = jep.getValue();
+		System.out.println(valor);
+	}
+	
 	
 }

@@ -8,6 +8,8 @@ package com.trascender.presentacion.abstracts;
 import jasper.ConstantesReportes;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.component.html.HtmlGraphicImage;
@@ -18,6 +20,7 @@ import net.sf.jasperreports.j2ee.servlets.BaseHttpServlet;
 
 import org.ajax4jsf.ajax.html.HtmlAjaxStatus;
 
+import com.sun.data.provider.impl.TableRowDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.rave.web.ui.component.Body;
 import com.sun.rave.web.ui.component.Checkbox;
@@ -35,6 +38,7 @@ import com.sun.rave.web.ui.component.TextArea;
 import com.sun.rave.web.ui.component.TextField;
 import com.sun.rave.web.ui.model.Option;
 import com.sun.rave.web.ui.model.SingleSelectOptionsList;
+import com.trascender.framework.recurso.persistent.dinamicos.AtributoDinamico;
 import com.trascender.presentacion.conversores.Conversor;
 import com.trascender.presentacion.navegacion.ElementoPila;
 
@@ -694,5 +698,26 @@ public abstract class TrascenderAbstractPageBean extends AbstractPageBean {
 		if (formato != null) {
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("formatoDeArchivo", formato);	
 		}
+	}
+	
+	//Para que se pueda llamar un solo atributo dinamico desde un jsp, por ejemplo:
+	//#{bean.obtenerMapaAtributosDinamicos(currentRow)['Ubicación']}
+	public Map<String, Object> obtenerMapaAtributosDinamicos(Object objeto) {
+		TableRowDataProvider t = (TableRowDataProvider) objeto;
+		try {
+			List<AtributoDinamico<?>> lista = (List<AtributoDinamico<?>>) t.getValue("listaAtributosDinamicos");
+			return getMapaAtributosDinamicos(lista);
+		} catch (IllegalArgumentException e){
+			error("Lista de atributos dinamicos no encontrada.");
+			return new HashMap<String, Object>();
+		}
+	}
+		
+	public Map<String, Object> getMapaAtributosDinamicos(List<AtributoDinamico<?>> lista) {
+		Map<String, Object> mapaAtributosDinamicos = new HashMap<String, Object>();
+		for (AtributoDinamico<?> cadaAtributo : lista) {
+			mapaAtributosDinamicos.put(cadaAtributo.getNombre(), cadaAtributo.getValor());
+		}
+		return mapaAtributosDinamicos;
 	}
 }

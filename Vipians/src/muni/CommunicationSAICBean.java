@@ -2302,4 +2302,33 @@ public class CommunicationSAICBean extends AbstractSessionBean {
 		this.listaLineasSeleccionPeriodoRefinanciacion = listaLineasSeleccionPeriodoRefinanciacion;
 	}
 	
+	private List listaIngresosVariosActualizarDeuda = new ArrayList();
+	private Set seleccionadosSeleccionMultipleActualizarDeudaIngresoVario = new HashSet();
+
+	public List getListaIngresosVariosActualizarDeuda() {
+		return listaIngresosVariosActualizarDeuda;
+	}
+
+	public void setListaIngresosVariosActualizarDeuda(List listaIngresosVariosActualizarDeuda) {
+		this.listaIngresosVariosActualizarDeuda = listaIngresosVariosActualizarDeuda;
+	}
+
+	public Set getSeleccionadosSeleccionMultipleActualizarDeudaIngresoVario() {
+		return seleccionadosSeleccionMultipleActualizarDeudaIngresoVario;
+	}
+
+	public void setSeleccionadosSeleccionMultipleActualizarDeudaIngresoVario(Set seleccionadosSeleccionMultipleActualizarDeudaIngresoVario) {
+		this.seleccionadosSeleccionMultipleActualizarDeudaIngresoVario = seleccionadosSeleccionMultipleActualizarDeudaIngresoVario;
+	}
+	
+	private TableSelectPhaseListener tablePhaseListenerActualizarDeudaIngresoVario = new TableSelectPhaseListener();
+
+	public TableSelectPhaseListener getTablePhaseListenerActualizarDeudaIngresoVario() {
+		return tablePhaseListenerActualizarDeudaIngresoVario;
+	}
+
+	public void setTablePhaseListenerActualizarDeudaIngresoVario(TableSelectPhaseListener tablePhaseListenerActualizarDeudaIngresoVario) {
+		this.tablePhaseListenerActualizarDeudaIngresoVario = tablePhaseListenerActualizarDeudaIngresoVario;
+	}
+	
 }

@@ -17,6 +17,7 @@ import com.trascender.contabilidad.recurso.persistent.MovimientoCajaIngreso;
 import com.trascender.contabilidad.recurso.persistent.TicketCaja;
 import com.trascender.contabilidad.reporte.dataSource.ResumenCajaGeneralDS;
 import com.trascender.habilitaciones.recurso.persistent.TipoObligacion;
+import com.trascender.habilitaciones.recurso.persistent.cementerio.DocumentoCementerio;
 import com.trascender.habilitaciones.recurso.persistent.shps.DocumentoSHPS;
 import com.trascender.saic.recurso.interfaces.Pagable;
 import com.trascender.saic.recurso.persistent.LiquidacionTasa;
@@ -66,6 +67,10 @@ public class ResumenActualCajaDataSource extends ResumenCajaGeneralDS{
 					instanceof DocumentoSHPS){
 				DocumentoSHPS locDocumento = (DocumentoSHPS) liquidacionEjemplo.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
 				locLineaLiquidacion.put("NRO_INSCRIPCION", locDocumento.getNumeroInscripcion());
+			} else if (liquidacionEjemplo.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado()
+					instanceof DocumentoCementerio) {
+				DocumentoCementerio locDocumento = (DocumentoCementerio) liquidacionEjemplo.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado();
+				locLineaLiquidacion.put("NRO_INSCRIPCION", locDocumento.getNumeroCuenta().toString());
 			} else {
 				locLineaLiquidacion.put("NRO_INSCRIPCION", 
 						liquidacionEjemplo.getDocGeneradorDeuda().getObligacion().getDocumentoEspecializado()

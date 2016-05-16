@@ -100,6 +100,7 @@ import com.trascender.saic.reporte.dataSource.ImprimirDDJJSHPSDS;
 import com.trascender.saic.reporte.dataSource.ImprimirDDJJSHPSPadreDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionAgrupadaDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionAutomotorDS;
+import com.trascender.saic.reporte.dataSource.LiquidacionCementerioDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionOspDS;
 import com.trascender.saic.reporte.dataSource.LiquidacionPfoDS;
@@ -428,6 +429,14 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 				locLiquidacionAgrupadaDS.getMapaParametros(),
 				locLiquidacionAgrupadaDS);
 		return jasperPrint;
+	}
+	
+	@Override
+	public JasperPrint getReporteCementerio(List<LiquidacionTasa> pListaLiquidaciones, Usuario pUsuario) throws Exception{
+		pListaLiquidaciones = this.ordenarListaLiquidaciones(pListaLiquidaciones);
+		LiquidacionCementerioDS locLiquidacionDS = new LiquidacionCementerioDS(pListaLiquidaciones, pUsuario);
+		locLiquidacionDS.getMapaParametros().put("P_LOGO", JRImageRenderer.getInstance(this.getLogoMunicipalidad()));
+		return getJasperPrint2(locLiquidacionDS);
 	}
 	
 	@Override
@@ -1076,9 +1085,13 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 	@Override
 	public JasperPrint getReporteTasaUnificada(	List<LiquidacionTasaRefer> pListaLiquidacionesTasa, List<TipoObligacion> pLista, Usuario pUsuario) throws Exception {
 		boolean shps = false;
+		boolean cementerio = false;
 		for (TipoObligacion cadaTipo : pLista){
 			if (cadaTipo.getNombre().equals("SHPS")){
 				shps = true;
+				break;
+			} else if (cadaTipo.getNombre().equals("CEMENTERIO")) {
+				cementerio = true;
 				break;
 			}
 		}
@@ -1093,6 +1106,14 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 				}
 			}
 			return this.getReporteSHPS(locListaLiquidaciones, pUsuario);
+		} else if (cementerio) {
+			List<LiquidacionTasa> locListaLiquidaciones = new ArrayList<LiquidacionTasa>();
+			for (LiquidacionTasaRefer cadaLiquidacionRefer : pListaLiquidacionesTasa) {
+				for (Long id : cadaLiquidacionRefer.getIdsRegistrosDeuda()){
+					locListaLiquidaciones.add(entityManager.find(LiquidacionTasa.class, id));
+				}
+			}
+			return this.getReporteCementerio(locListaLiquidaciones, pUsuario);
 		} else {
 
 			//Junto los ids para usarlos como subselect y levantar todas las liquidaciones juntas.
@@ -1109,7 +1130,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			this.ordenarListaLiquidacionesAgrupadas(locListaLiquidacionTasaAgrupada);
 			LiquidacionTasaAgrupadaDS locDS = new LiquidacionTasaAgrupadaDS(locListaLiquidacionTasaAgrupada, 
 					getLogoMunicipalidad(), getTituloReporte(), getSubtituloReporte(), businessZonificacionLocal, pUsuario);
-			JasperPrint locJasperPrint = this.getJasperPrint(locDS);
+			JasperPrint locJasperPrint = this.getJasperPrint2(locDS);
 			return locJasperPrint;
 		}
 	}
@@ -1160,7 +1181,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			String locFecha = new SimpleDateFormat("dd-MM-aaaa").format(new Date());
 			String nombre = "/opt/reportes/"+locFecha+"_Liquidaciones_"+(desde + 1)+"-"+hasta+".pdf";
 			try{
-				JasperPrint print = getJasperPrint(dataSource);
+				JasperPrint print = getJasperPrint2(dataSource);
 				JasperExportManager.exportReportToPdfFile(print, nombre);
 			} catch (Exception e){
 				e.printStackTrace();
@@ -1270,7 +1291,7 @@ public class BusinessImpresionBean implements BusinessImpresionLocal {
 			String locFecha = new SimpleDateFormat("dd-MM-aaaa").format(new Date());
 			String nombre = "/opt/reportes/"+locFecha+"_Liquidaciones_"+(desde + 1)+"-"+hasta+".pdf";
 			try{
-				JasperPrint print = getJasperPrint(dataSource);
+				JasperPrint print = getJasperPrint2(dataSource);
 				JasperExportManager.exportReportToPdfFile(print, nombre);
 			} catch (Exception e){
 				e.printStackTrace();

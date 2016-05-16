@@ -13,7 +13,16 @@ public class FiltroRefinanciacion extends FiltroAbstracto<DocumentoRefinanciacio
 	private Persona persona;
 	private Integer nroRefinanciacion;
 	private EstadoRefinanciacion estado;
+	private Integer numeroCuenta;
 	
+	public Integer getNumeroCuenta() {
+		return numeroCuenta;
+	}
+
+	public void setNumeroCuenta(Integer numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
+	}
+
 	public Persona getPersona() {
 		return persona;
 	}

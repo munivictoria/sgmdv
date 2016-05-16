@@ -16,12 +16,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.trascender.framework.recurso.persistent.Rol;
 import com.trascender.framework.recurso.persistent.Usuario;
+import com.trascender.habilitaciones.recurso.persistent.TipoTasa;
 
 @Entity
 @Table(name = "CONCEPTO_INGRESO_VARIO")
@@ -55,7 +57,19 @@ public class ConceptoIngresoVario implements Serializable{
 	@JoinTable(name="RELA_CONCEPTO_INGRESO_VARIO_USUARIO", joinColumns=@JoinColumn(name="ID_CONCEPTO_INGRESO_VARIO", nullable = false), 
 	inverseJoinColumns=@JoinColumn(name="ID_USUARIO", nullable = false))
 	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
+
+	@ManyToOne
+	@JoinColumn(name = "ID_TIPO_TASA")
+	private TipoTasa tipoTasa;
 	
+	public TipoTasa getTipoTasa() {
+		return tipoTasa;
+	}
+
+	public void setTipoTasa(TipoTasa tipoTasa) {
+		this.tipoTasa = tipoTasa;
+	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}

@@ -79,7 +79,7 @@
 												</ui:tableColumn>
 												<ui:tableColumn id="tableColumn2" headerText="Nombre" sort="nombreAtributo"
 													binding="#{framework$ABMConfiguracionRecurso$ABMConjuntoAtributoTabla.tableColumn2}">
-													<ui:label id="label2" binding="#{framework$ABMConfiguracionRecurso$ABMConjuntoAtributoTabla.label2}"
+													<ui:textField id="tfNombreAtributo"
 														text="#{currentRowOpcion.value['nombreAtributo']}" />
 												</ui:tableColumn>
 												<ui:tableColumn id="tableColumn3" headerText="Orden" sort="orden"

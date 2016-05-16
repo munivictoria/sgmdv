@@ -1,5 +1,6 @@
 package com.trascender.contabilidad.system.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -42,5 +43,11 @@ public interface SystemReportesContabilidad {
 	public InterfazModuloContable generarInterfazModuloContable(); 
 
 	public JasperPrint getReporteLiquidacionDeuda(List<LiquidacionTasaAgrupada> pListaLiquidacion) throws Exception;	
+	
+	public JasperPrint getReporteMovimientosEgreso(Date fechaDesde, Date fechaHasta) 
+			throws Exception;
+	
+	public JasperPrint getReporteMovimientosIngreso(Date fechaDesde, Date fechaHasta) 
+			throws Exception;
 	
 }

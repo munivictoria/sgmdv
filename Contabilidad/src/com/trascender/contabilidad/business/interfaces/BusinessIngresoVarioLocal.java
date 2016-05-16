@@ -3,6 +3,7 @@
  */
 package com.trascender.contabilidad.business.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -10,6 +11,7 @@ import javax.ejb.Local;
 import com.trascender.contabilidad.recurso.filtros.FiltroConceptoIngresoVario;
 import com.trascender.contabilidad.recurso.filtros.FiltroIngresoVario;
 import com.trascender.contabilidad.recurso.persistent.ConceptoIngresoVario;
+import com.trascender.contabilidad.recurso.persistent.IngresoVario;
 import com.trascender.framework.recurso.persistent.Usuario;
 import com.trascender.framework.recurso.transients.AuxIdEntidad;
 
@@ -93,4 +95,6 @@ public interface BusinessIngresoVarioLocal
    public FiltroConceptoIngresoVario findListaConceptoIngresoVario(FiltroConceptoIngresoVario pFiltro) throws java.lang.Exception;
 
    public List<ConceptoIngresoVario> findListaConceptoIngresoVarioPorUsuario(Usuario pUsuario) throws java.lang.Exception;
+   
+   public void actualizarDeudaIngresoVario(IngresoVario pIngresoVario, Date pFecha, boolean pAplicarInteres) throws Exception;
 }

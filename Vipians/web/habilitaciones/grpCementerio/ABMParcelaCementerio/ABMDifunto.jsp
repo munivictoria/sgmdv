@@ -43,6 +43,15 @@
 												onKeyUp="mascara(this,'/',patronFecha,true)"
 												maxLength="10" /></td>
 									</tr>
+									<tr>
+									 <td align="right" nowrap="nowrap">
+                                            <ui:label for="taDifunto" id="lblDifunto" styleClass="label" text="Difunto"/>
+                                        </td>
+										<td>
+											<ui:textArea binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$ABMDifunto.taDifunto}"
+												id="taDifunto" styleClass="textArea" columns="40"/> 
+										</td>
+									</tr>
                                     <tr>
 												<td align="right" nowrap="nowrap"><ui:label
 												binding="#{habilitaciones$grpCementerio$ABMParcelaCementerio$ABMDifunto.lblCausaDeceso}"
